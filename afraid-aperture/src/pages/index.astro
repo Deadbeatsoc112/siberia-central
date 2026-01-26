@@ -1,11 +1,721 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import heroVideoUrl from '../assets/media/ElevenLabs_video_veo-3-1-fast_Extremely su..._2026-01-17T02_00_23 CMP.mp4?url';
+import heroPosterUrl from '../assets/media/ElevenLabs_video_veo-3-1-fast_Extremely su..._2026-01-17T02_00_23 CMP_PosterImage.png?url';
+import heroBackgroundUrl from '../assets/media/Grupo 198.png?url';
+import heroLogoUrl from '../assets/media/Enmascarar grupo 4.png?url';
+import heroLogo2xUrl from '../assets/media/Enmascarar grupo 4@2x.png?url';
+import storyImageUrl from '../assets/media/Grupo 27.png?url';
+import storyImage2xUrl from '../assets/media/Grupo 27@2x.png?url';
+import menuImageOneUrl from '../assets/media/Grupo 31.png?url';
+import menuImageOne2xUrl from '../assets/media/Grupo 31@2x.png?url';
+import menuImageTwoUrl from '../assets/media/Grupo 34.png?url';
+import menuImageTwo2xUrl from '../assets/media/Grupo 34@2x.png?url';
+import menuImageThreeUrl from '../assets/media/Grupo 33.png?url';
+import menuImageThree2xUrl from '../assets/media/Grupo 33@2x.png?url';
+import menuBandUrl from '../assets/media/Enmascarar grupo 9.png?url';
+import menuBand2xUrl from '../assets/media/Enmascarar grupo 9@2x.png?url';
+import billingBgUrl from '../assets/media/Enmascarar grupo 10.png?url';
+import billingBg2xUrl from '../assets/media/Enmascarar grupo 10@2x.png?url';
+import billingDecorUrl from '../assets/media/Grupo 36.svg?url';
+import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Inicio | La Siberia Central">
+	<section class="hero">
+		<video
+			class="hero__video"
+			src={heroVideoUrl}
+			type="video/mp4"
+			poster={heroPosterUrl}
+			width="1920"
+			height="1080"
+			autoplay
+			muted
+			loop
+			playsinline
+		>
+			Sorry, your browser doesn't support HTML5 video tag.
+		</video>
+		<div class="hero__overlay" aria-hidden="true"></div>
+		<div class="hero__content">
+			<img
+				class="hero__logo"
+				src={heroLogoUrl}
+				srcset={`${heroLogoUrl} 1x, ${heroLogo2xUrl} 2x`}
+				alt="La Siberia Central"
+				loading="eager"
+			/>
+			<h1 class="hero__title">La Siberia Central</h1>
+		</div>
+	</section>
+	<section
+		class="hero-followup"
+		style={`background-image: url(${heroBackgroundUrl});`}
+		aria-labelledby="historia-title"
+	>
+		<div class="story">
+			<div
+				class="story__image"
+				style={`background-image: url(${storyImageUrl});`}
+				aria-hidden="true"
+			></div>
+			<div class="story__content">
+				<h2 id="historia-title" class="story__title">Nuestra Historia</h2>
+				<span class="story__rule" aria-hidden="true"></span>
+				<p class="story__text">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh
+					euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+				</p>
+				<a class="story__button" href="/nosotros">Más sobre nosotros</a>
+			</div>
+		</div>
+	</section>
+	<section class="menu" aria-labelledby="menu-title">
+		<div class="menu__intro">
+			<h2 id="menu-title" class="menu__title">Elige tu próximo plato favorito</h2>
+			<p class="menu__subtitle">Recetas con historia, hechas para compartir con tu gente</p>
+			<a class="menu__button" href="/carta">Ver Menú</a>
+		</div>
+		<div
+			class="menu__band"
+			style={`background-image: image-set(url(${menuBandUrl}) 1x, url(${menuBand2xUrl}) 2x);`}
+			aria-hidden="true"
+		></div>
+		<div class="menu__gallery">
+			<figure class="menu__card">
+				<img
+					src={menuImageOneUrl}
+					srcset={`${menuImageOneUrl} 1x, ${menuImageOne2xUrl} 2x`}
+					alt="Plato destacado de La Siberia Central"
+					loading="lazy"
+				/>
+			</figure>
+			<figure class="menu__card">
+				<img
+					src={menuImageTwoUrl}
+					srcset={`${menuImageTwoUrl} 1x, ${menuImageTwo2xUrl} 2x`}
+					alt="Especialidad de la casa"
+					loading="lazy"
+				/>
+			</figure>
+			<figure class="menu__card">
+				<img
+					src={menuImageThreeUrl}
+					srcset={`${menuImageThreeUrl} 1x, ${menuImageThree2xUrl} 2x`}
+					alt="Plato favorito de nuestros clientes"
+					loading="lazy"
+				/>
+			</figure>
+		</div>
+	</section>
+	<section class="billing" aria-labelledby="billing-title">
+		<div
+			class="billing__bg"
+			style={`background-image: image-set(url(${billingBgUrl}) 1x, url(${billingBg2xUrl}) 2x);`}
+			aria-hidden="true"
+		></div>
+		<div class="billing__overlay" aria-hidden="true"></div>
+		<div class="billing__content">
+			<h2 id="billing-title" class="billing__title">¿Factura? Súper fácil</h2>
+			<a class="billing__button" href="/contacto">Factura Aquí</a>
+		</div>
+		<img class="billing__decor" src={billingDecorUrl} alt="" aria-hidden="true" />
+	</section>
+	<section class="contact" aria-labelledby="contact-title">
+		<div class="contact__inner">
+			<img class="contact__decor" src={decorativeStarsUrl} alt="" aria-hidden="true" />
+			<h2 id="contact-title" class="contact__title">Queremos leerte</h2>
+			<span class="contact__rule" aria-hidden="true"></span>
+			<p class="contact__subtitle">
+				Déjanos tu mensaje, prometemos responder con el mismo amor del sazón.
+			</p>
+			<form class="contact__form" action="#" method="post" onsubmit="return false">
+				<div class="contact__column">
+					<label class="contact__label" for="contact-name">Nombre Completo*</label>
+					<input class="contact__input" id="contact-name" name="name" type="text" />
+					<label class="contact__label" for="contact-message">Mensaje*</label>
+					<textarea class="contact__textarea" id="contact-message" name="message"></textarea>
+				</div>
+				<div class="contact__column">
+					<label class="contact__label" for="contact-email">Correo Electrónico*</label>
+					<input class="contact__input" id="contact-email" name="email" type="email" />
+					<label class="contact__label" for="contact-phone">Teléfono*</label>
+					<input class="contact__input" id="contact-phone" name="phone" type="tel" />
+				</div>
+			</form>
+		</div>
+	</section>
 </Layout>
+
+<style>
+	.hero {
+		position: relative;
+		width: 100%;
+		height: 1080px;
+		opacity: 1;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+	}
+
+	.hero__video {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.hero__overlay {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.55);
+		z-index: 1;
+	}
+
+	.hero__content {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 16px;
+		padding: 0 24px;
+	}
+
+	.hero__logo {
+		width: 96px;
+		height: 96px;
+		opacity: 1;
+	}
+
+	.hero__title {
+		margin: 0;
+		font: normal normal bold 48px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		letter-spacing: 0px;
+		color: #ffffff;
+		text-shadow: 0px 3px 6px #000000;
+		opacity: 1;
+	}
+
+	.hero-followup {
+		position: relative;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 816px;
+		background-color: transparent;
+		background-position: 0% 0%;
+		background-repeat: no-repeat;
+		opacity: 1;
+	}
+
+	.story {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+
+	.story__image {
+		position: absolute;
+		top: 163px;
+		left: 1144px;
+		width: 498px;
+		height: 498px;
+		box-sizing: border-box;
+		transform: matrix(0.98, -0.17, 0.17, 0.98, 0, 0);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+		border: 10px solid #ffffff;
+		box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.35);
+		opacity: 1;
+	}
+
+	.story__content {
+		position: absolute;
+		top: 228px;
+		left: 278px;
+		width: 626px;
+		height: 335px;
+		opacity: 1;
+		color: #ffffff;
+		text-align: left;
+	}
+
+	.story__title {
+		margin: 0 0 18px;
+		width: 487px;
+		height: 77px;
+		text-align: left;
+		font: normal normal bold 60px/77px Campton, 'Montserrat', 'Arial', sans-serif;
+		letter-spacing: 0px;
+		color: #ffffff;
+		opacity: 1;
+	}
+
+	.story__rule {
+		display: block;
+		width: 260px;
+		height: 2px;
+		background: #ffffff;
+		margin-bottom: 22px;
+	}
+
+	.story__text {
+		margin: 0 0 32px;
+		font-size: 18px;
+		line-height: 28px;
+		max-width: 626px;
+		opacity: 0.95;
+	}
+
+	.story__button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 306px;
+		height: 58px;
+		border: 2px solid #ffffff;
+		color: #ffffff;
+		text-decoration: none;
+		font-weight: 700;
+		letter-spacing: 0px;
+		opacity: 1;
+	}
+
+	@media (max-width: 1200px) {
+		.hero {
+			height: 720px;
+		}
+
+		.hero__logo {
+			width: 80px;
+			height: 80px;
+		}
+
+		.hero__title {
+			font-size: 36px;
+			line-height: 1.25;
+		}
+
+		.hero-followup {
+			height: 640px;
+			background-position: center top;
+			background-size: cover;
+		}
+
+		.story__image {
+			top: 60px;
+			left: 50%;
+			transform: translateX(-50%) rotate(-8deg);
+			width: 320px;
+			height: 320px;
+			border-width: 8px;
+		}
+
+		.story__content {
+			top: 400px;
+			left: 10%;
+			width: 80%;
+			height: auto;
+		}
+
+		.story__title {
+			width: auto;
+			height: auto;
+			font-size: 36px;
+			line-height: 44px;
+		}
+
+		.story__rule {
+			width: 180px;
+		}
+
+		.story__text {
+			font-size: 16px;
+			line-height: 24px;
+		}
+
+		.story__button {
+			width: 240px;
+			height: 52px;
+		}
+	}
+
+	.menu {
+		position: relative;
+		background: #ffffff;
+		color: #7a4b1f;
+		padding: 110px 0 140px;
+		min-height: 900px;
+		overflow: hidden;
+	}
+
+	.menu__intro {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 14px;
+		text-align: center;
+		padding: 0 24px;
+	}
+
+	.menu__title {
+		margin: 0;
+		font: normal normal bold 40px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #8b5a2b;
+	}
+
+	.menu__subtitle {
+		margin: 0;
+		font-size: 18px;
+		color: #8b5a2b;
+		opacity: 0.8;
+	}
+
+	.menu__button {
+		margin-top: 12px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 210px;
+		height: 48px;
+		border: 2px solid #8b5a2b;
+		color: #8b5a2b;
+		text-decoration: none;
+		font-weight: 700;
+		letter-spacing: 0px;
+	}
+
+	.menu__band {
+		position: absolute;
+		top: 386px;
+		left: 0;
+		width: 100%;
+		height: 358px;
+		background-size: 100% 100%;
+		background-position: center;
+		background-repeat: no-repeat;
+		opacity: 1;
+		z-index: 1;
+	}
+
+	.menu__gallery {
+		position: absolute;
+		top: 350px;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 2;
+		margin-top: 0;
+		width: min(1600px, calc(100% - 160px));
+		display: flex;
+		justify-content: center;
+		gap: 90px;
+		padding: 0;
+		flex-wrap: wrap;
+	}
+
+	.menu__card {
+		margin: 0;
+		background: #ffffff;
+		padding: 12px;
+		border: 1px solid #f0f0f0;
+		box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+	}
+
+	.menu__card img {
+		display: block;
+		width: 430px;
+		height: 430px;
+		object-fit: cover;
+	}
+
+	@media (max-width: 1200px) {
+		.menu {
+			padding: 90px 0 120px;
+			min-height: 820px;
+		}
+
+		.menu__band {
+			top: 350px;
+			height: 280px;
+		}
+
+		.menu__gallery {
+			top: 330px;
+			left: 50%;
+			transform: translateX(-50%);
+			width: min(1200px, calc(100% - 120px));
+			gap: 60px;
+		}
+
+		.menu__card {
+			padding: 10px;
+		}
+
+		.menu__card img {
+			width: 300px;
+			height: 300px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.menu__title {
+			font-size: 30px;
+		}
+
+		.menu__subtitle {
+			font-size: 16px;
+		}
+
+		.menu__band {
+			display: none;
+		}
+
+		.menu__gallery {
+			position: relative;
+			top: auto;
+			margin-top: 50px;
+			gap: 24px;
+		}
+
+		.menu__card img {
+			width: 100%;
+			max-width: 320px;
+			height: 220px;
+		}
+	}
+
+	.contact {
+		position: relative;
+		width: 100%;
+		height: 763px;
+		background: #e1454f;
+		color: #ffffff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: left;
+		padding: 90px 24px 80px;
+		box-sizing: border-box;
+	}
+
+	.contact__decor {
+		align-self: flex-end;
+		width: 140px;
+		height: auto;
+		opacity: 0.85;
+	}
+
+	.contact__inner {
+		width: min(1100px, 100%);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+
+	.contact__title {
+		margin: 0;
+		font: normal normal bold 44px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		letter-spacing: 0px;
+	}
+
+	.contact__rule {
+		width: 220px;
+		height: 2px;
+		background: #ffffff;
+		margin: 6px 0 8px;
+	}
+
+	.contact__subtitle {
+		margin: 0 0 24px;
+		font-size: 16px;
+		opacity: 0.95;
+	}
+
+	.contact__form {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 36px 60px;
+		text-align: left;
+	}
+
+	.contact__column {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.contact__label {
+		font-size: 16px;
+		color: #ffffff;
+	}
+
+	.contact__input,
+	.contact__textarea {
+		width: 100%;
+		border: 1px solid rgba(255, 255, 255, 0.6);
+		background: #ffffff;
+		color: #000000;
+		padding: 12px 14px;
+		font-size: 16px;
+		box-sizing: border-box;
+	}
+
+	.contact__textarea {
+		min-height: 150px;
+		resize: vertical;
+	}
+
+	@media (max-width: 1200px) {
+		.contact {
+			height: 700px;
+		}
+
+		.contact__title {
+			font-size: 38px;
+		}
+
+		.contact__form {
+			gap: 28px 40px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.contact {
+			height: auto;
+			padding: 70px 20px;
+			text-align: left;
+		}
+
+		.contact__decor {
+			align-self: flex-start;
+			width: 110px;
+		}
+
+		.contact__title {
+			font-size: 30px;
+		}
+
+		.contact__form {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.billing {
+		position: relative;
+		width: 100%;
+		height: 585px;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		color: #ffffff;
+	}
+
+	.billing__bg {
+		position: absolute;
+		inset: 0;
+		background-size: cover;
+		background-position: center;
+		filter: grayscale(1) contrast(1.05) brightness(0.8);
+		transform: scale(1.02);
+	}
+
+	.billing__overlay {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.35);
+	}
+
+	.billing__content {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 22px;
+		padding: 0 24px;
+	}
+
+	.billing__title {
+		margin: 0;
+		font: normal normal bold 44px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		letter-spacing: 0px;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+	}
+
+	.billing__button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 210px;
+		height: 44px;
+		border: 2px solid #ffffff;
+		color: #ffffff;
+		text-decoration: none;
+		font-weight: 700;
+		font-size: 16px;
+		letter-spacing: 0px;
+	}
+
+	.billing__decor {
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 537px;
+		height: 27px;
+	}
+
+	@media (max-width: 1200px) {
+		.billing {
+			height: 520px;
+		}
+
+		.billing__title {
+			font-size: 38px;
+		}
+
+		.billing__button {
+			width: 190px;
+			height: 42px;
+		}
+
+		.billing__decor {
+			bottom: 0;
+			width: 420px;
+			height: 22px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.billing {
+			height: 460px;
+		}
+
+		.billing__title {
+			font-size: 30px;
+		}
+
+		.billing__button {
+			width: 170px;
+			height: 40px;
+		}
+
+		.billing__decor {
+			width: 300px;
+			height: 15px;
+			bottom: 0;
+		}
+	}
+</style>

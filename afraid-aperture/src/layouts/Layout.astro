@@ -1,23 +1,168 @@
+---
+import Footer from '../components/Footer.astro';
+
+const { title = 'La Siberia Central' } = Astro.props;
+const navItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Nosotros', href: '/nosotros' },
+  { label: 'Carta', href: '/carta' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contacto', href: '/contacto' },
+  { label: 'Bolsa de trabajo', href: '/bolsa-de-trabajo' },
+];
+const currentPath = Astro.url?.pathname ?? '/';
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<header class="site-header">
+			<nav class="site-nav" aria-label="Principal">
+				<ul class="site-nav__list">
+					{navItems.map((item) => {
+						const isActive =
+							item.href === '/'
+								? currentPath === '/'
+								: currentPath.startsWith(item.href);
+						return (
+							<li class="site-nav__item">
+								<a class={`site-nav__link ${isActive ? 'is-active' : ''}`} href={item.href}>
+									{item.label}
+								</a>
+							</li>
+						);
+					})}
+				</ul>
+			</nav>
+		</header>
+		<main class="page">
+			<slot />
+		</main>
+		<Footer />
 	</body>
 </html>
 
 <style>
-	html,
-	body {
+	:global(:root) {
+		--nav-height: 38px;
+		--nav-width: 1106px;
+		--nav-left: 407px;
+		--nav-top: 55px;
+		--nav-text: #c8b07a;
+		--page-bg: #050505;
+		--page-text: #ffffff;
+	}
+
+	:global(html, body) {
 		margin: 0;
+		padding: 0;
 		width: 100%;
+		min-height: 100%;
+		background: var(--page-bg);
+		color: var(--page-text);
+		font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
+		font-weight: 700;
+	}
+
+	:global(*, *::before, *::after) {
+		font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
+		font-weight: 700;
+	}
+
+	.site-header {
+		position: absolute;
+		top: var(--nav-top);
+		left: var(--nav-left);
+		width: var(--nav-width);
+		height: var(--nav-height);
+		opacity: 1;
+		z-index: 10;
+	}
+
+	.site-nav {
 		height: 100%;
+	}
+
+	.site-nav__list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		gap: 52px;
+	}
+
+	.site-nav__link {
+		color: var(--nav-text);
+		text-decoration: none;
+		font-size: 18px;
+		font-weight: 700;
+		line-height: var(--nav-height);
+		letter-spacing: 0px;
+		text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.55);
+		transition: opacity 0.2s ease;
+	}
+
+	.site-nav__link:hover,
+	.site-nav__link:focus-visible {
+		opacity: 0.8;
+	}
+
+	.site-nav__link.is-active {
+		opacity: 1;
+		border-bottom: 2px solid rgba(200, 176, 122, 0.7);
+		padding-bottom: 6px;
+	}
+
+	.page {
+		min-height: 100vh;
+	}
+
+	.page-hero {
+		min-height: 60vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+		text-align: center;
+		padding: 140px 24px 80px;
+	}
+
+	.page-hero h1 {
+		margin: 0;
+		font-size: 48px;
+		letter-spacing: 0px;
+		font-weight: 700;
+	}
+
+	.page-hero p {
+		margin: 0;
+		max-width: 640px;
+		opacity: 0.75;
+	}
+
+	@media (max-width: 1200px) {
+		.site-header {
+			left: 50%;
+			transform: translateX(-50%);
+			width: min(90%, var(--nav-width));
+		}
+
+		.site-nav__list {
+			justify-content: center;
+			gap: 20px;
+			flex-wrap: wrap;
+		}
 	}
 </style>

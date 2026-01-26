@@ -1,0 +1,194 @@
+---
+import logoUrl from '../assets/media/Enmascarar grupo 4.png?url';
+import logo2xUrl from '../assets/media/Enmascarar grupo 4@2x.png?url';
+
+const locations = [
+	{
+		name: 'Central',
+		address: 'Av. Benito Juárez 123, Centro, Monterrey, NL',
+	},
+	{
+		name: 'San Pedro',
+		address: 'Calz. del Valle 456, Del Valle, San Pedro Garza García, NL',
+	},
+	{
+		name: 'Vasconcelos',
+		address: 'Av. José Vasconcelos 789, Tampiquito, San Pedro Garza García, NL',
+	},
+	{
+		name: 'Matamoros',
+		address: 'Av. Matamoros 321, Centro, Monterrey, NL',
+	},
+	{
+		name: 'Lincoln',
+		address: 'Av. Lincoln 654, Cumbres, Monterrey, NL',
+	},
+	{
+		name: 'Zapata',
+		address: 'Av. Emiliano Zapata 987, Contry, Monterrey, NL',
+	},
+];
+---
+
+<footer class="site-footer">
+	<div class="site-footer__inner">
+		<div class="site-footer__brand">
+			<img
+				class="site-footer__logo"
+				src={logoUrl}
+				srcset={`${logoUrl} 1x, ${logo2xUrl} 2x`}
+				alt="La Siberia Central"
+				loading="lazy"
+			/>
+			<p class="site-footer__name">La Siberia Central</p>
+		</div>
+		<div class="site-footer__locations">
+			<h3 class="site-footer__heading">Sucursales</h3>
+			<ul class="site-footer__list">
+				{locations.map((location) => (
+					<li class="site-footer__item">
+						<span class="site-footer__item-name">{location.name}</span>
+						<span class="site-footer__item-address">{location.address}</span>
+					</li>
+				))}
+			</ul>
+			<a class="site-footer__button" href="/contacto">Ver Más Sucursales</a>
+		</div>
+		<div class="site-footer__schedule">
+			<h3 class="site-footer__heading">Horario</h3>
+			<p class="site-footer__text">Lunes a jueves: 8:00 - 23:00</p>
+			<p class="site-footer__text">Viernes y sábado: 8:00 - 01:00</p>
+			<p class="site-footer__text">Domingo: 8:00 - 22:00</p>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		background: #050505;
+		color: #ffffff;
+		padding: 80px 0 96px;
+	}
+
+	.site-footer__inner {
+		display: flex;
+		justify-content: space-between;
+		gap: 60px;
+		width: min(1200px, 90%);
+		margin: 0 auto;
+	}
+
+	.site-footer__brand {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
+		min-width: 220px;
+	}
+
+	.site-footer__logo {
+		width: 96px;
+		height: 96px;
+		border-radius: 50%;
+	}
+
+	.site-footer__name {
+		margin: 0;
+		font-size: 18px;
+		letter-spacing: 0px;
+	}
+
+	.site-footer__locations {
+		flex: 1;
+		min-width: 320px;
+	}
+
+	.site-footer__schedule {
+		min-width: 240px;
+	}
+
+	.site-footer__heading {
+		margin: 0 0 18px;
+		font-size: 22px;
+	}
+
+	.site-footer__list {
+		list-style: none;
+		margin: 0 0 24px;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.site-footer__item {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		font-size: 14px;
+		opacity: 0.9;
+	}
+
+	.site-footer__item-name {
+		font-size: 16px;
+	}
+
+	.site-footer__item-address {
+		font-size: 13px;
+		opacity: 0.8;
+	}
+
+	.site-footer__button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 220px;
+		height: 44px;
+		border: 2px solid #ffffff;
+		color: #ffffff;
+		text-decoration: none;
+		font-size: 14px;
+	}
+
+	.site-footer__text {
+		margin: 0 0 10px;
+		font-size: 14px;
+		opacity: 0.9;
+	}
+
+	@media (max-width: 1200px) {
+		.site-footer {
+			padding: 70px 0 80px;
+		}
+
+		.site-footer__inner {
+			gap: 40px;
+		}
+
+		.site-footer__heading {
+			font-size: 20px;
+		}
+
+		.site-footer__name {
+			font-size: 16px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.site-footer__inner {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 32px;
+		}
+
+		.site-footer__locations,
+		.site-footer__schedule {
+			min-width: auto;
+			width: 100%;
+		}
+
+		.site-footer__button {
+			width: 100%;
+		}
+	}
+</style>

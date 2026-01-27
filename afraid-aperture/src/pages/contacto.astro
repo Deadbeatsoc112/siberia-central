@@ -1,10 +1,647 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import heroBgUrl from "../assets/media/Enmascarar grupo 20.png?url";
+// Lista manual (puedes agregar las 24)
+// IMPORTANTÍSIMO: agrega lat/lng por sucursal para centrar el mapa.
+const branches = [
+  {
+    id: "central",
+    name: "Central",
+    address:
+      "Av. Rodrigo Gómez 623, Col. Central, Monterrey, Nuevo León CP 64190",
+    phones: ["8112573064"],
+    lat: 25.7034,
+    lng: -100.3077,
+  },
+  {
+    id: "san-pedro",
+    name: "San Pedro",
+    address:
+      "Porfirio Díaz 102, Col. Casco Urbano, San Pedro Garza García, Nuevo León CP 66230",
+    phones: ["8112573064", "8112573065"],
+    lat: 25.6574,
+    lng: -100.4025,
+  },
+  // ... agrega más
+];
+
+const defaultCenter = { lat: 25.6866, lng: -100.3161 }; // Monterrey
+const defaultZoom = 12;
 ---
 
 <Layout title="Contacto | La Siberia Central">
-	<section class="page-hero">
-		<h1>Contacto</h1>
-		<p>Agrega aqu� los canales de contacto, formularios o ubicaciones.</p>
-	</section>
+  <!-- HERO -->
+  <section class="contact-hero" aria-labelledby="contact-title">
+    <div
+      class="contact-hero__bg"
+      style={`background-image: url("${heroBgUrl}");`}
+      aria-hidden="true"
+    >
+    </div>
+    <div class="contact-hero__overlay" aria-hidden="true"></div>
+
+    <div class="contact-hero__content">
+      <h1 id="contact-title" class="contact-hero__title">Contacto</h1>
+      <p class="contact-hero__subtitle">Encuentra tu sucursal más cercana</p>
+    </div>
+  </section>
+
+  <!-- MAPA + LISTA -->
+  <section class="contact-map" aria-labelledby="map-title">
+    <div class="contact-map__inner">
+      <div class="contact-map__header">
+        <h2 id="map-title" class="contact-map__title">
+          Conoce nuestras sucursales
+        </h2>
+        <div class="contact-map__count-wrapper">
+          <span class="contact-map__tenemos">Tenemos</span>
+          <span class="contact-map__count-number">{branches.length}</span>
+        </div>
+      </div>
+
+      <div class="contact-map__grid">
+        <!-- Panel lateral -->
+        <aside class="branches" aria-label="Lista de sucursales">
+          <div class="branches__scroll" id="branchList">
+            {
+              branches.map((b, idx) => (
+                <button
+                  class="branch"
+                  type="button"
+                  data-id={b.id}
+                  data-lat={b.lat}
+                  data-lng={b.lng}
+                  data-name={b.name}
+                  data-address={b.address}
+                >
+                  <div class="branch__num">{idx + 1}</div>
+                  <div class="branch__body">
+                    <div class="branch__name">{b.name}</div>
+                    <div class="branch__addr">{b.address}</div>
+
+                    {b.phones?.length ? (
+                      <div class="branch__phones">
+                        {b.phones.map((p) => (
+                          <div class="branch__phone">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                            >
+                              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                            </svg>
+                            {p}
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+                </button>
+              ))
+            }
+          </div>
+        </aside>
+
+        <!-- Mapa (OSM estático) -->
+        <div class="mapWrap">
+          <div id="map" class="map" aria-label="Mapa de sucursales"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM -->
+  <section class="contact-form" aria-labelledby="form-title">
+    <div class="contact-form__inner">
+      <div class="contact-form__header">
+        <h2 id="form-title" class="contact-form__title">Queremos leerte</h2>
+        <div class="contact-form__divider"></div>
+        <p class="contact-form__subtitle">
+          Déjanos tu mensaje, prometemos responder con el mismo amor nuestro
+          sazón.
+        </p>
+      </div>
+
+      <form class="contact-form__form">
+        <div class="contact-form__grid">
+          <!-- Left Column -->
+          <div class="form-column">
+            <div class="form-field">
+              <label for="nombre" class="form-label">Nombre Completo*</label>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                class="form-input"
+                required
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="mensaje" class="form-label">Mensaje*</label>
+              <textarea
+                id="mensaje"
+                name="mensaje"
+                class="form-textarea"
+                rows="5"
+                required></textarea>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="form-column">
+            <div class="form-field">
+              <label for="email" class="form-label">Correo Electrónico*</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-input"
+                required
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="telefono" class="form-label">Teléfono*</label>
+              <input
+                type="tel"
+                id="telefono"
+                name="telefono"
+                class="form-input"
+                required
+              />
+            </div>
+
+            <div class="contact-form__actions">
+              <button type="submit" class="form-button">Enviar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- JS para el mapa estático -->
+  <script>
+    import L from "leaflet";
+    import "leaflet/dist/leaflet.css";
+
+    // Simple static map centered on Monterrey, Mexico
+    const map = L.map("map", {
+      zoomControl: true,
+      scrollWheelZoom: false,
+      dragging: true,
+      doubleClickZoom: false,
+    }).setView([25.6866, -100.3161], 12);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "&copy; OpenStreetMap contributors",
+    }).addTo(map);
+
+    // Force map to recalculate size after initialization
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
+  </script>
 </Layout>
+
+<style>
+  /* HERO */
+  .contact-hero {
+    position: relative;
+    width: 100%;
+    height: 752px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: #fff;
+  }
+
+  .contact-hero__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.02);
+  }
+
+  .contact-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .contact-hero__content {
+    position: relative;
+    z-index: 2;
+    padding: 0 24px;
+    max-width: 820px;
+    display: grid;
+    gap: 12px;
+  }
+
+  /* Campton bold (como ya lo venías usando) */
+  .contact-hero__title {
+    margin: 0;
+    font:
+      normal normal bold 64px/1 Campton,
+      "Montserrat",
+      Arial,
+      sans-serif;
+    text-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+  }
+
+  .contact-hero__subtitle {
+    margin: 0;
+    font:
+      normal normal 600 18px/1.4 Campton,
+      "Montserrat",
+      Arial,
+      sans-serif;
+    text-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  }
+
+  /* SECCIÓN MAPA */
+  .contact-map {
+    background: #fff;
+    padding: 96px 0 120px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .contact-map__inner {
+    width: min(1440px, 100%);
+    padding: 0 24px;
+    box-sizing: border-box;
+  }
+
+  .contact-map__header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+
+  .contact-map__title {
+    margin: 0;
+    font:
+      normal normal bold 44px/1.1 Campton,
+      "Montserrat",
+      Arial,
+      sans-serif;
+    color: #8b5a2b; /* Brown color from image */
+  }
+
+  .contact-map__count-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .contact-map__tenemos {
+    font:
+      normal normal 800 32px/1 Campton,
+      "Montserrat",
+      Arial,
+      sans-serif;
+    color: #e1454f; /* Red color */
+    margin-bottom: 5px;
+  }
+
+  .contact-map__count-number {
+    font:
+      normal normal 800 80px/1 Campton,
+      "Montserrat",
+      Arial,
+      sans-serif;
+    color: #e1454f; /* Red color */
+  }
+
+  .contact-map__grid {
+    display: grid;
+    grid-template-columns: 520px 1fr;
+    min-height: 600px; /* Increased height */
+    gap: 0;
+  }
+
+  /* Panel */
+  .branches {
+    background: #e1454f;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .branches__scroll {
+    height: 600px; /* Match grid height */
+    overflow-y: auto;
+    padding: 40px 30px; /* More padding */
+    box-sizing: border-box;
+    /* Custom scrollbar for Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #fff rgba(255, 255, 255, 0.3);
+  }
+
+  /* scrollbar (webKit) */
+  .branches__scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  .branches__scroll::-webkit-scrollbar-thumb {
+    background: #fff;
+    border-radius: 10px;
+  }
+  .branches__scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+  }
+
+  .branch {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 14px;
+    padding: 16px 14px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 10px;
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease;
+    font-family: Campton, "Montserrat", Arial, sans-serif;
+  }
+
+  .branch:hover,
+  .branch:focus-visible {
+    background: rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+    outline: none;
+  }
+
+  .branch.is-active {
+    background: rgba(0, 0, 0, 0.18);
+  }
+
+  .branch__num {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, 0.22);
+    font-weight: 900;
+  }
+
+  .branch__name {
+    font-weight: 900;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .branch__addr {
+    font-size: 15px;
+    line-height: 22px;
+    opacity: 0.95;
+  }
+
+  .branch__phone {
+    margin-top: 8px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .branch__phone svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+
+  /* Mapa */
+  .mapWrap {
+    background: #f3f3f3;
+    min-height: 600px;
+  }
+
+  .map {
+    width: 100%;
+    height: 600px;
+  }
+
+  .mapFigure {
+    margin: 0;
+    height: 520px;
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
+
+  .mapImg {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .mapCaption {
+    margin: 0;
+    padding: 10px 14px;
+    font:
+      normal normal 700 14px/1.2 Campton,
+      "Montserrat",
+      Arial,
+      sans-serif;
+    color: #2b2b2b;
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  @media (max-width: 1100px) {
+    .contact-map__grid {
+      grid-template-columns: 1fr;
+    }
+    .branches__scroll,
+    .mapImg,
+    .mapFigure {
+      height: 480px;
+    }
+    .mapFigure {
+      grid-template-rows: 480px auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact-hero {
+      height: 560px;
+    }
+    .contact-hero__title {
+      font-size: 44px;
+    }
+    .contact-map {
+      padding: 80px 0 100px;
+    }
+    .contact-map__title {
+      font-size: 34px;
+    }
+  }
+
+  /* CONTACT FORM */
+  .contact-form {
+    background: #fff;
+    padding: 90px 0 120px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .contact-form__inner {
+    width: min(1040px, 100%);
+    padding: 0 24px;
+    box-sizing: border-box;
+  }
+
+  .contact-form__header {
+    margin-bottom: 50px;
+  }
+
+  .contact-form__title {
+    margin: 0 0 16px 0;
+    font:
+      normal normal bold 44px/1.2 Campton,
+      "Montserrat",
+      Arial,
+      sans-serif;
+    color: #8b5a2b;
+    text-align: left;
+  }
+
+  .contact-form__divider {
+    width: 100%;
+    height: 2px;
+    background: #8b5a2b;
+    margin-bottom: 16px;
+  }
+
+  .contact-form__subtitle {
+    margin: 0;
+    font:
+      normal normal 400 16px/1.5 Campton,
+      "Montserrat",
+      Arial,
+      sans-serif;
+    color: #666;
+    text-align: left;
+  }
+
+  .contact-form__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-label {
+    font:
+      normal normal 600 14px/1.4 Campton,
+      "Montserrat",
+      Arial,
+      sans-serif;
+    color: #2b2b2b;
+    margin-bottom: 8px;
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font:
+      normal normal 400 15px/1.5 Campton,
+      "Montserrat",
+      Arial,
+      sans-serif;
+    color: #2b2b2b;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: #e1454f;
+    box-shadow: 0 0 0 3px rgba(225, 69, 79, 0.1);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 140px;
+    flex: 1;
+  }
+
+  .contact-form__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+  }
+
+  .form-button {
+    padding: 14px 48px;
+    background: #e1454f;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font:
+      normal normal 700 16px/1 Campton,
+      "Montserrat",
+      Arial,
+      sans-serif;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      transform 0.1s ease;
+  }
+
+  .form-button:hover {
+    background: #c93940;
+    transform: translateY(-1px);
+  }
+
+  .form-button:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    .contact-form__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-form__title {
+      font-size: 34px;
+    }
+
+    .contact-form__actions {
+      justify-content: center;
+    }
+
+    .form-button {
+      width: 100%;
+    }
+  }
+</style>

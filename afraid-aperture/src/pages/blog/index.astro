@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import blogHeroUrl from '../../assets/media/Enmascarar grupo 17.png?url';
-import blogHero2xUrl from '../../assets/media/Enmascarar grupo 17@2x.png?url';
+import blogHeroUrl from '../../assets/media/Enmascarar grupo 18.png?url';
+import blogHero2xUrl from '../../assets/media/Enmascarar grupo 18@2x.png?url';
 import { postsRepo } from '../../lib/content';
 
 const posts = postsRepo.listAll().filter((post) => post.published === 1);
@@ -11,7 +11,7 @@ const posts = postsRepo.listAll().filter((post) => post.published === 1);
 	<section class="blog-hero" aria-labelledby="blog-title">
 		<div
 			class="blog-hero__bg"
-			style={`background-image: image-set(url(${blogHeroUrl}) 1x, url(${blogHero2xUrl}) 2x);`}
+			style={`background-image: image-set(url("${blogHeroUrl}") 1x, url("${blogHero2xUrl}") 2x);`}
 			aria-hidden="true"
 		></div>
 		<div class="blog-hero__overlay" aria-hidden="true"></div>
@@ -78,7 +78,7 @@ const posts = postsRepo.listAll().filter((post) => post.published === 1);
 		inset: 0;
 		background-size: cover;
 		background-position: center;
-		filter: grayscale(1) contrast(1.05) brightness(0.72);
+		filter: none;
 		transform: scale(1.02);
 	}
 

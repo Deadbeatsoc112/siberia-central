@@ -1,0 +1,494 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import { auth } from '../lib/auth';
+import { postsRepo, jobsRepo } from '../lib/content';
+
+const user = auth.getUserFromCookies(Astro.cookies);
+const tab = user ? Astro.url.searchParams.get('tab') ?? 'posts' : 'login';
+const hasError = Astro.url.searchParams.get('error') === '1';
+
+const posts = user ? postsRepo.listAll() : [];
+const jobs = user ? jobsRepo.listAll() : [];
+---
+
+<Layout title="Panel Administrador | La Siberia Central">
+	<section class="admin">
+		{!user ? (
+			<div class="admin__login">
+				<h1 class="admin__title">Panel Administrador</h1>
+				<p class="admin__subtitle">Inicia sesion para gestionar publicaciones y vacantes</p>
+				{hasError && <p class="admin__error">Usuario o contrasena incorrectos</p>}
+				<form class="admin__form" action="/api/admin/login" method="post">
+					<label class="admin__label" for="admin-username">Usuario</label>
+					<input class="admin__input" id="admin-username" name="username" type="text" required />
+					<label class="admin__label" for="admin-password">Contrasena</label>
+					<input
+						class="admin__input"
+						id="admin-password"
+						name="password"
+						type="password"
+						required
+					/>
+					<button class="admin__submit" type="submit">Entrar</button>
+				</form>
+				<p class="admin__hint">Credenciales por defecto: admin / admin</p>
+			</div>
+		) : (
+			<div class="admin__inner">
+				<header class="admin__header">
+					<div>
+						<h1 class="admin__title">Panel Administrador</h1>
+						<p class="admin__subtitle">Hola, {user.username}</p>
+					</div>
+					<form action="/api/admin/logout" method="post">
+						<button class="admin__logout" type="submit">Cerrar sesion</button>
+					</form>
+				</header>
+
+				<nav class="admin__tabs" aria-label="Secciones del panel">
+					<a class={`admin__tab ${tab === 'posts' ? 'is-active' : ''}`} href="?tab=posts">
+						Publicaciones
+					</a>
+					<a class={`admin__tab ${tab === 'jobs' ? 'is-active' : ''}`} href="?tab=jobs">
+						Vacantes
+					</a>
+				</nav>
+
+				{tab === 'posts' ? (
+					<div class="admin__panel">
+						<section class="admin-card admin-card--create">
+							<h2 class="admin-card__title">Nueva publicacion</h2>
+							<form class="admin-form" action="/api/admin/posts/create" method="post">
+								<div class="admin-form__grid">
+									<label class="admin-form__field">
+										<span>Titulo</span>
+										<input name="title" type="text" required />
+									</label>
+									<label class="admin-form__field">
+										<span>Extracto</span>
+										<input name="excerpt" type="text" required />
+									</label>
+									<label class="admin-form__field admin-form__field--full">
+										<span>Contenido</span>
+										<textarea name="content" rows="6" required></textarea>
+									</label>
+									<label class="admin-form__field">
+										<span>Imagen (URL)</span>
+										<input name="imageUrl" type="url" placeholder="https://..." />
+									</label>
+									<label class="admin-form__check">
+										<input name="published" type="checkbox" checked />
+										<span>Publicada</span>
+									</label>
+								</div>
+								<button class="admin-form__submit" type="submit">Guardar publicacion</button>
+							</form>
+						</section>
+
+						<section class="admin-list">
+							<h2 class="admin-card__title">Publicaciones existentes</h2>
+							{posts.length === 0 ? (
+								<p class="admin__empty">Aun no hay publicaciones.</p>
+							) : (
+								<ul class="admin-list__items">
+									{posts.map((post) => (
+										<li class="admin-item">
+											<div class="admin-item__meta">
+												<strong>{post.title}</strong>
+												<span>/{post.slug}</span>
+											</div>
+											<form class="admin-form admin-form--inline" action="/api/admin/posts/update" method="post">
+												<input type="hidden" name="id" value={post.id} />
+												<div class="admin-form__grid">
+													<label class="admin-form__field">
+														<span>Titulo</span>
+														<input name="title" type="text" value={post.title} required />
+													</label>
+													<label class="admin-form__field">
+														<span>Extracto</span>
+														<input name="excerpt" type="text" value={post.excerpt} required />
+													</label>
+													<label class="admin-form__field admin-form__field--full">
+														<span>Contenido</span>
+														<textarea name="content" rows="5" required>{post.content}</textarea>
+													</label>
+													<label class="admin-form__field">
+														<span>Imagen (URL)</span>
+														<input name="imageUrl" type="url" value={post.image_url ?? ''} />
+													</label>
+													<label class="admin-form__check">
+														<input name="published" type="checkbox" checked={post.published === 1} />
+														<span>Publicada</span>
+													</label>
+												</div>
+												<div class="admin-form__actions">
+													<button class="admin-form__submit" type="submit">Actualizar</button>
+												</div>
+											</form>
+											<form
+												class="admin-form admin-form--danger"
+												action="/api/admin/posts/delete"
+												method="post"
+											>
+												<input type="hidden" name="id" value={post.id} />
+												<button type="submit">Eliminar</button>
+											</form>
+										</li>
+									))}
+								</ul>
+							)}
+						</section>
+					</div>
+				) : (
+					<div class="admin__panel">
+						<section class="admin-card admin-card--create">
+							<h2 class="admin-card__title">Nueva vacante</h2>
+							<form class="admin-form" action="/api/admin/jobs/create" method="post">
+								<div class="admin-form__grid">
+									<label class="admin-form__field">
+										<span>Titulo</span>
+										<input name="title" type="text" required />
+									</label>
+									<label class="admin-form__field">
+										<span>Ubicacion</span>
+										<input name="location" type="text" required />
+									</label>
+									<label class="admin-form__field">
+										<span>Tipo</span>
+										<input name="type" type="text" placeholder="Tiempo completo" required />
+									</label>
+									<label class="admin-form__field admin-form__field--full">
+										<span>Descripcion</span>
+										<textarea name="description" rows="5" required></textarea>
+									</label>
+									<label class="admin-form__check">
+										<input name="isActive" type="checkbox" checked />
+										<span>Activa</span>
+									</label>
+								</div>
+								<button class="admin-form__submit" type="submit">Guardar vacante</button>
+							</form>
+						</section>
+
+						<section class="admin-list">
+							<h2 class="admin-card__title">Vacantes existentes</h2>
+							{jobs.length === 0 ? (
+								<p class="admin__empty">Aun no hay vacantes.</p>
+							) : (
+								<ul class="admin-list__items">
+									{jobs.map((job) => (
+										<li class="admin-item">
+											<div class="admin-item__meta">
+												<strong>{job.title}</strong>
+												<span>{job.location}</span>
+											</div>
+											<form class="admin-form admin-form--inline" action="/api/admin/jobs/update" method="post">
+												<input type="hidden" name="id" value={job.id} />
+												<div class="admin-form__grid">
+													<label class="admin-form__field">
+														<span>Titulo</span>
+														<input name="title" type="text" value={job.title} required />
+													</label>
+													<label class="admin-form__field">
+														<span>Ubicacion</span>
+														<input name="location" type="text" value={job.location} required />
+													</label>
+													<label class="admin-form__field">
+														<span>Tipo</span>
+														<input name="type" type="text" value={job.type} required />
+													</label>
+													<label class="admin-form__field admin-form__field--full">
+														<span>Descripcion</span>
+														<textarea name="description" rows="4" required>{job.description}</textarea>
+													</label>
+													<label class="admin-form__check">
+														<input name="isActive" type="checkbox" checked={job.is_active === 1} />
+														<span>Activa</span>
+													</label>
+												</div>
+												<div class="admin-form__actions">
+													<button class="admin-form__submit" type="submit">Actualizar</button>
+												</div>
+											</form>
+											<form
+												class="admin-form admin-form--danger"
+												action="/api/admin/jobs/delete"
+												method="post"
+											>
+												<input type="hidden" name="id" value={job.id} />
+												<button type="submit">Eliminar</button>
+											</form>
+										</li>
+									))}
+								</ul>
+							)}
+						</section>
+					</div>
+				)}
+			</div>
+		)}
+	</section>
+</Layout>
+
+<style>
+	.admin {
+		background: #f6f4ef;
+		min-height: calc(100vh - 120px);
+		padding: 90px 24px 120px;
+		display: flex;
+		justify-content: center;
+	}
+
+	.admin__inner,
+	.admin__login {
+		width: min(1200px, 100%);
+		background: #ffffff;
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+		padding: 46px 52px;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		gap: 26px;
+	}
+
+	.admin__header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 24px;
+	}
+
+	.admin__title {
+		margin: 0;
+		font: normal normal bold 44px/1.05 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #161615;
+	}
+
+	.admin__subtitle {
+		margin: 8px 0 0;
+		font-size: 17px;
+		color: #5c5c5c;
+	}
+
+	.admin__hint {
+		margin: 0;
+		font-size: 14px;
+		color: #777777;
+	}
+
+	.admin__error {
+		margin: 0;
+		padding: 12px 14px;
+		background: #ffe7e7;
+		border: 1px solid #ffb6b6;
+		color: #a61a1a;
+		font-weight: 600;
+	}
+
+	.admin__logout {
+		border: 2px solid #161615;
+		background: #161615;
+		color: #ffffff;
+		padding: 12px 18px;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.admin__tabs {
+		display: flex;
+		gap: 12px;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+		padding-bottom: 12px;
+	}
+
+	.admin__tab {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 10px 16px;
+		border: 2px solid transparent;
+		text-decoration: none;
+		font-weight: 700;
+		color: #4a4a4a;
+	}
+
+	.admin__tab.is-active {
+		border-color: #e1454f;
+		color: #161615;
+	}
+
+	.admin__panel {
+		display: flex;
+		flex-direction: column;
+		gap: 36px;
+	}
+
+	.admin-card {
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		padding: 28px;
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		background: #ffffff;
+	}
+
+	.admin-card__title {
+		margin: 0;
+		font: normal normal bold 28px/1.1 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #161615;
+	}
+
+	.admin-form {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.admin-form__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 14px 18px;
+	}
+
+	.admin-form__field {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		font-weight: 600;
+		color: #444444;
+	}
+
+	.admin-form__field--full {
+		grid-column: 1 / -1;
+	}
+
+	.admin-form input,
+	.admin-form textarea {
+		width: 100%;
+		padding: 10px 12px;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		font-size: 15px;
+		box-sizing: border-box;
+	}
+
+	.admin-form__check {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		font-weight: 700;
+		color: #161615;
+	}
+
+	.admin-form__submit {
+		align-self: flex-start;
+		border: 2px solid #161615;
+		background: #161615;
+		color: #ffffff;
+		padding: 12px 18px;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.admin-form__actions {
+		display: flex;
+		gap: 10px;
+	}
+
+	.admin-form--danger button {
+		border: 2px solid #b3202c;
+		background: #b3202c;
+		color: #ffffff;
+		padding: 10px 14px;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.admin-list {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.admin-list__items {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+	}
+
+	.admin-item {
+		border: 1px solid rgba(0, 0, 0, 0.12);
+		padding: 18px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		background: #faf9f6;
+	}
+
+	.admin-item__meta {
+		display: flex;
+		gap: 12px;
+		align-items: baseline;
+		color: #5a5a5a;
+	}
+
+	.admin-item__meta strong {
+		font-size: 18px;
+		color: #161615;
+	}
+
+	.admin__empty {
+		margin: 0;
+		color: #666666;
+	}
+
+	.admin__form {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.admin__label {
+		font-weight: 700;
+		color: #222222;
+	}
+
+	.admin__input {
+		padding: 12px 14px;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		font-size: 16px;
+	}
+
+	.admin__submit {
+		margin-top: 8px;
+		border: 2px solid #161615;
+		background: #161615;
+		color: #ffffff;
+		padding: 12px 18px;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	@media (max-width: 900px) {
+		.admin {
+			padding: 80px 16px 100px;
+		}
+
+		.admin__inner,
+		.admin__login {
+			padding: 38px 28px;
+		}
+
+		.admin__header {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.admin-form__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

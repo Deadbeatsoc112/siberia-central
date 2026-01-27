@@ -1,10 +1,908 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import aboutHeroUrl from '../assets/media/Enmascarar grupo 17.png?url';
+import aboutHero2xUrl from '../assets/media/Enmascarar grupo 17@2x.png?url';
+import timelineBgUrl from '../assets/media/Enmascarar grupo 6.png?url';
+import timelineBg2xUrl from '../assets/media/Enmascarar grupo 6@2x.png?url';
+import timelineArrowUrl from '../assets/media/Grupo 139.svg?url';
+import timelineDecorUrl from '../assets/media/Grupo 140.svg?url';
+import branchesBgUrl from '../assets/media/Enmascarar grupo 10.png?url';
+import branchesBg2xUrl from '../assets/media/Enmascarar grupo 10@2x.png?url';
+import zigzagDecorUrl from '../assets/media/Grupo 36.svg?url';
+
+const timelineItems = [
+	{
+		year: '1978',
+		title: 'Primer local',
+		text: 'Abrimos un pequeno local familiar con recetas tradicionales y servicio cercano.',
+	},
+	{
+		year: '1980',
+		title: 'Receta estrella',
+		text: 'La receta mas pedida nace de una combinacion simple: producto fresco y mucho cuidado.',
+	},
+	{
+		year: '1990',
+		title: 'Crecimiento',
+		text: 'Sumamos equipo, mejoramos procesos y empezamos a consolidar una identidad propia.',
+	},
+	{
+		year: '2000',
+		title: 'Nueva casa',
+		text: 'Nos mudamos a un espacio mas amplio para recibir mas gente sin perder el sabor de casa.',
+	},
+	{
+		year: '2010',
+		title: 'Comunidad',
+		text: 'La marca se vuelve punto de encuentro: celebraciones, sobremesas largas y clientes fieles.',
+	},
+	{
+		year: '2020',
+		title: 'Evolucion',
+		text: 'Adaptamos la experiencia a nuevos formatos y reforzamos lo esencial: calidad y calidez.',
+	},
+];
 ---
 
 <Layout title="Nosotros | La Siberia Central">
-	<section class="page-hero">
-		<h1>Nosotros</h1>
-		<p>Esta p�gina est� lista para el contenido institucional de La Siberia Central.</p>
+	<section class="about-hero" aria-labelledby="about-title">
+		<div
+			class="about-hero__bg"
+			style={`background-image: image-set(url(${aboutHeroUrl}) 1x, url(${aboutHero2xUrl}) 2x);`}
+			aria-hidden="true"
+		></div>
+		<div class="about-hero__overlay" aria-hidden="true"></div>
+		<div class="about-hero__content">
+			<h1 id="about-title" class="about-hero__title">Sobre Nosotros</h1>
+			<p class="about-hero__text">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh
+				euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
+				minim veniam, quis nostrud exerci tation ullamcorper suscipit.
+			</p>
+		</div>
+	</section>
+	<section class="timeline" aria-labelledby="timeline-title">
+		<div
+			class="timeline__bg"
+			style={`background-image: image-set(url(${timelineBgUrl}) 1x, url(${timelineBg2xUrl}) 2x);`}
+			aria-hidden="true"
+		></div>
+		<div
+			class="timeline__decor"
+			aria-hidden="true"
+			style={`background-image: url(${timelineDecorUrl});`}
+		></div>
+		<div class="timeline__content">
+			<h2 id="timeline-title" class="timeline__title">
+				<span>Nuestra</span>
+				<span>historia</span>
+			</h2>
+			<span class="timeline__rule" aria-hidden="true"></span>
+			<div class="timeline__scroller" data-timeline-scroll>
+				<div class="timeline__track">
+					{timelineItems.map((item) => (
+						<article class="timeline__item">
+							<span class="timeline__dot" aria-hidden="true"></span>
+							<span class="timeline__year">{item.year}</span>
+							<span class="timeline__label">{item.title}</span>
+							<p class="timeline__text">{item.text}</p>
+						</article>
+					))}
+				</div>
+			</div>
+			<button
+				class="timeline__nav"
+				type="button"
+				aria-label="Ver mas hitos"
+				data-timeline-nav
+				style={`background-image: url(${timelineArrowUrl});`}
+			></button>
+		</div>
+	</section>
+	<section class="mission-vision" aria-label="Misión y Visión">
+		<img class="mission-vision__decor" src={zigzagDecorUrl} alt="" aria-hidden="true" />
+		<div class="mission-vision__inner">
+			<article class="mission-vision__column">
+				<h2 class="mission-vision__title">Misión</h2>
+				<p class="mission-vision__text">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+					euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
+					minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+					aliquip ex ea commodo consequat.
+				</p>
+			</article>
+			<article class="mission-vision__column">
+				<h2 class="mission-vision__title">Visión</h2>
+				<p class="mission-vision__text">
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+					euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
+					minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+					aliquip ex ea commodo consequat.
+				</p>
+			</article>
+		</div>
+	</section>
+	<section class="branches" aria-labelledby="branches-title">
+		<div
+			class="branches__bg"
+			style={`background-image: image-set(url(${branchesBgUrl}) 1x, url(${branchesBg2xUrl}) 2x);`}
+			aria-hidden="true"
+		></div>
+		<div class="branches__overlay" aria-hidden="true"></div>
+		<div
+			class="branches__decor"
+			aria-hidden="true"
+			style={`background-image: url(${zigzagDecorUrl});`}
+		></div>
+		<div class="branches__content">
+			<h2 id="branches-title" class="branches__title">
+				<span class="branches__line">Tenemos</span>
+				<span class="branches__line branches__line--accent">+ de 21</span>
+				<span class="branches__line">sucursales</span>
+			</h2>
+			<p class="branches__subtitle">Visitanos y vive el sabor de la tradicion</p>
+			<a class="branches__button" href="/sucursales">Ver sucursales</a>
+		</div>
 	</section>
 </Layout>
+
+<script>
+	const scroller = document.querySelector('[data-timeline-scroll]');
+	const button = document.querySelector('[data-timeline-nav]');
+
+	if (scroller) {
+		let isDragging = false;
+		let startX = 0;
+		let startScrollLeft = 0;
+		let targetScrollLeft = scroller.scrollLeft;
+		let rafId = 0;
+		let lastX = 0;
+		let lastTime = 0;
+		let velocity = 0;
+
+		const dragMultiplier = 0.60;
+		const ease = 0.40;
+		const inertiaBoost = 420;
+
+		const getMaxScroll = () => Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+		const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+		const updateButton = () => {
+			if (!button) return;
+			const maxScroll = getMaxScroll();
+			const btn = button;
+			btn.hidden = false;
+			const nearEnd = maxScroll > 8 && scroller.scrollLeft >= maxScroll - 8;
+			btn.style.opacity = nearEnd ? '0.35' : '1';
+			btn.disabled = nearEnd;
+			btn.setAttribute('aria-disabled', nearEnd ? 'true' : 'false');
+		};
+
+		const animateScroll = () => {
+			rafId = 0;
+			const maxScroll = getMaxScroll();
+			targetScrollLeft = clamp(targetScrollLeft, 0, maxScroll);
+			const delta = targetScrollLeft - scroller.scrollLeft;
+
+			if (Math.abs(delta) < 0.5) {
+				scroller.scrollLeft = targetScrollLeft;
+				updateButton();
+				return;
+			}
+
+			scroller.scrollLeft += delta * ease;
+			updateButton();
+			rafId = requestAnimationFrame(animateScroll);
+		};
+
+		const requestAnimation = () => {
+			if (rafId) return;
+			rafId = requestAnimationFrame(animateScroll);
+		};
+
+		const onPointerDown = (event: Event) => {
+			const e = event as PointerEvent;
+			isDragging = true;
+			startX = e.clientX;
+			startScrollLeft = scroller.scrollLeft;
+			targetScrollLeft = scroller.scrollLeft;
+			lastX = e.clientX;
+			lastTime = performance.now();
+			velocity = 0;
+			if (rafId) {
+				cancelAnimationFrame(rafId);
+				rafId = 0;
+			}
+			scroller.classList.add('is-dragging');
+			scroller.setPointerCapture?.(e.pointerId);
+			event.preventDefault();
+		};
+
+		const onPointerMove = (event: Event) => {
+			if (!isDragging) return;
+			const e = event as PointerEvent;
+			const now = performance.now();
+			const dt = Math.max(1, now - lastTime);
+			const dx = e.clientX - lastX;
+			velocity = dx / dt;
+			lastX = e.clientX;
+			lastTime = now;
+
+			const deltaX = e.clientX - startX;
+			const maxScroll = getMaxScroll();
+			targetScrollLeft = startScrollLeft - deltaX * dragMultiplier;
+			scroller.scrollLeft = clamp(targetScrollLeft, 0, maxScroll);
+			targetScrollLeft = scroller.scrollLeft;
+			updateButton();
+		};
+
+		const endDrag = (event: Event) => {
+			if (!isDragging) return;
+			const e = event as PointerEvent;
+			isDragging = false;
+			scroller.classList.remove('is-dragging');
+			scroller.releasePointerCapture?.(e.pointerId);
+			targetScrollLeft = scroller.scrollLeft - velocity * inertiaBoost * dragMultiplier;
+			requestAnimation();
+			updateButton();
+		};
+
+		if (button) {
+			button.addEventListener('click', () => {
+				const step = scroller.clientWidth * 0.85;
+				targetScrollLeft = scroller.scrollLeft + step;
+				requestAnimation();
+				updateButton();
+			});
+		}
+
+		scroller.addEventListener('pointerdown', onPointerDown);
+		scroller.addEventListener('pointermove', onPointerMove);
+		scroller.addEventListener('pointerup', endDrag);
+		scroller.addEventListener('pointercancel', endDrag);
+		scroller.addEventListener('mouseleave', endDrag);
+		scroller.addEventListener('scroll', updateButton, { passive: true });
+		window.addEventListener('resize', updateButton);
+		updateButton();
+	}
+</script>
+
+<style>
+	.about-hero {
+		position: relative;
+		width: 100%;
+		height: 752px;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		color: #b8b8b8;
+	}
+
+	.about-hero__bg {
+		position: absolute;
+		inset: 0;
+		background-size: cover;
+		background-position: center;
+	}
+
+	.about-hero__overlay {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.6);
+	}
+
+	.about-hero__content {
+		position: relative;
+		z-index: 2;
+		max-width: 680px;
+		padding: 0 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		align-items: center;
+	}
+
+	.about-hero__title {
+		margin: 0;
+		font: normal normal bold 42px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #9c9c9c;
+		text-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+	}
+
+	.about-hero__text {
+		margin: 0;
+		font-size: 16px;
+		line-height: 26px;
+		color: #a8a8a8;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+	}
+
+	@media (max-width: 1200px) {
+		.about-hero {
+			height: 680px;
+		}
+
+		.about-hero__title {
+			font-size: 38px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.about-hero {
+			height: 560px;
+		}
+
+		.about-hero__title {
+			font-size: 32px;
+		}
+
+		.about-hero__text {
+			font-size: 15px;
+			line-height: 23px;
+		}
+	}
+
+	.timeline {
+		position: relative;
+		width: 100%;
+		height: 897px;
+		overflow: hidden;
+		color: #ffffff;
+		background: #e44654;
+	}
+
+	.timeline__bg {
+		position: absolute;
+		inset: 0;
+		background-size: cover;
+		background-position: center;
+		opacity: 0.95;
+		z-index: 0;
+	}
+
+	.timeline__decor {
+		position: absolute;
+		left: auto;
+		right: 60px;
+		top: auto;
+		bottom: 180px;
+		width: 560px;
+		height: 390px;
+		background: transparent 0% 0% no-repeat padding-box;
+		background-size: contain;
+		opacity: 0.2;
+		z-index: 1;
+		pointer-events: none;
+	}
+
+	.timeline__content {
+		position: relative;
+		z-index: 3;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 24px;
+		padding: 120px 0 80px;
+		align-items: flex-start;
+	}
+
+	.timeline__title {
+		margin: 0;
+		font: normal normal bold 76px/0.95 Campton, 'Montserrat', 'Arial', sans-serif;
+		padding-left: 120px;
+		text-transform: none;
+	}
+
+	.timeline__title span {
+		display: block;
+	}
+
+	.timeline__rule {
+		display: block;
+		width: 520px;
+		height: 2px;
+		background: rgba(255, 255, 255, 0.85);
+		margin-left: 120px;
+	}
+
+	.timeline__scroller {
+		overflow-x: auto;
+		overflow-y: hidden;
+		scroll-behavior: smooth;
+		scrollbar-width: none;
+		-webkit-overflow-scrolling: touch;
+		width: 100%;
+		cursor: grab;
+	}
+
+	.timeline__scroller::-webkit-scrollbar {
+		display: none;
+	}
+
+	.timeline__scroller.is-dragging {
+		cursor: grabbing;
+		user-select: none;
+	}
+
+	.timeline__scroller.is-dragging * {
+		user-select: none;
+	}
+
+	.timeline__track {
+		position: relative;
+		display: flex;
+		gap: 110px;
+		padding: 40px 120px 0;
+		min-width: max-content;
+		align-items: flex-start;
+		--axis-y: 22px;
+		--gap: 110px;
+		--dot-size: 26px;
+		--dot-radius: calc(var(--dot-size) / 2);
+		--line-height: 6px;
+		--line-color: #4d1419;
+	}
+
+	.timeline__item {
+		position: relative;
+		min-width: 220px;
+		padding-left: 34px;
+		padding-top: 10px;
+		z-index: 1;
+	}
+
+	.timeline__item:not(:last-child)::after {
+		content: '';
+		position: absolute;
+		top: var(--axis-y);
+		left: var(--dot-radius);
+		width: calc(100% + var(--gap));
+		height: var(--line-height);
+		background: var(--line-color);
+		border-radius: 999px;
+		transform: translateY(-50%);
+		z-index: 0;
+		pointer-events: none;
+	}
+
+	.timeline__dot {
+		position: absolute;
+		top: var(--axis-y);
+		left: 0;
+		width: var(--dot-size);
+		height: var(--dot-size);
+		border-radius: 999px;
+		background: #c63644;
+		transform: translateY(-50%);
+		z-index: 2;
+	}
+
+	.timeline__dot::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: 999px;
+		border: 4px solid #4d1419;
+	}
+
+	.timeline__dot::after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 10px;
+		height: 10px;
+		transform: translate(-50%, -50%);
+		border-radius: 999px;
+		background: #111;
+	}
+
+	.timeline__year {
+		display: block;
+		margin-top: 26px;
+		font-size: 40px;
+		opacity: 1;
+	}
+
+	.timeline__label {
+		display: block;
+		margin-top: 6px;
+		font-size: 16px;
+		font-weight: 700;
+		letter-spacing: 0.3px;
+	}
+
+	.timeline__text {
+		margin: 8px 0 0;
+		font-size: 15px;
+		line-height: 22px;
+		opacity: 0.95;
+		max-width: 220px;
+	}
+
+	.timeline__nav {
+		position: absolute;
+		right: 212px;
+		bottom: 98px;
+		width: 72px;
+		height: 72px;
+		border: none;
+		background: transparent 0% 0% no-repeat padding-box;
+		background-size: contain;
+		cursor: pointer;
+		z-index: 10;
+		opacity: 1;
+		transition: opacity 0.3s ease, transform 0.3s ease;
+	}
+
+	.timeline__nav:hover,
+	.timeline__nav:focus-visible {
+		transform: translateX(4px);
+	}
+
+	@media (max-width: 1200px) {
+		.timeline {
+			height: 820px;
+		}
+
+		.timeline__decor {
+			left: auto;
+			right: 40px;
+			top: auto;
+			bottom: 150px;
+			width: 440px;
+			height: 308px;
+			background-size: contain;
+		}
+
+		.timeline__title {
+			padding-left: 80px;
+			font-size: 60px;
+		}
+
+		.timeline__rule {
+			margin-left: 80px;
+			width: 420px;
+		}
+
+		.timeline__track {
+			padding: 30px 80px 0;
+			gap: 90px;
+			--axis-y: 36px;
+			--gap: 90px;
+		}
+
+		.timeline__nav {
+			right: 70px;
+			bottom: 60px;
+		}
+
+	}
+
+	@media (max-width: 768px) {
+		.timeline {
+			height: auto;
+			min-height: 720px;
+			padding-bottom: 140px;
+		}
+
+		.timeline__decor {
+			left: auto;
+			right: 16px;
+			top: auto;
+			bottom: 160px;
+			width: 320px;
+			height: 225px;
+			background-size: contain;
+		}
+
+		.timeline__content {
+			padding: 80px 0 40px;
+			gap: 24px;
+		}
+
+		.timeline__title {
+			padding-left: 24px;
+			font-size: 44px;
+			text-align: left;
+		}
+
+		.timeline__rule {
+			margin-left: 24px;
+			width: 220px;
+		}
+
+		.timeline__scroller {
+			overflow: visible;
+		}
+
+		.timeline__track {
+			flex-direction: column;
+			padding: 0 24px;
+			gap: 28px;
+		}
+
+		.timeline__item {
+			padding-left: 0;
+		}
+
+		.timeline__item::after {
+			content: none;
+		}
+
+		.timeline__dot {
+			position: static;
+			transform: none;
+			margin-bottom: 10px;
+		}
+
+		.timeline__year {
+			margin-top: 0;
+			font-size: 28px;
+		}
+
+		.timeline__label {
+			font-size: 15px;
+		}
+
+		.timeline__nav {
+			display: block;
+			right: 24px;
+			bottom: 28px;
+			width: 64px;
+			height: 64px;
+		}
+
+	}
+
+	.branches {
+		position: relative;
+		width: 100%;
+		height: 585px;
+		overflow: hidden;
+		color: #ffffff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+	}
+
+	.branches__bg {
+		position: absolute;
+		inset: 0;
+		background-size: cover;
+		background-position: center;
+		filter: grayscale(1) contrast(1.05) brightness(0.82);
+		transform: scale(1.02);
+	}
+
+	.branches__overlay {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.38);
+	}
+
+	.branches__decor {
+		position: absolute;
+		top: 40px;
+		right: 36px;
+		width: 90px;
+		height: 300px;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: contain;
+		transform: rotate(90deg);
+		opacity: 0.7;
+		z-index: 3;
+		pointer-events: none;
+	}
+
+	.branches__content {
+		position: relative;
+		z-index: 4;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+		padding: 0 24px;
+	}
+
+	.branches__title {
+		margin: 0;
+		font: normal normal bold 68px/0.95 Campton, 'Montserrat', 'Arial', sans-serif;
+		text-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+	}
+
+	.branches__line {
+		display: block;
+	}
+
+	.branches__line--accent {
+		font-size: 92px;
+		line-height: 0.9;
+	}
+
+	.branches__subtitle {
+		margin: 6px 0 12px;
+		font-size: 18px;
+		font-weight: 700;
+		letter-spacing: 0.2px;
+		text-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+	}
+
+	.branches__button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 220px;
+		height: 54px;
+		border: 2px solid #ffffff;
+		background: #a91624;
+		color: #ffffff;
+		text-decoration: none;
+		font-weight: 700;
+		font-size: 17px;
+		letter-spacing: 0.2px;
+		box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+		transition: transform 0.25s ease, filter 0.25s ease;
+	}
+
+	.branches__button:hover,
+	.branches__button:focus-visible {
+		transform: translateY(-2px);
+		filter: brightness(1.03);
+	}
+
+	@media (max-width: 1200px) {
+		.branches {
+			height: 520px;
+		}
+
+		.branches__decor {
+			right: 20px;
+			width: 72px;
+			height: 240px;
+		}
+
+		.branches__title {
+			font-size: 58px;
+		}
+
+		.branches__line--accent {
+			font-size: 80px;
+		}
+
+		.branches__button {
+			width: 210px;
+			height: 52px;
+			font-size: 16px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.branches {
+			height: auto;
+			min-height: 460px;
+			padding: 80px 0;
+		}
+
+		.branches__decor {
+			display: none;
+		}
+
+		.branches__title {
+			font-size: 44px;
+		}
+
+		.branches__line--accent {
+			font-size: 62px;
+		}
+
+		.branches__subtitle {
+			font-size: 16px;
+		}
+
+		.branches__button {
+			width: 200px;
+			height: 50px;
+		}
+	}
+
+	.mission-vision {
+		position: relative;
+		width: 100%;
+		background: #ffffff;
+		padding: 140px 24px 140px;
+		display: flex;
+		justify-content: center;
+	}
+
+	.mission-vision__decor {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 537px;
+		height: 27px;
+	}
+
+	.mission-vision__inner {
+		width: min(1200px, 100%);
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 120px;
+		padding-top: 60px;
+	}
+
+	.mission-vision__column {
+		text-align: left;
+	}
+
+	.mission-vision__title {
+		margin: 0 0 24px;
+		font: normal normal bold 48px/1.15 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #8b5a2b;
+	}
+
+	.mission-vision__text {
+		margin: 0;
+		font-size: 17px;
+		line-height: 28px;
+		color: #6d6d6d;
+		font-weight: 400;
+	}
+
+	@media (max-width: 1200px) {
+		.mission-vision {
+			padding: 120px 40px;
+		}
+
+		.mission-vision__decor {
+			width: 420px;
+			height: 22px;
+		}
+
+		.mission-vision__inner {
+			gap: 90px;
+		}
+
+		.mission-vision__title {
+			font-size: 42px;
+		}
+
+		.mission-vision__text {
+			font-size: 16px;
+			line-height: 26px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.mission-vision {
+			padding: 90px 24px;
+		}
+
+		.mission-vision__decor {
+			width: 300px;
+			height: 15px;
+		}
+
+		.mission-vision__inner {
+			grid-template-columns: 1fr;
+			gap: 50px;
+			padding-top: 50px;
+		}
+
+		.mission-vision__title {
+			font-size: 36px;
+			margin-bottom: 18px;
+		}
+
+		.mission-vision__text {
+			font-size: 15px;
+			line-height: 24px;
+		}
+	}
+</style>

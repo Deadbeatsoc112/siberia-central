@@ -26,7 +26,6 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		<video
 			class="hero__video"
 			src={heroVideoUrl}
-			type="video/mp4"
 			poster={heroPosterUrl}
 			width="1920"
 			height="1080"
@@ -35,6 +34,7 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 			loop
 			playsinline
 		>
+			<source src={heroVideoUrl} type="video/mp4" />
 			Sorry, your browser doesn't support HTML5 video tag.
 		</video>
 		<div class="hero__overlay" aria-hidden="true"></div>

@@ -22,6 +22,7 @@ const branches = user && tab === 'branches' ? branchesRepo.listAll() : [];
 const resumes = user && tab === 'resumes' ? resumesRepo.listAll() : [];
 const messages = user && tab === 'messages' ? messagesRepo.listAll() : [];
 
+const branchesCount = user ? branchesRepo.listAll().length : 0;
 const resumesPending = user ? resumesRepo.countByStatus('pending') : 0;
 const messagesUnread = user ? messagesRepo.countByStatus('unread') : 0;
 
@@ -116,11 +117,9 @@ const allBranches = user && (tab === 'menus' || tab === 'branches') ? branchesRe
 								/>
 								<polyline points="9 22 9 12 15 12 15 22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
 							</svg>
-							<span>Sucursales</span>
-							<AdminBadge variant="info" size="small">{branches.length}</AdminBadge>
-						</a>
-
-						<a class={`tab-link ${tab === 'menus' ? 'tab-link--active' : ''}`} href="?tab=menus">
+						<span>Sucursales</span>
+						<AdminBadge variant="info" size="small">{branchesCount}</AdminBadge>
+					</a>						<a class={`tab-link ${tab === 'menus' ? 'tab-link--active' : ''}`} href="?tab=menus">
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
 								<path d="M3 3h18v18H3V3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
 								<path d="M3 9h18M9 21V9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

@@ -51,6 +51,170 @@ const currentPath = Astro.url?.pathname ?? '/';
 </html>
 
 <style>
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonThin.otf") format("opentype");
+		font-weight: 100;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonThinItalic.otf") format("opentype");
+		font-weight: 100;
+		font-style: italic;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonExtraLight.otf") format("opentype");
+		font-weight: 200;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonExtraLightItalic.otf")
+			format("opentype");
+		font-weight: 200;
+		font-style: italic;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonLight.otf") format("opentype");
+		font-weight: 300;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonLightItalic.otf")
+			format("opentype");
+		font-weight: 300;
+		font-style: italic;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonBook.otf") format("opentype");
+		font-weight: 400;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonBookItalic.otf")
+			format("opentype");
+		font-weight: 400;
+		font-style: italic;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonMedium.otf") format("opentype");
+		font-weight: 500;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonMediumItalic.otf")
+			format("opentype");
+		font-weight: 500;
+		font-style: italic;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonSemiBold.otf") format("opentype");
+		font-weight: 600;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonSemiBoldItalic.otf")
+			format("opentype");
+		font-weight: 600;
+		font-style: italic;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonBold.otf") format("opentype");
+		font-weight: 700;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonBoldItalic.otf")
+			format("opentype");
+		font-weight: 700;
+		font-style: italic;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonExtraBold.otf") format("opentype");
+		font-weight: 800;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonExtraBoldItalic.otf")
+			format("opentype");
+		font-weight: 800;
+		font-style: italic;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonBlack.otf") format("opentype");
+		font-weight: 900;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "Campton";
+		src: url("../assets/fonts/campton/CamptonBlackItalic.otf")
+			format("opentype");
+		font-weight: 900;
+		font-style: italic;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "River Young";
+		src:
+			url("../assets/fonts/river-young/RiverYoung-Regular.otf")
+				format("opentype"),
+			url("../assets/fonts/river-young/RiverYoung-Regular.ttf")
+				format("truetype");
+		font-weight: 400;
+		font-style: normal;
+		font-display: swap;
+	}
+
 	:global(:root) {
 		--nav-height: 38px;
 		--nav-width: 1106px;

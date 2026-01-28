@@ -2,10 +2,10 @@
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
 
+import cloudflare from '@astrojs/cloudflare';
+
 // https://astro.build/config
 export default defineConfig({
-	output: 'server',
-	adapter: node({
-		mode: 'standalone',
-	}),
+    output: 'server',
+    adapter: cloudflare(),
 });

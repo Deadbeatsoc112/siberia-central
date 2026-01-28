@@ -1,494 +1,801 @@
-﻿---
+---
 import Layout from '../layouts/Layout.astro';
 import { auth } from '../lib/auth';
 import { postsRepo, jobsRepo } from '../lib/content';
+import { branchesRepo } from '../lib/branches';
+import { menusRepo } from '../lib/menus';
+import { resumesRepo } from '../lib/resumes';
+import { messagesRepo } from '../lib/contactMessages';
+import BranchesTab from '../components/admin/BranchesTab.astro';
+import AdminBadge from '../components/admin/AdminBadge.astro';
+import AdminCard from '../components/admin/AdminCard.astro';
+import AdminButton from '../components/admin/AdminButton.astro';
+import AdminInput from '../components/admin/AdminInput.astro';
 
 const user = auth.getUserFromCookies(Astro.cookies);
-const tab = user ? Astro.url.searchParams.get('tab') ?? 'posts' : 'login';
+const tab = user ? Astro.url.searchParams.get('tab') ?? 'branches' : 'login';
 const hasError = Astro.url.searchParams.get('error') === '1';
 
-const posts = user ? postsRepo.listAll() : [];
-const jobs = user ? jobsRepo.listAll() : [];
+const posts = user && tab === 'posts' ? postsRepo.listAll() : [];
+const jobs = user && tab === 'jobs' ? jobsRepo.listAll() : [];
+const branches = user && tab === 'branches' ? branchesRepo.listAll() : [];
+const resumes = user && tab === 'resumes' ? resumesRepo.listAll() : [];
+const messages = user && tab === 'messages' ? messagesRepo.listAll() : [];
+
+const resumesPending = user ? resumesRepo.countByStatus('pending') : 0;
+const messagesUnread = user ? messagesRepo.countByStatus('unread') : 0;
+
+const allBranches = user && (tab === 'menus' || tab === 'branches') ? branchesRepo.listAll() : [];
 ---
 
 <Layout title="Panel Administrador | La Siberia Central">
-	<section class="admin">
-		{!user ? (
-			<div class="admin__login">
-				<h1 class="admin__title">Panel Administrador</h1>
-				<p class="admin__subtitle">Inicia sesion para gestionar publicaciones y vacantes</p>
-				{hasError && <p class="admin__error">Usuario o contrasena incorrectos</p>}
-				<form class="admin__form" action="/api/admin/login" method="post">
-					<label class="admin__label" for="admin-username">Usuario</label>
-					<input class="admin__input" id="admin-username" name="username" type="text" required />
-					<label class="admin__label" for="admin-password">Contrasena</label>
-					<input
-						class="admin__input"
-						id="admin-password"
-						name="password"
-						type="password"
-						required
-					/>
-					<button class="admin__submit" type="submit">Entrar</button>
-				</form>
-				<p class="admin__hint">Credenciales por defecto: admin / admin</p>
-			</div>
-		) : (
-			<div class="admin__inner">
-				<header class="admin__header">
-					<div>
-						<h1 class="admin__title">Panel Administrador</h1>
-						<p class="admin__subtitle">Hola, {user.username}</p>
+	<div class="modern-admin">
+		{
+			!user ? (
+				<div class="modern-admin__login">
+					<div class="login-card">
+						<div class="login-card__header">
+							<h1 class="login-card__title">Panel Administrador</h1>
+							<p class="login-card__subtitle">La Siberia Central</p>
+						</div>
+
+						{hasError && (
+							<div class="login-card__error">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+									<circle cx="12" cy="12" r="10" stroke-width="2" />
+									<line x1="12" y1="8" x2="12" y2="12" stroke-width="2" stroke-linecap="round" />
+									<line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2" stroke-linecap="round" />
+								</svg>
+								<span>Usuario o contraseña incorrectos</span>
+							</div>
+						)}
+
+						<form class="login-card__form" action="/api/admin/login" method="post">
+							<div class="login-field">
+								<label for="admin-username">Usuario</label>
+								<input id="admin-username" name="username" type="text" required placeholder="admin" />
+							</div>
+
+							<div class="login-field">
+								<label for="admin-password">Contraseña</label>
+								<input id="admin-password" name="password" type="password" required placeholder="••••••••" />
+							</div>
+
+							<button class="login-card__submit" type="submit">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+									<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+									<polyline points="10 17 15 12 10 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+									<line x1="15" y1="12" x2="3" y2="12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+								</svg>
+								Iniciar Sesión
+							</button>
+						</form>
+
+						<p class="login-card__hint">Credenciales por defecto: admin / admin</p>
 					</div>
-					<form action="/api/admin/logout" method="post">
-						<button class="admin__logout" type="submit">Cerrar sesion</button>
-					</form>
-				</header>
+				</div>
+			) : (
+				<div class="modern-admin__container">
+					<header class="modern-admin__header">
+						<div class="admin-header__brand">
+							<h1 class="admin-header__title">La Siberia Central</h1>
+							<p class="admin-header__subtitle">Panel de Administración</p>
+						</div>
 
-				<nav class="admin__tabs" aria-label="Secciones del panel">
-					<a class={`admin__tab ${tab === 'posts' ? 'is-active' : ''}`} href="?tab=posts">
-						Publicaciones
-					</a>
-					<a class={`admin__tab ${tab === 'jobs' ? 'is-active' : ''}`} href="?tab=jobs">
-						Vacantes
-					</a>
-				</nav>
-
-				{tab === 'posts' ? (
-					<div class="admin__panel">
-						<section class="admin-card admin-card--create">
-							<h2 class="admin-card__title">Nueva publicacion</h2>
-							<form class="admin-form" action="/api/admin/posts/create" method="post">
-								<div class="admin-form__grid">
-									<label class="admin-form__field">
-										<span>Titulo</span>
-										<input name="title" type="text" required />
-									</label>
-									<label class="admin-form__field">
-										<span>Extracto</span>
-										<input name="excerpt" type="text" required />
-									</label>
-									<label class="admin-form__field admin-form__field--full">
-										<span>Contenido</span>
-										<textarea name="content" rows="6" required></textarea>
-									</label>
-									<label class="admin-form__field">
-										<span>Imagen (URL)</span>
-										<input name="imageUrl" type="url" placeholder="https://..." />
-									</label>
-									<label class="admin-form__check">
-										<input name="published" type="checkbox" checked />
-										<span>Publicada</span>
-									</label>
-								</div>
-								<button class="admin-form__submit" type="submit">Guardar publicacion</button>
+						<div class="admin-header__user">
+							<div class="admin-header__user-info">
+								<span class="admin-header__user-name">{user.username}</span>
+								<span class="admin-header__user-role">Administrador</span>
+							</div>
+							<form action="/api/admin/logout" method="post">
+								<button class="admin-header__logout" type="submit">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+										<path
+											d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+										<polyline points="16 17 21 12 16 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+										<line x1="21" y1="12" x2="9" y2="12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+									</svg>
+									Cerrar Sesión
+								</button>
 							</form>
-						</section>
+						</div>
+					</header>
 
-						<section class="admin-list">
-							<h2 class="admin-card__title">Publicaciones existentes</h2>
-							{posts.length === 0 ? (
-								<p class="admin__empty">Aun no hay publicaciones.</p>
-							) : (
-								<ul class="admin-list__items">
-									{posts.map((post) => (
-										<li class="admin-item">
-											<div class="admin-item__meta">
-												<strong>{post.title}</strong>
-												<span>/{post.slug}</span>
-											</div>
-											<form class="admin-form admin-form--inline" action="/api/admin/posts/update" method="post">
-												<input type="hidden" name="id" value={post.id} />
-												<div class="admin-form__grid">
-													<label class="admin-form__field">
-														<span>Titulo</span>
-														<input name="title" type="text" value={post.title} required />
-													</label>
-													<label class="admin-form__field">
-														<span>Extracto</span>
-														<input name="excerpt" type="text" value={post.excerpt} required />
-													</label>
-													<label class="admin-form__field admin-form__field--full">
-														<span>Contenido</span>
-														<textarea name="content" rows="5" required>{post.content}</textarea>
-													</label>
-													<label class="admin-form__field">
-														<span>Imagen (URL)</span>
-														<input name="imageUrl" type="url" value={post.image_url ?? ''} />
-													</label>
-													<label class="admin-form__check">
-														<input name="published" type="checkbox" checked={post.published === 1} />
-														<span>Publicada</span>
-													</label>
-												</div>
-												<div class="admin-form__actions">
-													<button class="admin-form__submit" type="submit">Actualizar</button>
-												</div>
-											</form>
-											<form
-												class="admin-form admin-form--danger"
-												action="/api/admin/posts/delete"
-												method="post"
-											>
-												<input type="hidden" name="id" value={post.id} />
-												<button type="submit">Eliminar</button>
-											</form>
-										</li>
-									))}
-								</ul>
-							)}
-						</section>
-					</div>
-				) : (
-					<div class="admin__panel">
-						<section class="admin-card admin-card--create">
-							<h2 class="admin-card__title">Nueva vacante</h2>
-							<form class="admin-form" action="/api/admin/jobs/create" method="post">
-								<div class="admin-form__grid">
-									<label class="admin-form__field">
-										<span>Titulo</span>
-										<input name="title" type="text" required />
-									</label>
-									<label class="admin-form__field">
-										<span>Ubicacion</span>
-										<input name="location" type="text" required />
-									</label>
-									<label class="admin-form__field">
-										<span>Tipo</span>
-										<input name="type" type="text" placeholder="Tiempo completo" required />
-									</label>
-									<label class="admin-form__field admin-form__field--full">
-										<span>Descripcion</span>
-										<textarea name="description" rows="5" required></textarea>
-									</label>
-									<label class="admin-form__check">
-										<input name="isActive" type="checkbox" checked />
-										<span>Activa</span>
-									</label>
-								</div>
-								<button class="admin-form__submit" type="submit">Guardar vacante</button>
-							</form>
-						</section>
+					<nav class="modern-admin__tabs">
+						<a class={`tab-link ${tab === 'branches' ? 'tab-link--active' : ''}`} href="?tab=branches">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+								<path
+									d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+								<polyline points="9 22 9 12 15 12 15 22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+							<span>Sucursales</span>
+							<AdminBadge variant="info" size="small">{branches.length}</AdminBadge>
+						</a>
 
-						<section class="admin-list">
-							<h2 class="admin-card__title">Vacantes existentes</h2>
-							{jobs.length === 0 ? (
-								<p class="admin__empty">Aun no hay vacantes.</p>
-							) : (
-								<ul class="admin-list__items">
-									{jobs.map((job) => (
-										<li class="admin-item">
-											<div class="admin-item__meta">
-												<strong>{job.title}</strong>
-												<span>{job.location}</span>
-											</div>
-											<form class="admin-form admin-form--inline" action="/api/admin/jobs/update" method="post">
-												<input type="hidden" name="id" value={job.id} />
-												<div class="admin-form__grid">
-													<label class="admin-form__field">
-														<span>Titulo</span>
-														<input name="title" type="text" value={job.title} required />
-													</label>
-													<label class="admin-form__field">
-														<span>Ubicacion</span>
-														<input name="location" type="text" value={job.location} required />
-													</label>
-													<label class="admin-form__field">
-														<span>Tipo</span>
-														<input name="type" type="text" value={job.type} required />
-													</label>
-													<label class="admin-form__field admin-form__field--full">
-														<span>Descripcion</span>
-														<textarea name="description" rows="4" required>{job.description}</textarea>
-													</label>
-													<label class="admin-form__check">
-														<input name="isActive" type="checkbox" checked={job.is_active === 1} />
-														<span>Activa</span>
-													</label>
-												</div>
-												<div class="admin-form__actions">
-													<button class="admin-form__submit" type="submit">Actualizar</button>
-												</div>
-											</form>
-											<form
-												class="admin-form admin-form--danger"
-												action="/api/admin/jobs/delete"
-												method="post"
-											>
-												<input type="hidden" name="id" value={job.id} />
-												<button type="submit">Eliminar</button>
-											</form>
-										</li>
-									))}
-								</ul>
+						<a class={`tab-link ${tab === 'menus' ? 'tab-link--active' : ''}`} href="?tab=menus">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+								<path d="M3 3h18v18H3V3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M3 9h18M9 21V9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+							<span>Menús</span>
+						</a>
+
+						<a class={`tab-link ${tab === 'resumes' ? 'tab-link--active' : ''}`} href="?tab=resumes">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+								<path
+									d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+								<polyline points="14 2 14 8 20 8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+								<line x1="16" y1="13" x2="8" y2="13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+								<line x1="16" y1="17" x2="8" y2="17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+							<span>Hojas de Vida</span>
+							{resumesPending > 0 && (
+								<AdminBadge variant="primary" size="small" pulse>
+									{resumesPending}
+								</AdminBadge>
 							)}
-						</section>
-					</div>
-				)}
-			</div>
-		)}
-	</section>
+						</a>
+
+						<a class={`tab-link ${tab === 'messages' ? 'tab-link--active' : ''}`} href="?tab=messages">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+								<path
+									d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+							<span>Mensajes</span>
+							{messagesUnread > 0 && (
+								<AdminBadge variant="warning" size="small" pulse>
+									{messagesUnread}
+								</AdminBadge>
+							)}
+						</a>
+
+						<a class={`tab-link ${tab === 'jobs' ? 'tab-link--active' : ''}`} href="?tab=jobs">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+								<rect x="2" y="7" width="20" height="14" rx="2" ry="2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+							<span>Vacantes</span>
+						</a>
+
+						<a class={`tab-link ${tab === 'posts' ? 'tab-link--active' : ''}`} href="?tab=posts">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+								<path
+									d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+							<span>Blog</span>
+						</a>
+
+					</nav>
+
+					<main class="modern-admin__content">
+						{tab === 'branches' && <BranchesTab branches={branches} />}
+
+						{tab === 'menus' && (
+							<div class="tab-content">
+								<AdminCard title="Próximamente" subtitle="Gestión de menús con upload de PDF">
+									<p>Esta sección estará disponible pronto.</p>
+								</AdminCard>
+							</div>
+						)}
+
+						{tab === 'resumes' && (
+							<div class="tab-content">
+								<AdminCard title="Hojas de Vida Recibidas" subtitle={`${resumes.length} CVs en total`}>
+									{resumes.length === 0 ? (
+										<p>No hay hojas de vida recibidas.</p>
+									) : (
+										<div class="resumes-list">
+											{resumes.map((resume) => (
+												<div class="resume-item">
+													<div class="resume-item__header">
+														<h4>{resume.full_name}</h4>
+														<AdminBadge variant={resume.status === 'pending' ? 'warning' : 'success'} size="small">
+															{resume.status}
+														</AdminBadge>
+													</div>
+													<div class="resume-item__details">
+														<span>{resume.email}</span>
+														<span>{resume.phone}</span>
+														{resume.position_applied && <span>Cargo: {resume.position_applied}</span>}
+													</div>
+													<div class="resume-item__actions">
+														<a href={`/api/admin/resumes/download/${resume.id}`} class="resume-item__btn">Descargar CV</a>
+													</div>
+												</div>
+											))}
+										</div>
+									)}
+								</AdminCard>
+							</div>
+						)}
+
+						{tab === 'messages' && (
+							<div class="tab-content">
+								<AdminCard title="Mensajes de Contacto" subtitle={`${messages.length} mensajes recibidos`}>
+									{messages.length === 0 ? (
+										<p>No hay mensajes de contacto.</p>
+									) : (
+										<div class="messages-list">
+											{messages.map((msg) => (
+												<div class="message-item">
+													<div class="message-item__header">
+														<h4>{msg.full_name}</h4>
+														<AdminBadge
+															variant={msg.status === 'unread' ? 'primary' : msg.status === 'read' ? 'info' : 'success'}
+															size="small"
+														>
+															{msg.status}
+														</AdminBadge>
+													</div>
+													<p class="message-item__text">{msg.message}</p>
+													<div class="message-item__meta">
+														<span>{msg.email}</span>
+														{msg.phone && <span>{msg.phone}</span>}
+														<span>{new Date(msg.created_at * 1000).toLocaleDateString()}</span>
+													</div>
+												</div>
+											))}
+										</div>
+									)}
+								</AdminCard>
+							</div>
+						)}
+
+						{tab === 'jobs' && (
+							<div class="tab-content">
+								<AdminCard title="Vacantes" subtitle="Gestiona las ofertas de empleo">
+									<p>Vista de vacantes - Por implementar con diseño moderno</p>
+								</AdminCard>
+							</div>
+						)}
+
+						{tab === 'posts' && (
+							<div class="tab-content">
+								<AdminCard title="Blog" subtitle="Gestiona las publicaciones del blog">
+									<p>Vista de posts - Por implementar con diseño moderno</p>
+								</AdminCard>
+							</div>
+						)}
+					</main>
+				</div>
+			)
+		}
+	</div>
 </Layout>
 
 <style>
-	.admin {
-		background: #f6f4ef;
-		min-height: calc(100vh - 120px);
-		padding: 90px 24px 120px;
+	/* Global Admin Styles */
+	.modern-admin {
+		min-height: 100vh;
+		background: linear-gradient(135deg, #f6f4ef 0%, #faf9f6 100%);
+		font-family: 'Inter', -apple-system, sans-serif;
+	}
+
+	/* Login Screen */
+	.modern-admin__login {
+		min-height: 100vh;
 		display: flex;
-		justify-content: center;
-	}
-
-	.admin__inner,
-	.admin__login {
-		width: min(1200px, 100%);
-		background: #ffffff;
-		border: 1px solid rgba(0, 0, 0, 0.08);
-		box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
-		padding: 46px 52px;
-		box-sizing: border-box;
-		display: flex;
-		flex-direction: column;
-		gap: 26px;
-	}
-
-	.admin__header {
-		display: flex;
-		align-items: flex-start;
-		justify-content: space-between;
-		gap: 24px;
-	}
-
-	.admin__title {
-		margin: 0;
-		font: normal normal bold 44px/1.05 Campton, 'Montserrat', 'Arial', sans-serif;
-		color: #161615;
-	}
-
-	.admin__subtitle {
-		margin: 8px 0 0;
-		font-size: 17px;
-		color: #5c5c5c;
-	}
-
-	.admin__hint {
-		margin: 0;
-		font-size: 14px;
-		color: #777777;
-	}
-
-	.admin__error {
-		margin: 0;
-		padding: 12px 14px;
-		background: #ffe7e7;
-		border: 1px solid #ffb6b6;
-		color: #a61a1a;
-		font-weight: 600;
-	}
-
-	.admin__logout {
-		border: 2px solid #161615;
-		background: #161615;
-		color: #ffffff;
-		padding: 12px 18px;
-		font-weight: 700;
-		cursor: pointer;
-	}
-
-	.admin__tabs {
-		display: flex;
-		gap: 12px;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-		padding-bottom: 12px;
-	}
-
-	.admin__tab {
-		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		padding: 10px 16px;
-		border: 2px solid transparent;
-		text-decoration: none;
-		font-weight: 700;
-		color: #4a4a4a;
+		padding: 24px;
+		background: linear-gradient(135deg, #d4534f 0%, #8b5a2b 100%);
+		position: relative;
+		overflow: hidden;
 	}
 
-	.admin__tab.is-active {
-		border-color: #e1454f;
-		color: #161615;
+	.modern-admin__login::before {
+		content: '';
+		position: absolute;
+		top: -50%;
+		right: -50%;
+		width: 200%;
+		height: 200%;
+		background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+		background-size: 50px 50px;
+		animation: driftBackground 20s linear infinite;
 	}
 
-	.admin__panel {
-		display: flex;
-		flex-direction: column;
-		gap: 36px;
+	@keyframes driftBackground {
+		0% {
+			transform: translate(0, 0);
+		}
+		100% {
+			transform: translate(50px, 50px);
+		}
 	}
 
-	.admin-card {
-		border: 1px solid rgba(0, 0, 0, 0.1);
-		padding: 28px;
-		display: flex;
-		flex-direction: column;
-		gap: 18px;
-		background: #ffffff;
-	}
-
-	.admin-card__title {
-		margin: 0;
-		font: normal normal bold 28px/1.1 Campton, 'Montserrat', 'Arial', sans-serif;
-		color: #161615;
-	}
-
-	.admin-form {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
-
-	.admin-form__grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 14px 18px;
-	}
-
-	.admin-form__field {
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
-		font-weight: 600;
-		color: #444444;
-	}
-
-	.admin-form__field--full {
-		grid-column: 1 / -1;
-	}
-
-	.admin-form input,
-	.admin-form textarea {
+	.login-card {
+		position: relative;
 		width: 100%;
-		padding: 10px 12px;
-		border: 1px solid rgba(0, 0, 0, 0.2);
-		font-size: 15px;
-		box-sizing: border-box;
+		max-width: 440px;
+		background: rgba(255, 255, 255, 0.98);
+		backdrop-filter: blur(20px);
+		border-radius: 24px;
+		padding: 48px;
+		box-shadow:
+			0 20px 60px rgba(0, 0, 0, 0.3),
+			0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+		animation: loginCardAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
-	.admin-form__check {
-		display: inline-flex;
+	@keyframes loginCardAppear {
+		from {
+			opacity: 0;
+			transform: translateY(30px) scale(0.95);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+		}
+	}
+
+	.login-card__header {
+		text-align: center;
+		margin-bottom: 32px;
+	}
+
+	.login-card__title {
+		margin: 0 0 8px;
+		font-family: 'Playfair Display', Georgia, serif;
+		font-size: 36px;
+		font-weight: 900;
+		color: #1a1a1a;
+		letter-spacing: -1px;
+	}
+
+	.login-card__subtitle {
+		margin: 0;
+		font-size: 16px;
+		color: #666;
+		font-weight: 500;
+	}
+
+	.login-card__error {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 16px;
+		background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+		border: 2px solid #ef4444;
+		border-radius: 12px;
+		color: #991b1b;
+		font-weight: 600;
+		margin-bottom: 24px;
+		animation: shake 0.5s;
+	}
+
+	@keyframes shake {
+		0%,
+		100% {
+			transform: translateX(0);
+		}
+		25% {
+			transform: translateX(-10px);
+		}
+		75% {
+			transform: translateX(10px);
+		}
+	}
+
+	.login-card__form {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.login-field {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.login-field label {
+		font-size: 14px;
+		font-weight: 600;
+		color: #2a2a2a;
+	}
+
+	.login-field input {
+		padding: 14px 16px;
+		border: 2px solid #e8e8e8;
+		border-radius: 12px;
+		font-size: 16px;
+		transition: all 0.2s ease;
+		font-family: inherit;
+	}
+
+	.login-field input:focus {
+		outline: none;
+		border-color: #d4534f;
+		box-shadow: 0 0 0 4px rgba(212, 83, 79, 0.1);
+	}
+
+	.login-card__submit {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		padding: 16px;
+		background: linear-gradient(135deg, #d4534f 0%, #b33832 100%);
+		color: #ffffff;
+		border: none;
+		border-radius: 12px;
+		font-size: 16px;
+		font-weight: 700;
+		cursor: pointer;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		margin-top: 8px;
+		box-shadow: 0 4px 14px rgba(212, 83, 79, 0.4);
+	}
+
+	.login-card__submit:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 20px rgba(212, 83, 79, 0.5);
+	}
+
+	.login-card__submit:active {
+		transform: translateY(0);
+	}
+
+	.login-card__hint {
+		margin: 20px 0 0;
+		text-align: center;
+		font-size: 13px;
+		color: #999;
+	}
+
+	/* Main Container */
+	.modern-admin__container {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* Header */
+	.modern-admin__header {
+		background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+		border-bottom: 2px solid #f0f0f0;
+		padding: 24px 40px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		backdrop-filter: blur(10px);
+	}
+
+	.admin-header__brand {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.admin-header__title {
+		margin: 0;
+		font-family: 'Playfair Display', Georgia, serif;
+		font-size: 28px;
+		font-weight: 900;
+		color: #1a1a1a;
+		letter-spacing: -0.5px;
+	}
+
+	.admin-header__subtitle {
+		margin: 0;
+		font-size: 13px;
+		color: #666;
+		font-weight: 500;
+	}
+
+	.admin-header__user {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+
+	.admin-header__user-info {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 2px;
+	}
+
+	.admin-header__user-name {
+		font-weight: 700;
+		color: #1a1a1a;
+		font-size: 15px;
+	}
+
+	.admin-header__user-role {
+		font-size: 12px;
+		color: #999;
+	}
+
+	.admin-header__logout {
+		display: flex;
 		align-items: center;
 		gap: 8px;
-		font-weight: 700;
-		color: #161615;
-	}
-
-	.admin-form__submit {
-		align-self: flex-start;
-		border: 2px solid #161615;
-		background: #161615;
-		color: #ffffff;
-		padding: 12px 18px;
-		font-weight: 700;
+		padding: 10px 18px;
+		background: transparent;
+		border: 2px solid #e0e0e0;
+		border-radius: 10px;
+		color: #666;
+		font-weight: 600;
 		cursor: pointer;
+		transition: all 0.2s ease;
+		font-family: inherit;
+		font-size: 14px;
 	}
 
-	.admin-form__actions {
+	.admin-header__logout:hover {
+		border-color: #d4534f;
+		color: #d4534f;
+		background: #fff5f5;
+	}
+
+	/* Tabs Navigation */
+	.modern-admin__tabs {
+		background: #ffffff;
+		padding: 20px 40px;
 		display: flex;
+		gap: 8px;
+		overflow-x: auto;
+		border-bottom: 2px solid #f0f0f0;
+		position: sticky;
+		top: 76px;
+		z-index: 90;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+	}
+
+	.tab-link {
+		display: flex;
+		align-items: center;
 		gap: 10px;
+		padding: 12px 20px;
+		background: transparent;
+		border: 2px solid transparent;
+		border-radius: 12px;
+		text-decoration: none;
+		color: #666;
+		font-weight: 600;
+		font-size: 15px;
+		transition: all 0.2s ease;
+		white-space: nowrap;
 	}
 
-	.admin-form--danger button {
-		border: 2px solid #b3202c;
-		background: #b3202c;
+	.tab-link svg {
+		flex-shrink: 0;
+	}
+
+	.tab-link:hover {
+		background: #f8f8f8;
+		color: #1a1a1a;
+	}
+
+	.tab-link--active {
+		background: linear-gradient(135deg, #d4534f 0%, #b33832 100%);
 		color: #ffffff;
-		padding: 10px 14px;
-		font-weight: 700;
-		cursor: pointer;
+		border-color: #d4534f;
+		box-shadow: 0 4px 12px rgba(212, 83, 79, 0.3);
 	}
 
-	.admin-list {
+	.tab-link--active:hover {
+		background: linear-gradient(135deg, #d4534f 0%, #b33832 100%);
+	}
+
+	/* Main Content */
+	.modern-admin__content {
+		flex: 1;
+		padding: 40px;
+		animation: fadeInContent 0.5s ease-out;
+	}
+
+	@keyframes fadeInContent {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.tab-content {
+		max-width: 1400px;
+		margin: 0 auto;
+	}
+
+	/* Resumes List */
+	.resumes-list {
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
+		margin-top: 24px;
 	}
 
-	.admin-list__items {
-		list-style: none;
+	.resume-item {
+		background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+		border: 2px solid #f0f0f0;
+		border-radius: 12px;
+		padding: 20px;
+		transition: all 0.3s ease;
+	}
+
+	.resume-item:hover {
+		border-color: #d4534f;
+		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
+		transform: translateY(-2px);
+	}
+
+	.resume-item__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 12px;
+	}
+
+	.resume-item__header h4 {
 		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 22px;
-	}
-
-	.admin-item {
-		border: 1px solid rgba(0, 0, 0, 0.12);
-		padding: 18px;
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-		background: #faf9f6;
-	}
-
-	.admin-item__meta {
-		display: flex;
-		gap: 12px;
-		align-items: baseline;
-		color: #5a5a5a;
-	}
-
-	.admin-item__meta strong {
 		font-size: 18px;
-		color: #161615;
+		font-weight: 700;
+		color: #1a1a1a;
 	}
 
-	.admin__empty {
-		margin: 0;
-		color: #666666;
+	.resume-item__details {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+		font-size: 14px;
+		color: #666;
+		margin-bottom: 16px;
 	}
 
-	.admin__form {
+	.resume-item__actions {
+		display: flex;
+		gap: 12px;
+	}
+
+	.resume-item__btn {
+		padding: 10px 16px;
+		background: linear-gradient(135deg, #8b5a2b 0%, #6d4521 100%);
+		color: #ffffff;
+		border: none;
+		border-radius: 8px;
+		font-weight: 600;
+		text-decoration: none;
+		display: inline-block;
+		transition: all 0.2s ease;
+		font-size: 14px;
+	}
+
+	.resume-item__btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(139, 90, 43, 0.3);
+	}
+
+	/* Messages List */
+	.messages-list {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: 16px;
+		margin-top: 24px;
 	}
 
-	.admin__label {
+	.message-item {
+		background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+		border: 2px solid #f0f0f0;
+		border-radius: 12px;
+		padding: 20px;
+		transition: all 0.3s ease;
+	}
+
+	.message-item:hover {
+		border-color: #d4534f;
+		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
+		transform: translateY(-2px);
+	}
+
+	.message-item__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 12px;
+	}
+
+	.message-item__header h4 {
+		margin: 0;
+		font-size: 18px;
 		font-weight: 700;
-		color: #222222;
+		color: #1a1a1a;
 	}
 
-	.admin__input {
-		padding: 12px 14px;
-		border: 1px solid rgba(0, 0, 0, 0.2);
-		font-size: 16px;
+	.message-item__text {
+		margin: 0 0 12px;
+		padding: 16px;
+		background: #f8f8f8;
+		border-left: 4px solid #d4534f;
+		border-radius: 8px;
+		font-size: 15px;
+		line-height: 1.6;
+		color: #2a2a2a;
 	}
 
-	.admin__submit {
-		margin-top: 8px;
-		border: 2px solid #161615;
-		background: #161615;
-		color: #ffffff;
-		padding: 12px 18px;
-		font-weight: 700;
-		cursor: pointer;
+	.message-item__meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+		font-size: 13px;
+		color: #999;
 	}
 
-	@media (max-width: 900px) {
-		.admin {
-			padding: 80px 16px 100px;
+	/* Responsive */
+	@media (max-width: 1024px) {
+		.modern-admin__header {
+			padding: 20px 24px;
 		}
 
-		.admin__inner,
-		.admin__login {
-			padding: 38px 28px;
+		.modern-admin__tabs {
+			padding: 16px 24px;
 		}
 
-		.admin__header {
+		.modern-admin__content {
+			padding: 24px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.login-card {
+			padding: 32px 24px;
+		}
+
+		.modern-admin__header {
 			flex-direction: column;
 			align-items: flex-start;
+			gap: 16px;
 		}
 
-		.admin-form__grid {
-			grid-template-columns: 1fr;
+		.admin-header__user {
+			width: 100%;
+			justify-content: space-between;
+		}
+
+		.modern-admin__tabs {
+			gap: 6px;
+		}
+
+		.tab-link {
+			padding: 10px 16px;
+			font-size: 14px;
+		}
+
+		.tab-link span {
+			display: none;
+		}
+
+		.modern-admin__content {
+			padding: 20px 16px;
 		}
 	}
 </style>

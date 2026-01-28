@@ -1,32 +1,23 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import heroBgUrl from "../assets/media/Enmascarar grupo 20.png?url";
-// Lista manual (puedes agregar las 24)
-// IMPORTANTÍSIMO: agrega lat/lng por sucursal para centrar el mapa.
-const branches = [
-  {
-    id: "central",
-    name: "Central",
-    address:
-      "Av. Rodrigo Gómez 623, Col. Central, Monterrey, Nuevo León CP 64190",
-    phones: ["8112573064"],
-    lat: 25.7034,
-    lng: -100.3077,
-  },
-  {
-    id: "san-pedro",
-    name: "San Pedro",
-    address:
-      "Porfirio Díaz 102, Col. Casco Urbano, San Pedro Garza García, Nuevo León CP 66230",
-    phones: ["8112573064", "8112573065"],
-    lat: 25.6574,
-    lng: -100.4025,
-  },
-  // ... agrega más
-];
+import { branchesRepo } from "../lib/branches";
+
+const branchesRaw = branchesRepo.listActive();
+const branches = branchesRaw.map((b) => ({
+  id: b.slug,
+  name: b.name,
+  address: b.address,
+  phones: JSON.parse(b.phones),
+  lat: b.latitude || 25.6866,
+  lng: b.longitude || -100.3161,
+}));
 
 const defaultCenter = { lat: 25.6866, lng: -100.3161 }; // Monterrey
 const defaultZoom = 12;
+
+const success = Astro.url.searchParams.get('success') === '1';
+const error = Astro.url.searchParams.get('error');
 ---
 
 <Layout title="Contacto | La Siberia Central">
@@ -122,7 +113,20 @@ const defaultZoom = 12;
         </p>
       </div>
 
-      <form class="contact-form__form">
+      {success && (
+        <div class="contact-form__success">
+          ¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.
+        </div>
+      )}
+      {error && (
+        <div class="contact-form__error">
+          {error === 'campos-requeridos' && 'Por favor completa todos los campos requeridos.'}
+          {error === 'limite-excedido' && 'Has excedido el límite de mensajes. Intenta más tarde.'}
+          {error === 'servidor' && 'Error del servidor. Intenta más tarde.'}
+        </div>
+      )}
+
+      <form class="contact-form__form" action="/api/contact/submit" method="post">
         <div class="contact-form__grid">
           <!-- Left Column -->
           <div class="form-column">
@@ -131,7 +135,7 @@ const defaultZoom = 12;
               <input
                 type="text"
                 id="nombre"
-                name="nombre"
+                name="full_name"
                 class="form-input"
                 required
               />
@@ -141,7 +145,7 @@ const defaultZoom = 12;
               <label for="mensaje" class="form-label">Mensaje*</label>
               <textarea
                 id="mensaje"
-                name="mensaje"
+                name="message"
                 class="form-textarea"
                 rows="5"
                 required></textarea>
@@ -162,13 +166,12 @@ const defaultZoom = 12;
             </div>
 
             <div class="form-field">
-              <label for="telefono" class="form-label">Teléfono*</label>
+              <label for="telefono" class="form-label">Teléfono</label>
               <input
                 type="tel"
                 id="telefono"
-                name="telefono"
+                name="phone"
                 class="form-input"
-                required
               />
             </div>
 
@@ -540,6 +543,26 @@ const defaultZoom = 12;
       sans-serif;
     color: #666;
     text-align: left;
+  }
+
+  .contact-form__success {
+    padding: 16px 20px;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+
+  .contact-form__error {
+    padding: 16px 20px;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    font-weight: 600;
   }
 
   .contact-form__grid {

@@ -1,0 +1,101 @@
+---
+interface Props {
+	title?: string;
+	subtitle?: string;
+	variant?: 'default' | 'glass' | 'elevated';
+	fullHeight?: boolean;
+}
+
+const { title, subtitle, variant = 'default', fullHeight = false } = Astro.props;
+---
+
+<div class={`admin-card admin-card--${variant} ${fullHeight ? 'admin-card--full' : ''}`}>
+	{title && (
+		<div class="admin-card__header">
+			<h3 class="admin-card__title">{title}</h3>
+			{subtitle && <p class="admin-card__subtitle">{subtitle}</p>}
+		</div>
+	)}
+	<div class="admin-card__content">
+		<slot />
+	</div>
+</div>
+
+<style>
+	.admin-card {
+		background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+		backdrop-filter: blur(10px);
+		border-radius: 16px;
+		border: 1px solid rgba(0, 0, 0, 0.05);
+		overflow: hidden;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.admin-card--default {
+		padding: 32px;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+	}
+
+	.admin-card--glass {
+		padding: 28px;
+		background: rgba(255, 255, 255, 0.7);
+		backdrop-filter: blur(20px);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+	}
+
+	.admin-card--elevated {
+		padding: 36px;
+		box-shadow:
+			0 10px 40px rgba(0, 0, 0, 0.1),
+			0 2px 8px rgba(0, 0, 0, 0.06);
+	}
+
+	.admin-card--elevated:hover {
+		transform: translateY(-4px);
+		box-shadow:
+			0 20px 60px rgba(0, 0, 0, 0.12),
+			0 4px 16px rgba(0, 0, 0, 0.08);
+	}
+
+	.admin-card--full {
+		height: 100%;
+	}
+
+	.admin-card__header {
+		margin-bottom: 24px;
+		padding-bottom: 20px;
+		border-bottom: 2px solid #f0f0f0;
+	}
+
+	.admin-card__title {
+		margin: 0 0 8px;
+		font-family: 'Playfair Display', Georgia, serif;
+		font-size: 28px;
+		font-weight: 700;
+		color: #1a1a1a;
+		letter-spacing: -0.5px;
+	}
+
+	.admin-card__subtitle {
+		margin: 0;
+		font-size: 15px;
+		color: #666;
+		line-height: 1.6;
+	}
+
+	.admin-card__content {
+		animation: fadeInUp 0.5s ease-out;
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+</style>

@@ -1,0 +1,182 @@
+---
+interface Props {
+	variant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'success';
+	size?: 'small' | 'medium' | 'large';
+	type?: 'button' | 'submit' | 'reset';
+	disabled?: boolean;
+	fullWidth?: boolean;
+	icon?: string;
+}
+
+const {
+	variant = 'primary',
+	size = 'medium',
+	type = 'button',
+	disabled = false,
+	fullWidth = false,
+	icon,
+} = Astro.props;
+---
+
+<button
+	class={`admin-btn admin-btn--${variant} admin-btn--${size} ${fullWidth ? 'admin-btn--full' : ''}`}
+	type={type}
+	disabled={disabled}
+>
+	{icon && <span class="admin-btn__icon" set:html={icon} />}
+	<span class="admin-btn__text"><slot /></span>
+</button>
+
+<style>
+	.admin-btn {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		font-family: 'Inter', -apple-system, sans-serif;
+		font-weight: 600;
+		border: none;
+		border-radius: 12px;
+		cursor: pointer;
+		transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+		overflow: hidden;
+		letter-spacing: 0.3px;
+	}
+
+	.admin-btn::before {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 0;
+		height: 0;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.3);
+		transform: translate(-50%, -50%);
+		transition: width 0.6s, height 0.6s;
+	}
+
+	.admin-btn:hover::before {
+		width: 300px;
+		height: 300px;
+	}
+
+	.admin-btn__text {
+		position: relative;
+		z-index: 1;
+	}
+
+	.admin-btn__icon {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+	}
+
+	/* Sizes */
+	.admin-btn--small {
+		padding: 8px 16px;
+		font-size: 13px;
+		height: 36px;
+	}
+
+	.admin-btn--medium {
+		padding: 12px 24px;
+		font-size: 15px;
+		height: 44px;
+	}
+
+	.admin-btn--large {
+		padding: 16px 32px;
+		font-size: 17px;
+		height: 54px;
+	}
+
+	/* Variants */
+	.admin-btn--primary {
+		background: linear-gradient(135deg, #d4534f 0%, #b33832 100%);
+		color: #ffffff;
+		box-shadow:
+			0 4px 14px rgba(212, 83, 79, 0.3),
+			0 2px 6px rgba(0, 0, 0, 0.15);
+	}
+
+	.admin-btn--primary:hover {
+		transform: translateY(-2px);
+		box-shadow:
+			0 8px 20px rgba(212, 83, 79, 0.35),
+			0 4px 10px rgba(0, 0, 0, 0.2);
+	}
+
+	.admin-btn--secondary {
+		background: linear-gradient(135deg, #8b5a2b 0%, #6d4521 100%);
+		color: #ffffff;
+		box-shadow:
+			0 4px 14px rgba(139, 90, 43, 0.25),
+			0 2px 6px rgba(0, 0, 0, 0.15);
+	}
+
+	.admin-btn--secondary:hover {
+		transform: translateY(-2px);
+		box-shadow:
+			0 8px 20px rgba(139, 90, 43, 0.3),
+			0 4px 10px rgba(0, 0, 0, 0.2);
+	}
+
+	.admin-btn--danger {
+		background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+		color: #ffffff;
+		box-shadow:
+			0 4px 14px rgba(239, 68, 68, 0.3),
+			0 2px 6px rgba(0, 0, 0, 0.15);
+	}
+
+	.admin-btn--danger:hover {
+		transform: translateY(-2px);
+		box-shadow:
+			0 8px 20px rgba(239, 68, 68, 0.35),
+			0 4px 10px rgba(0, 0, 0, 0.2);
+	}
+
+	.admin-btn--success {
+		background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+		color: #ffffff;
+		box-shadow:
+			0 4px 14px rgba(16, 185, 129, 0.3),
+			0 2px 6px rgba(0, 0, 0, 0.15);
+	}
+
+	.admin-btn--success:hover {
+		transform: translateY(-2px);
+		box-shadow:
+			0 8px 20px rgba(16, 185, 129, 0.35),
+			0 4px 10px rgba(0, 0, 0, 0.2);
+	}
+
+	.admin-btn--ghost {
+		background: transparent;
+		color: #1a1a1a;
+		border: 2px solid #e0e0e0;
+	}
+
+	.admin-btn--ghost:hover {
+		background: #f8f8f8;
+		border-color: #d0d0d0;
+		transform: translateY(-1px);
+	}
+
+	.admin-btn--full {
+		width: 100%;
+	}
+
+	.admin-btn:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		transform: none !important;
+	}
+
+	.admin-btn:active:not(:disabled) {
+		transform: scale(0.97);
+	}
+</style>

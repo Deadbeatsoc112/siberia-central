@@ -1,0 +1,950 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { auth } from '../lib/auth';
+import { postsRepo, jobsRepo } from '../lib/content';
+import { branchesRepo } from '../lib/branches';
+import { menusRepo } from '../lib/menus';
+import { resumesRepo } from '../lib/resumes';
+import { messagesRepo } from '../lib/contactMessages';
+import { pageContentRepo } from '../lib/pageContent';
+
+const user = auth.getUserFromCookies(Astro.cookies);
+const tab = user ? Astro.url.searchParams.get('tab') ?? 'posts' : 'login';
+const hasError = Astro.url.searchParams.get('error') === '1';
+
+const posts = user && tab === 'posts' ? postsRepo.listAll() : [];
+const jobs = user && tab === 'jobs' ? jobsRepo.listAll() : [];
+const branches = user && tab === 'branches' ? branchesRepo.listAll() : [];
+const resumes = user && tab === 'resumes' ? resumesRepo.listAll() : [];
+const messages = user && tab === 'messages' ? messagesRepo.listAll() : [];
+const pageContent = user && tab === 'content' ? pageContentRepo.listAll() : [];
+
+const resumesPending = user ? resumesRepo.countByStatus('pending') : 0;
+const messagesUnread = user ? messagesRepo.countByStatus('unread') : 0;
+
+const allBranches = user && (tab === 'menus' || tab === 'branches') ? branchesRepo.listAll() : [];
+---
+
+<Layout title="Panel Administrador | La Siberia Central">
+	<section class="admin">
+		{!user ? (
+			<div class="admin__login">
+				<h1 class="admin__title">Panel Administrador</h1>
+				<p class="admin__subtitle">Inicia sesion para gestionar publicaciones y vacantes</p>
+				{hasError && <p class="admin__error">Usuario o contrasena incorrectos</p>}
+				<form class="admin__form" action="/api/admin/login" method="post">
+					<label class="admin__label" for="admin-username">Usuario</label>
+					<input class="admin__input" id="admin-username" name="username" type="text" required />
+					<label class="admin__label" for="admin-password">Contrasena</label>
+					<input
+						class="admin__input"
+						id="admin-password"
+						name="password"
+						type="password"
+						required
+					/>
+					<button class="admin__submit" type="submit">Entrar</button>
+				</form>
+				<p class="admin__hint">Credenciales por defecto: admin / admin</p>
+			</div>
+		) : (
+			<div class="admin__inner">
+				<header class="admin__header">
+					<div>
+						<h1 class="admin__title">Panel Administrador</h1>
+						<p class="admin__subtitle">Hola, {user.username}</p>
+					</div>
+					<form action="/api/admin/logout" method="post">
+						<button class="admin__logout" type="submit">Cerrar sesion</button>
+					</form>
+				</header>
+
+				<nav class="admin__tabs" aria-label="Secciones del panel">
+					<a class={`admin__tab ${tab === 'posts' ? 'is-active' : ''}`} href="?tab=posts">
+						Publicaciones
+					</a>
+					<a class={`admin__tab ${tab === 'jobs' ? 'is-active' : ''}`} href="?tab=jobs">
+						Vacantes
+					</a>
+					<a class={`admin__tab ${tab === 'resumes' ? 'is-active' : ''}`} href="?tab=resumes">
+						Hojas de Vida
+						{resumesPending > 0 && <span class="admin__badge">{resumesPending}</span>}
+					</a>
+					<a class={`admin__tab ${tab === 'branches' ? 'is-active' : ''}`} href="?tab=branches">
+						Sucursales
+					</a>
+					<a class={`admin__tab ${tab === 'menus' ? 'is-active' : ''}`} href="?tab=menus">
+						Menús
+					</a>
+					<a class={`admin__tab ${tab === 'messages' ? 'is-active' : ''}`} href="?tab=messages">
+						Mensajes
+						{messagesUnread > 0 && <span class="admin__badge">{messagesUnread}</span>}
+					</a>
+					<a class={`admin__tab ${tab === 'content' ? 'is-active' : ''}`} href="?tab=content">
+						Contenido
+					</a>
+				</nav>
+
+				{tab === 'posts' ? (
+					<div class="admin__panel">
+						<section class="admin-card admin-card--create">
+							<h2 class="admin-card__title">Nueva publicacion</h2>
+							<form class="admin-form" action="/api/admin/posts/create" method="post">
+								<div class="admin-form__grid">
+									<label class="admin-form__field">
+										<span>Titulo</span>
+										<input name="title" type="text" required />
+									</label>
+									<label class="admin-form__field">
+										<span>Extracto</span>
+										<input name="excerpt" type="text" required />
+									</label>
+									<label class="admin-form__field admin-form__field--full">
+										<span>Contenido</span>
+										<textarea name="content" rows="6" required></textarea>
+									</label>
+									<label class="admin-form__field">
+										<span>Imagen (URL)</span>
+										<input name="imageUrl" type="url" placeholder="https://..." />
+									</label>
+									<label class="admin-form__check">
+										<input name="published" type="checkbox" checked />
+										<span>Publicada</span>
+									</label>
+								</div>
+								<button class="admin-form__submit" type="submit">Guardar publicacion</button>
+							</form>
+						</section>
+
+						<section class="admin-list">
+							<h2 class="admin-card__title">Publicaciones existentes</h2>
+							{posts.length === 0 ? (
+								<p class="admin__empty">Aun no hay publicaciones.</p>
+							) : (
+								<ul class="admin-list__items">
+									{posts.map((post) => (
+										<li class="admin-item">
+											<div class="admin-item__meta">
+												<strong>{post.title}</strong>
+												<span>/{post.slug}</span>
+											</div>
+											<form class="admin-form admin-form--inline" action="/api/admin/posts/update" method="post">
+												<input type="hidden" name="id" value={post.id} />
+												<div class="admin-form__grid">
+													<label class="admin-form__field">
+														<span>Titulo</span>
+														<input name="title" type="text" value={post.title} required />
+													</label>
+													<label class="admin-form__field">
+														<span>Extracto</span>
+														<input name="excerpt" type="text" value={post.excerpt} required />
+													</label>
+													<label class="admin-form__field admin-form__field--full">
+														<span>Contenido</span>
+														<textarea name="content" rows="5" required>{post.content}</textarea>
+													</label>
+													<label class="admin-form__field">
+														<span>Imagen (URL)</span>
+														<input name="imageUrl" type="url" value={post.image_url ?? ''} />
+													</label>
+													<label class="admin-form__check">
+														<input name="published" type="checkbox" checked={post.published === 1} />
+														<span>Publicada</span>
+													</label>
+												</div>
+												<div class="admin-form__actions">
+													<button class="admin-form__submit" type="submit">Actualizar</button>
+												</div>
+											</form>
+											<form
+												class="admin-form admin-form--danger"
+												action="/api/admin/posts/delete"
+												method="post"
+											>
+												<input type="hidden" name="id" value={post.id} />
+												<button type="submit">Eliminar</button>
+											</form>
+										</li>
+									))}
+								</ul>
+							)}
+						</section>
+					</div>
+				) : tab === 'jobs' ? (
+					<div class="admin__panel">
+						<section class="admin-card admin-card--create">
+							<h2 class="admin-card__title">Nueva vacante</h2>
+							<form class="admin-form" action="/api/admin/jobs/create" method="post">
+								<div class="admin-form__grid">
+									<label class="admin-form__field">
+										<span>Titulo</span>
+										<input name="title" type="text" required />
+									</label>
+									<label class="admin-form__field">
+										<span>Ubicacion</span>
+										<input name="location" type="text" required />
+									</label>
+									<label class="admin-form__field">
+										<span>Tipo</span>
+										<input name="type" type="text" placeholder="Tiempo completo" required />
+									</label>
+									<label class="admin-form__field admin-form__field--full">
+										<span>Descripcion</span>
+										<textarea name="description" rows="5" required></textarea>
+									</label>
+									<label class="admin-form__check">
+										<input name="isActive" type="checkbox" checked />
+										<span>Activa</span>
+									</label>
+								</div>
+								<button class="admin-form__submit" type="submit">Guardar vacante</button>
+							</form>
+						</section>
+
+						<section class="admin-list">
+							<h2 class="admin-card__title">Vacantes existentes</h2>
+							{jobs.length === 0 ? (
+								<p class="admin__empty">Aun no hay vacantes.</p>
+							) : (
+								<ul class="admin-list__items">
+									{jobs.map((job) => (
+										<li class="admin-item">
+											<div class="admin-item__meta">
+												<strong>{job.title}</strong>
+												<span>{job.location}</span>
+											</div>
+											<form class="admin-form admin-form--inline" action="/api/admin/jobs/update" method="post">
+												<input type="hidden" name="id" value={job.id} />
+												<div class="admin-form__grid">
+													<label class="admin-form__field">
+														<span>Titulo</span>
+														<input name="title" type="text" value={job.title} required />
+													</label>
+													<label class="admin-form__field">
+														<span>Ubicacion</span>
+														<input name="location" type="text" value={job.location} required />
+													</label>
+													<label class="admin-form__field">
+														<span>Tipo</span>
+														<input name="type" type="text" value={job.type} required />
+													</label>
+													<label class="admin-form__field admin-form__field--full">
+														<span>Descripcion</span>
+														<textarea name="description" rows="4" required>{job.description}</textarea>
+													</label>
+													<label class="admin-form__check">
+														<input name="isActive" type="checkbox" checked={job.is_active === 1} />
+														<span>Activa</span>
+													</label>
+												</div>
+												<div class="admin-form__actions">
+													<button class="admin-form__submit" type="submit">Actualizar</button>
+												</div>
+											</form>
+											<form
+												class="admin-form admin-form--danger"
+												action="/api/admin/jobs/delete"
+												method="post"
+											>
+												<input type="hidden" name="id" value={job.id} />
+												<button type="submit">Eliminar</button>
+											</form>
+										</li>
+									))}
+								</ul>
+							)}
+						</section>
+					</div>
+				) : tab === 'resumes' ? (
+					<div class="admin__panel">
+						<section class="admin-list">
+							<h2 class="admin-card__title">Hojas de Vida Recibidas</h2>
+							{resumes.length === 0 ? (
+								<p class="admin__empty">Aun no hay hojas de vida.</p>
+							) : (
+								<ul class="admin-list__items">
+									{resumes.map((resume) => (
+										<li class="admin-item">
+											<div class="admin-item__meta">
+												<strong>{resume.full_name}</strong>
+												<span>{resume.email} | {resume.phone}</span>
+												{resume.position_applied && <span>Cargo: {resume.position_applied}</span>}
+											</div>
+											<div class="admin-item__meta">
+												<span>Estado: {resume.status}</span>
+												<span>Archivo: {resume.file_name}</span>
+												<span>{new Date(resume.created_at * 1000).toLocaleDateString()}</span>
+											</div>
+											{resume.notes && (
+												<div class="admin-item__notes">
+													<strong>Notas:</strong> {resume.notes}
+												</div>
+											)}
+											<form class="admin-form admin-form--inline" action="/api/admin/resumes/update-status" method="post">
+												<input type="hidden" name="id" value={resume.id} />
+												<div class="admin-form__grid">
+													<label class="admin-form__field">
+														<span>Estado</span>
+														<select name="status" required>
+															<option value="pending" selected={resume.status === 'pending'}>Pendiente</option>
+															<option value="reviewed" selected={resume.status === 'reviewed'}>Revisado</option>
+															<option value="contacted" selected={resume.status === 'contacted'}>Contactado</option>
+															<option value="rejected" selected={resume.status === 'rejected'}>Rechazado</option>
+														</select>
+													</label>
+												</div>
+												<div class="admin-form__actions">
+													<button class="admin-form__submit" type="submit">Actualizar Estado</button>
+													<a class="admin-form__download" href={`/api/admin/resumes/download/${resume.id}`}>Descargar CV</a>
+												</div>
+											</form>
+											<form class="admin-form admin-form--inline" action="/api/admin/resumes/add-note" method="post">
+												<input type="hidden" name="id" value={resume.id} />
+												<div class="admin-form__grid">
+													<label class="admin-form__field admin-form__field--full">
+														<span>Notas</span>
+														<textarea name="notes" rows="2">{resume.notes ?? ''}</textarea>
+													</label>
+												</div>
+												<div class="admin-form__actions">
+													<button class="admin-form__submit" type="submit">Guardar Nota</button>
+												</div>
+											</form>
+											<form
+												class="admin-form admin-form--danger"
+												action="/api/admin/resumes/delete"
+												method="post"
+											>
+												<input type="hidden" name="id" value={resume.id} />
+												<button type="submit">Eliminar</button>
+											</form>
+										</li>
+									))}
+								</ul>
+							)}
+						</section>
+					</div>
+				) : tab === 'branches' ? (
+					<div class="admin__panel">
+						<section class="admin-card admin-card--create">
+							<h2 class="admin-card__title">Nueva Sucursal</h2>
+							<form class="admin-form" action="/api/admin/branches/create" method="post">
+								<div class="admin-form__grid">
+									<label class="admin-form__field">
+										<span>Nombre</span>
+										<input name="name" type="text" required />
+									</label>
+									<label class="admin-form__field">
+										<span>Direccion</span>
+										<input name="address" type="text" required />
+									</label>
+									<label class="admin-form__field">
+										<span>Latitud</span>
+										<input name="latitude" type="number" step="any" placeholder="25.6691" />
+									</label>
+									<label class="admin-form__field">
+										<span>Longitud</span>
+										<input name="longitude" type="number" step="any" placeholder="-100.3095" />
+									</label>
+									<label class="admin-form__field">
+										<span>Telefonos (separados por coma)</span>
+										<input name="phones" type="text" placeholder="8112573064, 8183780000" />
+									</label>
+									<label class="admin-form__field">
+										<span>Email</span>
+										<input name="contact_email" type="email" />
+									</label>
+									<label class="admin-form__field">
+										<span>Orden</span>
+										<input name="display_order" type="number" value="0" />
+									</label>
+									<label class="admin-form__check">
+										<input name="is_active" type="checkbox" checked />
+										<span>Activa</span>
+									</label>
+								</div>
+								<button class="admin-form__submit" type="submit">Guardar Sucursal</button>
+							</form>
+						</section>
+
+						<section class="admin-list">
+							<h2 class="admin-card__title">Sucursales existentes</h2>
+							{branches.length === 0 ? (
+								<p class="admin__empty">Aun no hay sucursales.</p>
+							) : (
+								<ul class="admin-list__items">
+									{branches.map((branch) => (
+										<li class="admin-item">
+											<div class="admin-item__meta">
+												<strong>{branch.name}</strong>
+												<span>/{branch.slug}</span>
+												<span>{branch.is_active ? 'Activa' : 'Inactiva'}</span>
+											</div>
+											<form class="admin-form admin-form--inline" action="/api/admin/branches/update" method="post">
+												<input type="hidden" name="id" value={branch.id} />
+												<div class="admin-form__grid">
+													<label class="admin-form__field">
+														<span>Nombre</span>
+														<input name="name" type="text" value={branch.name} required />
+													</label>
+													<label class="admin-form__field">
+														<span>Direccion</span>
+														<input name="address" type="text" value={branch.address} required />
+													</label>
+													<label class="admin-form__field">
+														<span>Latitud</span>
+														<input name="latitude" type="number" step="any" value={branch.latitude ?? ''} />
+													</label>
+													<label class="admin-form__field">
+														<span>Longitud</span>
+														<input name="longitude" type="number" step="any" value={branch.longitude ?? ''} />
+													</label>
+													<label class="admin-form__field">
+														<span>Telefonos</span>
+														<input name="phones" type="text" value={JSON.parse(branch.phones).join(', ')} />
+													</label>
+													<label class="admin-form__field">
+														<span>Email</span>
+														<input name="contact_email" type="email" value={branch.contact_email ?? ''} />
+													</label>
+													<label class="admin-form__field">
+														<span>Orden</span>
+														<input name="display_order" type="number" value={branch.display_order} />
+													</label>
+													<label class="admin-form__check">
+														<input name="is_active" type="checkbox" checked={branch.is_active === 1} />
+														<span>Activa</span>
+													</label>
+												</div>
+												<div class="admin-form__actions">
+													<button class="admin-form__submit" type="submit">Actualizar</button>
+												</div>
+											</form>
+											<form
+												class="admin-form admin-form--danger"
+												action="/api/admin/branches/delete"
+												method="post"
+											>
+												<input type="hidden" name="id" value={branch.id} />
+												<button type="submit">Eliminar</button>
+											</form>
+										</li>
+									))}
+								</ul>
+							)}
+						</section>
+					</div>
+				) : tab === 'messages' ? (
+					<div class="admin__panel">
+						<section class="admin-list">
+							<h2 class="admin-card__title">Mensajes de Contacto</h2>
+							{messages.length === 0 ? (
+								<p class="admin__empty">Aun no hay mensajes.</p>
+							) : (
+								<ul class="admin-list__items">
+									{messages.map((msg) => (
+										<li class="admin-item">
+											<div class="admin-item__meta">
+												<strong>{msg.full_name}</strong>
+												<span>{msg.email}</span>
+												{msg.phone && <span>{msg.phone}</span>}
+												<span>Estado: {msg.status}</span>
+											</div>
+											<div class="admin-item__message">
+												{msg.message}
+											</div>
+											<div class="admin-item__meta">
+												<span>{new Date(msg.created_at * 1000).toLocaleDateString()}</span>
+											</div>
+											{msg.notes && (
+												<div class="admin-item__notes">
+													<strong>Notas:</strong> {msg.notes}
+												</div>
+											)}
+											<form class="admin-form admin-form--inline" action="/api/admin/messages/update-status" method="post">
+												<input type="hidden" name="id" value={msg.id} />
+												<div class="admin-form__grid">
+													<label class="admin-form__field">
+														<span>Estado</span>
+														<select name="status" required>
+															<option value="unread" selected={msg.status === 'unread'}>No leido</option>
+															<option value="read" selected={msg.status === 'read'}>Leido</option>
+															<option value="replied" selected={msg.status === 'replied'}>Respondido</option>
+															<option value="archived" selected={msg.status === 'archived'}>Archivado</option>
+														</select>
+													</label>
+												</div>
+												<div class="admin-form__actions">
+													<button class="admin-form__submit" type="submit">Actualizar Estado</button>
+												</div>
+											</form>
+											<form class="admin-form admin-form--inline" action="/api/admin/messages/add-note" method="post">
+												<input type="hidden" name="id" value={msg.id} />
+												<div class="admin-form__grid">
+													<label class="admin-form__field admin-form__field--full">
+														<span>Notas</span>
+														<textarea name="notes" rows="2">{msg.notes ?? ''}</textarea>
+													</label>
+												</div>
+												<div class="admin-form__actions">
+													<button class="admin-form__submit" type="submit">Guardar Nota</button>
+												</div>
+											</form>
+											<form
+												class="admin-form admin-form--danger"
+												action="/api/admin/messages/delete"
+												method="post"
+											>
+												<input type="hidden" name="id" value={msg.id} />
+												<button type="submit">Eliminar</button>
+											</form>
+										</li>
+									))}
+								</ul>
+							)}
+						</section>
+					</div>
+				) : tab === 'content' ? (
+					<div class="admin__panel">
+						<section class="admin-list">
+							<h2 class="admin-card__title">Contenido Estatico de Paginas</h2>
+							{pageContent.length === 0 ? (
+								<p class="admin__empty">Aun no hay contenido.</p>
+							) : (
+								<ul class="admin-list__items">
+									{pageContent.map((content) => (
+										<li class="admin-item">
+											<div class="admin-item__meta">
+												<strong>{content.label}</strong>
+												<span>Seccion: {content.section}</span>
+												<span>Tipo: {content.content_type}</span>
+											</div>
+											<form class="admin-form admin-form--inline" action="/api/admin/content/update" method="post">
+												<input type="hidden" name="page_key" value={content.page_key} />
+												<div class="admin-form__grid">
+													<label class="admin-form__field admin-form__field--full">
+														<span>Contenido</span>
+														{content.content_type === 'html' ? (
+															<textarea name="content_value" rows="5" required>{content.content_value}</textarea>
+														) : (
+															<input name="content_value" type="text" value={content.content_value} required />
+														)}
+													</label>
+												</div>
+												<div class="admin-form__actions">
+													<button class="admin-form__submit" type="submit">Actualizar</button>
+												</div>
+											</form>
+										</li>
+									))}
+								</ul>
+							)}
+						</section>
+					</div>
+				) : tab === 'menus' ? (
+					<div class="admin__panel">
+						<section class="admin-card admin-card--create">
+							<h2 class="admin-card__title">Gestion de Menus</h2>
+							<p>Para gestionar menus de forma detallada (con categorias e items), utiliza esta seccion. La estructura es: Sucursal → Menu → Categoria → Items.</p>
+							<p>Crea primero un menu para una sucursal, luego categorias dentro del menu, y finalmente items dentro de las categorias.</p>
+						</section>
+
+						<section class="admin-card admin-card--create">
+							<h2 class="admin-card__title">Nuevo Menu</h2>
+							<form class="admin-form" action="/api/admin/menus/create" method="post">
+								<div class="admin-form__grid">
+									<label class="admin-form__field">
+										<span>Sucursal</span>
+										<select name="branch_id" required>
+											<option value="">Selecciona una sucursal</option>
+											{allBranches.map((b) => (
+												<option value={b.id}>{b.name}</option>
+											))}
+										</select>
+									</label>
+									<label class="admin-form__field">
+										<span>Nombre del Menu</span>
+										<input name="name" type="text" placeholder="Desayunos, Comidas, Bebidas..." required />
+									</label>
+									<label class="admin-form__field">
+										<span>Orden</span>
+										<input name="display_order" type="number" value="0" />
+									</label>
+									<label class="admin-form__check">
+										<input name="is_active" type="checkbox" checked />
+										<span>Activo</span>
+									</label>
+								</div>
+								<button class="admin-form__submit" type="submit">Crear Menu</button>
+							</form>
+						</section>
+
+						<section class="admin-card admin-card--create">
+							<h2 class="admin-card__title">Nueva Categoria de Menu</h2>
+							<form class="admin-form" action="/api/admin/menu-categories/create" method="post">
+								<div class="admin-form__grid">
+									<label class="admin-form__field">
+										<span>Menu ID</span>
+										<input name="menu_id" type="number" placeholder="ID del menu padre" required />
+									</label>
+									<label class="admin-form__field">
+										<span>Nombre de Categoria</span>
+										<input name="name" type="text" placeholder="Entradas, Platos fuertes..." required />
+									</label>
+									<label class="admin-form__field">
+										<span>Orden</span>
+										<input name="display_order" type="number" value="0" />
+									</label>
+								</div>
+								<button class="admin-form__submit" type="submit">Crear Categoria</button>
+							</form>
+						</section>
+
+						<section class="admin-card admin-card--create">
+							<h2 class="admin-card__title">Nuevo Item de Menu</h2>
+							<form class="admin-form" action="/api/admin/menu-items/create" method="post">
+								<div class="admin-form__grid">
+									<label class="admin-form__field">
+										<span>Categoria ID</span>
+										<input name="category_id" type="number" placeholder="ID de la categoria" required />
+									</label>
+									<label class="admin-form__field">
+										<span>Nombre del Platillo</span>
+										<input name="name" type="text" required />
+									</label>
+									<label class="admin-form__field">
+										<span>Precio</span>
+										<input name="price" type="number" step="0.01" required />
+									</label>
+									<label class="admin-form__field admin-form__field--full">
+										<span>Descripcion</span>
+										<textarea name="description" rows="2"></textarea>
+									</label>
+									<label class="admin-form__field">
+										<span>Imagen URL</span>
+										<input name="image_url" type="url" />
+									</label>
+									<label class="admin-form__field">
+										<span>Orden</span>
+										<input name="display_order" type="number" value="0" />
+									</label>
+									<label class="admin-form__check">
+										<input name="is_available" type="checkbox" checked />
+										<span>Disponible</span>
+									</label>
+								</div>
+								<button class="admin-form__submit" type="submit">Crear Item</button>
+							</form>
+						</section>
+					</div>
+				) : null}
+			</div>
+		)}
+	</section>
+</Layout>
+
+<style>
+	.admin {
+		background: #f6f4ef;
+		min-height: calc(100vh - 120px);
+		padding: 90px 24px 120px;
+		display: flex;
+		justify-content: center;
+	}
+
+	.admin__inner,
+	.admin__login {
+		width: min(1200px, 100%);
+		background: #ffffff;
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+		padding: 46px 52px;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		gap: 26px;
+	}
+
+	.admin__header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 24px;
+	}
+
+	.admin__title {
+		margin: 0;
+		font: normal normal bold 44px/1.05 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #161615;
+	}
+
+	.admin__subtitle {
+		margin: 8px 0 0;
+		font-size: 17px;
+		color: #5c5c5c;
+	}
+
+	.admin__hint {
+		margin: 0;
+		font-size: 14px;
+		color: #777777;
+	}
+
+	.admin__error {
+		margin: 0;
+		padding: 12px 14px;
+		background: #ffe7e7;
+		border: 1px solid #ffb6b6;
+		color: #a61a1a;
+		font-weight: 600;
+	}
+
+	.admin__logout {
+		border: 2px solid #161615;
+		background: #161615;
+		color: #ffffff;
+		padding: 12px 18px;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.admin__tabs {
+		display: flex;
+		gap: 12px;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+		padding-bottom: 12px;
+		flex-wrap: wrap;
+	}
+
+	.admin__tab {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+		padding: 10px 16px;
+		border: 2px solid transparent;
+		text-decoration: none;
+		font-weight: 700;
+		color: #4a4a4a;
+		position: relative;
+	}
+
+	.admin__tab.is-active {
+		border-color: #e1454f;
+		color: #161615;
+	}
+
+	.admin__badge {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		background: #e1454f;
+		color: #ffffff;
+		border-radius: 12px;
+		padding: 2px 8px;
+		font-size: 12px;
+		font-weight: 700;
+		min-width: 20px;
+	}
+
+	.admin__panel {
+		display: flex;
+		flex-direction: column;
+		gap: 36px;
+	}
+
+	.admin-card {
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		padding: 28px;
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		background: #ffffff;
+	}
+
+	.admin-card__title {
+		margin: 0;
+		font: normal normal bold 28px/1.1 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #161615;
+	}
+
+	.admin-form {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.admin-form__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 14px 18px;
+	}
+
+	.admin-form__field {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		font-weight: 600;
+		color: #444444;
+	}
+
+	.admin-form__field--full {
+		grid-column: 1 / -1;
+	}
+
+	.admin-form input,
+	.admin-form textarea,
+	.admin-form select {
+		width: 100%;
+		padding: 10px 12px;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		font-size: 15px;
+		box-sizing: border-box;
+	}
+
+	.admin-form__check {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		font-weight: 700;
+		color: #161615;
+	}
+
+	.admin-form__submit {
+		align-self: flex-start;
+		border: 2px solid #161615;
+		background: #161615;
+		color: #ffffff;
+		padding: 12px 18px;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.admin-form__download {
+		border: 2px solid #1976d2;
+		background: #1976d2;
+		color: #ffffff;
+		padding: 12px 18px;
+		font-weight: 700;
+		text-decoration: none;
+		display: inline-block;
+	}
+
+	.admin-form__actions {
+		display: flex;
+		gap: 10px;
+	}
+
+	.admin-form--danger button {
+		border: 2px solid #b3202c;
+		background: #b3202c;
+		color: #ffffff;
+		padding: 10px 14px;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.admin-list {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.admin-list__items {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+	}
+
+	.admin-item {
+		border: 1px solid rgba(0, 0, 0, 0.12);
+		padding: 18px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		background: #faf9f6;
+	}
+
+	.admin-item__meta {
+		display: flex;
+		gap: 12px;
+		align-items: baseline;
+		color: #5a5a5a;
+		flex-wrap: wrap;
+	}
+
+	.admin-item__meta strong {
+		font-size: 18px;
+		color: #161615;
+	}
+
+	.admin-item__message {
+		padding: 12px;
+		background: #f0f0f0;
+		border-left: 3px solid #e1454f;
+		font-size: 15px;
+		line-height: 1.5;
+	}
+
+	.admin-item__notes {
+		padding: 10px;
+		background: #fff9e6;
+		border-left: 3px solid #ffb800;
+		font-size: 14px;
+	}
+
+	.admin__empty {
+		margin: 0;
+		color: #666666;
+	}
+
+	.admin__form {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.admin__label {
+		font-weight: 700;
+		color: #222222;
+	}
+
+	.admin__input {
+		padding: 12px 14px;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		font-size: 16px;
+	}
+
+	.admin__submit {
+		margin-top: 8px;
+		border: 2px solid #161615;
+		background: #161615;
+		color: #ffffff;
+		padding: 12px 18px;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	@media (max-width: 900px) {
+		.admin {
+			padding: 80px 16px 100px;
+		}
+
+		.admin__inner,
+		.admin__login {
+			padding: 38px 28px;
+		}
+
+		.admin__header {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.admin-form__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

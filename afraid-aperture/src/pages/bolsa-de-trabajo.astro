@@ -5,6 +5,9 @@ import jobsHero2xUrl from '../assets/media/Enmascarar grupo 17@2x.png?url';
 import { jobsRepo } from '../lib/content';
 
 const jobs = jobsRepo.listAll().filter((job) => job.is_active === 1);
+
+const success = Astro.url.searchParams.get('success') === '1';
+const error = Astro.url.searchParams.get('error');
 ---
 
 <Layout title="Bolsa de trabajo | La Siberia Central">
@@ -38,7 +41,9 @@ const jobs = jobsRepo.listAll().filter((job) => job.is_active === 1);
 							<p class="job-card__description">{job.description}</p>
 							<a
 								class="job-card__button"
-								href={`mailto:talento@lasiberiacentral.com?subject=Vacante%20${encodeURIComponent(job.title)}`}
+								href="#aplicar"
+								data-job-id={job.id}
+								data-job-title={job.title}
 							>
 								Postularme
 							</a>
@@ -48,6 +53,111 @@ const jobs = jobsRepo.listAll().filter((job) => job.is_active === 1);
 			)}
 		</div>
 	</section>
+
+	<section class="jobs-apply" id="aplicar" aria-labelledby="apply-title">
+		<div class="jobs-apply__inner">
+			<h2 id="apply-title" class="jobs-apply__title">Aplica a una vacante</h2>
+			<p class="jobs-apply__subtitle">Completa el formulario y sube tu hoja de vida</p>
+
+			{success && (
+				<div class="jobs-apply__success">
+					¡Aplicación enviada con éxito! Revisaremos tu perfil y nos pondremos en contacto contigo.
+				</div>
+			)}
+			{error && (
+				<div class="jobs-apply__error">
+					{error === 'campos-requeridos' && 'Por favor completa todos los campos requeridos.'}
+					{error === 'formato-invalido' && 'El archivo debe ser PDF o Word (.doc, .docx).'}
+					{error === 'archivo-grande' && 'El archivo es demasiado grande. Máximo 5MB.'}
+					{error === 'servidor' && 'Error del servidor. Intenta más tarde.'}
+				</div>
+			)}
+
+			<form class="jobs-apply__form" action="/api/careers/apply" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="job_id" id="selected-job-id" value="0" />
+
+				<div class="jobs-apply__grid">
+					<div class="form-field">
+						<label for="apply-name" class="form-label">Nombre Completo*</label>
+						<input type="text" id="apply-name" name="full_name" class="form-input" required />
+					</div>
+
+					<div class="form-field">
+						<label for="apply-email" class="form-label">Correo Electrónico*</label>
+						<input type="email" id="apply-email" name="email" class="form-input" required />
+					</div>
+
+					<div class="form-field">
+						<label for="apply-phone" class="form-label">Teléfono*</label>
+						<input type="tel" id="apply-phone" name="phone" class="form-input" required />
+					</div>
+
+					<div class="form-field">
+						<label for="apply-position" class="form-label">Cargo al que aplicas*</label>
+						<input type="text" id="apply-position" name="position" class="form-input" required />
+					</div>
+
+					<div class="form-field form-field--full">
+						<label for="apply-cv" class="form-label">Hoja de Vida (PDF o Word, máximo 5MB)*</label>
+						<div class="file-input-wrapper">
+							<input
+								type="file"
+								id="apply-cv"
+								name="cv_file"
+								class="form-input file-input"
+								accept=".pdf,.doc,.docx"
+								required
+							/>
+							<div class="file-input-display" id="file-display">
+								<span class="file-input-placeholder">No se ha seleccionado ningún archivo</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="jobs-apply__actions">
+					<button type="submit" class="form-button">Enviar Aplicación</button>
+				</div>
+			</form>
+		</div>
+	</section>
+
+	<script>
+		// Auto-fill the job position when clicking on a job card
+		document.querySelectorAll('.job-card__button').forEach((button) => {
+			button.addEventListener('click', (e) => {
+				const jobId = (e.target as HTMLElement).getAttribute('data-job-id');
+				const jobTitle = (e.target as HTMLElement).getAttribute('data-job-title');
+				const jobIdInput = document.getElementById('selected-job-id') as HTMLInputElement;
+				const positionInput = document.getElementById('apply-position') as HTMLInputElement;
+
+				if (jobIdInput && jobId) jobIdInput.value = jobId;
+				if (positionInput && jobTitle) positionInput.value = jobTitle;
+			});
+		});
+
+		// Show selected file name
+		const fileInput = document.getElementById('apply-cv') as HTMLInputElement;
+		const fileDisplay = document.getElementById('file-display');
+
+		if (fileInput && fileDisplay) {
+			fileInput.addEventListener('change', (e) => {
+				const input = e.target as HTMLInputElement;
+				if (input.files && input.files.length > 0) {
+					const fileName = input.files[0].name;
+					const fileSize = (input.files[0].size / (1024 * 1024)).toFixed(2);
+					fileDisplay.innerHTML = `
+						<span class="file-input-name" style="color: #000000 !important;">${fileName}</span>
+						<span class="file-input-size" style="color: #333333 !important;">(${fileSize} MB)</span>
+					`;
+					fileDisplay.classList.add('file-selected');
+				} else {
+					fileDisplay.innerHTML = '<span class="file-input-placeholder">No se ha seleccionado ningún archivo</span>';
+					fileDisplay.classList.remove('file-selected');
+				}
+			});
+		}
+	</script>
 </Layout>
 
 <style>
@@ -197,6 +307,163 @@ const jobs = jobsRepo.listAll().filter((job) => job.is_active === 1);
 		background: rgba(139, 90, 43, 0.08);
 	}
 
+	.jobs-apply {
+		background: #f6f4ef;
+		padding: 80px 24px 120px;
+	}
+
+	.jobs-apply__inner {
+		max-width: 800px;
+		margin: 0 auto;
+		background: #ffffff;
+		border-radius: 8px;
+		padding: 48px;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+	}
+
+	.jobs-apply__title {
+		margin: 0 0 12px;
+		font: normal normal bold 42px/1.1 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #161615;
+		text-align: center;
+	}
+
+	.jobs-apply__subtitle {
+		margin: 0 0 32px;
+		font-size: 18px;
+		color: #5c5c5c;
+		text-align: center;
+	}
+
+	.jobs-apply__success {
+		padding: 16px 20px;
+		background: #d4edda;
+		border: 1px solid #c3e6cb;
+		color: #155724;
+		border-radius: 6px;
+		margin-bottom: 24px;
+		font-weight: 600;
+	}
+
+	.jobs-apply__error {
+		padding: 16px 20px;
+		background: #f8d7da;
+		border: 1px solid #f5c6cb;
+		color: #721c24;
+		border-radius: 6px;
+		margin-bottom: 24px;
+		font-weight: 600;
+	}
+
+	.jobs-apply__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 24px;
+		margin-bottom: 32px;
+	}
+
+	.form-field {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.form-field--full {
+		grid-column: 1 / -1;
+	}
+
+	.form-label {
+		font-weight: 600;
+		color: #222222;
+	}
+
+	.form-input {
+		padding: 12px 14px;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		font-size: 16px;
+		border-radius: 4px;
+	}
+
+	.file-input-wrapper {
+		position: relative;
+	}
+
+	.file-input {
+		opacity: 0;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+		z-index: 2;
+	}
+
+	.file-input-display {
+		padding: 12px 14px;
+		border: 2px dashed rgba(0, 0, 0, 0.3);
+		border-radius: 4px;
+		background: #ffffff;
+		min-height: 48px;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		transition: all 0.3s ease;
+		pointer-events: none;
+	}
+
+	.file-input-display:hover {
+		border-color: #e1454f;
+		background: #fff5f5;
+	}
+
+	.file-input-display.file-selected {
+		border-color: #4caf50;
+		border-style: solid;
+		background: #e8f5e9;
+	}
+
+	.file-input-placeholder {
+		color: #555555;
+		font-size: 15px;
+	}
+
+	.file-input-name {
+		color: #000000;
+		font-weight: 600;
+		font-size: 15px;
+	}
+
+	.file-input-size {
+		color: #333333;
+		font-size: 14px;
+	}
+
+	.jobs-apply__actions {
+		display: flex;
+		justify-content: center;
+	}
+
+	.form-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 220px;
+		height: 52px;
+		border: 2px solid #e1454f;
+		background: #e1454f;
+		color: #ffffff;
+		font-weight: 700;
+		font-size: 17px;
+		letter-spacing: 0.2px;
+		cursor: pointer;
+		transition: transform 0.25s ease, background-color 0.25s ease;
+	}
+
+	.form-button:hover {
+		transform: translateY(-2px);
+		background: #b3202c;
+		border-color: #b3202c;
+	}
+
 	@media (max-width: 1200px) {
 		.jobs-hero {
 			height: 680px;
@@ -239,6 +506,22 @@ const jobs = jobsRepo.listAll().filter((job) => job.is_active === 1);
 		.jobs-list__grid {
 			grid-template-columns: 1fr;
 			gap: 28px;
+		}
+
+		.jobs-apply {
+			padding: 60px 20px 100px;
+		}
+
+		.jobs-apply__inner {
+			padding: 32px 24px;
+		}
+
+		.jobs-apply__title {
+			font-size: 32px;
+		}
+
+		.jobs-apply__grid {
+			grid-template-columns: 1fr;
 		}
 	}
 </style>

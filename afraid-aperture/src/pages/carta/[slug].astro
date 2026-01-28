@@ -1,0 +1,277 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { menusRepo } from '../../lib/menus';
+
+const { slug } = Astro.params;
+
+if (!slug) {
+	return Astro.redirect('/carta');
+}
+
+const menuData = menusRepo.getByBranchSlug(slug);
+
+if (!menuData) {
+	return Astro.redirect('/carta');
+}
+---
+
+<Layout title={`Menú ${menuData.branch.name} | La Siberia Central`}>
+	<section class="menu-hero">
+		<div class="menu-hero__inner">
+			<h1 class="menu-hero__title">Menú de {menuData.branch.name}</h1>
+			<p class="menu-hero__subtitle">Descubre nuestra selección de platillos</p>
+		</div>
+	</section>
+
+	<section class="menu-content">
+		<div class="menu-content__inner">
+			{menuData.menus.filter(m => m.is_active).length === 0 ? (
+				<div class="menu-empty">
+					<p>Próximamente dispondremos del menú de esta sucursal.</p>
+				</div>
+			) : (
+				menuData.menus.filter(m => m.is_active).map((menu) => (
+					<div class="menu-section">
+						<h2 class="menu-section__title">{menu.name}</h2>
+
+						{menu.categories.map((category) => {
+							const availableItems = category.items.filter(i => i.is_available === 1);
+							if (availableItems.length === 0) return null;
+
+							return (
+								<div class="menu-category">
+									<h3 class="menu-category__title">{category.name}</h3>
+									<ul class="menu-items">
+										{availableItems.map((item) => (
+											<li class="menu-item">
+												{item.image_url && (
+													<div class="menu-item__image">
+														<img src={item.image_url} alt={item.name} loading="lazy" />
+													</div>
+												)}
+												<div class="menu-item__content">
+													<div class="menu-item__header">
+														<h4 class="menu-item__name">{item.name}</h4>
+														<span class="menu-item__price">${item.price.toFixed(2)}</span>
+													</div>
+													{item.description && (
+														<p class="menu-item__description">{item.description}</p>
+													)}
+												</div>
+											</li>
+										))}
+									</ul>
+								</div>
+							);
+						})}
+					</div>
+				))
+			)}
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.menu-hero {
+		background: linear-gradient(135deg, #e1454f 0%, #b3202c 100%);
+		padding: 120px 24px 80px;
+		text-align: center;
+		color: #ffffff;
+	}
+
+	.menu-hero__inner {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.menu-hero__title {
+		margin: 0 0 16px;
+		font: normal normal bold 56px/1.1 Campton, 'Montserrat', 'Arial', sans-serif;
+	}
+
+	.menu-hero__subtitle {
+		margin: 0;
+		font-size: 20px;
+		opacity: 0.95;
+	}
+
+	.menu-content {
+		background: #f6f4ef;
+		padding: 80px 24px 120px;
+	}
+
+	.menu-content__inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 60px;
+	}
+
+	.menu-empty {
+		text-align: center;
+		padding: 60px 20px;
+		background: #ffffff;
+		border-radius: 8px;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+	}
+
+	.menu-empty p {
+		margin: 0;
+		font-size: 18px;
+		color: #5c5c5c;
+	}
+
+	.menu-section {
+		background: #ffffff;
+		border-radius: 8px;
+		padding: 48px;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+	}
+
+	.menu-section__title {
+		margin: 0 0 40px;
+		font: normal normal bold 42px/1.1 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #161615;
+		text-align: center;
+		padding-bottom: 20px;
+		border-bottom: 3px solid #e1454f;
+	}
+
+	.menu-category {
+		margin-bottom: 48px;
+	}
+
+	.menu-category:last-child {
+		margin-bottom: 0;
+	}
+
+	.menu-category__title {
+		margin: 0 0 24px;
+		font: normal normal bold 32px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #e1454f;
+	}
+
+	.menu-items {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 24px;
+	}
+
+	.menu-item {
+		display: flex;
+		gap: 20px;
+		padding: 20px;
+		background: #faf9f6;
+		border-radius: 6px;
+		border: 1px solid rgba(0, 0, 0, 0.06);
+		transition: box-shadow 0.2s;
+	}
+
+	.menu-item:hover {
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+	}
+
+	.menu-item__image {
+		flex-shrink: 0;
+		width: 120px;
+		height: 120px;
+		border-radius: 6px;
+		overflow: hidden;
+	}
+
+	.menu-item__image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.menu-item__content {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.menu-item__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 16px;
+	}
+
+	.menu-item__name {
+		margin: 0;
+		font: normal normal bold 22px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #161615;
+	}
+
+	.menu-item__price {
+		font: normal normal bold 20px/1 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #e1454f;
+		white-space: nowrap;
+	}
+
+	.menu-item__description {
+		margin: 0;
+		font-size: 16px;
+		line-height: 1.5;
+		color: #5c5c5c;
+	}
+
+	@media (max-width: 900px) {
+		.menu-hero {
+			padding: 100px 20px 60px;
+		}
+
+		.menu-hero__title {
+			font-size: 42px;
+		}
+
+		.menu-hero__subtitle {
+			font-size: 18px;
+		}
+
+		.menu-content {
+			padding: 60px 20px 100px;
+		}
+
+		.menu-section {
+			padding: 32px 24px;
+		}
+
+		.menu-section__title {
+			font-size: 32px;
+			margin-bottom: 32px;
+		}
+
+		.menu-category__title {
+			font-size: 26px;
+		}
+
+		.menu-item {
+			flex-direction: column;
+		}
+
+		.menu-item__image {
+			width: 100%;
+			height: 200px;
+		}
+
+		.menu-item__header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 8px;
+		}
+
+		.menu-item__name {
+			font-size: 20px;
+		}
+
+		.menu-item__price {
+			font-size: 18px;
+		}
+	}
+</style>

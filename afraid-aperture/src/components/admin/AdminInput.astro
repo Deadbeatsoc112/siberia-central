@@ -1,0 +1,219 @@
+---
+interface Props {
+	label: string;
+	name: string;
+	type?: string;
+	value?: string | number;
+	placeholder?: string;
+	required?: boolean;
+	disabled?: boolean;
+	rows?: number;
+	accept?: string;
+	step?: string;
+	min?: number;
+	max?: number;
+	helper?: string;
+}
+
+const {
+	label,
+	name,
+	type = 'text',
+	value,
+	placeholder,
+	required = false,
+	disabled = false,
+	rows,
+	accept,
+	step,
+	min,
+	max,
+	helper,
+} = Astro.props;
+
+const isTextarea = type === 'textarea';
+const isFile = type === 'file';
+const isSelect = type === 'select';
+---
+
+<div class="admin-input-group">
+	<label class="admin-input-label" for={name}>
+		{label}
+		{required && <span class="admin-input-required">*</span>}
+	</label>
+
+	{
+		isTextarea ? (
+			<textarea
+				class="admin-input admin-input--textarea"
+				id={name}
+				name={name}
+				placeholder={placeholder}
+				required={required}
+				disabled={disabled}
+				rows={rows || 4}
+			>
+				{value}
+			</textarea>
+		) : isSelect ? (
+			<select
+				class="admin-input admin-input--select"
+				id={name}
+				name={name}
+				required={required}
+				disabled={disabled}
+			>
+				<slot />
+			</select>
+		) : isFile ? (
+			<div class="admin-input-file-wrapper">
+				<input
+					class="admin-input admin-input--file"
+					type="file"
+					id={name}
+					name={name}
+					accept={accept}
+					required={required}
+					disabled={disabled}
+				/>
+				<label class="admin-input-file-label" for={name}>
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+						<path
+							d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+					<span>Seleccionar archivo</span>
+				</label>
+			</div>
+		) : (
+			<input
+				class="admin-input"
+				type={type}
+				id={name}
+				name={name}
+				value={value}
+				placeholder={placeholder}
+				required={required}
+				disabled={disabled}
+				step={step}
+				min={min}
+				max={max}
+			/>
+		)
+	}
+
+	{helper && <p class="admin-input-helper">{helper}</p>}
+</div>
+
+<style>
+	.admin-input-group {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.admin-input-label {
+		font-family: 'Inter', -apple-system, sans-serif;
+		font-size: 14px;
+		font-weight: 600;
+		color: #2a2a2a;
+		letter-spacing: 0.2px;
+	}
+
+	.admin-input-required {
+		color: #d4534f;
+		margin-left: 2px;
+	}
+
+	.admin-input {
+		font-family: 'Inter', -apple-system, sans-serif;
+		font-size: 15px;
+		padding: 12px 16px;
+		border: 2px solid #e8e8e8;
+		border-radius: 10px;
+		background: #ffffff;
+		color: #1a1a1a;
+		transition: all 0.2s ease;
+		outline: none;
+	}
+
+	.admin-input:focus {
+		border-color: #d4534f;
+		box-shadow:
+			0 0 0 3px rgba(212, 83, 79, 0.1),
+			0 2px 8px rgba(0, 0, 0, 0.05);
+	}
+
+	.admin-input:disabled {
+		background: #f5f5f5;
+		cursor: not-allowed;
+		opacity: 0.6;
+	}
+
+	.admin-input::placeholder {
+		color: #999;
+	}
+
+	.admin-input--textarea {
+		resize: vertical;
+		min-height: 100px;
+		line-height: 1.6;
+	}
+
+	.admin-input--select {
+		cursor: pointer;
+		appearance: none;
+		background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 16px center;
+		padding-right: 44px;
+	}
+
+	.admin-input-file-wrapper {
+		position: relative;
+	}
+
+	.admin-input--file {
+		position: absolute;
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	.admin-input-file-label {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		padding: 14px 20px;
+		border: 2px dashed #d0d0d0;
+		border-radius: 10px;
+		background: #fafafa;
+		color: #666;
+		font-size: 15px;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.admin-input-file-label:hover {
+		border-color: #d4534f;
+		background: #fff5f5;
+		color: #d4534f;
+	}
+
+	.admin-input--file:focus + .admin-input-file-label {
+		border-color: #d4534f;
+		box-shadow: 0 0 0 3px rgba(212, 83, 79, 0.1);
+	}
+
+	.admin-input-helper {
+		margin: 0;
+		font-size: 13px;
+		color: #666;
+		line-height: 1.5;
+	}
+</style>

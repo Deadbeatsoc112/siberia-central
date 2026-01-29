@@ -1,22 +1,31 @@
 {
 	"main": "dist/_worker.js/index.js",
 	"name": "afraid-aperture",
-  "compatibility_date": "2026-01-28",
-  "compatibility_flags": [
-    "nodejs_compat",
-    "global_fetch_strictly_public"
-  ],
+	"compatibility_date": "2026-01-28",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
 	"assets": {
 		"binding": "ASSETS",
 		"directory": "./dist"
 	},
 	"observability": {
-    "enabled": true
-  },
+		"enabled": true
+	},
 	"r2_buckets": [
 		{
-			"binding": "UPLOADS_BUCKET",
-			"bucket_name": "siberia-uploads"
+			"bucket_name": "siberia-uploads",
+			"binding": "siberia_uploads",
+			"remote": true
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "siberia_prod",
+			"database_name": "siberia_prod",
+			"database_id": "afe47647-58c3-49f9-8c3f-1925564407ac",
+			"remote": true
 		}
 	]
 }

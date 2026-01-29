@@ -13,7 +13,8 @@
     "@astrojs/node": "^9.5.2",
     "astro": "^5.16.15",
     "better-sqlite3": "^12.6.2",
-    "leaflet": "^1.9.4"
+    "leaflet": "^1.9.4",
+    "wrangler": "latest"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",

@@ -178,6 +178,19 @@ const runMigrations = () => {
 		CREATE INDEX IF NOT EXISTS idx_branches_active ON branches(is_active);
 		CREATE INDEX IF NOT EXISTS idx_page_content_section ON page_content(section);
 	`);
+
+	// Migration: Add available_positions column to jobs table if it doesn't exist
+	try {
+		const tableInfo = db.prepare("PRAGMA table_info(jobs)").all() as Array<{ name: string }>;
+		const hasAvailablePositions = tableInfo.some(col => col.name === 'available_positions');
+
+		if (!hasAvailablePositions) {
+			db.exec('ALTER TABLE jobs ADD COLUMN available_positions INTEGER DEFAULT 1');
+		}
+	} catch (err) {
+		// Silently ignore if column already exists or other issues
+		console.error('Migration warning:', err);
+	}
 };
 
 const seedAdminUser = () => {

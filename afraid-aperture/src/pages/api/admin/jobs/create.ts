@@ -13,13 +13,14 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 	const location = String(form.get('location') ?? '').trim();
 	const type = String(form.get('type') ?? '').trim();
 	const description = String(form.get('description') ?? '').trim();
-	const isActive = form.get('isActive') === 'on';
+	const isActive = form.get('is_active') === 'on';
+	const availablePositions = Number(form.get('available_positions')) || 1;
 
 	if (!title || !location || !type || !description) {
 		return Response.redirect(new URL('/paneladministrador?tab=jobs&error=1', request.url), 303);
 	}
 
-	jobsRepo.create({ title, location, type, description, isActive });
+	jobsRepo.create({ title, location, type, description, isActive, availablePositions });
 
 	return Response.redirect(new URL('/paneladministrador?tab=jobs', request.url), 303);
 };

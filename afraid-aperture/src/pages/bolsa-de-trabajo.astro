@@ -23,41 +23,59 @@ const error = Astro.url.searchParams.get('error');
 			<p class="jobs-hero__subtitle">Forma parte del equipo y crece con nosotros</p>
 		</div>
 	</section>
-	<section class="jobs-list" aria-labelledby="jobs-list-title">
+	<!-- Jobs List Section -->
+	<section class="jobs-list" id="jobs-section" aria-labelledby="jobs-list-title">
 		<div class="jobs-list__inner">
 			<h2 id="jobs-list-title" class="sr-only">Vacantes disponibles</h2>
 			{jobs.length === 0 ? (
 				<p class="jobs-list__empty">En este momento no hay vacantes activas.</p>
 			) : (
-				<div class="jobs-list__grid">
-					{jobs.map((job) => (
-						<article class="job-card">
-							<h3 class="job-card__title">{job.title}</h3>
-							<p class="job-card__meta">
-								<span>{job.location}</span>
-								<span>•</span>
-								<span>{job.type}</span>
-							</p>
-							<p class="job-card__description">{job.description}</p>
-							<a
-								class="job-card__button"
-								href="#aplicar"
-								data-job-id={job.id}
-								data-job-title={job.title}
-							>
-								Postularme
-							</a>
-						</article>
-					))}
+				<div class="jobs-list__container">
+					{jobs.map((job, index) => {
+						const bgColor = index % 2 === 0 ? '#1a1a1a' : '#e1454f';
+						return (
+							<article class="job-card" style={`background-color: ${bgColor};`}>
+								<div class="job-card__content">
+									<h3 class="job-card__title">{job.title}</h3>
+									<div class="job-card__location">
+										<svg class="location-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+											<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+											<circle cx="12" cy="10" r="3" stroke-width="2"/>
+										</svg>
+										<span>{job.location}</span>
+									</div>
+									<p class="job-card__positions">Puestos disponibles: {job.available_positions || 1}</p>
+								</div>
+								<div class="job-card__action">
+									<button
+										class="job-card__button"
+										type="button"
+										data-job-id={job.id}
+										data-job-title={job.title}
+										onclick="showApplicationForm(this)"
+									>
+										Postúlate
+									</button>
+								</div>
+							</article>
+						);
+					})}
 				</div>
 			)}
 		</div>
 	</section>
 
-	<section class="jobs-apply" id="aplicar" aria-labelledby="apply-title">
+	<!-- Application Form Section -->
+	<section class="jobs-apply hidden" id="form-section" aria-labelledby="apply-title">
 		<div class="jobs-apply__inner">
-			<h2 id="apply-title" class="jobs-apply__title">Aplica a una vacante</h2>
-			<p class="jobs-apply__subtitle">Completa el formulario y sube tu hoja de vida</p>
+			<!-- Breadcrumb -->
+			<nav class="breadcrumb">
+				<a href="#" onclick="showJobsList(); return false;">Bolsa de trabajo</a>
+				<span class="breadcrumb__separator">/</span>
+				<span>Formulario de envío</span>
+			</nav>
+
+			<h2 id="apply-title" class="jobs-apply__title">Postúlate Aquí</h2>
 
 			{success && (
 				<div class="jobs-apply__success">
@@ -93,12 +111,17 @@ const error = Astro.url.searchParams.get('error');
 					</div>
 
 					<div class="form-field">
-						<label for="apply-position" class="form-label">Cargo al que aplicas*</label>
-						<input type="text" id="apply-position" name="position" class="form-input" required />
+						<label for="apply-position" class="form-label">Vacante a la que deseas aplicar*</label>
+						<input type="text" id="apply-position" name="position" class="form-input" required readonly />
 					</div>
 
 					<div class="form-field form-field--full">
-						<label for="apply-cv" class="form-label">Hoja de Vida (PDF o Word, máximo 5MB)*</label>
+						<label for="apply-comments" class="form-label">Comentarios</label>
+						<textarea id="apply-comments" name="comments" class="form-input form-textarea" rows="4" placeholder="Escribe cualquier comentario adicional..."></textarea>
+					</div>
+
+					<div class="form-field form-field--full">
+						<label for="apply-cv" class="form-label">Adjuntar CV*</label>
 						<div class="file-input-wrapper">
 							<input
 								type="file"
@@ -116,25 +139,69 @@ const error = Astro.url.searchParams.get('error');
 				</div>
 
 				<div class="jobs-apply__actions">
-					<button type="submit" class="form-button">Enviar Aplicación</button>
+					<button type="submit" class="form-button">Enviar</button>
 				</div>
 			</form>
 		</div>
 	</section>
 
 	<script>
-		// Auto-fill the job position when clicking on a job card
-		document.querySelectorAll('.job-card__button').forEach((button) => {
-			button.addEventListener('click', (e) => {
-				const jobId = (e.target as HTMLElement).getAttribute('data-job-id');
-				const jobTitle = (e.target as HTMLElement).getAttribute('data-job-title');
-				const jobIdInput = document.getElementById('selected-job-id') as HTMLInputElement;
-				const positionInput = document.getElementById('apply-position') as HTMLInputElement;
+		// Helper function to scroll to element properly
+		function scrollToElement(element: HTMLElement) {
+			// Force browser to recalculate layout
+			element.offsetHeight;
 
-				if (jobIdInput && jobId) jobIdInput.value = jobId;
-				if (positionInput && jobTitle) positionInput.value = jobTitle;
+			// Use requestAnimationFrame to ensure DOM is ready
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => {
+					// Get the exact position of the element
+					const rect = element.getBoundingClientRect();
+					const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+					const targetPosition = rect.top + scrollTop;
+
+					// Scroll to the exact position
+					window.scrollTo({
+						top: targetPosition,
+						behavior: 'smooth'
+					});
+				});
 			});
-		});
+		}
+
+		// Show application form when clicking "Postúlate"
+		(window as any).showApplicationForm = (button: HTMLButtonElement) => {
+			const jobId = button.getAttribute('data-job-id');
+			const jobTitle = button.getAttribute('data-job-title');
+
+			// Update form fields
+			const jobIdInput = document.getElementById('selected-job-id') as HTMLInputElement;
+			const positionInput = document.getElementById('apply-position') as HTMLInputElement;
+
+			if (jobIdInput && jobId) jobIdInput.value = jobId;
+			if (positionInput && jobTitle) positionInput.value = jobTitle;
+
+			// Hide jobs list, show form
+			const jobsSection = document.getElementById('jobs-section');
+			const formSection = document.getElementById('form-section');
+
+			if (jobsSection) jobsSection.classList.add('hidden');
+			if (formSection) {
+				formSection.classList.remove('hidden');
+				scrollToElement(formSection);
+			}
+		};
+
+		// Show jobs list (back from form)
+		(window as any).showJobsList = () => {
+			const jobsSection = document.getElementById('jobs-section');
+			const formSection = document.getElementById('form-section');
+
+			if (formSection) formSection.classList.add('hidden');
+			if (jobsSection) {
+				jobsSection.classList.remove('hidden');
+				scrollToElement(jobsSection);
+			}
+		};
 
 		// Show selected file name
 		const fileInput = document.getElementById('apply-cv') as HTMLInputElement;
@@ -171,6 +238,10 @@ const error = Astro.url.searchParams.get('error');
 		clip: rect(0, 0, 0, 0);
 		white-space: nowrap;
 		border: 0;
+	}
+
+	.hidden {
+		display: none !important;
 	}
 
 	.jobs-hero {
@@ -248,63 +319,89 @@ const error = Astro.url.searchParams.get('error');
 		color: #6a6a6a;
 	}
 
-	.jobs-list__grid {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 34px;
+	.jobs-list__container {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+		width: 100%;
 	}
 
 	.job-card {
-		background: #ffffff;
-		border: 1px solid rgba(0, 0, 0, 0.08);
-		box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
-		padding: 26px 28px 30px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 32px 40px;
+		border-radius: 0;
+		transition: transform 0.25s ease, box-shadow 0.25s ease;
+	}
+
+	.job-card:hover {
+		transform: translateX(4px);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+	}
+
+	.job-card__content {
+		flex: 1;
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 10px;
 	}
 
 	.job-card__title {
 		margin: 0;
-		font: normal normal bold 26px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
-		color: #e1454f;
+		font: normal normal bold 32px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #ffffff;
 	}
 
-	.job-card__meta {
-		margin: 0;
+	.job-card__location {
 		display: flex;
+		align-items: center;
 		gap: 8px;
-		color: #5a5a5a;
+		color: #ffffff;
+		font-size: 16px;
 		font-weight: 600;
 	}
 
-	.job-card__description {
+	.job-card__location .location-icon {
+		color: #e1454f;
+		flex-shrink: 0;
+	}
+
+	.job-card__positions {
 		margin: 0;
-		font-size: 17px;
-		line-height: 26px;
-		color: #2b2b2b;
+		color: #ffffff;
+		font-size: 15px;
+		font-weight: 500;
+		opacity: 0.95;
+	}
+
+	.job-card__action {
+		flex-shrink: 0;
 	}
 
 	.job-card__button {
-		margin-top: 6px;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		align-self: flex-start;
-		min-width: 190px;
-		height: 46px;
-		border: 2px solid #8b5a2b;
-		color: #8b5a2b;
+		min-width: 160px;
+		height: 50px;
+		padding: 0 32px;
+		border: 2px solid #ffffff;
+		background: transparent;
+		color: #ffffff;
 		text-decoration: none;
 		font-weight: 700;
-		letter-spacing: 0.2px;
-		transition: transform 0.25s ease, background-color 0.25s ease;
+		font-size: 16px;
+		letter-spacing: 0.3px;
+		transition: all 0.25s ease;
+		cursor: pointer;
+		font-family: inherit;
 	}
 
 	.job-card__button:hover,
 	.job-card__button:focus-visible {
-		transform: translateY(-2px);
-		background: rgba(139, 90, 43, 0.08);
+		background: #ffffff;
+		color: #1a1a1a;
 	}
 
 	.jobs-apply {
@@ -313,7 +410,7 @@ const error = Astro.url.searchParams.get('error');
 	}
 
 	.jobs-apply__inner {
-		max-width: 800px;
+		max-width: 900px;
 		margin: 0 auto;
 		background: #ffffff;
 		border-radius: 8px;
@@ -321,10 +418,34 @@ const error = Astro.url.searchParams.get('error');
 		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 	}
 
+	/* Breadcrumb */
+	.breadcrumb {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-bottom: 32px;
+		font-size: 14px;
+		color: #666;
+	}
+
+	.breadcrumb a {
+		color: #666;
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+
+	.breadcrumb a:hover {
+		color: #8b5a2b;
+	}
+
+	.breadcrumb__separator {
+		color: #999;
+	}
+
 	.jobs-apply__title {
-		margin: 0 0 12px;
+		margin: 0 0 32px;
 		font: normal normal bold 42px/1.1 Campton, 'Montserrat', 'Arial', sans-serif;
-		color: #161615;
+		color: #8b5a2b;
 		text-align: center;
 	}
 
@@ -382,6 +503,12 @@ const error = Astro.url.searchParams.get('error');
 		border: 1px solid rgba(0, 0, 0, 0.2);
 		font-size: 16px;
 		border-radius: 4px;
+		font-family: inherit;
+	}
+
+	.form-textarea {
+		resize: vertical;
+		min-height: 100px;
 	}
 
 	.file-input-wrapper {
@@ -446,22 +573,23 @@ const error = Astro.url.searchParams.get('error');
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 220px;
+		min-width: 180px;
 		height: 52px;
-		border: 2px solid #e1454f;
-		background: #e1454f;
-		color: #ffffff;
+		border: 2px solid #8b5a2b;
+		background: transparent;
+		color: #8b5a2b;
 		font-weight: 700;
 		font-size: 17px;
 		letter-spacing: 0.2px;
 		cursor: pointer;
-		transition: transform 0.25s ease, background-color 0.25s ease;
+		transition: all 0.25s ease;
+		font-family: inherit;
 	}
 
 	.form-button:hover {
 		transform: translateY(-2px);
-		background: #b3202c;
-		border-color: #b3202c;
+		background: #8b5a2b;
+		color: #ffffff;
 	}
 
 	@media (max-width: 1200px) {
@@ -479,10 +607,6 @@ const error = Astro.url.searchParams.get('error');
 
 		.jobs-list {
 			padding: 104px 0 130px;
-		}
-
-		.jobs-list__grid {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
 
@@ -503,9 +627,23 @@ const error = Astro.url.searchParams.get('error');
 			padding: 90px 0 110px;
 		}
 
-		.jobs-list__grid {
-			grid-template-columns: 1fr;
-			gap: 28px;
+		.job-card {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 20px;
+			padding: 24px;
+		}
+
+		.job-card__title {
+			font-size: 26px;
+		}
+
+		.job-card__action {
+			width: 100%;
+		}
+
+		.job-card__button {
+			width: 100%;
 		}
 
 		.jobs-apply {

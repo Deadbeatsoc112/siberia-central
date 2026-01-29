@@ -27,6 +27,18 @@ export type MenuItemInput = {
 const nowEpoch = () => Math.floor(Date.now() / 1000);
 
 export const menusRepo = {
+	listAll: () =>
+		db.prepare('SELECT * FROM menus ORDER BY display_order, name').all() as Array<{
+			id: number;
+			branch_id: number;
+			name: string;
+			pdf_url: string | null;
+			display_order: number;
+			is_active: number;
+			created_at: number;
+			updated_at: number;
+		}>,
+
 	listByBranch: (branchId: number) =>
 		db
 			.prepare('SELECT * FROM menus WHERE branch_id = ? ORDER BY display_order, name')

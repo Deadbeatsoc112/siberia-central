@@ -1,0 +1,508 @@
+---
+import AdminCard from './AdminCard.astro';
+import AdminBadge from './AdminBadge.astro';
+import AdminButton from './AdminButton.astro';
+
+interface Props {
+	resumes: any[];
+}
+
+const { resumes } = Astro.props;
+
+// Sort resumes by date (most recent first)
+const sortedResumes = [...resumes].sort((a, b) => b.created_at - a.created_at);
+---
+
+<div class="resumes-tab">
+	<AdminCard
+		title="Hojas de Vida Recibidas"
+		subtitle={`${resumes.length} CV${resumes.length !== 1 ? 's' : ''} en total`}
+		variant="glass"
+		fullHeight
+	>
+		{
+			sortedResumes.length === 0 ? (
+				<div class="resumes-empty">
+					<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+						<path
+							d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+						<polyline points="14 2 14 8 20 8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						<line x1="16" y1="13" x2="8" y2="13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						<line x1="16" y1="17" x2="8" y2="17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+					<p>No hay hojas de vida recibidas</p>
+				</div>
+			) : (
+				<div class="resumes-list">
+					{sortedResumes.map((resume) => (
+						<details class="resume-item" data-resume-id={resume.id}>
+							<summary class="resume-item__summary">
+								<div class="resume-item__header">
+									<div class="resume-item__info">
+										<h4 class="resume-item__name">{resume.full_name}</h4>
+										{resume.position_applied && (
+											<p class="resume-item__position">{resume.position_applied}</p>
+										)}
+									</div>
+									<div class="resume-item__meta">
+										<AdminBadge
+											variant={
+												resume.status === 'pending' ? 'warning' :
+												resume.status === 'read' ? 'info' :
+												resume.status === 'rejected' ? 'danger' :
+												'success'
+											}
+											size="small"
+										>
+											{resume.status}
+										</AdminBadge>
+										<span class="resume-item__date">
+											{new Date(resume.created_at * 1000).toLocaleDateString()}
+										</span>
+									</div>
+								</div>
+								<svg class="resume-item__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+									<polyline points="6 9 12 15 18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+								</svg>
+							</summary>
+
+							<div class="resume-item__body">
+								<div class="resume-item__content">
+									<div class="resume-item__details-grid">
+										<div class="resume-item__section">
+											<h5>Email:</h5>
+											<p>{resume.email}</p>
+										</div>
+
+										<div class="resume-item__section">
+											<h5>Teléfono:</h5>
+											<p>{resume.phone}</p>
+										</div>
+
+										{resume.position_applied && (
+											<div class="resume-item__section">
+												<h5>Cargo solicitado:</h5>
+												<p>{resume.position_applied}</p>
+											</div>
+										)}
+
+										<div class="resume-item__section">
+											<h5>Archivo:</h5>
+											<p class="resume-item__filename">{resume.file_name}</p>
+											<p class="resume-item__filesize">({(resume.file_size / (1024 * 1024)).toFixed(2)} MB)</p>
+										</div>
+									</div>
+
+									{resume.notes && (
+										<div class="resume-item__section">
+											<h5>Notas internas:</h5>
+											<p class="resume-item__notes">{resume.notes}</p>
+										</div>
+									)}
+
+									<div class="resume-item__actions-grid">
+										<!-- Download CV -->
+										<div class="resume-item__download">
+											<a
+												href={`/api/admin/resumes/download/${resume.id}`}
+												target="_blank"
+												class="download-btn"
+											>
+												<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+													<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+													<polyline points="7 10 12 15 17 10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+													<line x1="12" y1="15" x2="12" y2="3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+												</svg>
+												Descargar CV
+											</a>
+										</div>
+
+										<!-- Update Status Form -->
+										<form action="/api/admin/resumes/update-status" method="post" class="resume-item__form">
+											<input type="hidden" name="id" value={resume.id} />
+											<div class="form-group">
+												<label>Cambiar estado:</label>
+												<select name="status" class="form-select">
+													<option value="pending" selected={resume.status === 'pending'}>Pending</option>
+													<option value="read" selected={resume.status === 'read'}>Read</option>
+													<option value="rejected" selected={resume.status === 'rejected'}>Rejected</option>
+													<option value="approved" selected={resume.status === 'approved'}>Approved</option>
+												</select>
+											</div>
+											<AdminButton type="submit" variant="primary" size="small">
+												Guardar Estado
+											</AdminButton>
+										</form>
+
+										<!-- Add Note Form -->
+										<form action="/api/admin/resumes/add-note" method="post" class="resume-item__form resume-item__form--wide">
+											<input type="hidden" name="id" value={resume.id} />
+											<div class="form-group">
+												<label>Añadir nota:</label>
+												<textarea name="notes" class="form-textarea" rows={3} placeholder="Nota interna sobre el candidato..."></textarea>
+											</div>
+											<AdminButton type="submit" variant="success" size="small">
+												Añadir Nota
+											</AdminButton>
+										</form>
+									</div>
+
+									<!-- Delete Form -->
+									<form action="/api/admin/resumes/delete" method="post" class="resume-item__delete-form">
+										<input type="hidden" name="id" value={resume.id} />
+										<AdminButton
+											type="submit"
+											variant="danger"
+											size="small"
+											fullWidth
+										>
+											Eliminar CV
+										</AdminButton>
+									</form>
+								</div>
+							</div>
+						</details>
+					))}
+				</div>
+			)
+		}
+	</AdminCard>
+</div>
+
+<style>
+	.resumes-tab {
+		animation: fadeIn 0.5s ease-out;
+	}
+
+	/* Resumes Empty */
+	.resumes-empty {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 60px 20px;
+		color: #999;
+		text-align: center;
+	}
+
+	.resumes-empty svg {
+		margin-bottom: 16px;
+		opacity: 0.5;
+	}
+
+	.resumes-empty p {
+		margin: 0;
+		font-size: 16px;
+	}
+
+	/* Resumes List */
+	.resumes-list {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.resume-item {
+		background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+		border: 2px solid #f0f0f0;
+		border-radius: 12px;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.resume-item:hover {
+		border-color: #d4534f;
+		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
+	}
+
+	.resume-item[open] {
+		border-color: #d4534f;
+	}
+
+	.resume-item__summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 20px;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+
+	.resume-item__summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.resume-item__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 20px;
+		flex: 1;
+	}
+
+	.resume-item__info {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.resume-item__name {
+		margin: 0 0 4px;
+		font-family: 'Playfair Display', Georgia, serif;
+		font-size: 20px;
+		font-weight: 700;
+		color: #1a1a1a;
+	}
+
+	.resume-item__position {
+		margin: 0;
+		font-size: 14px;
+		color: #666;
+		font-weight: 600;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.resume-item__meta {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex-shrink: 0;
+	}
+
+	.resume-item__date {
+		font-size: 13px;
+		color: #999;
+		font-weight: 600;
+		white-space: nowrap;
+	}
+
+	.resume-item__chevron {
+		flex-shrink: 0;
+		margin-left: 12px;
+		color: #d4534f;
+		transition: transform 0.3s ease;
+	}
+
+	.resume-item[open] .resume-item__chevron {
+		transform: rotate(180deg);
+	}
+
+	.resume-item__body {
+		border-top: 1px solid #f0f0f0;
+		padding: 20px;
+		animation: expandDown 0.3s ease-out;
+	}
+
+	.resume-item__content {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.resume-item__details-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+	}
+
+	.resume-item__section h5 {
+		margin: 0 0 8px;
+		font-size: 13px;
+		font-weight: 700;
+		color: #666;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.resume-item__section p {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.6;
+		color: #2a2a2a;
+	}
+
+	.resume-item__filename {
+		font-weight: 600;
+		color: #d4534f;
+	}
+
+	.resume-item__filesize {
+		font-size: 13px;
+		color: #999;
+		margin-top: 4px !important;
+	}
+
+	.resume-item__notes {
+		padding: 12px;
+		background: #fff8e6;
+		border-left: 4px solid #f59e0b;
+		border-radius: 8px;
+		font-style: italic;
+	}
+
+	.resume-item__download {
+		padding: 16px;
+		background: #f8f8f8;
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.download-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		padding: 12px 20px;
+		background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+		color: #ffffff;
+		text-decoration: none;
+		border-radius: 8px;
+		font-weight: 700;
+		font-size: 14px;
+		transition: all 0.2s ease;
+		box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+	}
+
+	.download-btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+	}
+
+	.resume-item__actions-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+		margin-top: 8px;
+	}
+
+	.resume-item__form {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		padding: 16px;
+		background: #f8f8f8;
+		border-radius: 10px;
+	}
+
+	.resume-item__form--wide {
+		grid-column: 1 / -1;
+	}
+
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.form-group label {
+		font-size: 13px;
+		font-weight: 600;
+		color: #555;
+	}
+
+	.form-select,
+	.form-textarea {
+		padding: 10px 12px;
+		border: 2px solid #e8e8e8;
+		border-radius: 8px;
+		font-size: 14px;
+		font-family: inherit;
+		transition: all 0.2s ease;
+	}
+
+	.form-select:focus,
+	.form-textarea:focus {
+		outline: none;
+		border-color: #d4534f;
+		box-shadow: 0 0 0 3px rgba(212, 83, 79, 0.1);
+	}
+
+	.form-textarea {
+		resize: vertical;
+		min-height: 80px;
+	}
+
+	.resume-item__delete-form {
+		margin-top: 8px;
+	}
+
+	@keyframes expandDown {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 768px) {
+		.resume-item__header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 12px;
+		}
+
+		.resume-item__meta {
+			width: 100%;
+			justify-content: space-between;
+		}
+
+		.resume-item__details-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.resume-item__actions-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+<script>
+	// Auto-mark as read when opened
+	document.querySelectorAll('.resume-item').forEach((details) => {
+		details.addEventListener('toggle', async (e) => {
+			const target = e.target as HTMLDetailsElement;
+			if (target.open) {
+				const resumeId = target.getAttribute('data-resume-id');
+				const badge = target.querySelector('[data-badge]');
+
+				// Optional: Auto-update status to 'read' when opened
+				// Uncomment if you want this behavior
+				/*
+				if (badge?.textContent?.trim() === 'pending') {
+					try {
+						const formData = new FormData();
+						formData.append('id', resumeId || '');
+						formData.append('status', 'read');
+						await fetch('/api/admin/resumes/update-status', {
+							method: 'POST',
+							body: formData
+						});
+					} catch (err) {
+						console.error('Error updating status:', err);
+					}
+				}
+				*/
+			}
+		});
+	});
+</script>

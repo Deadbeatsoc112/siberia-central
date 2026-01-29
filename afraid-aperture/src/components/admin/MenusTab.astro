@@ -1,0 +1,531 @@
+---
+import AdminCard from './AdminCard.astro';
+import AdminInput from './AdminInput.astro';
+import AdminButton from './AdminButton.astro';
+import AdminBadge from './AdminBadge.astro';
+import PDFViewer from './PDFViewer.astro';
+
+interface Props {
+	menus: any[];
+	branches: any[];
+}
+
+const { menus, branches } = Astro.props;
+
+// Helper to get branch name by id
+const getBranchName = (branchId: number) => {
+	const branch = branches.find((b) => b.id === branchId);
+	return branch ? branch.name : 'Desconocida';
+};
+---
+
+<div class="menus-tab">
+	<div class="menus-tab__grid">
+		<!-- Create Menu Card -->
+		<AdminCard title="Nuevo Menú" subtitle="Crea un menú para una sucursal" variant="elevated">
+			<form action="/api/admin/menus/create" method="post" class="menu-form">
+				<div class="menu-form__fields">
+					<AdminInput label="Nombre del Menú" name="name" type="text" required />
+
+					<div class="menu-form__field-full">
+						<AdminInput
+							label="Sucursal"
+							name="branch_id"
+							type="select"
+							required
+						>
+							<option value="">Selecciona una sucursal</option>
+							{branches.map((branch) => (
+								<option value={branch.id}>{branch.name}</option>
+							))}
+						</AdminInput>
+					</div>
+
+					<AdminInput
+						label="URL del PDF"
+						name="pdf_url"
+						type="text"
+						helper="URL del PDF del menú (opcional si subirás archivo)"
+					/>
+
+					<AdminInput
+						label="Orden de Visualización"
+						name="display_order"
+						type="number"
+						value="0"
+					/>
+
+					<label class="menu-form__checkbox">
+						<input type="checkbox" name="is_active" checked />
+						<span>Menú Activo</span>
+					</label>
+				</div>
+
+				<div class="menu-form__actions">
+					<AdminButton type="submit" variant="primary" size="large" fullWidth>
+						Crear Menú
+					</AdminButton>
+				</div>
+			</form>
+		</AdminCard>
+
+		<!-- Menus List -->
+		<AdminCard
+			title="Menús Existentes"
+			subtitle={`${menus.length} menú${menus.length !== 1 ? 's' : ''} registrado${menus.length !== 1 ? 's' : ''}`}
+			variant="glass"
+			fullHeight
+		>
+			{
+				menus.length === 0 ? (
+					<div class="menus-empty">
+						<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+							<path d="M3 3h18v18H3V3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M3 9h18M9 21V9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+						<p>Aún no hay menús registrados</p>
+					</div>
+				) : (
+					<div class="menus-list">
+						{menus.map((menu) => (
+							<details class="menu-item" data-menu-id={menu.id}>
+								<summary class="menu-item__summary">
+									<div class="menu-item__header">
+										<div class="menu-item__info">
+											<div class="menu-item__title">
+												<h4>{menu.name}</h4>
+												<AdminBadge variant={menu.is_active ? 'success' : 'danger'} size="small">
+													{menu.is_active ? 'Activo' : 'Inactivo'}
+												</AdminBadge>
+											</div>
+											<div class="menu-item__meta">
+												<p class="menu-item__branch">{getBranchName(menu.branch_id)}</p>
+												<div class="menu-item__detail">
+													<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+														<path
+															d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+															stroke-width="2"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+														<polyline points="14 2 14 8 20 8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+													</svg>
+													<span>{menu.pdf_url ? 'PDF disponible' : 'Sin PDF'}</span>
+												</div>
+											</div>
+										</div>
+										<span class="menu-item__order">#{menu.display_order}</span>
+									</div>
+									<svg class="menu-item__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+										<polyline points="6 9 12 15 18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+									</svg>
+								</summary>
+
+								<div class="menu-item__body">
+									<div class="menu-item__content">
+										<!-- View PDF Section -->
+										{menu.pdf_url && (
+											<div class="menu-item__section">
+												<h5>Vista previa del PDF:</h5>
+												<div class="pdf-viewer-container">
+													<PDFViewer pdfUrl={menu.pdf_url} title={menu.name} />
+												</div>
+											</div>
+										)}
+
+										<!-- Upload PDF Form -->
+										<div class="menu-item__section">
+											<form action="/api/admin/menus/upload-pdf" method="post" enctype="multipart/form-data" class="menu-upload-form">
+												<input type="hidden" name="menu_id" value={menu.id} />
+												<h5 class="form-heading">{menu.pdf_url ? 'Cambiar PDF del Menú' : 'Subir PDF del Menú'}</h5>
+												<div class="menu-form__fields">
+													<AdminInput
+														label="Archivo PDF"
+														name="pdf_file"
+														type="file"
+														accept=".pdf"
+														required
+													/>
+												</div>
+												<div class="form-actions">
+													<AdminButton type="submit" variant="success" size="medium" fullWidth>
+														{menu.pdf_url ? 'Cambiar PDF' : 'Subir PDF'}
+													</AdminButton>
+												</div>
+											</form>
+										</div>
+
+										<!-- Edit Form -->
+										<div class="menu-item__section">
+											<form action="/api/admin/menus/update" method="post" class="menu-edit-form">
+												<input type="hidden" name="id" value={menu.id} />
+												<h5 class="form-heading">Editar Menú</h5>
+												<div class="menu-form__fields">
+													<AdminInput label="Nombre del Menú" name="name" type="text" value={menu.name} required />
+
+													<div class="menu-form__field-full">
+														<AdminInput
+															label="Sucursal"
+															name="branch_id"
+															type="select"
+															required
+														>
+															{branches.map((branch) => (
+																<option value={branch.id} selected={branch.id === menu.branch_id}>
+																	{branch.name}
+																</option>
+															))}
+														</AdminInput>
+													</div>
+
+													<AdminInput
+														label="URL del PDF"
+														name="pdf_url"
+														type="text"
+														value={menu.pdf_url || ''}
+													/>
+
+													<AdminInput
+														label="Orden de Visualización"
+														name="display_order"
+														type="number"
+														value={menu.display_order}
+													/>
+
+													<label class="menu-form__checkbox">
+														<input type="checkbox" name="is_active" checked={menu.is_active === 1} />
+														<span>Menú Activo</span>
+													</label>
+												</div>
+
+												<div class="form-actions">
+													<AdminButton type="submit" variant="primary" size="medium" fullWidth>
+														Guardar Cambios
+													</AdminButton>
+												</div>
+											</form>
+										</div>
+
+										<!-- Delete Form -->
+										<form action="/api/admin/menus/delete" method="post" class="menu-delete-form">
+											<input type="hidden" name="id" value={menu.id} />
+											<AdminButton
+												type="submit"
+												variant="danger"
+												size="small"
+												fullWidth
+											>
+												Eliminar Menú
+											</AdminButton>
+										</form>
+									</div>
+								</div>
+							</details>
+						))}
+					</div>
+				)
+			}
+		</AdminCard>
+	</div>
+</div>
+
+<style>
+	.menus-tab {
+		animation: fadeIn 0.5s ease-out;
+	}
+
+	.menus-tab__grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 32px;
+		align-items: start;
+	}
+
+	/* Menu Form */
+	.menu-form__fields {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.menu-form__field-full {
+		grid-column: 1 / -1;
+	}
+
+	.menu-form__checkbox {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 12px 16px;
+		background: #f8f8f8;
+		border-radius: 10px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.menu-form__checkbox:hover {
+		background: #f0f0f0;
+	}
+
+	.menu-form__checkbox input[type='checkbox'] {
+		width: 20px;
+		height: 20px;
+		cursor: pointer;
+		accent-color: #d4534f;
+	}
+
+	.menu-form__actions {
+		margin-top: 28px;
+	}
+
+	/* Menus Empty */
+	.menus-empty {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 60px 20px;
+		color: #999;
+		text-align: center;
+	}
+
+	.menus-empty svg {
+		margin-bottom: 16px;
+		opacity: 0.5;
+	}
+
+	.menus-empty p {
+		margin: 0;
+		font-size: 16px;
+	}
+
+	/* Menus List */
+	.menus-list {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.menu-item {
+		background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+		border: 2px solid #f0f0f0;
+		border-radius: 12px;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.menu-item:hover {
+		border-color: #d4534f;
+		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
+	}
+
+	.menu-item[open] {
+		border-color: #d4534f;
+	}
+
+	.menu-item__summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 20px;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+
+	.menu-item__summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.menu-item__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		flex: 1;
+	}
+
+	.menu-item__info {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.menu-item__title {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex-wrap: wrap;
+		margin-bottom: 8px;
+	}
+
+	.menu-item__title h4 {
+		margin: 0;
+		font-family: 'Playfair Display', Georgia, serif;
+		font-size: 20px;
+		font-weight: 700;
+		color: #1a1a1a;
+	}
+
+	.menu-item__meta {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		flex-wrap: wrap;
+	}
+
+	.menu-item__branch {
+		margin: 0;
+		font-size: 14px;
+		color: #666;
+		font-weight: 600;
+	}
+
+	.menu-item__detail {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 14px;
+		color: #666;
+		font-weight: 600;
+	}
+
+	.menu-item__detail svg {
+		flex-shrink: 0;
+		color: #d4534f;
+	}
+
+	.menu-item__order {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 36px;
+		height: 36px;
+		padding: 0 8px;
+		background: #f5f5f5;
+		border-radius: 8px;
+		font-weight: 700;
+		color: #666;
+		font-size: 14px;
+		white-space: nowrap;
+	}
+
+	.menu-item__chevron {
+		flex-shrink: 0;
+		margin-left: 12px;
+		color: #d4534f;
+		transition: transform 0.3s ease;
+	}
+
+	.menu-item[open] .menu-item__chevron {
+		transform: rotate(180deg);
+	}
+
+	.menu-item__body {
+		border-top: 1px solid #f0f0f0;
+		padding: 20px;
+		animation: expandDown 0.3s ease-out;
+	}
+
+	.menu-item__content {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	.menu-item__section {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.menu-item__section h5 {
+		margin: 0;
+		font-size: 13px;
+		font-weight: 700;
+		color: #666;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.pdf-viewer-container {
+		border: 2px solid #e8e8e8;
+		border-radius: 10px;
+		overflow: hidden;
+		background: #f8f8f8;
+	}
+
+	.menu-upload-form,
+	.menu-edit-form {
+		padding: 20px;
+		background: #f8f8f8;
+		border-radius: 10px;
+		border: 2px solid #e8e8e8;
+	}
+
+	.form-heading {
+		margin: 0 0 16px;
+		font-family: 'Playfair Display', Georgia, serif;
+		font-size: 18px;
+		font-weight: 700;
+		color: #1a1a1a;
+	}
+
+	.form-actions {
+		margin-top: 16px;
+	}
+
+	.menu-delete-form {
+		margin-top: 8px;
+	}
+
+	@keyframes expandDown {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 1200px) {
+		.menus-tab__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.menu-item__header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 12px;
+		}
+
+		.menu-item__title {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.menu-item__meta {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 8px;
+		}
+
+		.menu-item__order {
+			align-self: flex-start;
+		}
+	}
+</style>

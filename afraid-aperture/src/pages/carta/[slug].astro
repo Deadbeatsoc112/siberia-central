@@ -5,13 +5,13 @@ import { menusRepo } from '../../lib/menus';
 const { slug } = Astro.params;
 
 if (!slug) {
-	return Astro.redirect('/carta');
+	return Astro.redirect('/menu');
 }
 
 const menuData = menusRepo.getByBranchSlug(slug);
 
 if (!menuData) {
-	return Astro.redirect('/carta');
+	return Astro.redirect('/menu');
 }
 ---
 

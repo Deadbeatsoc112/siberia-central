@@ -7,6 +7,11 @@ import { menusRepo } from '../lib/menus';
 import { resumesRepo } from '../lib/resumes';
 import { messagesRepo } from '../lib/contactMessages';
 import BranchesTab from '../components/admin/BranchesTab.astro';
+import PostsTab from '../components/admin/PostsTab.astro';
+import JobsTab from '../components/admin/JobsTab.astro';
+import MenusTab from '../components/admin/MenusTab.astro';
+import MessagesTab from '../components/admin/MessagesTab.astro';
+import ResumesTab from '../components/admin/ResumesTab.astro';
 import AdminBadge from '../components/admin/AdminBadge.astro';
 import AdminCard from '../components/admin/AdminCard.astro';
 import AdminButton from '../components/admin/AdminButton.astro';
@@ -19,6 +24,7 @@ const hasError = Astro.url.searchParams.get('error') === '1';
 const posts = user && tab === 'posts' ? postsRepo.listAll() : [];
 const jobs = user && tab === 'jobs' ? jobsRepo.listAll() : [];
 const branches = user && tab === 'branches' ? branchesRepo.listAll() : [];
+const menus = user && tab === 'menus' ? menusRepo.listAll() : [];
 const resumes = user && tab === 'resumes' ? resumesRepo.listAll() : [];
 const messages = user && tab === 'messages' ? messagesRepo.listAll() : [];
 
@@ -189,92 +195,15 @@ const allBranches = user && (tab === 'menus' || tab === 'branches') ? branchesRe
 					<main class="modern-admin__content">
 						{tab === 'branches' && <BranchesTab branches={branches} />}
 
-						{tab === 'menus' && (
-							<div class="tab-content">
-								<AdminCard title="Próximamente" subtitle="Gestión de menús con upload de PDF">
-									<p>Esta sección estará disponible pronto.</p>
-								</AdminCard>
-							</div>
-						)}
+						{tab === 'menus' && <MenusTab menus={menus} branches={allBranches} />}
 
-						{tab === 'resumes' && (
-							<div class="tab-content">
-								<AdminCard title="Hojas de Vida Recibidas" subtitle={`${resumes.length} CVs en total`}>
-									{resumes.length === 0 ? (
-										<p>No hay hojas de vida recibidas.</p>
-									) : (
-										<div class="resumes-list">
-											{resumes.map((resume) => (
-												<div class="resume-item">
-													<div class="resume-item__header">
-														<h4>{resume.full_name}</h4>
-														<AdminBadge variant={resume.status === 'pending' ? 'warning' : 'success'} size="small">
-															{resume.status}
-														</AdminBadge>
-													</div>
-													<div class="resume-item__details">
-														<span>{resume.email}</span>
-														<span>{resume.phone}</span>
-														{resume.position_applied && <span>Cargo: {resume.position_applied}</span>}
-													</div>
-													<div class="resume-item__actions">
-														<a href={`/api/admin/resumes/download/${resume.id}`} class="resume-item__btn">Descargar CV</a>
-													</div>
-												</div>
-											))}
-										</div>
-									)}
-								</AdminCard>
-							</div>
-						)}
+						{tab === 'resumes' && <ResumesTab resumes={resumes} />}
 
-						{tab === 'messages' && (
-							<div class="tab-content">
-								<AdminCard title="Mensajes de Contacto" subtitle={`${messages.length} mensajes recibidos`}>
-									{messages.length === 0 ? (
-										<p>No hay mensajes de contacto.</p>
-									) : (
-										<div class="messages-list">
-											{messages.map((msg) => (
-												<div class="message-item">
-													<div class="message-item__header">
-														<h4>{msg.full_name}</h4>
-														<AdminBadge
-															variant={msg.status === 'unread' ? 'primary' : msg.status === 'read' ? 'info' : 'success'}
-															size="small"
-														>
-															{msg.status}
-														</AdminBadge>
-													</div>
-													<p class="message-item__text">{msg.message}</p>
-													<div class="message-item__meta">
-														<span>{msg.email}</span>
-														{msg.phone && <span>{msg.phone}</span>}
-														<span>{new Date(msg.created_at * 1000).toLocaleDateString()}</span>
-													</div>
-												</div>
-											))}
-										</div>
-									)}
-								</AdminCard>
-							</div>
-						)}
+						{tab === 'messages' && <MessagesTab messages={messages} />}
 
-						{tab === 'jobs' && (
-							<div class="tab-content">
-								<AdminCard title="Vacantes" subtitle="Gestiona las ofertas de empleo">
-									<p>Vista de vacantes - Por implementar con diseño moderno</p>
-								</AdminCard>
-							</div>
-						)}
+						{tab === 'jobs' && <JobsTab jobs={jobs} />}
 
-						{tab === 'posts' && (
-							<div class="tab-content">
-								<AdminCard title="Blog" subtitle="Gestiona las publicaciones del blog">
-									<p>Vista de posts - Por implementar con diseño moderno</p>
-								</AdminCard>
-							</div>
-						)}
+						{tab === 'posts' && <PostsTab posts={posts} />}
 					</main>
 				</div>
 			)
@@ -624,129 +553,6 @@ const allBranches = user && (tab === 'menus' || tab === 'branches') ? branchesRe
 	.tab-content {
 		max-width: 1400px;
 		margin: 0 auto;
-	}
-
-	/* Resumes List */
-	.resumes-list {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-		margin-top: 24px;
-	}
-
-	.resume-item {
-		background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-		border: 2px solid #f0f0f0;
-		border-radius: 12px;
-		padding: 20px;
-		transition: all 0.3s ease;
-	}
-
-	.resume-item:hover {
-		border-color: #d4534f;
-		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
-		transform: translateY(-2px);
-	}
-
-	.resume-item__header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 12px;
-	}
-
-	.resume-item__header h4 {
-		margin: 0;
-		font-size: 18px;
-		font-weight: 700;
-		color: #1a1a1a;
-	}
-
-	.resume-item__details {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 16px;
-		font-size: 14px;
-		color: #666;
-		margin-bottom: 16px;
-	}
-
-	.resume-item__actions {
-		display: flex;
-		gap: 12px;
-	}
-
-	.resume-item__btn {
-		padding: 10px 16px;
-		background: linear-gradient(135deg, #8b5a2b 0%, #6d4521 100%);
-		color: #ffffff;
-		border: none;
-		border-radius: 8px;
-		font-weight: 600;
-		text-decoration: none;
-		display: inline-block;
-		transition: all 0.2s ease;
-		font-size: 14px;
-	}
-
-	.resume-item__btn:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 4px 12px rgba(139, 90, 43, 0.3);
-	}
-
-	/* Messages List */
-	.messages-list {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-		margin-top: 24px;
-	}
-
-	.message-item {
-		background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-		border: 2px solid #f0f0f0;
-		border-radius: 12px;
-		padding: 20px;
-		transition: all 0.3s ease;
-	}
-
-	.message-item:hover {
-		border-color: #d4534f;
-		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
-		transform: translateY(-2px);
-	}
-
-	.message-item__header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 12px;
-	}
-
-	.message-item__header h4 {
-		margin: 0;
-		font-size: 18px;
-		font-weight: 700;
-		color: #1a1a1a;
-	}
-
-	.message-item__text {
-		margin: 0 0 12px;
-		padding: 16px;
-		background: #f8f8f8;
-		border-left: 4px solid #d4534f;
-		border-radius: 8px;
-		font-size: 15px;
-		line-height: 1.6;
-		color: #2a2a2a;
-	}
-
-	.message-item__meta {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 16px;
-		font-size: 13px;
-		color: #999;
 	}
 
 	/* Responsive */

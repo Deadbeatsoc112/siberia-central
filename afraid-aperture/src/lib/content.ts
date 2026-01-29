@@ -14,6 +14,7 @@ export type JobInput = {
 	type: string;
 	description: string;
 	isActive?: boolean;
+	availablePositions?: number;
 };
 
 const nowEpoch = () => Math.floor(Date.now() / 1000);
@@ -146,7 +147,7 @@ export const jobsRepo = {
 	listAll: () =>
 		db
 			.prepare(
-				'SELECT id, title, location, type, description, is_active, created_at, updated_at FROM jobs ORDER BY created_at DESC',
+				'SELECT id, title, location, type, description, is_active, available_positions, created_at, updated_at FROM jobs ORDER BY created_at DESC',
 			)
 			.all() as Array<{
 				id: number;
@@ -155,6 +156,7 @@ export const jobsRepo = {
 				type: string;
 				description: string;
 				is_active: number;
+				available_positions: number;
 				created_at: number;
 				updated_at: number;
 			}>,
@@ -168,6 +170,7 @@ export const jobsRepo = {
 				type: string;
 				description: string;
 				is_active: number;
+				available_positions: number;
 				created_at: number;
 				updated_at: number;
 			}
@@ -177,8 +180,8 @@ export const jobsRepo = {
 		const ts = nowEpoch();
 		const result = db
 			.prepare(
-				`INSERT INTO jobs (title, location, type, description, is_active, created_at, updated_at)
-				 VALUES (?, ?, ?, ?, ?, ?, ?)`,
+				`INSERT INTO jobs (title, location, type, description, is_active, available_positions, created_at, updated_at)
+				 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
 			)
 			.run(
 				input.title,
@@ -186,6 +189,7 @@ export const jobsRepo = {
 				input.type,
 				input.description,
 				input.isActive === false ? 0 : 1,
+				input.availablePositions ?? 1,
 				ts,
 				ts,
 			);
@@ -199,7 +203,7 @@ export const jobsRepo = {
 
 		db.prepare(
 			`UPDATE jobs
-			 SET title = ?, location = ?, type = ?, description = ?, is_active = ?, updated_at = ?
+			 SET title = ?, location = ?, type = ?, description = ?, is_active = ?, available_positions = ?, updated_at = ?
 			 WHERE id = ?`,
 		).run(
 			input.title || current.title,
@@ -207,6 +211,7 @@ export const jobsRepo = {
 			input.type || current.type,
 			input.description || current.description,
 			input.isActive === false ? 0 : 1,
+			input.availablePositions ?? current.available_positions,
 			ts,
 			id,
 		);

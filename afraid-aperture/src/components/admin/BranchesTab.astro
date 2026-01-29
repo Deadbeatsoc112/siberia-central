@@ -85,98 +85,144 @@ const { branches } = Astro.props;
 				) : (
 					<div class="branches-list">
 						{branches.map((branch, index) => (
-							<div class="branch-item" data-branch-id={branch.id}>
-								<div class="branch-item__header">
-									<div class="branch-item__info">
-										<div class="branch-item__title">
-											<h4>{branch.name}</h4>
-											<AdminBadge variant={branch.is_active ? 'success' : 'danger'} size="small">
-												{branch.is_active ? 'Activa' : 'Inactiva'}
-											</AdminBadge>
+							<details class="branch-item" data-branch-id={branch.id}>
+								<summary class="branch-item__summary">
+									<div class="branch-item__header">
+										<div class="branch-item__info">
+											<div class="branch-item__title">
+												<h4>{branch.name}</h4>
+												<AdminBadge variant={branch.is_active ? 'success' : 'danger'} size="small">
+													{branch.is_active ? 'Activa' : 'Inactiva'}
+												</AdminBadge>
+											</div>
+											<div class="branch-item__meta">
+												<p class="branch-item__slug">/{branch.slug}</p>
+												<span class="branch-item__order">#{index + 1}</span>
+											</div>
 										</div>
-										<p class="branch-item__slug">/{branch.slug}</p>
 									</div>
-									<span class="branch-item__order">#{index + 1}</span>
-								</div>
+									<svg class="branch-item__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+										<polyline points="6 9 12 15 18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+									</svg>
+								</summary>
 
-								<div class="branch-item__details">
-									<div class="branch-item__detail">
-										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-											<path
-												d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-											/>
-											<circle cx="12" cy="10" r="3" stroke-width="2" />
-										</svg>
-										<span>{branch.address}</span>
+								<div class="branch-item__body">
+									<div class="branch-item__content">
+										<div class="branch-item__section">
+											<h5>Información de la sucursal:</h5>
+											<div class="branch-item__details-grid">
+												<div class="branch-item__detail">
+													<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+														<path
+															d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+															stroke-width="2"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+														<circle cx="12" cy="10" r="3" stroke-width="2" />
+													</svg>
+													<span>{branch.address}</span>
+												</div>
+												{JSON.parse(branch.phones).length > 0 && (
+													<div class="branch-item__detail">
+														<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+															<path
+																d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+																stroke-width="2"
+																stroke-linecap="round"
+																stroke-linejoin="round"
+															/>
+														</svg>
+														<span>{JSON.parse(branch.phones).join(', ')}</span>
+													</div>
+												)}
+												{branch.contact_email && (
+													<div class="branch-item__detail">
+														<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+															<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+															<polyline points="22,6 12,13 2,6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+														</svg>
+														<span>{branch.contact_email}</span>
+													</div>
+												)}
+												{branch.latitude && branch.longitude && (
+													<div class="branch-item__detail">
+														<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+															<circle cx="12" cy="12" r="10" stroke-width="2" />
+															<line x1="2" y1="12" x2="22" y2="12" stroke-width="2" />
+															<path
+																d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+																stroke-width="2"
+															/>
+														</svg>
+														<span>
+															{branch.latitude.toFixed(4)}, {branch.longitude.toFixed(4)}
+														</span>
+													</div>
+												)}
+											</div>
+										</div>
+
+										<!-- Edit Form -->
+										<form action="/api/admin/branches/update" method="post" class="branch-edit-form">
+											<input type="hidden" name="id" value={branch.id} />
+											<h5 class="form-heading">Editar Sucursal</h5>
+											<div class="branch-form__fields">
+												<AdminInput label="Nombre de la Sucursal" name="name" type="text" value={branch.name} required />
+
+												<AdminInput
+													label="Dirección Completa"
+													name="address"
+													type="textarea"
+													rows={2}
+													value={branch.address}
+													required
+												/>
+
+												<AdminInput
+													label="Teléfonos"
+													name="phones"
+													type="text"
+													value={JSON.parse(branch.phones).join(', ')}
+													helper="Separa múltiples teléfonos con comas"
+												/>
+
+												<AdminInput label="Email de Contacto" name="contact_email" type="email" value={branch.contact_email || ''} />
+
+												<input type="hidden" name="latitude" value={branch.latitude || ''} />
+												<input type="hidden" name="longitude" value={branch.longitude || ''} />
+
+												<div class="branch-form__inline">
+													<AdminInput label="Orden de Visualización" name="display_order" type="number" value={branch.display_order} />
+													<label class="branch-form__checkbox">
+														<input type="checkbox" name="is_active" checked={branch.is_active === 1} />
+														<span>Sucursal Activa</span>
+													</label>
+												</div>
+											</div>
+
+											<div class="form-actions">
+												<AdminButton type="submit" variant="primary" size="medium" fullWidth>
+													Guardar Cambios
+												</AdminButton>
+											</div>
+										</form>
+
+										<!-- Delete Form -->
+										<form action="/api/admin/branches/delete" method="post" class="branch-delete-form">
+											<input type="hidden" name="id" value={branch.id} />
+											<AdminButton
+												type="submit"
+												variant="danger"
+												size="small"
+												fullWidth
+											>
+												Eliminar Sucursal
+											</AdminButton>
+										</form>
 									</div>
-									{JSON.parse(branch.phones).length > 0 && (
-										<div class="branch-item__detail">
-											<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-												<path
-													d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-													stroke-width="2"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-												/>
-											</svg>
-											<span>{JSON.parse(branch.phones).join(', ')}</span>
-										</div>
-									)}
-									{branch.latitude && branch.longitude && (
-										<div class="branch-item__detail">
-											<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-												<circle cx="12" cy="12" r="10" stroke-width="2" />
-												<line x1="2" y1="12" x2="22" y2="12" stroke-width="2" />
-												<path
-													d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
-													stroke-width="2"
-												/>
-											</svg>
-											<span>
-												{branch.latitude.toFixed(4)}, {branch.longitude.toFixed(4)}
-											</span>
-										</div>
-									)}
 								</div>
-
-								<div class="branch-item__actions">
-									<button type="button" class="branch-item__btn branch-item__btn--edit" onclick={`editBranch(${branch.id})`}>
-										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-											<path
-												d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-											/>
-											<path
-												d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-											/>
-										</svg>
-										Editar
-									</button>
-									<form action="/api/admin/branches/delete" method="post" style="display: inline;">
-										<input type="hidden" name="id" value={branch.id} />
-										<button type="submit" class="branch-item__btn branch-item__btn--delete" onclick="return confirm('¿Eliminar esta sucursal?')">
-											<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-												<polyline points="3 6 5 6 21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-												<path
-													d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
-													stroke-width="2"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-												/>
-											</svg>
-											Eliminar
-										</button>
-									</form>
-								</div>
-							</div>
+							</details>
 						))}
 					</div>
 				)
@@ -282,42 +328,65 @@ const { branches } = Astro.props;
 		background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
 		border: 2px solid #f0f0f0;
 		border-radius: 12px;
-		padding: 20px;
 		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	.branch-item:hover {
 		border-color: #d4534f;
 		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
-		transform: translateY(-2px);
+	}
+
+	.branch-item[open] {
+		border-color: #d4534f;
+	}
+
+	.branch-item__summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 20px;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+
+	.branch-item__summary::-webkit-details-marker {
+		display: none;
 	}
 
 	.branch-item__header {
 		display: flex;
-		justify-content: space-between;
-		align-items: start;
-		margin-bottom: 16px;
-		padding-bottom: 16px;
-		border-bottom: 1px solid #f0f0f0;
+		flex-direction: column;
+		gap: 8px;
+		flex: 1;
 	}
 
 	.branch-item__info {
 		flex: 1;
+		min-width: 0;
 	}
 
 	.branch-item__title {
 		display: flex;
 		align-items: center;
 		gap: 12px;
-		margin-bottom: 6px;
+		flex-wrap: wrap;
+		margin-bottom: 4px;
 	}
 
 	.branch-item__title h4 {
 		margin: 0;
 		font-family: 'Playfair Display', Georgia, serif;
-		font-size: 22px;
+		font-size: 20px;
 		font-weight: 700;
 		color: #1a1a1a;
+	}
+
+	.branch-item__meta {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex-wrap: wrap;
 	}
 
 	.branch-item__slug {
@@ -325,26 +394,52 @@ const { branches } = Astro.props;
 		font-family: 'Inter', monospace;
 		font-size: 13px;
 		color: #999;
+		font-weight: 600;
 	}
 
 	.branch-item__order {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 36px;
-		height: 36px;
-		background: #f5f5f5;
-		border-radius: 8px;
-		font-weight: 700;
-		color: #666;
-		font-size: 14px;
+		font-size: 13px;
+		color: #999;
+		font-weight: 600;
+		white-space: nowrap;
 	}
 
-	.branch-item__details {
+	.branch-item__chevron {
+		flex-shrink: 0;
+		margin-left: 12px;
+		color: #d4534f;
+		transition: transform 0.3s ease;
+	}
+
+	.branch-item[open] .branch-item__chevron {
+		transform: rotate(180deg);
+	}
+
+	.branch-item__body {
+		border-top: 1px solid #f0f0f0;
+		padding: 20px;
+		animation: expandDown 0.3s ease-out;
+	}
+
+	.branch-item__content {
 		display: flex;
 		flex-direction: column;
+		gap: 20px;
+	}
+
+	.branch-item__section h5 {
+		margin: 0 0 12px;
+		font-size: 13px;
+		font-weight: 700;
+		color: #666;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.branch-item__details-grid {
+		display: grid;
+		grid-template-columns: 1fr;
 		gap: 10px;
-		margin-bottom: 16px;
 	}
 
 	.branch-item__detail {
@@ -362,45 +457,38 @@ const { branches } = Astro.props;
 		color: #d4534f;
 	}
 
-	.branch-item__actions {
-		display: flex;
-		gap: 10px;
+	.branch-edit-form {
+		padding: 20px;
+		background: #f8f8f8;
+		border-radius: 10px;
+		border: 2px solid #e8e8e8;
 	}
 
-	.branch-item__btn {
-		display: inline-flex;
-		align-items: center;
-		gap: 8px;
-		padding: 10px 16px;
-		border: 2px solid;
-		border-radius: 8px;
-		font-family: 'Inter', -apple-system, sans-serif;
-		font-size: 14px;
-		font-weight: 600;
-		cursor: pointer;
-		transition: all 0.2s ease;
+	.form-heading {
+		margin: 0 0 16px;
+		font-family: 'Playfair Display', Georgia, serif;
+		font-size: 18px;
+		font-weight: 700;
+		color: #1a1a1a;
 	}
 
-	.branch-item__btn--edit {
-		background: transparent;
-		border-color: #8b5a2b;
-		color: #8b5a2b;
+	.form-actions {
+		margin-top: 16px;
 	}
 
-	.branch-item__btn--edit:hover {
-		background: #8b5a2b;
-		color: #ffffff;
+	.branch-delete-form {
+		margin-top: 8px;
 	}
 
-	.branch-item__btn--delete {
-		background: transparent;
-		border-color: #ef4444;
-		color: #ef4444;
-	}
-
-	.branch-item__btn--delete:hover {
-		background: #ef4444;
-		color: #ffffff;
+	@keyframes expandDown {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 
 	@keyframes fadeIn {
@@ -419,10 +507,18 @@ const { branches } = Astro.props;
 			grid-template-columns: 1fr;
 		}
 	}
+
+	@media (max-width: 768px) {
+		.branch-item__title {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.branch-item__meta {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 6px;
+		}
+	}
 </style>
 
-<script>
-	(window as any).editBranch = (id: number) => {
-		alert(`Funcionalidad de edición para sucursal ${id} - Por implementar en modal`);
-	};
-</script>

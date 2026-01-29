@@ -1,0 +1,470 @@
+---
+import AdminCard from './AdminCard.astro';
+import AdminInput from './AdminInput.astro';
+import AdminButton from './AdminButton.astro';
+import AdminBadge from './AdminBadge.astro';
+
+interface Props {
+	posts: any[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="posts-tab">
+	<div class="posts-tab__grid">
+		<!-- Create Post Card -->
+		<AdminCard title="Nuevo Post" subtitle="Crea una entrada para el blog" variant="elevated">
+			<form action="/api/admin/posts/create" method="post" class="post-form">
+				<div class="post-form__fields">
+					<AdminInput label="Título del Post" name="title" type="text" required />
+
+					<AdminInput
+						label="Resumen"
+						name="excerpt"
+						type="textarea"
+						rows={3}
+						required
+						helper="Descripción breve que aparecerá en listados"
+					/>
+
+					<AdminInput
+						label="Contenido"
+						name="content"
+						type="textarea"
+						rows={10}
+						required
+						helper="Contenido completo del post"
+					/>
+
+					<AdminInput
+						label="URL de Imagen Destacada"
+						name="image_url"
+						type="text"
+						helper="URL de la imagen que acompañará el post (opcional)"
+					/>
+
+					<label class="post-form__checkbox">
+						<input type="checkbox" name="published" checked />
+						<span>Publicar inmediatamente</span>
+					</label>
+				</div>
+
+				<div class="post-form__actions">
+					<AdminButton type="submit" variant="primary" size="large" fullWidth>
+						Crear Post
+					</AdminButton>
+				</div>
+			</form>
+		</AdminCard>
+
+		<!-- Posts List -->
+		<AdminCard
+			title="Posts Existentes"
+			subtitle={`${posts.length} post${posts.length !== 1 ? 's' : ''} en total`}
+			variant="glass"
+			fullHeight
+		>
+			{
+				posts.length === 0 ? (
+					<div class="posts-empty">
+						<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+							<path
+								d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
+						<p>Aún no hay posts en el blog</p>
+					</div>
+				) : (
+					<div class="posts-list">
+						{posts.map((post) => (
+							<details class="post-item" data-post-id={post.id}>
+								<summary class="post-item__summary">
+									<div class="post-item__header">
+										<div class="post-item__info">
+											<div class="post-item__title">
+												<h4>{post.title}</h4>
+												<AdminBadge variant={post.published ? 'success' : 'danger'} size="small">
+													{post.published ? 'Publicado' : 'Borrador'}
+												</AdminBadge>
+											</div>
+											<div class="post-item__meta">
+												<p class="post-item__slug">/{post.slug}</p>
+												<span class="post-item__date">{new Date(post.created_at * 1000).toLocaleDateString()}</span>
+											</div>
+										</div>
+									</div>
+									<svg class="post-item__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+										<polyline points="6 9 12 15 18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+									</svg>
+								</summary>
+
+								<div class="post-item__body">
+									<div class="post-item__content">
+										<div class="post-item__section">
+											<h5>Resumen:</h5>
+											<p class="post-item__excerpt">{post.excerpt}</p>
+										</div>
+
+										<div class="post-item__section">
+											<h5>Contenido:</h5>
+											<p class="post-item__full-content">{post.content}</p>
+										</div>
+
+										{post.image_url && (
+											<div class="post-item__section">
+												<h5>Imagen destacada:</h5>
+												<p class="post-item__image-url">{post.image_url}</p>
+											</div>
+										)}
+
+										<!-- Edit Form -->
+										<form action="/api/admin/posts/update" method="post" class="post-edit-form">
+											<input type="hidden" name="id" value={post.id} />
+											<h5 class="form-heading">Editar Post</h5>
+											<div class="post-form__fields">
+												<AdminInput label="Título del Post" name="title" type="text" value={post.title} required />
+
+												<AdminInput
+													label="Resumen"
+													name="excerpt"
+													type="textarea"
+													rows={3}
+													value={post.excerpt}
+													required
+												/>
+
+												<AdminInput
+													label="Contenido"
+													name="content"
+													type="textarea"
+													rows={10}
+													value={post.content}
+													required
+												/>
+
+												<AdminInput
+													label="URL de Imagen Destacada"
+													name="image_url"
+													type="text"
+													value={post.image_url || ''}
+												/>
+
+												<label class="post-form__checkbox">
+													<input type="checkbox" name="published" checked={post.published === 1} />
+													<span>Publicar</span>
+												</label>
+											</div>
+
+											<div class="form-actions">
+												<AdminButton type="submit" variant="primary" size="medium" fullWidth>
+													Guardar Cambios
+												</AdminButton>
+											</div>
+										</form>
+
+										<!-- Delete Form -->
+										<form action="/api/admin/posts/delete" method="post" class="post-delete-form">
+											<input type="hidden" name="id" value={post.id} />
+											<AdminButton
+												type="submit"
+												variant="danger"
+												size="small"
+												fullWidth
+											>
+												Eliminar Post
+											</AdminButton>
+										</form>
+									</div>
+								</div>
+							</details>
+						))}
+					</div>
+				)
+			}
+		</AdminCard>
+	</div>
+</div>
+
+<style>
+	.posts-tab {
+		animation: fadeIn 0.5s ease-out;
+	}
+
+	.posts-tab__grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 32px;
+		align-items: start;
+	}
+
+	/* Post Form */
+	.post-form__fields {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.post-form__checkbox {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 12px 16px;
+		background: #f8f8f8;
+		border-radius: 10px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.post-form__checkbox:hover {
+		background: #f0f0f0;
+	}
+
+	.post-form__checkbox input[type='checkbox'] {
+		width: 20px;
+		height: 20px;
+		cursor: pointer;
+		accent-color: #d4534f;
+	}
+
+	.post-form__actions {
+		margin-top: 28px;
+	}
+
+	/* Posts Empty */
+	.posts-empty {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 60px 20px;
+		color: #999;
+		text-align: center;
+	}
+
+	.posts-empty svg {
+		margin-bottom: 16px;
+		opacity: 0.5;
+	}
+
+	.posts-empty p {
+		margin: 0;
+		font-size: 16px;
+	}
+
+	/* Posts List */
+	.posts-list {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.post-item {
+		background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+		border: 2px solid #f0f0f0;
+		border-radius: 12px;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.post-item:hover {
+		border-color: #d4534f;
+		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
+	}
+
+	.post-item[open] {
+		border-color: #d4534f;
+	}
+
+	.post-item__summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 20px;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+
+	.post-item__summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.post-item__header {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		flex: 1;
+	}
+
+	.post-item__info {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.post-item__title {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex-wrap: wrap;
+		margin-bottom: 4px;
+	}
+
+	.post-item__title h4 {
+		margin: 0;
+		font-family: 'Playfair Display', Georgia, serif;
+		font-size: 20px;
+		font-weight: 700;
+		color: #1a1a1a;
+	}
+
+	.post-item__meta {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	.post-item__slug {
+		margin: 0;
+		font-family: 'Inter', monospace;
+		font-size: 13px;
+		color: #999;
+		font-weight: 600;
+	}
+
+	.post-item__date {
+		font-size: 13px;
+		color: #999;
+		font-weight: 600;
+		white-space: nowrap;
+	}
+
+	.post-item__chevron {
+		flex-shrink: 0;
+		margin-left: 12px;
+		color: #d4534f;
+		transition: transform 0.3s ease;
+	}
+
+	.post-item[open] .post-item__chevron {
+		transform: rotate(180deg);
+	}
+
+	.post-item__body {
+		border-top: 1px solid #f0f0f0;
+		padding: 20px;
+		animation: expandDown 0.3s ease-out;
+	}
+
+	.post-item__content {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.post-item__section h5 {
+		margin: 0 0 8px;
+		font-size: 13px;
+		font-weight: 700;
+		color: #666;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.post-item__section p {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.6;
+		color: #2a2a2a;
+	}
+
+	.post-item__excerpt {
+		padding: 12px;
+		background: #f8f8f8;
+		border-left: 4px solid #d4534f;
+		border-radius: 6px;
+	}
+
+	.post-item__full-content {
+		padding: 12px;
+		background: #f8f8f8;
+		border-left: 4px solid #8b5a2b;
+		border-radius: 6px;
+		white-space: pre-wrap;
+	}
+
+	.post-item__image-url {
+		font-family: 'Inter', monospace;
+		font-size: 13px;
+		color: #3b82f6;
+		word-break: break-all;
+	}
+
+	.post-edit-form {
+		padding: 20px;
+		background: #f8f8f8;
+		border-radius: 10px;
+		border: 2px solid #e8e8e8;
+	}
+
+	.form-heading {
+		margin: 0 0 16px;
+		font-family: 'Playfair Display', Georgia, serif;
+		font-size: 18px;
+		font-weight: 700;
+		color: #1a1a1a;
+	}
+
+	.form-actions {
+		margin-top: 16px;
+	}
+
+	.post-delete-form {
+		margin-top: 8px;
+	}
+
+	@keyframes expandDown {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 1200px) {
+		.posts-tab__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.post-item__title {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.post-item__meta {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 6px;
+		}
+	}
+</style>

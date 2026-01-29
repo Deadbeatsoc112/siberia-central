@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { branchesRepo } from '../lib/branches';
 import aboutHeroUrl from '../assets/media/Enmascarar grupo 17.png?url';
 import aboutHero2xUrl from '../assets/media/Enmascarar grupo 17@2x.png?url';
 import timelineBgUrl from '../assets/media/Enmascarar grupo 6.png?url';
@@ -9,6 +10,9 @@ import timelineDecorUrl from '../assets/media/Grupo 140.svg?url';
 import branchesBgUrl from '../assets/media/Enmascarar grupo 10.png?url';
 import branchesBg2xUrl from '../assets/media/Enmascarar grupo 10@2x.png?url';
 import zigzagDecorUrl from '../assets/media/Grupo 36.svg?url';
+
+// Get branches count dynamically
+const branchesCount = branchesRepo.listActive().length;
 
 const timelineItems = [
 	{
@@ -137,11 +141,11 @@ const timelineItems = [
 		<div class="branches__content">
 			<h2 id="branches-title" class="branches__title">
 				<span class="branches__line">Tenemos</span>
-				<span class="branches__line branches__line--accent">+ de 21</span>
+				<span class="branches__line branches__line--accent">+ de {branchesCount}</span>
 				<span class="branches__line">sucursales</span>
 			</h2>
 			<p class="branches__subtitle">Visitanos y vive el sabor de la tradicion</p>
-			<a class="branches__button" href="/sucursales">Ver sucursales</a>
+			<a class="branches__button" href="/contacto#sucursales">Ver sucursales</a>
 		</div>
 	</section>
 </Layout>

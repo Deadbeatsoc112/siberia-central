@@ -1,0 +1,513 @@
+---
+import AdminCard from './AdminCard.astro';
+import AdminInput from './AdminInput.astro';
+import AdminButton from './AdminButton.astro';
+import AdminBadge from './AdminBadge.astro';
+
+interface Props {
+	jobs: any[];
+}
+
+const { jobs } = Astro.props;
+---
+
+<div class="jobs-tab">
+	<div class="jobs-tab__grid">
+		<!-- Create Job Card -->
+		<AdminCard title="Nueva Vacante" subtitle="Crea una oferta de empleo" variant="elevated">
+			<form action="/api/admin/jobs/create" method="post" class="job-form">
+				<div class="job-form__fields">
+					<AdminInput label="Título del Puesto" name="title" type="text" required />
+
+					<AdminInput
+						label="Ubicación"
+						name="location"
+						type="text"
+						required
+						placeholder="Ej: Guadalupe"
+					/>
+
+					<AdminInput
+						label="Tipo de Contrato"
+						name="type"
+						type="text"
+						required
+						placeholder="Ej: Tiempo completo, medio tiempo"
+					/>
+
+					<AdminInput
+						label="Descripción"
+						name="description"
+						type="textarea"
+						rows={5}
+						required
+						helper="Describe las responsabilidades y requisitos del puesto"
+					/>
+
+					<AdminInput
+						label="Puestos Disponibles"
+						name="available_positions"
+						type="number"
+						min={1}
+						value="1"
+						required
+					/>
+
+					<label class="job-form__checkbox">
+						<input type="checkbox" name="is_active" checked />
+						<span>Vacante Activa</span>
+					</label>
+				</div>
+
+				<div class="job-form__actions">
+					<AdminButton type="submit" variant="primary" size="large" fullWidth>
+						Crear Vacante
+					</AdminButton>
+				</div>
+			</form>
+		</AdminCard>
+
+		<!-- Jobs List -->
+		<AdminCard
+			title="Vacantes Existentes"
+			subtitle={`${jobs.length} vacante${jobs.length !== 1 ? 's' : ''} registradas`}
+			variant="glass"
+			fullHeight
+		>
+			{
+				jobs.length === 0 ? (
+					<div class="jobs-empty">
+						<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+							<rect x="2" y="7" width="20" height="14" rx="2" ry="2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+						<p>Aún no hay vacantes registradas</p>
+					</div>
+				) : (
+					<div class="jobs-list">
+						{jobs.map((job, index) => {
+							const bgColor = index % 2 === 0 ? '#1a1a1a' : '#e1454f';
+							return (
+								<details class="job-item" data-job-id={job.id}>
+									<summary class="job-item__summary">
+										<div class="job-item__header">
+											<div class="job-item__info">
+												<div class="job-item__title">
+													<h4>{job.title}</h4>
+													<AdminBadge variant={job.is_active ? 'success' : 'danger'} size="small">
+														{job.is_active ? 'Activa' : 'Inactiva'}
+													</AdminBadge>
+													<div class="job-item__color-preview" style={`background-color: ${bgColor};`} title={`Color: ${bgColor}`}></div>
+												</div>
+												<div class="job-item__meta">
+													<div class="job-item__detail">
+														<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+															<path
+																d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+																stroke-width="2"
+																stroke-linecap="round"
+																stroke-linejoin="round"
+															/>
+															<circle cx="12" cy="10" r="3" stroke-width="2" />
+														</svg>
+														<span>{job.location}</span>
+													</div>
+													<div class="job-item__detail">
+														<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+															<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+															<circle cx="9" cy="7" r="4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+															<path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+															<path d="M16 3.13a4 4 0 0 1 0 7.75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+														</svg>
+														<span>{job.available_positions || 1} puesto{(job.available_positions || 1) !== 1 ? 's' : ''}</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<svg class="job-item__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+											<polyline points="6 9 12 15 18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+										</svg>
+									</summary>
+
+									<div class="job-item__body">
+										<div class="job-item__content">
+											<div class="job-item__section">
+												<h5>Descripción completa:</h5>
+												<p class="job-item__description">{job.description}</p>
+											</div>
+
+											<div class="job-item__details-grid">
+												<div class="job-item__section">
+													<h5>Ubicación:</h5>
+													<p>{job.location}</p>
+												</div>
+												<div class="job-item__section">
+													<h5>Tipo de contrato:</h5>
+													<p>{job.type}</p>
+												</div>
+											</div>
+
+											<!-- Edit Form -->
+											<form action="/api/admin/jobs/update" method="post" class="job-edit-form">
+												<input type="hidden" name="id" value={job.id} />
+												<h5 class="form-heading">Editar Vacante</h5>
+												<div class="job-form__fields">
+													<AdminInput label="Título del Puesto" name="title" type="text" value={job.title} required />
+
+													<AdminInput
+														label="Ubicación"
+														name="location"
+														type="text"
+														value={job.location}
+														required
+													/>
+
+													<AdminInput
+														label="Tipo de Contrato"
+														name="type"
+														type="text"
+														value={job.type}
+														required
+													/>
+
+													<AdminInput
+														label="Descripción"
+														name="description"
+														type="textarea"
+														rows={5}
+														value={job.description}
+														required
+													/>
+
+													<AdminInput
+														label="Puestos Disponibles"
+														name="available_positions"
+														type="number"
+														min={1}
+														value={job.available_positions || 1}
+														required
+													/>
+
+													<label class="job-form__checkbox">
+														<input type="checkbox" name="is_active" checked={job.is_active === 1} />
+														<span>Vacante Activa</span>
+													</label>
+												</div>
+
+												<div class="form-actions">
+													<AdminButton type="submit" variant="primary" size="medium" fullWidth>
+														Guardar Cambios
+													</AdminButton>
+												</div>
+											</form>
+
+											<!-- Delete Form -->
+											<form action="/api/admin/jobs/delete" method="post" class="job-delete-form">
+												<input type="hidden" name="id" value={job.id} />
+												<AdminButton
+													type="submit"
+													variant="danger"
+													size="small"
+													fullWidth
+												>
+													Eliminar Vacante
+												</AdminButton>
+											</form>
+										</div>
+									</div>
+								</details>
+							);
+						})}
+					</div>
+				)
+			}
+		</AdminCard>
+	</div>
+</div>
+
+<style>
+	.jobs-tab {
+		animation: fadeIn 0.5s ease-out;
+	}
+
+	.jobs-tab__grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 32px;
+		align-items: start;
+	}
+
+	/* Job Form */
+	.job-form__fields {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.job-form__checkbox {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 12px 16px;
+		background: #f8f8f8;
+		border-radius: 10px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.job-form__checkbox:hover {
+		background: #f0f0f0;
+	}
+
+	.job-form__checkbox input[type='checkbox'] {
+		width: 20px;
+		height: 20px;
+		cursor: pointer;
+		accent-color: #d4534f;
+	}
+
+	.job-form__actions {
+		margin-top: 28px;
+	}
+
+	/* Jobs Empty */
+	.jobs-empty {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 60px 20px;
+		color: #999;
+		text-align: center;
+	}
+
+	.jobs-empty svg {
+		margin-bottom: 16px;
+		opacity: 0.5;
+	}
+
+	.jobs-empty p {
+		margin: 0;
+		font-size: 16px;
+	}
+
+	/* Jobs List */
+	.jobs-list {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.job-item {
+		background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+		border: 2px solid #f0f0f0;
+		border-radius: 12px;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.job-item:hover {
+		border-color: #d4534f;
+		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
+	}
+
+	.job-item[open] {
+		border-color: #d4534f;
+	}
+
+	.job-item__summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 20px;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+
+	.job-item__summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.job-item__header {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		flex: 1;
+	}
+
+	.job-item__info {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.job-item__title {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex-wrap: wrap;
+		margin-bottom: 8px;
+	}
+
+	.job-item__title h4 {
+		margin: 0;
+		font-family: 'Playfair Display', Georgia, serif;
+		font-size: 20px;
+		font-weight: 700;
+		color: #1a1a1a;
+	}
+
+	.job-item__color-preview {
+		width: 28px;
+		height: 28px;
+		border-radius: 6px;
+		border: 2px solid #e0e0e0;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+		transition: transform 0.2s ease;
+	}
+
+	.job-item__color-preview:hover {
+		transform: scale(1.2);
+	}
+
+	.job-item__meta {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		flex-wrap: wrap;
+	}
+
+	.job-item__detail {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 14px;
+		color: #666;
+		font-weight: 600;
+	}
+
+	.job-item__detail svg {
+		flex-shrink: 0;
+		color: #d4534f;
+	}
+
+	.job-item__chevron {
+		flex-shrink: 0;
+		margin-left: 12px;
+		color: #d4534f;
+		transition: transform 0.3s ease;
+	}
+
+	.job-item[open] .job-item__chevron {
+		transform: rotate(180deg);
+	}
+
+	.job-item__body {
+		border-top: 1px solid #f0f0f0;
+		padding: 20px;
+		animation: expandDown 0.3s ease-out;
+	}
+
+	.job-item__content {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.job-item__section h5 {
+		margin: 0 0 8px;
+		font-size: 13px;
+		font-weight: 700;
+		color: #666;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.job-item__section p {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.6;
+		color: #2a2a2a;
+	}
+
+	.job-item__description {
+		padding: 12px;
+		background: #f8f8f8;
+		border-left: 4px solid #d4534f;
+		border-radius: 6px;
+	}
+
+	.job-item__details-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+	}
+
+	.job-edit-form {
+		padding: 20px;
+		background: #f8f8f8;
+		border-radius: 10px;
+		border: 2px solid #e8e8e8;
+	}
+
+	.form-heading {
+		margin: 0 0 16px;
+		font-family: 'Playfair Display', Georgia, serif;
+		font-size: 18px;
+		font-weight: 700;
+		color: #1a1a1a;
+	}
+
+	.form-actions {
+		margin-top: 16px;
+	}
+
+	.job-delete-form {
+		margin-top: 8px;
+	}
+
+	@keyframes expandDown {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 1200px) {
+		.jobs-tab__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.job-item__title {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.job-item__meta {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 8px;
+		}
+
+		.job-item__details-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

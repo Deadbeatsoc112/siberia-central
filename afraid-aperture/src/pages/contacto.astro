@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import heroBgUrl from "../assets/media/Enmascarar grupo 20.png?url";
+import zigzagDecorUrl from '../assets/media/Grupo 36.svg?url';
 import { branchesRepo } from "../lib/branches";
 
 const branchesRaw = branchesRepo.listActive();
@@ -38,8 +39,8 @@ const error = Astro.url.searchParams.get('error');
   </section>
 
   <!-- MAPA + LISTA -->
-  <section class="contact-map" aria-labelledby="map-title">
-    <div class="contact-map__inner">
+  <section class="contact-map" id="sucursales" aria-labelledby="map-title">
+    <div class="contact-map__header-wrapper">
       <div class="contact-map__header">
         <h2 id="map-title" class="contact-map__title">
           Conoce nuestras sucursales
@@ -49,47 +50,52 @@ const error = Astro.url.searchParams.get('error');
           <span class="contact-map__count-number">{branches.length}</span>
         </div>
       </div>
+    </div>
 
+    <div class="contact-map__grid-wrapper">
+      <img class="contact-map__decor" src={zigzagDecorUrl} alt="" aria-hidden="true" />
       <div class="contact-map__grid">
         <!-- Panel lateral -->
         <aside class="branches" aria-label="Lista de sucursales">
           <div class="branches__scroll" id="branchList">
-            {
-              branches.map((b, idx) => (
-                <button
-                  class="branch"
-                  type="button"
-                  data-id={b.id}
-                  data-lat={b.lat}
-                  data-lng={b.lng}
-                  data-name={b.name}
-                  data-address={b.address}
-                >
-                  <div class="branch__num">{idx + 1}</div>
-                  <div class="branch__body">
-                    <div class="branch__name">{b.name}</div>
-                    <div class="branch__addr">{b.address}</div>
+            <div class="branches__content">
+              {
+                branches.map((b, idx) => (
+                  <button
+                    class="branch"
+                    type="button"
+                    data-id={b.id}
+                    data-lat={b.lat}
+                    data-lng={b.lng}
+                    data-name={b.name}
+                    data-address={b.address}
+                  >
+                    <div class="branch__num">{idx + 1}</div>
+                    <div class="branch__body">
+                      <div class="branch__name">{b.name}</div>
+                      <div class="branch__addr">{b.address}</div>
 
-                    {b.phones?.length ? (
-                      <div class="branch__phones">
-                        {b.phones.map((p) => (
-                          <div class="branch__phone">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              fill="currentColor"
-                            >
-                              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-                            </svg>
-                            {p}
-                          </div>
-                        ))}
-                      </div>
-                    ) : null}
-                  </div>
-                </button>
-              ))
-            }
+                      {b.phones?.length ? (
+                        <div class="branch__phones">
+                          {b.phones.map((p) => (
+                            <div class="branch__phone">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                              >
+                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                              </svg>
+                              {p}
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+                  </button>
+                ))
+              }
+            </div>
           </div>
         </aside>
 
@@ -206,6 +212,18 @@ const error = Astro.url.searchParams.get('error');
     setTimeout(() => {
       map.invalidateSize();
     }, 100);
+
+    // Force recalculation on window resize
+    window.addEventListener('resize', () => {
+      map.invalidateSize();
+    });
+
+    // Additional force after page load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 200);
+    });
   </script>
 </Layout>
 
@@ -270,15 +288,14 @@ const error = Astro.url.searchParams.get('error');
   /* SECCIÓN MAPA */
   .contact-map {
     background: #fff;
-    padding: 96px 0 120px;
-    display: flex;
-    justify-content: center;
+    padding: 0;
+    position: relative;
   }
 
-  .contact-map__inner {
-    width: min(1440px, 100%);
-    padding: 0 24px;
-    box-sizing: border-box;
+  .contact-map__header-wrapper {
+    padding: 140px 24px 60px;
+    display: flex;
+    justify-content: center;
   }
 
   .contact-map__header {
@@ -287,18 +304,17 @@ const error = Astro.url.searchParams.get('error');
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    margin-bottom: 40px;
+    width: min(1200px, 100%);
   }
 
   .contact-map__title {
     margin: 0;
     font:
-      normal normal 400 44px/1.1 "River Young",
-      Campton,
+      normal normal bold 48px/1.15 Campton,
       "Montserrat",
       Arial,
       sans-serif;
-    color: #8b5a2b; /* Brown color from image */
+    color: #8b5a2b;
   }
 
   .contact-map__count-wrapper {
@@ -310,28 +326,44 @@ const error = Astro.url.searchParams.get('error');
 
   .contact-map__tenemos {
     font:
-      normal normal 800 32px/1 Campton,
+      normal normal bold 32px/1 Campton,
       "Montserrat",
       Arial,
       sans-serif;
-    color: #e1454f; /* Red color */
+    color: #e1454f;
     margin-bottom: 5px;
   }
 
   .contact-map__count-number {
     font:
-      normal normal 800 80px/1 Campton,
+      normal normal bold 80px/1 Campton,
       "Montserrat",
       Arial,
       sans-serif;
-    color: #e1454f; /* Red color */
+    color: #e1454f;
+  }
+
+  .contact-map__grid-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .contact-map__decor {
+    position: absolute;
+    top: -3px;
+    left: 25%;
+    transform: translateX(-50%);
+    width: 537px;
+    height: 27px;
+    z-index: 10;
   }
 
   .contact-map__grid {
     display: grid;
-    grid-template-columns: 520px 1fr;
-    min-height: 600px; /* Increased height */
+    grid-template-columns: 1fr 1fr;
+    min-height: 600px;
     gap: 0;
+    width: 100%;
   }
 
   /* Panel */
@@ -343,16 +375,16 @@ const error = Astro.url.searchParams.get('error');
   }
 
   .branches__scroll {
-    height: 600px; /* Match grid height */
+    height: 600px;
     overflow-y: auto;
-    padding: 40px 30px; /* More padding */
+    padding: 50px 0 40px;
     box-sizing: border-box;
-    /* Custom scrollbar for Firefox */
     scrollbar-width: thin;
     scrollbar-color: #fff rgba(255, 255, 255, 0.3);
+    display: flex;
+    justify-content: center;
   }
 
-  /* scrollbar (webKit) */
   .branches__scroll::-webkit-scrollbar {
     width: 6px;
   }
@@ -363,6 +395,12 @@ const error = Astro.url.searchParams.get('error');
   .branches__scroll::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.3);
     border-radius: 10px;
+  }
+
+  .branches__content {
+    width: 100%;
+    max-width: 537px;
+    padding: 0 32px;
   }
 
   .branch {
@@ -468,17 +506,36 @@ const error = Astro.url.searchParams.get('error');
     border-top: 1px solid rgba(0, 0, 0, 0.08);
   }
 
+  @media (max-width: 1200px) {
+    .contact-map__header-wrapper {
+      padding: 120px 40px 60px;
+    }
+
+    .contact-map__decor {
+      width: 420px;
+      height: 22px;
+    }
+
+    .branches__scroll {
+      padding: 40px 0 30px;
+    }
+
+    .branches__content {
+      max-width: 420px;
+    }
+  }
+
   @media (max-width: 1100px) {
     .contact-map__grid {
       grid-template-columns: 1fr;
     }
     .branches__scroll,
-    .mapImg,
-    .mapFigure {
+    .map {
       height: 480px;
     }
-    .mapFigure {
-      grid-template-rows: 480px auto;
+    .contact-map__decor {
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 
@@ -489,11 +546,28 @@ const error = Astro.url.searchParams.get('error');
     .contact-hero__title {
       font-size: 44px;
     }
-    .contact-map {
-      padding: 80px 0 100px;
+    .contact-map__header-wrapper {
+      padding: 90px 24px 50px;
+    }
+    .contact-map__decor {
+      width: 300px;
+      height: 15px;
     }
     .contact-map__title {
-      font-size: 34px;
+      font-size: 42px;
+    }
+    .contact-map__tenemos {
+      font-size: 28px;
+    }
+    .contact-map__count-number {
+      font-size: 64px;
+    }
+    .branches__scroll {
+      padding: 35px 0 24px;
+    }
+    .branches__content {
+      max-width: 100%;
+      padding: 0 24px;
     }
   }
 

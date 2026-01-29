@@ -1,0 +1,427 @@
+---
+import AdminCard from './AdminCard.astro';
+import AdminBadge from './AdminBadge.astro';
+import AdminButton from './AdminButton.astro';
+import AdminInput from './AdminInput.astro';
+
+interface Props {
+	messages: any[];
+}
+
+const { messages } = Astro.props;
+
+// Sort messages by date (most recent first)
+const sortedMessages = [...messages].sort((a, b) => b.created_at - a.created_at);
+---
+
+<div class="messages-tab">
+	<AdminCard
+		title="Mensajes de Contacto"
+		subtitle={`${messages.length} mensaje${messages.length !== 1 ? 's' : ''} recibido${messages.length !== 1 ? 's' : ''}`}
+		variant="glass"
+		fullHeight
+	>
+		{
+			sortedMessages.length === 0 ? (
+				<div class="messages-empty">
+					<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+						<path
+							d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+					<p>No hay mensajes de contacto</p>
+				</div>
+			) : (
+				<div class="messages-list">
+					{sortedMessages.map((msg) => (
+						<details class="message-item" data-message-id={msg.id}>
+							<summary class="message-item__summary">
+								<div class="message-item__header">
+									<div class="message-item__info">
+										<h4 class="message-item__name">{msg.full_name}</h4>
+										<p class="message-item__email">{msg.email}</p>
+									</div>
+									<div class="message-item__meta">
+										<AdminBadge
+											variant={
+												msg.status === 'unread' ? 'warning' :
+												msg.status === 'read' ? 'info' :
+												msg.status === 'responded' ? 'success' :
+												'secondary'
+											}
+											size="small"
+										>
+											{msg.status}
+										</AdminBadge>
+										<span class="message-item__date">
+											{new Date(msg.created_at * 1000).toLocaleDateString()}
+										</span>
+									</div>
+								</div>
+								<svg class="message-item__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+									<polyline points="6 9 12 15 18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+								</svg>
+							</summary>
+
+							<div class="message-item__body">
+								<div class="message-item__content">
+									<div class="message-item__section">
+										<h5>Mensaje:</h5>
+										<p class="message-item__text">{msg.message}</p>
+									</div>
+
+									{msg.phone && (
+										<div class="message-item__section">
+											<h5>Teléfono:</h5>
+											<p>{msg.phone}</p>
+										</div>
+									)}
+
+									{msg.notes && (
+										<div class="message-item__section">
+											<h5>Notas internas:</h5>
+											<p class="message-item__notes">{msg.notes}</p>
+										</div>
+									)}
+
+									<div class="message-item__actions-grid">
+										<!-- Update Status Form -->
+										<form action="/api/admin/messages/update-status" method="post" class="message-item__form">
+											<input type="hidden" name="id" value={msg.id} />
+											<div class="form-group">
+												<label>Cambiar estado:</label>
+												<select name="status" class="form-select">
+													<option value="unread" selected={msg.status === 'unread'}>Unread</option>
+													<option value="read" selected={msg.status === 'read'}>Read</option>
+													<option value="responded" selected={msg.status === 'responded'}>Responded</option>
+													<option value="closed" selected={msg.status === 'closed'}>Closed</option>
+												</select>
+											</div>
+											<AdminButton type="submit" variant="primary" size="small">
+												Guardar Estado
+											</AdminButton>
+										</form>
+
+										<!-- Add Note Form -->
+										<form action="/api/admin/messages/add-note" method="post" class="message-item__form">
+											<input type="hidden" name="id" value={msg.id} />
+											<div class="form-group">
+												<label>Añadir nota:</label>
+												<textarea name="notes" class="form-textarea" rows={3} placeholder="Nota interna..."></textarea>
+											</div>
+											<AdminButton type="submit" variant="success" size="small">
+												Añadir Nota
+											</AdminButton>
+										</form>
+									</div>
+
+									<!-- Delete Form -->
+									<form action="/api/admin/messages/delete" method="post" class="message-item__delete-form">
+										<input type="hidden" name="id" value={msg.id} />
+										<AdminButton
+											type="submit"
+											variant="danger"
+											size="small"
+											fullWidth
+										>
+											Eliminar Mensaje
+										</AdminButton>
+									</form>
+								</div>
+							</div>
+						</details>
+					))}
+				</div>
+			)
+		}
+	</AdminCard>
+</div>
+
+<style>
+	.messages-tab {
+		animation: fadeIn 0.5s ease-out;
+	}
+
+	/* Messages Empty */
+	.messages-empty {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 60px 20px;
+		color: #999;
+		text-align: center;
+	}
+
+	.messages-empty svg {
+		margin-bottom: 16px;
+		opacity: 0.5;
+	}
+
+	.messages-empty p {
+		margin: 0;
+		font-size: 16px;
+	}
+
+	/* Messages List */
+	.messages-list {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.message-item {
+		background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+		border: 2px solid #f0f0f0;
+		border-radius: 12px;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.message-item:hover {
+		border-color: #d4534f;
+		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
+	}
+
+	.message-item[open] {
+		border-color: #d4534f;
+	}
+
+	.message-item__summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 20px;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+
+	.message-item__summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.message-item__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 20px;
+		flex: 1;
+	}
+
+	.message-item__info {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.message-item__name {
+		margin: 0 0 4px;
+		font-family: 'Playfair Display', Georgia, serif;
+		font-size: 20px;
+		font-weight: 700;
+		color: #1a1a1a;
+	}
+
+	.message-item__email {
+		margin: 0;
+		font-size: 14px;
+		color: #666;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.message-item__meta {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex-shrink: 0;
+	}
+
+	.message-item__date {
+		font-size: 13px;
+		color: #999;
+		font-weight: 600;
+		white-space: nowrap;
+	}
+
+	.message-item__chevron {
+		flex-shrink: 0;
+		margin-left: 12px;
+		color: #d4534f;
+		transition: transform 0.3s ease;
+	}
+
+	.message-item[open] .message-item__chevron {
+		transform: rotate(180deg);
+	}
+
+	.message-item__body {
+		border-top: 1px solid #f0f0f0;
+		padding: 20px;
+		animation: expandDown 0.3s ease-out;
+	}
+
+	.message-item__content {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.message-item__section h5 {
+		margin: 0 0 8px;
+		font-size: 13px;
+		font-weight: 700;
+		color: #666;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.message-item__section p {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.6;
+		color: #2a2a2a;
+	}
+
+	.message-item__text {
+		padding: 16px;
+		background: #f8f8f8;
+		border-left: 4px solid #d4534f;
+		border-radius: 8px;
+	}
+
+	.message-item__notes {
+		padding: 12px;
+		background: #fff8e6;
+		border-left: 4px solid #f59e0b;
+		border-radius: 8px;
+		font-style: italic;
+	}
+
+	.message-item__actions-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+		margin-top: 8px;
+	}
+
+	.message-item__form {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		padding: 16px;
+		background: #f8f8f8;
+		border-radius: 10px;
+	}
+
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.form-group label {
+		font-size: 13px;
+		font-weight: 600;
+		color: #555;
+	}
+
+	.form-select,
+	.form-textarea {
+		padding: 10px 12px;
+		border: 2px solid #e8e8e8;
+		border-radius: 8px;
+		font-size: 14px;
+		font-family: inherit;
+		transition: all 0.2s ease;
+	}
+
+	.form-select:focus,
+	.form-textarea:focus {
+		outline: none;
+		border-color: #d4534f;
+		box-shadow: 0 0 0 3px rgba(212, 83, 79, 0.1);
+	}
+
+	.form-textarea {
+		resize: vertical;
+		min-height: 80px;
+	}
+
+	.message-item__delete-form {
+		margin-top: 8px;
+	}
+
+	@keyframes expandDown {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 768px) {
+		.message-item__header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 12px;
+		}
+
+		.message-item__meta {
+			width: 100%;
+			justify-content: space-between;
+		}
+
+		.message-item__actions-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+<script>
+	// Auto-mark as read when opened
+	document.querySelectorAll('.message-item').forEach((details) => {
+		details.addEventListener('toggle', async (e) => {
+			const target = e.target as HTMLDetailsElement;
+			if (target.open) {
+				const messageId = target.getAttribute('data-message-id');
+				const badge = target.querySelector('[data-badge]');
+
+				// Optional: Auto-update status to 'read' when opened
+				// Uncomment if you want this behavior
+				/*
+				if (badge?.textContent?.trim() === 'unread') {
+					try {
+						const formData = new FormData();
+						formData.append('id', messageId || '');
+						formData.append('status', 'read');
+						await fetch('/api/admin/messages/update-status', {
+							method: 'POST',
+							body: formData
+						});
+					} catch (err) {
+						console.error('Error updating status:', err);
+					}
+				}
+				*/
+			}
+		});
+	});
+</script>

@@ -1,5 +1,4 @@
 import type { D1Database } from '@cloudflare/workers-types';
-import { pbkdf2Sync, randomBytes } from 'node:crypto';
 
 export type AppDatabase = D1Database;
 
@@ -43,21 +42,4 @@ export async function dbRun(
   return await stmt.bind(...params).run();
 }
 
-// Mantener passwordUtils (sin cambios)
-type HashParts = {
-  salt: string;
-  hash: string;
-};
-
-const hashPassword = (password: string, salt?: string): HashParts => {
-  const saltBytes = salt ? Buffer.from(salt, 'hex') : randomBytes(16);
-  const hashBytes = pbkdf2Sync(password, saltBytes, 120_000, 32, 'sha256');
-  return {
-    salt: saltBytes.toString('hex'),
-    hash: hashBytes.toString('hex'),
-  };
-};
-
-export const passwordUtils = {
-  hashPassword,
-};
+// Password utils removidos - contraseñas en texto plano para testing

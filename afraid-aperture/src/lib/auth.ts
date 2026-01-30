@@ -1,7 +1,7 @@
-import { randomUUID, timingSafeEqual } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 import type { AstroCookies } from 'astro';
 import type { D1Database } from '@cloudflare/workers-types';
-import { dbGet, dbRun, passwordUtils } from './db';
+import { dbGet, dbRun } from './db';
 
 const SESSION_COOKIE = 'panel_session';
 const SESSION_TTL_SECONDS = 60 * 60 * 8;
@@ -9,7 +9,7 @@ const SESSION_TTL_SECONDS = 60 * 60 * 8;
 type DbUser = {
   id: number;
   username: string;
-  password_hash: string; // Contains salt:hash combined
+  password_hash: string; // Plain text password (testing only)
 };
 
 type DbSession = {
@@ -18,19 +18,9 @@ type DbSession = {
   expires_at: string; // TEXT en schema.sql
 };
 
-// Verify password (compare hash with stored salt:hash)
-const verifyPassword = (password: string, storedHash: string) => {
-  // storedHash format: "salt:hash"
-  const parts = storedHash.split(':');
-  if (parts.length !== 2) return false;
-
-  const [salt, expectedHash] = parts;
-  const { hash } = passwordUtils.hashPassword(password, salt);
-
-  const a = Buffer.from(hash, 'hex');
-  const b = Buffer.from(expectedHash, 'hex');
-  if (a.length !== b.length) return false;
-  return timingSafeEqual(a, b);
+// Verify password (plain text comparison for testing)
+const verifyPassword = (password: string, storedPassword: string) => {
+  return password === storedPassword;
 };
 
 const getUserByUsername = async (db: D1Database, username: string) =>

@@ -21,15 +21,6 @@ const { branches } = Astro.props;
 					<AdminInput label="Nombre de la Sucursal" name="name" type="text" required />
 
 					<AdminInput
-						label="Dirección Completa"
-						name="address"
-						type="textarea"
-						rows={2}
-						required
-						helper="Ej: Av. Rodrigo Gómez 623, Centro, Monterrey, NL"
-					/>
-
-					<AdminInput
 						label="Teléfonos"
 						name="phones"
 						type="text"
@@ -40,7 +31,6 @@ const { branches } = Astro.props;
 					<AdminInput label="Email de Contacto" name="contact_email" type="email" />
 
 					<div class="branch-form__field-full">
-						<label class="branch-form__label">Ubicación en el Mapa</label>
 						<AddressSearch />
 					</div>
 
@@ -171,15 +161,6 @@ const { branches } = Astro.props;
 												<AdminInput label="Nombre de la Sucursal" name="name" type="text" value={branch.name} required />
 
 												<AdminInput
-													label="Dirección Completa"
-													name="address"
-													type="textarea"
-													rows={2}
-													value={branch.address}
-													required
-												/>
-
-												<AdminInput
 													label="Teléfonos"
 													name="phones"
 													type="text"
@@ -189,8 +170,12 @@ const { branches } = Astro.props;
 
 												<AdminInput label="Email de Contacto" name="contact_email" type="email" value={branch.contact_email || ''} />
 
-												<input type="hidden" name="latitude" value={branch.latitude || ''} />
-												<input type="hidden" name="longitude" value={branch.longitude || ''} />
+												<div class="branch-form__field-full">
+													<AddressSearch
+														initialLat={branch.latitude}
+														initialLng={branch.longitude}
+													/>
+												</div>
 
 												<div class="branch-form__inline">
 													<AdminInput label="Orden de Visualización" name="display_order" type="number" value={branch.display_order} />
@@ -521,4 +506,39 @@ const { branches } = Astro.props;
 		}
 	}
 </style>
+
+<script>
+	// Validación de formularios de sucursales
+	function initBranchFormValidation() {
+		const forms = document.querySelectorAll('.branch-form, .branch-edit-form');
+
+		forms.forEach((form) => {
+			form.addEventListener('submit', (e) => {
+				const addressInput = form.querySelector('#address-search-address') as HTMLInputElement;
+
+				if (addressInput && !addressInput.value.trim()) {
+					e.preventDefault();
+					alert('⚠️ Por favor, busca y selecciona una ubicación en el mapa antes de guardar la sucursal.');
+
+					// Scroll to the map
+					const mapSection = form.querySelector('.address-search');
+					if (mapSection) {
+						mapSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+						mapSection.style.animation = 'shake 0.5s';
+						setTimeout(() => {
+							mapSection.style.animation = '';
+						}, 500);
+					}
+					return false;
+				}
+			});
+		});
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initBranchFormValidation);
+	} else {
+		initBranchFormValidation();
+	}
+</script>
 

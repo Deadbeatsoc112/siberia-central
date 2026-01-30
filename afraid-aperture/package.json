@@ -6,7 +6,12 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "db:migrate": "wrangler d1 execute siberia_prod --file=migrations/0001_add_menu_categories_and_items.sql",
+    "db:rollback": "wrangler d1 execute siberia_prod --file=migrations/0001_add_menu_categories_and_items_rollback.sql",
+    "db:backup": "wrangler d1 export siberia_prod --output=backup_$(date +%Y%m%d_%H%M%S).sql",
+    "db:console": "wrangler d1 execute siberia_prod --command",
+    "db:tables": "wrangler d1 execute siberia_prod --command=\"SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;\""
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",

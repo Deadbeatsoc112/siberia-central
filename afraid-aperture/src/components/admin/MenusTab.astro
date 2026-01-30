@@ -10,12 +10,13 @@ import { getDB } from '../../lib/db';
 interface Props {
 	menus: any[];
 	branches: any[];
+	locals: any;
 }
 
-const { menus, branches } = Astro.props;
+const { menus, branches, locals } = Astro.props;
 
 // Fetch full menu hierarchy
-const db = getDB(Astro.locals);
+const db = getDB(locals);
 const menusWithData = await Promise.all(
 	menus.map(async (menu) => {
 		const categories = await categoriesRepo.listByMenu(db, menu.id);

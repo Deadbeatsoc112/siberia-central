@@ -198,7 +198,7 @@ const allBranches = user && (tab === 'menus' || tab === 'branches') ? await bran
 					<main class="modern-admin__content">
 						{tab === 'branches' && <BranchesTab branches={branches} />}
 
-						{tab === 'menus' && <MenusTab menus={menus} branches={allBranches} />}
+						{tab === 'menus' && <MenusTab menus={menus} branches={allBranches} locals={Astro.locals} />}
 
 						{tab === 'resumes' && <ResumesTab resumes={resumes} />}
 

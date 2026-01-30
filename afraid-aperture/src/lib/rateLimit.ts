@@ -1,10 +1,19 @@
-import { db } from './db';
+import type { D1Database } from '@cloudflare/workers-types';
+import { dbGet } from './db';
 
-export function checkRateLimit(ip: string, windowMinutes: number, maxAttempts: number): boolean {
-	const cutoff = Math.floor(Date.now() / 1000) - windowMinutes * 60;
-	const count = db
-		.prepare('SELECT COUNT(*) as cnt FROM contact_messages WHERE ip_address = ? AND created_at > ?')
-		.get(ip, cutoff) as { cnt: number };
+export async function checkRateLimit(
+  db: D1Database,
+  ip: string,
+  windowMinutes: number,
+  maxAttempts: number
+): Promise<boolean> {
+  const cutoffTime = new Date(Date.now() - windowMinutes * 60 * 1000).toISOString();
 
-	return count.cnt < maxAttempts;
+  const result = await dbGet<{ cnt: number }>(
+    db,
+    'SELECT COUNT(*) as cnt FROM contact_messages WHERE ip_address = ? AND created_at > ?',
+    [ip, cutoffTime]
+  );
+
+  return (result?.cnt ?? 0) < maxAttempts;
 }

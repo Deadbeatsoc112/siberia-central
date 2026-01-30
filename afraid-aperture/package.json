@@ -12,12 +12,11 @@
     "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/node": "^9.5.2",
     "astro": "^5.16.15",
-    "better-sqlite3": "^12.6.2",
     "leaflet": "^1.9.4",
     "wrangler": "latest"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
+    "@cloudflare/workers-types": "^4.20250110.0",
     "@types/leaflet": "^1.9.21",
     "@types/node": "^25.1.0"
   }

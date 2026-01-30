@@ -1,9 +1,11 @@
 import type { APIRoute } from 'astro';
 import { auth } from '../../../../lib/auth';
 import { branchesRepo } from '../../../../lib/branches';
+import { getDB } from '../../../../lib/db';
 
-export const POST: APIRoute = async ({ request, cookies }) => {
-	const user = auth.getUserFromCookies(cookies);
+export const POST: APIRoute = async ({ request, cookies, locals }) => {
+	const db = getDB(locals);
+	const user = await auth.getUserFromCookies(db, cookies);
 	if (!user) {
 		return new Response('Unauthorized', { status: 401 });
 	}
@@ -30,7 +32,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 			);
 		}
 
-		branchesRepo.create({
+		await branchesRepo.create(db, {
 			name,
 			address,
 			latitude: latitude || undefined,

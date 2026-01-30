@@ -1,9 +1,11 @@
 ﻿import type { APIRoute } from 'astro';
 import { auth } from '../../../../lib/auth';
 import { jobsRepo } from '../../../../lib/content';
+import { getDB } from '../../../../lib/db';
 
-export const POST: APIRoute = async ({ request, cookies }) => {
-	const user = auth.getUserFromCookies(cookies);
+export const POST: APIRoute = async ({ request, cookies, locals }) => {
+	const db = getDB(locals);
+	const user = await auth.getUserFromCookies(db, cookies);
 	if (!user) {
 		return Response.redirect(new URL('/paneladministrador', request.url), 303);
 	}
@@ -21,7 +23,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 	const isActive = form.get('is_active') === 'on';
 	const availablePositions = Number(form.get('available_positions')) || 1;
 
-	jobsRepo.update(id, { title, location, type, description, isActive, availablePositions });
+	await jobsRepo.update(db, id, { title, location, type, description, isActive, availablePositions });
 
 	return Response.redirect(new URL('/paneladministrador?tab=jobs', request.url), 303);
 };

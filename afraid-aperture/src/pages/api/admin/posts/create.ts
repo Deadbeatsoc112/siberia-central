@@ -1,9 +1,11 @@
 ﻿import type { APIRoute } from 'astro';
 import { auth } from '../../../../lib/auth';
 import { postsRepo } from '../../../../lib/content';
+import { getDB } from '../../../../lib/db';
 
-export const POST: APIRoute = async ({ request, cookies }) => {
-	const user = auth.getUserFromCookies(cookies);
+export const POST: APIRoute = async ({ request, cookies, locals }) => {
+	const db = getDB(locals);
+	const user = await auth.getUserFromCookies(db, cookies);
 	if (!user) {
 		return Response.redirect(new URL('/paneladministrador', request.url), 303);
 	}
@@ -19,7 +21,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 		return Response.redirect(new URL('/paneladministrador?tab=posts&error=1', request.url), 303);
 	}
 
-	postsRepo.create({
+	await postsRepo.create(db, {
 		title,
 		excerpt,
 		content,

@@ -1,9 +1,11 @@
 import type { APIRoute } from 'astro';
 import { auth } from '../../../../lib/auth';
 import { resumesRepo } from '../../../../lib/resumes';
+import { getDB } from '../../../../lib/db';
 
-export const POST: APIRoute = async ({ request, cookies }) => {
-	const user = auth.getUserFromCookies(cookies);
+export const POST: APIRoute = async ({ request, cookies, locals }) => {
+	const db = getDB(locals);
+	const user = await auth.getUserFromCookies(db, cookies);
 	if (!user) {
 		return new Response('Unauthorized', { status: 401 });
 	}
@@ -21,7 +23,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 			);
 		}
 
-		resumesRepo.addNote(id, notes);
+		await resumesRepo.addNote(db, id, notes);
 
 		return Response.redirect(new URL('/paneladministrador?tab=resumes', request.url), 303);
 	} catch (error) {

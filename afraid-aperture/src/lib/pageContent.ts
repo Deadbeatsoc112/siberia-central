@@ -1,65 +1,64 @@
-import { db } from './db';
+import type { D1Database } from '@cloudflare/workers-types';
+import { dbGet, dbAll, dbRun } from './db';
 
 export type PageContentInput = {
-	pageKey: string;
-	section: string;
-	contentType: string;
-	contentValue: string;
-	label: string;
-	description?: string;
-	displayOrder?: number;
+  pageKey: string;
+  section: string;
+  contentType: string;
+  contentValue: string;
+  label: string;
+  description?: string;
+  displayOrder?: number;
 };
 
-const nowEpoch = () => Math.floor(Date.now() / 1000);
-
 export const pageContentRepo = {
-	listAll: () =>
-		db.prepare('SELECT * FROM page_content ORDER BY section, display_order').all() as Array<{
-			id: number;
-			page_key: string;
-			section: string;
-			content_type: string;
-			content_value: string;
-			label: string;
-			description: string | null;
-			display_order: number;
-			updated_at: number;
-		}>,
+  async listAll(db: D1Database) {
+    return await dbAll<{
+      id: number;
+      page_key: string;
+      section: string;
+      content_type: string;
+      content_value: string;
+      label: string;
+      description: string | null;
+      display_order: number;
+      updated_at: string;
+    }>(db, 'SELECT * FROM page_content ORDER BY section, display_order');
+  },
 
-	listBySection: (section: string) =>
-		db.prepare('SELECT * FROM page_content WHERE section = ? ORDER BY display_order').all(section) as Array<{
-			id: number;
-			page_key: string;
-			section: string;
-			content_type: string;
-			content_value: string;
-			label: string;
-			description: string | null;
-			display_order: number;
-			updated_at: number;
-		}>,
+  async listBySection(db: D1Database, section: string) {
+    return await dbAll<{
+      id: number;
+      page_key: string;
+      section: string;
+      content_type: string;
+      content_value: string;
+      label: string;
+      description: string | null;
+      display_order: number;
+      updated_at: string;
+    }>(db, 'SELECT * FROM page_content WHERE section = ? ORDER BY display_order', [section]);
+  },
 
-	getByKey: (pageKey: string) =>
-		db.prepare('SELECT * FROM page_content WHERE page_key = ?').get(pageKey) as
-			| {
-					id: number;
-					page_key: string;
-					section: string;
-					content_type: string;
-					content_value: string;
-					label: string;
-					description: string | null;
-					display_order: number;
-					updated_at: number;
-			  }
-			| undefined,
+  async getByKey(db: D1Database, pageKey: string) {
+    return await dbGet<{
+      id: number;
+      page_key: string;
+      section: string;
+      content_type: string;
+      content_value: string;
+      label: string;
+      description: string | null;
+      display_order: number;
+      updated_at: string;
+    }>(db, 'SELECT * FROM page_content WHERE page_key = ?', [pageKey]);
+  },
 
-	update: (pageKey: string, contentValue: string) => {
-		const ts = nowEpoch();
-		db.prepare('UPDATE page_content SET content_value = ?, updated_at = ? WHERE page_key = ?').run(
-			contentValue,
-			ts,
-			pageKey,
-		);
-	},
+  async update(db: D1Database, pageKey: string, contentValue: string) {
+    await dbRun(
+      db,
+      'UPDATE page_content SET content_value = ?, updated_at = CURRENT_TIMESTAMP WHERE page_key = ?',
+      [contentValue, pageKey]
+    );
+  },
 };

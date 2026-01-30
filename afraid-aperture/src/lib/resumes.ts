@@ -1,4 +1,5 @@
-import { db } from './db';
+import type { D1Database } from '@cloudflare/workers-types';
+import { dbGet, dbAll, dbRun } from './db';
 
 export type ResumeInput = {
 	jobId?: number | null;
@@ -12,11 +13,9 @@ export type ResumeInput = {
 	status?: string;
 };
 
-const nowEpoch = () => Math.floor(Date.now() / 1000);
-
 export const resumesRepo = {
-	listAll: () =>
-		db.prepare('SELECT * FROM resumes ORDER BY created_at DESC').all() as Array<{
+	async listAll(db: D1Database) {
+		return await dbAll<{
 			id: number;
 			job_id: number | null;
 			full_name: string;
@@ -28,12 +27,13 @@ export const resumesRepo = {
 			position_applied: string | null;
 			status: string;
 			notes: string | null;
-			created_at: number;
-			updated_at: number;
-		}>,
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM resumes ORDER BY created_at DESC');
+	},
 
-	listByStatus: (status: string) =>
-		db.prepare('SELECT * FROM resumes WHERE status = ? ORDER BY created_at DESC').all(status) as Array<{
+	async listByStatus(db: D1Database, status: string) {
+		return await dbAll<{
 			id: number;
 			job_id: number | null;
 			full_name: string;
@@ -45,41 +45,44 @@ export const resumesRepo = {
 			position_applied: string | null;
 			status: string;
 			notes: string | null;
-			created_at: number;
-			updated_at: number;
-		}>,
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM resumes WHERE status = ? ORDER BY created_at DESC', [status]);
+	},
 
-	countByStatus: (status: string) =>
-		(db.prepare('SELECT COUNT(*) as cnt FROM resumes WHERE status = ?').get(status) as { cnt: number })
-			.cnt,
+	async countByStatus(db: D1Database, status: string) {
+		const result = await dbGet<{ cnt: number }>(
+			db,
+			'SELECT COUNT(*) as cnt FROM resumes WHERE status = ?',
+			[status],
+		);
+		return result?.cnt ?? 0;
+	},
 
-	getById: (id: number) =>
-		db.prepare('SELECT * FROM resumes WHERE id = ?').get(id) as
-			| {
-					id: number;
-					job_id: number | null;
-					full_name: string;
-					email: string;
-					phone: string;
-					file_path: string;
-					file_name: string;
-					file_size: number;
-					position_applied: string | null;
-					status: string;
-					notes: string | null;
-					created_at: number;
-					updated_at: number;
-			  }
-			| undefined,
+	async getById(db: D1Database, id: number) {
+		return await dbGet<{
+			id: number;
+			job_id: number | null;
+			full_name: string;
+			email: string;
+			phone: string;
+			file_path: string;
+			file_name: string;
+			file_size: number;
+			position_applied: string | null;
+			status: string;
+			notes: string | null;
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM resumes WHERE id = ?', [id]);
+	},
 
-	create: (input: ResumeInput) => {
-		const ts = nowEpoch();
-		const result = db
-			.prepare(
-				`INSERT INTO resumes (job_id, full_name, email, phone, file_path, file_name, file_size, position_applied, status, created_at, updated_at)
-				 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-			)
-			.run(
+	async create(db: D1Database, input: ResumeInput) {
+		const result = await dbRun(
+			db,
+			`INSERT INTO resumes (job_id, full_name, email, phone, file_path, file_name, file_size, position_applied, status)
+			 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			[
 				input.jobId ?? null,
 				input.fullName,
 				input.email,
@@ -89,23 +92,28 @@ export const resumesRepo = {
 				input.fileSize,
 				input.positionApplied ?? null,
 				input.status ?? 'pending',
-				ts,
-				ts,
-			);
-		return Number(result.lastInsertRowid);
+			],
+		);
+		return result.meta.last_row_id as number;
 	},
 
-	updateStatus: (id: number, status: string) => {
-		const ts = nowEpoch();
-		db.prepare('UPDATE resumes SET status = ?, updated_at = ? WHERE id = ?').run(status, ts, id);
+	async updateStatus(db: D1Database, id: number, status: string) {
+		await dbRun(
+			db,
+			'UPDATE resumes SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+			[status, id],
+		);
 	},
 
-	addNote: (id: number, notes: string) => {
-		const ts = nowEpoch();
-		db.prepare('UPDATE resumes SET notes = ?, updated_at = ? WHERE id = ?').run(notes, ts, id);
+	async addNote(db: D1Database, id: number, notes: string) {
+		await dbRun(
+			db,
+			'UPDATE resumes SET notes = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+			[notes, id],
+		);
 	},
 
-	remove: (id: number) => {
-		db.prepare('DELETE FROM resumes WHERE id = ?').run(id);
+	async remove(db: D1Database, id: number) {
+		await dbRun(db, 'DELETE FROM resumes WHERE id = ?', [id]);
 	},
 };

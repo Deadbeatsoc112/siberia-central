@@ -1,4 +1,5 @@
-import { db } from './db';
+import type { D1Database } from '@cloudflare/workers-types';
+import { dbGet, dbAll, dbRun } from './db';
 
 export type MenuInput = {
 	branchId: number;
@@ -24,64 +25,69 @@ export type MenuItemInput = {
 	displayOrder?: number;
 };
 
-const nowEpoch = () => Math.floor(Date.now() / 1000);
-
 export const menusRepo = {
-	listAll: () =>
-		db.prepare('SELECT * FROM menus ORDER BY display_order, name').all() as Array<{
+	async listAll(db: D1Database) {
+		return await dbAll<{
 			id: number;
 			branch_id: number;
 			name: string;
 			pdf_url: string | null;
 			display_order: number;
 			is_active: number;
-			created_at: number;
-			updated_at: number;
-		}>,
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM menus ORDER BY display_order, name');
+	},
 
-	listByBranch: (branchId: number) =>
-		db
-			.prepare('SELECT * FROM menus WHERE branch_id = ? ORDER BY display_order, name')
-			.all(branchId) as Array<{
+	async listByBranch(db: D1Database, branchId: number) {
+		return await dbAll<{
 			id: number;
 			branch_id: number;
 			name: string;
+			pdf_url: string | null;
 			display_order: number;
 			is_active: number;
-			created_at: number;
-			updated_at: number;
-		}>,
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM menus WHERE branch_id = ? ORDER BY display_order, name', [branchId]);
+	},
 
-	getById: (id: number) =>
-		db.prepare('SELECT * FROM menus WHERE id = ?').get(id) as
-			| {
-					id: number;
-					branch_id: number;
-					name: string;
-					display_order: number;
-					is_active: number;
-					created_at: number;
-					updated_at: number;
-			  }
-			| undefined,
+	async getById(db: D1Database, id: number) {
+		return await dbGet<{
+			id: number;
+			branch_id: number;
+			name: string;
+			pdf_url: string | null;
+			display_order: number;
+			is_active: number;
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM menus WHERE id = ?', [id]);
+	},
 
-	getByBranchSlug: (slug: string) => {
-		const branch = db.prepare('SELECT * FROM branches WHERE slug = ?').get(slug) as
-			| { id: number; name: string; slug: string }
-			| undefined;
+	async getByBranchSlug(db: D1Database, slug: string) {
+		const branch = await dbGet<{ id: number; name: string; slug: string }>(
+			db,
+			'SELECT * FROM branches WHERE slug = ?',
+			[slug],
+		);
 		if (!branch) return null;
 
-		const menus = menusRepo.listByBranch(branch.id);
-		const result = menus.map((menu) => {
-			const categories = categoriesRepo.listByMenu(menu.id);
-			return {
-				...menu,
-				categories: categories.map((cat) => ({
-					...cat,
-					items: itemsRepo.listByCategory(cat.id),
-				})),
-			};
-		});
+		const menus = await menusRepo.listByBranch(db, branch.id);
+		const result = await Promise.all(
+			menus.map(async (menu) => {
+				const categories = await categoriesRepo.listByMenu(db, menu.id);
+				return {
+					...menu,
+					categories: await Promise.all(
+						categories.map(async (cat) => ({
+							...cat,
+							items: await itemsRepo.listByCategory(db, cat.id),
+						})),
+					),
+				};
+			}),
+		);
 
 		return {
 			branch,
@@ -89,116 +95,108 @@ export const menusRepo = {
 		};
 	},
 
-	create: (input: MenuInput) => {
-		const ts = nowEpoch();
-		const result = db
-			.prepare(
-				`INSERT INTO menus (branch_id, name, pdf_url, display_order, is_active, created_at, updated_at)
-				 VALUES (?, ?, ?, ?, ?, ?, ?)`,
-			)
-			.run(
+	async create(db: D1Database, input: MenuInput) {
+		const result = await dbRun(
+			db,
+			`INSERT INTO menus (branch_id, name, pdf_url, display_order, is_active)
+			 VALUES (?, ?, ?, ?, ?)`,
+			[
 				input.branchId,
 				input.name,
 				input.pdfUrl ?? null,
 				input.displayOrder ?? 0,
 				input.isActive === false ? 0 : 1,
-				ts,
-				ts,
-			);
-		return Number(result.lastInsertRowid);
+			],
+		);
+		return result.meta.last_row_id as number;
 	},
 
-	update: (id: number, input: MenuInput) => {
-		const ts = nowEpoch();
-		const current = menusRepo.getById(id);
+	async update(db: D1Database, id: number, input: MenuInput) {
+		const current = await menusRepo.getById(db, id);
 		if (!current) return false;
 
-		db.prepare(
+		await dbRun(
+			db,
 			`UPDATE menus
-			 SET branch_id = ?, name = ?, pdf_url = ?, display_order = ?, is_active = ?, updated_at = ?
+			 SET branch_id = ?, name = ?, pdf_url = ?, display_order = ?, is_active = ?, updated_at = CURRENT_TIMESTAMP
 			 WHERE id = ?`,
-		).run(
-			input.branchId || current.branch_id,
-			input.name || current.name,
-			input.pdfUrl ?? (current as any).pdf_url,
-			input.displayOrder ?? current.display_order,
-			input.isActive === false ? 0 : 1,
-			ts,
-			id,
+			[
+				input.branchId || current.branch_id,
+				input.name || current.name,
+				input.pdfUrl ?? current.pdf_url,
+				input.displayOrder ?? current.display_order,
+				input.isActive === false ? 0 : 1,
+				id,
+			],
 		);
 		return true;
 	},
 
-	remove: (id: number) => {
-		db.prepare('DELETE FROM menus WHERE id = ?').run(id);
+	async remove(db: D1Database, id: number) {
+		await dbRun(db, 'DELETE FROM menus WHERE id = ?', [id]);
 	},
 };
 
 export const categoriesRepo = {
-	listByMenu: (menuId: number) =>
-		db
-			.prepare('SELECT * FROM menu_categories WHERE menu_id = ? ORDER BY display_order, name')
-			.all(menuId) as Array<{
+	async listByMenu(db: D1Database, menuId: number) {
+		return await dbAll<{
 			id: number;
 			menu_id: number;
 			name: string;
 			display_order: number;
-			created_at: number;
-			updated_at: number;
-		}>,
-
-	getById: (id: number) =>
-		db.prepare('SELECT * FROM menu_categories WHERE id = ?').get(id) as
-			| {
-					id: number;
-					menu_id: number;
-					name: string;
-					display_order: number;
-					created_at: number;
-					updated_at: number;
-			  }
-			| undefined,
-
-	create: (input: MenuCategoryInput) => {
-		const ts = nowEpoch();
-		const result = db
-			.prepare(
-				`INSERT INTO menu_categories (menu_id, name, display_order, created_at, updated_at)
-				 VALUES (?, ?, ?, ?, ?)`,
-			)
-			.run(input.menuId, input.name, input.displayOrder ?? 0, ts, ts);
-		return Number(result.lastInsertRowid);
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM menu_categories WHERE menu_id = ? ORDER BY display_order, name', [menuId]);
 	},
 
-	update: (id: number, input: MenuCategoryInput) => {
-		const ts = nowEpoch();
-		const current = categoriesRepo.getById(id);
+	async getById(db: D1Database, id: number) {
+		return await dbGet<{
+			id: number;
+			menu_id: number;
+			name: string;
+			display_order: number;
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM menu_categories WHERE id = ?', [id]);
+	},
+
+	async create(db: D1Database, input: MenuCategoryInput) {
+		const result = await dbRun(
+			db,
+			`INSERT INTO menu_categories (menu_id, name, display_order)
+			 VALUES (?, ?, ?)`,
+			[input.menuId, input.name, input.displayOrder ?? 0],
+		);
+		return result.meta.last_row_id as number;
+	},
+
+	async update(db: D1Database, id: number, input: MenuCategoryInput) {
+		const current = await categoriesRepo.getById(db, id);
 		if (!current) return false;
 
-		db.prepare(
+		await dbRun(
+			db,
 			`UPDATE menu_categories
-			 SET menu_id = ?, name = ?, display_order = ?, updated_at = ?
+			 SET menu_id = ?, name = ?, display_order = ?, updated_at = CURRENT_TIMESTAMP
 			 WHERE id = ?`,
-		).run(
-			input.menuId || current.menu_id,
-			input.name || current.name,
-			input.displayOrder ?? current.display_order,
-			ts,
-			id,
+			[
+				input.menuId || current.menu_id,
+				input.name || current.name,
+				input.displayOrder ?? current.display_order,
+				id,
+			],
 		);
 		return true;
 	},
 
-	remove: (id: number) => {
-		db.prepare('DELETE FROM menu_categories WHERE id = ?').run(id);
+	async remove(db: D1Database, id: number) {
+		await dbRun(db, 'DELETE FROM menu_categories WHERE id = ?', [id]);
 	},
 };
 
 export const itemsRepo = {
-	listByCategory: (categoryId: number) =>
-		db
-			.prepare('SELECT * FROM menu_items WHERE category_id = ? ORDER BY display_order, name')
-			.all(categoryId) as Array<{
+	async listByCategory(db: D1Database, categoryId: number) {
+		return await dbAll<{
 			id: number;
 			category_id: number;
 			name: string;
@@ -207,34 +205,34 @@ export const itemsRepo = {
 			image_url: string | null;
 			is_available: number;
 			display_order: number;
-			created_at: number;
-			updated_at: number;
-		}>,
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM menu_items WHERE category_id = ? ORDER BY display_order, name', [
+			categoryId,
+		]);
+	},
 
-	getById: (id: number) =>
-		db.prepare('SELECT * FROM menu_items WHERE id = ?').get(id) as
-			| {
-					id: number;
-					category_id: number;
-					name: string;
-					description: string | null;
-					price: number;
-					image_url: string | null;
-					is_available: number;
-					display_order: number;
-					created_at: number;
-					updated_at: number;
-			  }
-			| undefined,
+	async getById(db: D1Database, id: number) {
+		return await dbGet<{
+			id: number;
+			category_id: number;
+			name: string;
+			description: string | null;
+			price: number;
+			image_url: string | null;
+			is_available: number;
+			display_order: number;
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM menu_items WHERE id = ?', [id]);
+	},
 
-	create: (input: MenuItemInput) => {
-		const ts = nowEpoch();
-		const result = db
-			.prepare(
-				`INSERT INTO menu_items (category_id, name, description, price, image_url, is_available, display_order, created_at, updated_at)
-				 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-			)
-			.run(
+	async create(db: D1Database, input: MenuItemInput) {
+		const result = await dbRun(
+			db,
+			`INSERT INTO menu_items (category_id, name, description, price, image_url, is_available, display_order)
+			 VALUES (?, ?, ?, ?, ?, ?, ?)`,
+			[
 				input.categoryId,
 				input.name,
 				input.description ?? null,
@@ -242,37 +240,36 @@ export const itemsRepo = {
 				input.imageUrl ?? null,
 				input.isAvailable === false ? 0 : 1,
 				input.displayOrder ?? 0,
-				ts,
-				ts,
-			);
-		return Number(result.lastInsertRowid);
+			],
+		);
+		return result.meta.last_row_id as number;
 	},
 
-	update: (id: number, input: MenuItemInput) => {
-		const ts = nowEpoch();
-		const current = itemsRepo.getById(id);
+	async update(db: D1Database, id: number, input: MenuItemInput) {
+		const current = await itemsRepo.getById(db, id);
 		if (!current) return false;
 
-		db.prepare(
+		await dbRun(
+			db,
 			`UPDATE menu_items
 			 SET category_id = ?, name = ?, description = ?, price = ?, image_url = ?,
-			     is_available = ?, display_order = ?, updated_at = ?
+			     is_available = ?, display_order = ?, updated_at = CURRENT_TIMESTAMP
 			 WHERE id = ?`,
-		).run(
-			input.categoryId || current.category_id,
-			input.name || current.name,
-			input.description ?? current.description,
-			input.price ?? current.price,
-			input.imageUrl ?? current.image_url,
-			input.isAvailable === false ? 0 : 1,
-			input.displayOrder ?? current.display_order,
-			ts,
-			id,
+			[
+				input.categoryId || current.category_id,
+				input.name || current.name,
+				input.description ?? current.description,
+				input.price ?? current.price,
+				input.imageUrl ?? current.image_url,
+				input.isAvailable === false ? 0 : 1,
+				input.displayOrder ?? current.display_order,
+				id,
+			],
 		);
 		return true;
 	},
 
-	remove: (id: number) => {
-		db.prepare('DELETE FROM menu_items WHERE id = ?').run(id);
+	async remove(db: D1Database, id: number) {
+		await dbRun(db, 'DELETE FROM menu_items WHERE id = ?', [id]);
 	},
 };

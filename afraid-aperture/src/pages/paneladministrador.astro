@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getDB } from '../lib/db';
 import { auth } from '../lib/auth';
 import { postsRepo, jobsRepo } from '../lib/content';
 import { branchesRepo } from '../lib/branches';
@@ -17,22 +18,24 @@ import AdminCard from '../components/admin/AdminCard.astro';
 import AdminButton from '../components/admin/AdminButton.astro';
 import AdminInput from '../components/admin/AdminInput.astro';
 
-const user = auth.getUserFromCookies(Astro.cookies);
+const db = getDB(Astro.locals);
+
+const user = await auth.getUserFromCookies(db, Astro.cookies);
 const tab = user ? Astro.url.searchParams.get('tab') ?? 'branches' : 'login';
 const hasError = Astro.url.searchParams.get('error') === '1';
 
-const posts = user && tab === 'posts' ? postsRepo.listAll() : [];
-const jobs = user && tab === 'jobs' ? jobsRepo.listAll() : [];
-const branches = user && tab === 'branches' ? branchesRepo.listAll() : [];
-const menus = user && tab === 'menus' ? menusRepo.listAll() : [];
-const resumes = user && tab === 'resumes' ? resumesRepo.listAll() : [];
-const messages = user && tab === 'messages' ? messagesRepo.listAll() : [];
+const posts = user && tab === 'posts' ? await postsRepo.listAll(db) : [];
+const jobs = user && tab === 'jobs' ? await jobsRepo.listAll(db) : [];
+const branches = user && tab === 'branches' ? await branchesRepo.listAll(db) : [];
+const menus = user && tab === 'menus' ? await menusRepo.listAll(db) : [];
+const resumes = user && tab === 'resumes' ? await resumesRepo.listAll(db) : [];
+const messages = user && tab === 'messages' ? await messagesRepo.listAll(db) : [];
 
-const branchesCount = user ? branchesRepo.listAll().length : 0;
-const resumesPending = user ? resumesRepo.countByStatus('pending') : 0;
-const messagesUnread = user ? messagesRepo.countByStatus('unread') : 0;
+const branchesCount = user ? (await branchesRepo.listAll(db)).length : 0;
+const resumesPending = user ? await resumesRepo.countByStatus(db, 'pending') : 0;
+const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0;
 
-const allBranches = user && (tab === 'menus' || tab === 'branches') ? branchesRepo.listAll() : [];
+const allBranches = user && (tab === 'menus' || tab === 'branches') ? await branchesRepo.listAll(db) : [];
 ---
 
 <Layout title="Panel Administrador | La Siberia Central">

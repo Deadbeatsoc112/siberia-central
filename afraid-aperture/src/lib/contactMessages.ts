@@ -1,4 +1,5 @@
-import { db } from './db';
+import type { D1Database } from '@cloudflare/workers-types';
+import { dbGet, dbAll, dbRun } from './db';
 
 export type ContactMessageInput = {
 	fullName: string;
@@ -8,11 +9,9 @@ export type ContactMessageInput = {
 	ipAddress?: string;
 };
 
-const nowEpoch = () => Math.floor(Date.now() / 1000);
-
 export const messagesRepo = {
-	listAll: () =>
-		db.prepare('SELECT * FROM contact_messages ORDER BY created_at DESC').all() as Array<{
+	async listAll(db: D1Database) {
+		return await dbAll<{
 			id: number;
 			full_name: string;
 			email: string;
@@ -21,14 +20,13 @@ export const messagesRepo = {
 			status: string;
 			notes: string | null;
 			ip_address: string | null;
-			created_at: number;
-			updated_at: number;
-		}>,
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM contact_messages ORDER BY created_at DESC');
+	},
 
-	listByStatus: (status: string) =>
-		db
-			.prepare('SELECT * FROM contact_messages WHERE status = ? ORDER BY created_at DESC')
-			.all(status) as Array<{
+	async listByStatus(db: D1Database, status: string) {
+		return await dbAll<{
 			id: number;
 			full_name: string;
 			email: string;
@@ -37,67 +35,68 @@ export const messagesRepo = {
 			status: string;
 			notes: string | null;
 			ip_address: string | null;
-			created_at: number;
-			updated_at: number;
-		}>,
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM contact_messages WHERE status = ? ORDER BY created_at DESC', [status]);
+	},
 
-	countByStatus: (status: string) =>
-		(
-			db.prepare('SELECT COUNT(*) as cnt FROM contact_messages WHERE status = ?').get(status) as {
-				cnt: number;
-			}
-		).cnt,
+	async countByStatus(db: D1Database, status: string) {
+		const result = await dbGet<{ cnt: number }>(
+			db,
+			'SELECT COUNT(*) as cnt FROM contact_messages WHERE status = ?',
+			[status],
+		);
+		return result?.cnt ?? 0;
+	},
 
-	getById: (id: number) =>
-		db.prepare('SELECT * FROM contact_messages WHERE id = ?').get(id) as
-			| {
-					id: number;
-					full_name: string;
-					email: string;
-					phone: string | null;
-					message: string;
-					status: string;
-					notes: string | null;
-					ip_address: string | null;
-					created_at: number;
-					updated_at: number;
-			  }
-			| undefined,
+	async getById(db: D1Database, id: number) {
+		return await dbGet<{
+			id: number;
+			full_name: string;
+			email: string;
+			phone: string | null;
+			message: string;
+			status: string;
+			notes: string | null;
+			ip_address: string | null;
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM contact_messages WHERE id = ?', [id]);
+	},
 
-	create: (input: ContactMessageInput) => {
-		const ts = nowEpoch();
-		const result = db
-			.prepare(
-				`INSERT INTO contact_messages (full_name, email, phone, message, status, ip_address, created_at, updated_at)
-				 VALUES (?, ?, ?, ?, 'unread', ?, ?, ?)`,
-			)
-			.run(
+	async create(db: D1Database, input: ContactMessageInput) {
+		const result = await dbRun(
+			db,
+			`INSERT INTO contact_messages (full_name, email, phone, message, status, ip_address)
+			 VALUES (?, ?, ?, ?, 'unread', ?)`,
+			[
 				input.fullName,
 				input.email,
 				input.phone ?? null,
 				input.message,
 				input.ipAddress ?? null,
-				ts,
-				ts,
-			);
-		return Number(result.lastInsertRowid);
+			],
+		);
+		return result.meta.last_row_id as number;
 	},
 
-	updateStatus: (id: number, status: string) => {
-		const ts = nowEpoch();
-		db.prepare('UPDATE contact_messages SET status = ?, updated_at = ? WHERE id = ?').run(
-			status,
-			ts,
-			id,
+	async updateStatus(db: D1Database, id: number, status: string) {
+		await dbRun(
+			db,
+			'UPDATE contact_messages SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+			[status, id],
 		);
 	},
 
-	addNote: (id: number, notes: string) => {
-		const ts = nowEpoch();
-		db.prepare('UPDATE contact_messages SET notes = ?, updated_at = ? WHERE id = ?').run(notes, ts, id);
+	async addNote(db: D1Database, id: number, notes: string) {
+		await dbRun(
+			db,
+			'UPDATE contact_messages SET notes = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+			[notes, id],
+		);
 	},
 
-	remove: (id: number) => {
-		db.prepare('DELETE FROM contact_messages WHERE id = ?').run(id);
+	async remove(db: D1Database, id: number) {
+		await dbRun(db, 'DELETE FROM contact_messages WHERE id = ?', [id]);
 	},
 };

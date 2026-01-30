@@ -1,12 +1,15 @@
 import type { APIRoute } from 'astro';
+import { getDB } from '../../../lib/db';
 import { messagesRepo } from '../../../lib/contactMessages';
 import { checkRateLimit } from '../../../lib/rateLimit';
 
-export const POST: APIRoute = async ({ request, clientAddress }) => {
+export const POST: APIRoute = async ({ request, clientAddress, locals }) => {
+	const db = getDB(locals);
+
 	try {
 		const ip = clientAddress || 'unknown';
 
-		if (!checkRateLimit(ip, 60, 3)) {
+		if (!(await checkRateLimit(db, ip, 60, 3))) {
 			return Response.redirect(
 				new URL('/contacto?error=limite-excedido', request.url),
 				303,
@@ -27,7 +30,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 			);
 		}
 
-		messagesRepo.create({
+		await messagesRepo.create(db, {
 			fullName,
 			email,
 			phone: phone || undefined,

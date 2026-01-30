@@ -1,6 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { getDB } from '../../lib/db';
 import { menusRepo } from '../../lib/menus';
+
+const db = getDB(Astro.locals);
 
 const { slug } = Astro.params;
 
@@ -8,7 +11,7 @@ if (!slug) {
 	return Astro.redirect('/menu');
 }
 
-const menuData = menusRepo.getByBranchSlug(slug);
+const menuData = await menusRepo.getByBranchSlug(db, slug);
 
 if (!menuData) {
 	return Astro.redirect('/menu');

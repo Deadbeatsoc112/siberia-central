@@ -2,9 +2,11 @@ import type { APIRoute } from 'astro';
 import { auth } from '../../../../lib/auth';
 import { menusRepo } from '../../../../lib/menus';
 import { uploadFile } from '../../../../lib/storage';
+import { getDB } from '../../../../lib/db';
 
 export const POST: APIRoute = async ({ request, cookies, locals }) => {
-	const user = auth.getUserFromCookies(cookies);
+	const db = getDB(locals);
+	const user = await auth.getUserFromCookies(db, cookies);
 	if (!user) {
 		return new Response('Unauthorized', { status: 401 });
 	}
@@ -51,9 +53,9 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 		}
 
 		// Update menu with PDF URL
-		const menu = menusRepo.getById(menuId);
+		const menu = await menusRepo.getById(db, menuId);
 		if (menu) {
-			menusRepo.update(menuId, {
+			await menusRepo.update(db, menuId, {
 				branchId: menu.branch_id,
 				name: menu.name,
 				pdfUrl: `/api/media/${filePath}`,

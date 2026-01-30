@@ -2,9 +2,11 @@ import type { APIRoute } from 'astro';
 import { auth } from '../../../../../lib/auth';
 import { resumesRepo } from '../../../../../lib/resumes';
 import { getFile } from '../../../../../lib/storage';
+import { getDB } from '../../../../../lib/db';
 
 export const GET: APIRoute = async ({ params, cookies, locals }) => {
-	const user = auth.getUserFromCookies(cookies);
+	const db = getDB(locals);
+	const user = await auth.getUserFromCookies(db, cookies);
 	if (!user) {
 		return new Response('Unauthorized', { status: 401 });
 	}
@@ -15,7 +17,7 @@ export const GET: APIRoute = async ({ params, cookies, locals }) => {
 			return new Response('Invalid ID', { status: 400 });
 		}
 
-		const resume = resumesRepo.getById(id);
+		const resume = await resumesRepo.getById(db, id);
 		if (!resume) {
 			return new Response('Resume not found', { status: 404 });
 		}

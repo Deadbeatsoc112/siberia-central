@@ -1,10 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getDB } from '../lib/db';
 import jobsHeroUrl from '../assets/media/Enmascarar grupo 17.png?url';
 import jobsHero2xUrl from '../assets/media/Enmascarar grupo 17@2x.png?url';
 import { jobsRepo } from '../lib/content';
 
-const jobs = jobsRepo.listAll().filter((job) => job.is_active === 1);
+const db = getDB(Astro.locals);
+
+const jobs = (await jobsRepo.listAll(db)).filter((job) => job.is_active === 1);
 
 const success = Astro.url.searchParams.get('success') === '1';
 const error = Astro.url.searchParams.get('error');

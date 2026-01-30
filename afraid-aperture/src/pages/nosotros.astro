@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getDB } from '../lib/db';
 import { branchesRepo } from '../lib/branches';
 import aboutHeroUrl from '../assets/media/Enmascarar grupo 17.png?url';
 import aboutHero2xUrl from '../assets/media/Enmascarar grupo 17@2x.png?url';
@@ -11,8 +12,10 @@ import branchesBgUrl from '../assets/media/Enmascarar grupo 10.png?url';
 import branchesBg2xUrl from '../assets/media/Enmascarar grupo 10@2x.png?url';
 import zigzagDecorUrl from '../assets/media/Grupo 36.svg?url';
 
+const db = getDB(Astro.locals);
+
 // Get branches count dynamically
-const branchesCount = branchesRepo.listActive().length;
+const branchesCount = (await branchesRepo.listActive(db)).length;
 
 const timelineItems = [
 	{

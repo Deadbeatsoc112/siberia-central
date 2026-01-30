@@ -1,9 +1,12 @@
 ﻿---
 import Layout from '../../layouts/Layout.astro';
+import { getDB } from '../../lib/db';
 import { postsRepo } from '../../lib/content';
 
+const db = getDB(Astro.locals);
+
 const slug = Astro.params.slug ?? '';
-const post = slug ? postsRepo.getBySlug(slug) : undefined;
+const post = slug ? await postsRepo.getBySlug(db, slug) : undefined;
 
 if (!post || post.published !== 1) {
 	Astro.response.status = 404;

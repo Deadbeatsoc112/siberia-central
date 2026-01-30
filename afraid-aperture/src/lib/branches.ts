@@ -1,4 +1,5 @@
-import { db } from './db';
+import type { D1Database } from '@cloudflare/workers-types';
+import { dbGet, dbAll, dbRun } from './db';
 
 export type BranchInput = {
 	name: string;
@@ -21,8 +22,8 @@ const slugify = (value: string) =>
 		.replace(/-+/g, '-');
 
 export const branchesRepo = {
-	listAll: () =>
-		db.prepare('SELECT * FROM branches ORDER BY display_order, name').all() as Array<{
+	async listAll(db: D1Database) {
+		return await dbAll<{
 			id: number;
 			name: string;
 			slug: string;
@@ -33,14 +34,13 @@ export const branchesRepo = {
 			contact_email: string | null;
 			is_active: number;
 			display_order: number;
-			created_at: number;
-			updated_at: number;
-		}>,
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM branches ORDER BY display_order, name');
+	},
 
-	listActive: () =>
-		db
-			.prepare('SELECT * FROM branches WHERE is_active = 1 ORDER BY display_order')
-			.all() as Array<{
+	async listActive(db: D1Database) {
+		return await dbAll<{
 			id: number;
 			name: string;
 			slug: string;
@@ -51,55 +51,52 @@ export const branchesRepo = {
 			contact_email: string | null;
 			is_active: number;
 			display_order: number;
-			created_at: number;
-			updated_at: number;
-		}>,
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM branches WHERE is_active = 1 ORDER BY display_order');
+	},
 
-	getById: (id: number) =>
-		db.prepare('SELECT * FROM branches WHERE id = ?').get(id) as
-			| {
-					id: number;
-					name: string;
-					slug: string;
-					address: string;
-					latitude: number | null;
-					longitude: number | null;
-					phones: string;
-					contact_email: string | null;
-					is_active: number;
-					display_order: number;
-					created_at: number;
-					updated_at: number;
-			  }
-			| undefined,
+	async getById(db: D1Database, id: number) {
+		return await dbGet<{
+			id: number;
+			name: string;
+			slug: string;
+			address: string;
+			latitude: number | null;
+			longitude: number | null;
+			phones: string;
+			contact_email: string | null;
+			is_active: number;
+			display_order: number;
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM branches WHERE id = ?', [id]);
+	},
 
-	getBySlug: (slug: string) =>
-		db.prepare('SELECT * FROM branches WHERE slug = ?').get(slug) as
-			| {
-					id: number;
-					name: string;
-					slug: string;
-					address: string;
-					latitude: number | null;
-					longitude: number | null;
-					phones: string;
-					contact_email: string | null;
-					is_active: number;
-					display_order: number;
-					created_at: number;
-					updated_at: number;
-			  }
-			| undefined,
+	async getBySlug(db: D1Database, slug: string) {
+		return await dbGet<{
+			id: number;
+			name: string;
+			slug: string;
+			address: string;
+			latitude: number | null;
+			longitude: number | null;
+			phones: string;
+			contact_email: string | null;
+			is_active: number;
+			display_order: number;
+			created_at: string;
+			updated_at: string;
+		}>(db, 'SELECT * FROM branches WHERE slug = ?', [slug]);
+	},
 
-	create: (input: BranchInput) => {
+	async create(db: D1Database, input: BranchInput) {
 		const slug = slugify(input.name);
-		const ts = Math.floor(Date.now() / 1000);
-		const result = db
-			.prepare(
-				`INSERT INTO branches (name, slug, address, latitude, longitude, phones, contact_email, is_active, display_order, created_at, updated_at)
-				 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-			)
-			.run(
+		const result = await dbRun(
+			db,
+			`INSERT INTO branches (name, slug, address, latitude, longitude, phones, contact_email, is_active, display_order)
+			 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			[
 				input.name,
 				slug,
 				input.address,
@@ -109,40 +106,39 @@ export const branchesRepo = {
 				input.contactEmail ?? null,
 				input.isActive === false ? 0 : 1,
 				input.displayOrder ?? 0,
-				ts,
-				ts,
-			);
-		return Number(result.lastInsertRowid);
+			],
+		);
+		return result.meta.last_row_id as number;
 	},
 
-	update: (id: number, input: BranchInput) => {
-		const ts = Math.floor(Date.now() / 1000);
-		const current = branchesRepo.getById(id);
+	async update(db: D1Database, id: number, input: BranchInput) {
+		const current = await branchesRepo.getById(db, id);
 		if (!current) return false;
 
 		const slug = slugify(input.name || current.name);
-		db.prepare(
+		await dbRun(
+			db,
 			`UPDATE branches
 			 SET name = ?, slug = ?, address = ?, latitude = ?, longitude = ?,
-			     phones = ?, contact_email = ?, is_active = ?, display_order = ?, updated_at = ?
+			     phones = ?, contact_email = ?, is_active = ?, display_order = ?, updated_at = CURRENT_TIMESTAMP
 			 WHERE id = ?`,
-		).run(
-			input.name || current.name,
-			slug,
-			input.address || current.address,
-			input.latitude ?? current.latitude,
-			input.longitude ?? current.longitude,
-			JSON.stringify(input.phones || JSON.parse(current.phones)),
-			input.contactEmail ?? current.contact_email,
-			input.isActive === false ? 0 : 1,
-			input.displayOrder ?? current.display_order,
-			ts,
-			id,
+			[
+				input.name || current.name,
+				slug,
+				input.address || current.address,
+				input.latitude ?? current.latitude,
+				input.longitude ?? current.longitude,
+				JSON.stringify(input.phones || JSON.parse(current.phones)),
+				input.contactEmail ?? current.contact_email,
+				input.isActive === false ? 0 : 1,
+				input.displayOrder ?? current.display_order,
+				id,
+			],
 		);
 		return true;
 	},
 
-	remove: (id: number) => {
-		db.prepare('DELETE FROM branches WHERE id = ?').run(id);
+	async remove(db: D1Database, id: number) {
+		await dbRun(db, 'DELETE FROM branches WHERE id = ?', [id]);
 	},
 };

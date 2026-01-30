@@ -1,10 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { getDB } from '../../lib/db';
 import blogHeroUrl from '../../assets/media/Enmascarar grupo 18.png?url';
 import blogHero2xUrl from '../../assets/media/Enmascarar grupo 18@2x.png?url';
 import { postsRepo } from '../../lib/content';
 
-const posts = postsRepo.listAll().filter((post) => post.published === 1);
+const db = getDB(Astro.locals);
+
+const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 1);
 ---
 
 <Layout title="Blog | La Siberia Central">

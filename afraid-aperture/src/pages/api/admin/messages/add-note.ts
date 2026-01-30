@@ -1,9 +1,11 @@
 import type { APIRoute } from 'astro';
 import { auth } from '../../../../lib/auth';
 import { messagesRepo } from '../../../../lib/contactMessages';
+import { getDB } from '../../../../lib/db';
 
-export const POST: APIRoute = async ({ request, cookies }) => {
-	const user = auth.getUserFromCookies(cookies);
+export const POST: APIRoute = async ({ request, cookies, locals }) => {
+	const db = getDB(locals);
+	const user = await auth.getUserFromCookies(db, cookies);
 	if (!user) {
 		return new Response('Unauthorized', { status: 401 });
 	}
@@ -21,7 +23,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 			);
 		}
 
-		messagesRepo.addNote(id, notes);
+		await messagesRepo.addNote(db, id, notes);
 
 		return Response.redirect(new URL('/paneladministrador?tab=messages', request.url), 303);
 	} catch (error) {

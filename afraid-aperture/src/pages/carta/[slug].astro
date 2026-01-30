@@ -12,28 +12,26 @@ if (!slug) {
 }
 
 const menuData = await menusRepo.getByBranchSlug(db, slug);
-
-if (!menuData) {
-	return Astro.redirect('/menu');
-}
+const branchName = menuData?.branch?.name ?? slug.replace(/-/g, ' ');
+const activeMenus = menuData?.menus ? menuData.menus.filter((menu) => menu.is_active) : [];
 ---
 
-<Layout title={`Menú ${menuData.branch.name} | La Siberia Central`}>
+<Layout title={`Menú ${branchName} | La Siberia Central`}>
 	<section class="menu-hero">
 		<div class="menu-hero__inner">
-			<h1 class="menu-hero__title">Menú de {menuData.branch.name}</h1>
+			<h1 class="menu-hero__title">Menú de {branchName}</h1>
 			<p class="menu-hero__subtitle">Descubre nuestra selección de platillos</p>
 		</div>
 	</section>
 
 	<section class="menu-content">
 		<div class="menu-content__inner">
-			{menuData.menus.filter(m => m.is_active).length === 0 ? (
+			{activeMenus.length === 0 ? (
 				<div class="menu-empty">
 					<p>Próximamente dispondremos del menú de esta sucursal.</p>
 				</div>
 			) : (
-				menuData.menus.filter(m => m.is_active).map((menu) => (
+				activeMenus.map((menu) => (
 					<div class="menu-section">
 						<h2 class="menu-section__title">{menu.name}</h2>
 

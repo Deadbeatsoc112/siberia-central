@@ -34,10 +34,11 @@ const currentPath = Astro.url?.pathname ?? '/';
 			<nav class="site-nav" aria-label="Principal">
 				<ul class="site-nav__list">
 					{navItems.map((item) => {
+						const isMenuRoute = item.href === '/menu' && currentPath.startsWith('/carta');
 						const isActive =
 							item.href === '/'
 								? currentPath === '/'
-								: currentPath.startsWith(item.href);
+								: currentPath.startsWith(item.href) || isMenuRoute;
 						return (
 							<li class="site-nav__item">
 								<a class={`site-nav__link ${isActive ? 'is-active' : ''}`} href={item.href}>

@@ -9,10 +9,10 @@ export default defineConfig({
       mode: 'local',
       type: 'pages',
       bindings: {
-        UPLOADS_BUCKET: {
+        siberia_uploads: {
           type: 'r2',
         },
-        DB: {
+        siberia_prod: {
           type: 'd1',
         }
       }

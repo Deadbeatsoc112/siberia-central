@@ -46,12 +46,38 @@ CREATE TABLE IF NOT EXISTS menus (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   branch_id INTEGER NOT NULL,
   name TEXT NOT NULL,
-  pdf_url TEXT NOT NULL,
+  pdf_url TEXT,
   display_order INTEGER DEFAULT 0,
   is_active INTEGER DEFAULT 1,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (branch_id) REFERENCES branches(id) ON DELETE CASCADE
+);
+
+-- Menu Categories
+CREATE TABLE IF NOT EXISTS menu_categories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  menu_id INTEGER NOT NULL,
+  name TEXT NOT NULL,
+  display_order INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (menu_id) REFERENCES menus(id) ON DELETE CASCADE
+);
+
+-- Menu Items
+CREATE TABLE IF NOT EXISTS menu_items (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  category_id INTEGER NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  price REAL NOT NULL,
+  image_url TEXT,
+  is_available INTEGER DEFAULT 1,
+  display_order INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (category_id) REFERENCES menu_categories(id) ON DELETE CASCADE
 );
 
 -- Contact Messages
@@ -109,6 +135,9 @@ CREATE INDEX IF NOT EXISTS idx_posts_slug ON posts(slug);
 CREATE INDEX IF NOT EXISTS idx_jobs_active ON jobs(is_active);
 CREATE INDEX IF NOT EXISTS idx_branches_slug ON branches(slug);
 CREATE INDEX IF NOT EXISTS idx_menus_branch ON menus(branch_id);
+CREATE INDEX IF NOT EXISTS idx_menu_categories_menu ON menu_categories(menu_id);
+CREATE INDEX IF NOT EXISTS idx_menu_items_category ON menu_items(category_id);
+CREATE INDEX IF NOT EXISTS idx_menu_items_available ON menu_items(is_available);
 CREATE INDEX IF NOT EXISTS idx_messages_status ON contact_messages(status);
 CREATE INDEX IF NOT EXISTS idx_resumes_status ON resumes(status);
 CREATE INDEX IF NOT EXISTS idx_sessions_expires ON sessions(expires_at);

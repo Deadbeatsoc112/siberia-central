@@ -5,9 +5,10 @@ interface Props {
 	href: string;
 	index?: number;
 	variant?: 'dark' | 'accent';
+	menuId?: number;
 }
 
-const { name, address, href, index, variant } = Astro.props as Props;
+const { name, address, href, index, variant, menuId } = Astro.props as Props;
 const resolvedVariant = variant ?? (typeof index === 'number' && index % 2 === 1 ? 'accent' : 'dark');
 const variantClass = resolvedVariant === 'accent' ? 'is-accent' : 'is-dark';
 ---
@@ -24,7 +25,17 @@ const variantClass = resolvedVariant === 'accent' ? 'is-accent' : 'is-dark';
 			<span class="menu-card__address-text">{address}</span>
 		</p>
 	</div>
-	<a class="menu-card__button" href={href}>Ver Menu</a>
+	{menuId ? (
+		<button
+			class="menu-card__button"
+			onclick={`openMenuModal(${menuId})`}
+			type="button"
+		>
+			Ver Menu
+		</button>
+	) : (
+		<a class="menu-card__button" href={href}>Ver Menu</a>
+	)}
 </article>
 
 <style>
@@ -110,6 +121,12 @@ const variantClass = resolvedVariant === 'accent' ? 'is-accent' : 'is-dark';
 		font-size: 17px;
 		letter-spacing: 0.2px;
 		transition: transform 0.25s ease, background-color 0.25s ease;
+	}
+
+	.menu-card__button[type='button'] {
+		background: transparent;
+		font-family: inherit;
+		cursor: pointer;
 	}
 
 	.menu-card__button:hover,

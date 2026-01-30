@@ -3,109 +3,34 @@ import Layout from '../layouts/Layout.astro';
 import menuHeroUrl from '../assets/media/Enmascarar grupo 19.png?url';
 import menuHero2xUrl from '../assets/media/Enmascarar grupo 19@2x.png?url';
 import MenuModuleCard from '../components/MenuModuleCard.astro';
+import MenuModal from '../components/MenuModal.astro';
+import { getDB, dbAll } from '../lib/db';
+import { menusRepo } from '../lib/menus';
 
-const menuModules = [
-	{
-		name: 'Menu Central',
-		address: 'Av. Rodrigo Gomez 623, Col. Central, Monterrey Nuevo Leon CP 64190',
-		href: '/carta/central',
-	},
-	{
-		name: 'Menu San Pedro',
-		address: 'Av. Vasconcelos 150, Del Valle, San Pedro Garza Garcia NL 66220',
-		href: '/carta/san-pedro',
-	},
-	{
-		name: 'Menu Cumbres',
-		address: 'Paseo de los Leones 900, Cumbres 3er Sector, Monterrey NL 64619',
-		href: '/carta/cumbres',
-	},
-	{
-		name: 'Menu Apodaca',
-		address: 'Av. Concordia 1200, Apodaca Centro, Apodaca NL 66600',
-		href: '/carta/apodaca',
-	},
-	{
-		name: 'Menu Guadalupe',
-		address: 'Av. Miguel Aleman 2200, Linda Vista, Guadalupe NL 67130',
-		href: '/carta/guadalupe',
-	},
-	{
-		name: 'Menu Escobedo',
-		address: 'Av. Raul Salinas 500, Hacienda del Topo, Escobedo NL 66055',
-		href: '/carta/escobedo',
-	},
-	{
-		name: 'Menu Santa Catarina',
-		address: 'Blvd. Diaz Ordaz 2000, Santa Catarina Centro, Santa Catarina NL 66350',
-		href: '/carta/santa-catarina',
-	},
-	{
-		name: 'Menu San Nicolas',
-		address: 'Av. Universidad 800, Anahuac, San Nicolas de los Garza NL 66450',
-		href: '/carta/san-nicolas',
-	},
-	{
-		name: 'Menu Contry',
-		address: 'Av. Alfonso Reyes 3000, Contry, Monterrey NL 64860',
-		href: '/carta/contry',
-	},
-	{
-		name: 'Menu Tec',
-		address: 'Av. Eugenio Garza Sada 2500, Tecnologico, Monterrey NL 64849',
-		href: '/carta/tec',
-	},
-	{
-		name: 'Menu Linda Vista',
-		address: 'Av. Miguel Aleman 3500, Linda Vista, Guadalupe NL 67123',
-		href: '/carta/linda-vista',
-	},
-	{
-		name: 'Menu La Fe',
-		address: 'Av. Romulo Garza 500, La Fe, San Nicolas de los Garza NL 66477',
-		href: '/carta/la-fe',
-	},
-	{
-		name: 'Menu Sendero',
-		address: 'Av. Sendero 1000, Valle de las Palmas, Escobedo NL 66072',
-		href: '/carta/sendero',
-	},
-	{
-		name: 'Menu Juarez',
-		address: 'Av. Eloy Cavazos 7600, Juarez Centro, Juarez NL 67250',
-		href: '/carta/juarez',
-	},
-	{
-		name: 'Menu Cadereyta',
-		address: 'Carretera a Reynosa 120, Cadereyta Jimenez Centro, Cadereyta NL 67480',
-		href: '/carta/cadereyta',
-	},
-	{
-		name: 'Menu Garcia',
-		address: 'Av. Heberto Castillo 400, Garcia Centro, Garcia NL 66000',
-		href: '/carta/garcia',
-	},
-	{
-		name: 'Menu Zuazua',
-		address: 'Av. Hidalgo 210, Zuazua Centro, Zuazua NL 65750',
-		href: '/carta/zuazua',
-	},
-	{
-		name: 'Menu Santiago',
-		address: 'Av. Juarez 150, Santiago Centro, Santiago NL 67300',
-		href: '/carta/santiago',
-	},
-	{
-		name: 'Menu Allende',
-		address: 'Av. Benito Juarez 90, Allende Centro, Allende NL 67350',
-		href: '/carta/allende',
-	},
-	{
-		name: 'Menu Montemorelos',
-		address: 'Av. Capitan Alonso de Leon 300, Montemorelos Centro, Montemorelos NL 67500',
-		href: '/carta/montemorelos',
-	},
-];
+const db = getDB(Astro.locals);
+
+// Fetch branches with their menus
+const branches = await dbAll(db, 'SELECT * FROM branches WHERE is_active = 1 ORDER BY display_order');
+const branchesWithMenus = await Promise.all(
+	branches.map(async (branch: any) => {
+		const menus = await menusRepo.listByBranch(db, branch.id);
+		return {
+			...branch,
+			menus: menus.filter(m => m.is_active),
+		};
+	})
+);
+
+// Create menu modules for display
+const menuModules = branchesWithMenus.flatMap(branch =>
+	branch.menus.map(menu => ({
+		name: `Menu ${branch.name}`,
+		address: branch.address,
+		href: `/carta/${branch.slug}`,
+		menuId: menu.id,
+		branchName: branch.name,
+	}))
+);
 
 const featuredMenus = menuModules.slice(0, 5);
 const remainingMenus = menuModules.slice(5);
@@ -146,6 +71,11 @@ const remainingMenus = menuModules.slice(5);
 			)}
 		</div>
 	</section>
+
+	<!-- Modals for each menu -->
+	{menuModules.map((module) => (
+		<MenuModal menuId={module.menuId} branchName={module.branchName} />
+	))}
 </Layout>
 
 <style>

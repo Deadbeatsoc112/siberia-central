@@ -1,0 +1,330 @@
+---
+interface Props {
+	menuId: number;
+	branchName: string;
+}
+
+const { menuId, branchName } = Astro.props;
+---
+
+<div class="menu-modal" id={`menu-modal-${menuId}`} data-menu-id={menuId}>
+	<div class="menu-modal__overlay" data-close-modal></div>
+	<div class="menu-modal__container">
+		<button class="menu-modal__close" data-close-modal aria-label="Cerrar">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<path d="M18 6L6 18M6 6l12 12"/>
+			</svg>
+		</button>
+
+		<div class="menu-modal__content">
+			<div class="menu-modal__header">
+				<h2>Menú de {branchName}</h2>
+			</div>
+
+			<div class="menu-modal__body" id={`menu-content-${menuId}`}>
+				<div class="loading">
+					<div class="spinner"></div>
+					<p>Cargando menú...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.menu-modal {
+		display: none;
+		position: fixed;
+		inset: 0;
+		z-index: 9999;
+	}
+
+	.menu-modal.is-open {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.menu-modal__overlay {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.85);
+		cursor: pointer;
+	}
+
+	.menu-modal__container {
+		position: relative;
+		width: min(1400px, 95vw);
+		max-height: 90vh;
+		background: #111;
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+		display: flex;
+		flex-direction: column;
+	}
+
+	.menu-modal__close {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		width: 44px;
+		height: 44px;
+		border: none;
+		background: rgba(255, 255, 255, 0.1);
+		color: #fff;
+		border-radius: 50%;
+		cursor: pointer;
+		z-index: 10;
+		transition: all 0.2s;
+	}
+
+	.menu-modal__close:hover {
+		background: rgba(255, 255, 255, 0.2);
+		transform: rotate(90deg);
+	}
+
+	.menu-modal__close svg {
+		width: 24px;
+		height: 24px;
+	}
+
+	.menu-modal__header {
+		padding: 32px 24px 24px;
+		background: linear-gradient(135deg, #e1454f, #b3202c);
+		color: #fff;
+		text-align: center;
+	}
+
+	.menu-modal__header h2 {
+		margin: 0;
+		font-size: 36px;
+		font-weight: 700;
+	}
+
+	.menu-modal__body {
+		flex: 1;
+		overflow-y: auto;
+		padding: 32px 24px;
+		background: #111;
+		color: #fff;
+	}
+
+	.loading {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 60px 20px;
+		gap: 16px;
+	}
+
+	.spinner {
+		width: 48px;
+		height: 48px;
+		border: 4px solid rgba(225, 69, 79, 0.2);
+		border-top-color: #e1454f;
+		border-radius: 50%;
+		animation: spin 0.8s linear infinite;
+	}
+
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	/* Menu content styles - inspirado en central.astro */
+	.menu-category {
+		margin-bottom: 48px;
+	}
+
+	.menu-category__title {
+		margin: 0 0 24px;
+		font-size: 32px;
+		font-weight: 800;
+		color: #e1454f;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+	}
+
+	.menu-items {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 16px;
+	}
+
+	.menu-item {
+		display: flex;
+		gap: 16px;
+		padding: 16px;
+		background: rgba(255, 255, 255, 0.05);
+		border-radius: 6px;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.menu-item__image {
+		width: 100px;
+		height: 100px;
+		border-radius: 6px;
+		overflow: hidden;
+		flex-shrink: 0;
+	}
+
+	.menu-item__image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.menu-item__content {
+		flex: 1;
+	}
+
+	.menu-item__header {
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
+		margin-bottom: 8px;
+	}
+
+	.menu-item__name {
+		margin: 0;
+		font-size: 16px;
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+
+	.menu-item__price {
+		font-size: 18px;
+		font-weight: 700;
+		color: #e1454f;
+		white-space: nowrap;
+	}
+
+	.menu-item__description {
+		margin: 0;
+		font-size: 14px;
+		color: #ccc;
+		line-height: 1.5;
+	}
+
+	@media (max-width: 768px) {
+		.menu-modal__container {
+			width: 100vw;
+			max-height: 100vh;
+			border-radius: 0;
+		}
+
+		.menu-modal__header h2 {
+			font-size: 28px;
+		}
+
+		.menu-item {
+			flex-direction: column;
+		}
+
+		.menu-item__image {
+			width: 100%;
+			height: 180px;
+		}
+	}
+</style>
+
+<script>
+	function initMenuModal() {
+		document.querySelectorAll('.menu-modal').forEach((modal) => {
+			modal.querySelectorAll('[data-close-modal]').forEach((btn) => {
+				btn.addEventListener('click', () => {
+					modal.classList.remove('is-open');
+					document.body.style.overflow = '';
+				});
+			});
+		});
+
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape') {
+				document.querySelectorAll('.menu-modal.is-open').forEach((modal) => {
+					modal.classList.remove('is-open');
+					document.body.style.overflow = '';
+				});
+			}
+		});
+	}
+
+	async function loadMenuContent(menuId: number) {
+		const contentEl = document.getElementById(`menu-content-${menuId}`);
+		if (!contentEl) return;
+
+		try {
+			const response = await fetch(`/api/menu-data/${menuId}`);
+			if (!response.ok) throw new Error('Failed to load');
+
+			const data = await response.json();
+
+			let html = '';
+			data.categories.forEach((cat: any) => {
+				if (!cat.items?.length) return;
+				html += `
+					<div class="menu-category">
+						<h3 class="menu-category__title">${cat.name}</h3>
+						<ul class="menu-items">
+							${cat.items
+								.filter((i: any) => i.is_available)
+								.map(
+									(item: any) => `
+								<li class="menu-item">
+									${
+										item.image_url
+											? `
+										<div class="menu-item__image">
+											<img src="${item.image_url}" alt="${item.name}" loading="lazy" />
+										</div>
+									`
+											: ''
+									}
+									<div class="menu-item__content">
+										<div class="menu-item__header">
+											<h4 class="menu-item__name">${item.name}</h4>
+											<span class="menu-item__price">$${parseFloat(item.price).toFixed(2)}</span>
+										</div>
+										${item.description ? `<p class="menu-item__description">${item.description}</p>` : ''}
+									</div>
+								</li>
+							`,
+								)
+								.join('')}
+						</ul>
+					</div>
+				`;
+			});
+
+			contentEl.innerHTML =
+				html ||
+				'<p style="text-align:center;color:#999;">Este menú aún no tiene productos.</p>';
+		} catch (err) {
+			contentEl.innerHTML =
+				'<p style="text-align:center;color:#ef4444;">Error al cargar el menú.</p>';
+		}
+	}
+
+	(window as any).openMenuModal = async function (menuId: number) {
+		const modal = document.getElementById(`menu-modal-${menuId}`);
+		if (!modal) return;
+
+		modal.classList.add('is-open');
+		document.body.style.overflow = 'hidden';
+
+		const contentEl = document.getElementById(`menu-content-${menuId}`);
+		if (contentEl?.querySelector('.loading')) {
+			await loadMenuContent(menuId);
+		}
+	};
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initMenuModal);
+	} else {
+		initMenuModal();
+	}
+</script>

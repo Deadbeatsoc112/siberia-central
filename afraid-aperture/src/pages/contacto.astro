@@ -193,12 +193,12 @@ const error = Astro.url.searchParams.get('error');
     </div>
   </section>
 
-  <!-- JS para el mapa estático -->
+  <!-- JS para el mapa interactivo -->
   <script>
     import L from "leaflet";
     import "leaflet/dist/leaflet.css";
 
-    // Simple static map centered on Monterrey, Mexico
+    // Inicializar el mapa centrado en Monterrey
     const map = L.map("map", {
       zoomControl: true,
       scrollWheelZoom: false,
@@ -211,21 +211,61 @@ const error = Astro.url.searchParams.get('error');
       attribution: "&copy; OpenStreetMap contributors",
     }).addTo(map);
 
-    // Force map to recalculate size after initialization
+    // Variable para mantener el marcador actual
+    let currentMarker: L.Marker | null = null;
+
+    // Forzar recálculo del tamaño del mapa
     setTimeout(() => {
       map.invalidateSize();
     }, 100);
 
-    // Force recalculation on window resize
     window.addEventListener('resize', () => {
       map.invalidateSize();
     });
 
-    // Additional force after page load
     window.addEventListener('load', () => {
       setTimeout(() => {
         map.invalidateSize();
       }, 200);
+    });
+
+    // Seleccionar todas las sucursales
+    const branchButtons = document.querySelectorAll('.branch');
+    
+    branchButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const lat = parseFloat(button.getAttribute('data-lat') || '0');
+        const lng = parseFloat(button.getAttribute('data-lng') || '0');
+        const name = button.getAttribute('data-name') || '';
+        const address = button.getAttribute('data-address') || '';
+
+        // Remover clase activa de todas las sucursales
+        branchButtons.forEach(b => b.classList.remove('is-active'));
+        // Agregar clase activa a la sucursal seleccionada
+        button.classList.add('is-active');
+
+        // Remover marcador anterior si existe
+        if (currentMarker) {
+          map.removeLayer(currentMarker);
+        }
+
+        // Crear nuevo marcador
+        currentMarker = L.marker([lat, lng]).addTo(map);
+        
+        // Agregar popup con información
+        currentMarker.bindPopup(`
+          <div style="font-family: Campton, sans-serif;">
+            <strong style="font-size: 16px; color: #e1454f;">${name}</strong><br>
+            <span style="font-size: 14px; color: #666;">${address}</span>
+          </div>
+        `).openPopup();
+
+        // Centrar y hacer zoom a la ubicación
+        map.setView([lat, lng], 15, {
+          animate: true,
+          duration: 1
+        });
+      });
     });
   </script>
 </Layout>

@@ -17,15 +17,14 @@
 		{
 			"bucket_name": "siberia-uploads",
 			"binding": "siberia_uploads",
-			"remote": true
+			"preview_bucket_name": "siberia-uploads"
 		}
 	],
 	"d1_databases": [
 		{
 			"binding": "siberia_prod",
 			"database_name": "siberia_prod",
-			"database_id": "afe47647-58c3-49f9-8c3f-1925564407ac",
-			"remote": true
+			"database_id": "afe47647-58c3-49f9-8c3f-1925564407ac"
 		}
 	]
 }

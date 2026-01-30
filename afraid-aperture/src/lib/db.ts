@@ -5,10 +5,12 @@ export type AppDatabase = D1Database;
 
 // Obtener D1 desde Astro.locals
 export function getDB(locals: App.Locals): D1Database {
-  if (!locals.siberia_prod) {
+  // En Cloudflare Pages, los bindings están en runtime.env
+  const db = locals.runtime?.env?.siberia_prod || locals.siberia_prod;
+  if (!db) {
     throw new Error('D1 binding "siberia_prod" not found');
   }
-  return locals.siberia_prod;
+  return db;
 }
 
 // Helpers para queries

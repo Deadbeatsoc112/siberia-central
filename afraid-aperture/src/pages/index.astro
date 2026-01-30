@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import heroVideoUrl from '../assets/media/ElevenLabs_video_veo-3-1-fast_Extremely su..._2026-01-17T02_00_23 CMP.mp4?url';
-import heroPosterUrl from '../assets/media/ElevenLabs_video_veo-3-1-fast_Extremely su..._2026-01-17T02_00_23 CMP_PosterImage.png?url';
+import heroMainBgUrl from '../assets/media/Grupo 206.png?url';
+import heroMainBg2xUrl from '../assets/media/Grupo 206@2x.png?url';
 import heroBackgroundUrl from '../assets/media/Grupo 198.png?url';
 import heroLogoUrl from '../assets/media/Enmascarar grupo 4.png?url';
 import heroLogo2xUrl from '../assets/media/Enmascarar grupo 4@2x.png?url';
@@ -22,21 +22,10 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 ---
 
 <Layout title="Inicio | La Siberia Central">
-	<section class="hero">
-		<video
-			class="hero__video"
-			src={heroVideoUrl}
-			poster={heroPosterUrl}
-			width="1920"
-			height="1080"
-			autoplay
-			muted
-			loop
-			playsinline
-		>
-			<source src={heroVideoUrl} type="video/mp4" />
-			Sorry, your browser doesn't support HTML5 video tag.
-		</video>
+	<section
+		class="hero"
+		style={`--hero-bg: image-set(url(${heroMainBg2xUrl}) 2x);`}
+	>
 		<div class="hero__overlay" aria-hidden="true"></div>
 		<div class="hero__content">
 			<img
@@ -151,22 +140,17 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 <style>
 	.hero {
 		position: relative;
+		top: 0px;
+		left: 0px;
 		width: 100%;
 		height: 1080px;
+		background: transparent var(--hero-bg) 0% 0% no-repeat padding-box;
 		opacity: 1;
 		overflow: hidden;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		text-align: center;
-	}
-
-	.hero__video {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
 	}
 
 	.hero__overlay {

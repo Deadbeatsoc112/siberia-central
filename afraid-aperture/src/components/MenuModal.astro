@@ -1,4 +1,25 @@
 ---
+import heroBgUrl from '../assets/media/Enmascarar grupo 20.png?url';
+import heroBg2xUrl from '../assets/media/Enmascarar grupo 20@2x.png?url';
+import heroPatternUrl from '../assets/media/Grupo 140.svg?url';
+import logoUrl from '../assets/media/Enmascarar grupo 4.png?url';
+import logo2xUrl from '../assets/media/Enmascarar grupo 4@2x.png?url';
+import infoBgUrl from '../assets/media/Enmascarar grupo 6.png?url';
+import infoBg2xUrl from '../assets/media/Enmascarar grupo 6@2x.png?url';
+import zigzagUrl from '../assets/media/Grupo 36.svg?url';
+import tostadaUrl from '../assets/media/Grupo 31.png?url';
+import tostada2xUrl from '../assets/media/Grupo 31@2x.png?url';
+import tacoUrl from '../assets/media/Grupo 34.png?url';
+import taco2xUrl from '../assets/media/Grupo 34@2x.png?url';
+import caldoUrl from '../assets/media/Grupo 33.png?url';
+import caldo2xUrl from '../assets/media/Grupo 33@2x.png?url';
+import comboUrl from '../assets/media/Grupo 27.png?url';
+import combo2xUrl from '../assets/media/Grupo 27@2x.png?url';
+import menuBg568Url from '../assets/media/Grupo 568.png?url';
+import menuBg5682xUrl from '../assets/media/Grupo 568@2x.png?url';
+import menuDecor472Url from '../assets/media/Grupo 472.png?url';
+import menuDecor4722xUrl from '../assets/media/Grupo 472@2x.png?url';
+
 interface Props {
 	menuId: number;
 	branchName: string;
@@ -6,6 +27,151 @@ interface Props {
 }
 
 const { menuId, branchName, branchSlug } = Astro.props;
+
+const heroLabels = [
+	{ text: 'BEBIDAS', className: 'bebidas' },
+	{ text: 'TACOS', className: 'tacos' },
+	{ text: 'COMBOS', className: 'combos' },
+	{ text: 'CALDOS', className: 'caldos' },
+	{ text: 'TOSTADAS', className: 'tostadas' },
+];
+
+const branchInfo = {
+	title: 'LA SIBERIA CENTRAL',
+	location: 'CENTRAL',
+	addressLines: [
+		'Av. Rodrigo Gomez 623, Col. Central, Monterrey',
+		'Nuevo Leon CP 64190',
+	],
+	phones: ['8112573064'],
+};
+
+const tostadasItems = [
+	{ name: 'TOSTADA DE PECHUGA', note: 'HEN BREAST TOSTADA', price: '93.00' },
+	{ name: 'TOSTADA DE PECHUGA JUNIOR', note: 'LOREM IPSUM', price: '64.00' },
+	{ name: 'TOSTADA DE PIERNA', note: 'HEN LEG TOSTADA', price: '76.00' },
+	{ name: 'TOSTADA DE PIERNA JUNIOR', note: 'JUNIOR HEN LEG TOSTADA', price: '51.00' },
+	{ name: 'TOSTADA DEL ABUELO', note: "GRANDPA'S TOSTADA", price: '84.00' },
+];
+
+const extrasItems = [
+	{ name: 'CHILES', note: 'Jalapeno Peppers', price: '5.00' },
+	{ name: 'CREMA', note: 'Sour cream', price: '17.00' },
+	{ name: 'TAPA GRANDE', note: 'Large tortilla tostado', price: '15.00' },
+	{ name: 'TAPA CHICA', note: 'Small tortilla tostado', price: '8.00' },
+	{ name: 'GUACAMOLE', note: 'Guacamole', price: '44.00' },
+	{ name: 'ORDEN PECHUGA', note: 'Jalapeno Peppers', price: '54.00' },
+];
+
+const tacosItems = [
+	{ name: 'TACOS DE PECHUGA', note: 'HEN BREAST TOSTADA', price: '93.00' },
+	{ name: 'TACO DE PECHUGA JUNIOR', note: 'JUNIOR HEN BREAST TOSTADA', price: '64.00' },
+	{ name: 'TACO DE PIERNA', note: 'HEN LEG TOSTADA', price: '76.00' },
+	{ name: 'TACO DE PIERNA JUNIOR', note: 'JUNIOR HEN LEG TOSTADA', price: '51.00' },
+];
+
+const caldosFeature = {
+	name: 'TLALPENO',
+	subtitle: 'CALDO',
+	description:
+		'Arroz servido en consome de gallina, con pechuga deshebrada, queso asadero en cubos, tiritas fritas en manteca, un toque de chipotle y aguacate fresco.',
+	note:
+		'Rice served in hen broth, with shredded hen breast, asadero cheese cubes, fried strips of tortilla, a touch of chipotle, and fresh avocado.',
+	sizes: [
+		{ label: 'CHICO/SMALL', price: '104.00' },
+		{ label: 'GRANDE/LARGE', price: '84.00' },
+	],
+};
+
+const caldosCards = [
+	{
+		name: 'CALDO DE PECHUGA',
+		subtitle: 'HEN BREAST BROTH',
+		description:
+			'Consome de gallina con arroz, pechuga y una tortilla para acompanar.',
+		note: 'Hen broth served with rice, hen breast, and a tortilla as side.',
+		price: '93.00',
+	},
+	{
+		name: 'CALDO DE PIERNA',
+		subtitle: 'HEN LEG BROTH',
+		description:
+			'Consome de gallina con arroz, una pieza de pierna y una tortilla para acompanar.',
+		note: 'Hen broth served with rice, a piece of hen leg, and a tortilla as side.',
+		price: '76.00',
+	},
+];
+
+const consomeItems = [
+	{
+		name: 'CONSOME',
+		note: 'BROTH',
+		description: 'Consome de gallina con arroz.',
+		noteEn: 'Hen broth served with rice.',
+		price: '39.00',
+	},
+	{
+		name: 'CONSOME DE PECHUGA',
+		note: 'HEN BREAST BROTH',
+		description: 'Consome de gallina grande con pechuga y arroz.',
+		noteEn: 'Hen leg served with rice, hen breast and tortilla as side.',
+		price: '93.00',
+	},
+	{
+		name: 'CONSOME DE PIERNA',
+		note: 'HEN LEG BROTH',
+		description: 'Consome de gallina con pierna, arroz, y una tortilla para acompanar.',
+		noteEn: 'Hen leg served with rice, and a tortilla as side.',
+		price: '93.00',
+	},
+];
+
+const consomeExtras = [
+	{ name: 'TORTILLA', note: 'Tortilla', price: '6.00' },
+	{ name: 'TORTILLA JR', note: 'Tortilla', price: '4.00' },
+	{ name: 'ORDEN PIERNA', note: 'Portion of Hen leg', price: '44.00' },
+	{ name: 'ORDEN PECHUGA', note: 'Portion of Hen breast', price: '54.00' },
+	{ name: 'ORDEN DE QUESO', note: 'Tortilla', price: '24.00' },
+	{ name: 'ORDEN ARROZ', note: 'Order of rice', price: '33.00' },
+	{ name: 'LITRO DE ARROZ', note: 'Liter of rice', price: '69.00' },
+	{ name: '1/2 DE ARROZ', note: 'Half liter of rice', price: '43.00' },
+];
+
+const combosItems = [
+	{
+		name: 'COMBO 1',
+		note: 'COMBO 1',
+		description: 'Tostada grande de pechuga/pierna + consome + refresco.',
+	},
+];
+
+const bebidasItems = [
+	{
+		name: 'COCA-COLA',
+		note: 'COKE',
+		options: ['Regular / Light / Sin azucar', 'Regular / Light / Zero'],
+		price: '34.00',
+		kind: 'cola',
+		mockCount: 3,
+	},
+	{
+		name: 'FUZE TEA',
+		note: 'FUZE TEA',
+		options: ['Regular / Light / Sin azucar', 'Regular / Light / Zero'],
+		price: '37.00',
+		kind: 'tea',
+		mockCount: 2,
+	},
+	{
+		name: 'AGUA',
+		note: 'WATER',
+		options: ['Natural / Still', 'Mineral / Sparkling'],
+		price: '29.00',
+		priceSecondary: '34.00',
+		kind: 'water',
+		mockCount: 2,
+	},
+];
 ---
 
 <div class="menu-modal" id={`menu-modal-${menuId}`} data-menu-id={menuId} data-branch-slug={branchSlug}>
@@ -17,11 +183,358 @@ const { menuId, branchName, branchSlug } = Astro.props;
 			</svg>
 		</button>
 
-		<iframe
-			class="menu-modal__iframe"
-			id={`menu-iframe-${menuId}`}
-			title={`Menú ${branchName}`}
-		></iframe>
+		<div class="menu-modal__body" aria-label={`Menú ${branchName}`}>
+			<section id={`menu-top-${menuId}`} class="central-hero">
+				<div
+					class="central-hero__bg"
+					style={`background-image: image-set(url(${heroBgUrl}) 1x, url(${heroBg2xUrl}) 2x);`}
+					aria-hidden="true"
+				></div>
+				<div class="central-hero__overlay" aria-hidden="true"></div>
+				<div
+					class="central-hero__pattern"
+					style={`background-image: url(${heroPatternUrl});`}
+					aria-hidden="true"
+				></div>
+
+				<div class="central-hero__content">
+					<div class="central-hero__logo">
+						<span class="central-hero__since">DESDE 1978</span>
+						<img
+							src={logoUrl}
+							srcset={`${logoUrl} 1x, ${logo2xUrl} 2x`}
+							alt="La Siberia Central"
+						/>
+						<span class="central-hero__brand">LA SIBERIA CENTRAL</span>
+					</div>
+
+					<div class="central-hero__labels" aria-hidden="true">
+						{heroLabels.map((label) => (
+							<span class={`central-hero__label central-hero__label--${label.className}`}>
+								{label.text}
+							</span>
+						))}
+					</div>
+				</div>
+			</section>
+
+			<section class="central-info" aria-labelledby={`menu-title-${menuId}`}>
+				<div
+					class="central-info__bg"
+					style={`background-image: image-set(url(${infoBgUrl}) 1x, url(${infoBg2xUrl}) 2x);`}
+					aria-hidden="true"
+				></div>
+				<img class="central-info__zigzag" src={zigzagUrl} alt="" aria-hidden="true" />
+
+				<div class="central-info__content">
+					<span id={`menu-title-${menuId}`} class="central-info__eyebrow">Menu</span>
+					<h1 class="central-info__title">{branchInfo.title}</h1>
+					<h2 class="central-info__location">{branchInfo.location}</h2>
+					<div class="central-info__address">
+						{branchInfo.addressLines.map((line) => (
+							<p>{line}</p>
+						))}
+					</div>
+					<div class="central-info__phones">
+						{branchInfo.phones.map((phone) => (
+							<span class="central-info__phone">
+								<svg viewBox="0 0 24 24" aria-hidden="true">
+									<path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+								</svg>
+								{phone}
+							</span>
+						))}
+					</div>
+				</div>
+
+				<a class="central-info__scroll" href={`#menu-top-${menuId}`} aria-label="Volver arriba">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path d="M12 6l-7 7h4v5h6v-5h4z" />
+					</svg>
+				</a>
+			</section>
+
+			<section class="central-category" aria-labelledby={`tostadas-title-${menuId}`}>
+				<div
+					class="central-menu__decor central-menu__decor--568"
+					style={`background-image: image-set(url(${menuBg568Url}) 1x, url(${menuBg5682xUrl}) 2x);`}
+					aria-hidden="true"
+				></div>
+				<div
+					class="central-menu__decor central-menu__decor--472"
+					style={`background-image: image-set(url(${menuDecor472Url}) 1x, url(${menuDecor4722xUrl}) 2x);`}
+					aria-hidden="true"
+				></div>
+				<div class="central-category__wrap">
+					<div class="central-category__inner">
+						<figure class="central-category__image">
+							<img
+								src={tostadaUrl}
+								srcset={`${tostadaUrl} 1x, ${tostada2xUrl} 2x`}
+								alt="Tostadas"
+								loading="lazy"
+							/>
+						</figure>
+						<div class="central-category__content">
+							<span class="central-category__script">Mas Bien Servidas!</span>
+							<span class="central-menu__line" aria-hidden="true"></span>
+							<h2 id={`tostadas-title-${menuId}`} class="central-category__title">TOSTADAS</h2>
+						</div>
+					</div>
+
+					<div class="central-menu">
+						<div class="central-menu__grid">
+							<ul class="central-menu__list">
+								{tostadasItems.map((item) => (
+									<li class="central-menu__item">
+										<div class="central-menu__item-text">
+											<span class="central-menu__item-name">{item.name}</span>
+											<span class="central-menu__item-note">{item.note}</span>
+										</div>
+										<span class="central-menu__item-price">${item.price}</span>
+									</li>
+								))}
+							</ul>
+
+							<aside class="central-menu__extras">
+								<div class="central-menu__extras-header">
+									<span class="central-menu__extras-tag">EXTRAS</span>
+									<div class="central-menu__extras-script">
+										<span>El antojo manda</span>
+										<div class="central-menu__extras-stars" aria-hidden="true">
+											<span class="central-menu__star central-menu__star--red"></span>
+											<span class="central-menu__star central-menu__star--red"></span>
+											<span class="central-menu__star central-menu__star--red"></span>
+										</div>
+									</div>
+								</div>
+								<ul class="central-menu__extras-list">
+									{extrasItems.map((item) => (
+										<li class="central-menu__extras-item">
+											<div class="central-menu__extras-text">
+												<span class="central-menu__extras-name">{item.name}</span>
+												<span class="central-menu__extras-note">{item.note}</span>
+											</div>
+											<span class="central-menu__extras-price">${item.price}</span>
+										</li>
+									))}
+								</ul>
+							</aside>
+						</div>
+
+						<div class="central-menu__section">
+							<div class="central-menu__section-header">
+								<h3 class="central-menu__section-title">TACOS</h3>
+								<span class="central-menu__line central-menu__line--short" aria-hidden="true"></span>
+							</div>
+							<div class="central-menu__tacos-grid">
+								<ul class="central-menu__list central-menu__list--tacos">
+									{tacosItems.map((item) => (
+										<li class="central-menu__item">
+											<div class="central-menu__item-text">
+												<span class="central-menu__item-name">{item.name}</span>
+												<span class="central-menu__item-note">{item.note}</span>
+											</div>
+											<span class="central-menu__item-price">${item.price}</span>
+										</li>
+									))}
+								</ul>
+								<figure class="central-menu__taco-image">
+									<img
+										src={tacoUrl}
+										srcset={`${tacoUrl} 1x, ${taco2xUrl} 2x`}
+										alt="Tacos"
+										loading="lazy"
+									/>
+								</figure>
+							</div>
+						</div>
+
+						<div class="central-menu__section central-menu__section--caldos">
+							<div class="central-menu__caldos-top">
+								<aside class="central-menu__extras central-menu__extras--caldos">
+									<div class="central-menu__extras-header">
+										<span class="central-menu__extras-tag">EXTRAS</span>
+										<div class="central-menu__extras-script central-menu__extras-script--vertical">
+											<span>Sorpresa con nuez?</span>
+											<span>Luego vengo</span>
+										</div>
+									</div>
+									<ul class="central-menu__extras-list">
+										{extrasItems.map((item) => (
+											<li class="central-menu__extras-item">
+												<div class="central-menu__extras-text">
+													<span class="central-menu__extras-name">{item.name}</span>
+													<span class="central-menu__extras-note">{item.note}</span>
+												</div>
+												<span class="central-menu__extras-price">${item.price}</span>
+											</li>
+										))}
+									</ul>
+								</aside>
+
+								<div class="central-menu__caldos-title">
+									<figure class="central-menu__caldo-image">
+										<img
+											src={caldoUrl}
+											srcset={`${caldoUrl} 1x, ${caldo2xUrl} 2x`}
+											alt="Caldos"
+											loading="lazy"
+										/>
+									</figure>
+									<div class="central-menu__caldos-heading">
+										<h3 class="central-menu__section-title">CALDOS</h3>
+										<span class="central-menu__line central-menu__line--short" aria-hidden="true"></span>
+									</div>
+								</div>
+							</div>
+
+							<article class="central-menu__caldo-feature">
+								<div class="central-menu__caldo-stars" aria-hidden="true">
+									<span></span>
+									<span></span>
+									<span></span>
+								</div>
+								<h4 class="central-menu__caldo-name">{caldosFeature.name}</h4>
+								<p class="central-menu__caldo-desc">{caldosFeature.description}</p>
+								<p class="central-menu__caldo-note">{caldosFeature.note}</p>
+								<div class="central-menu__caldo-sizes">
+									{caldosFeature.sizes.map((size) => (
+										<div class="central-menu__caldo-size">
+											<span>{size.label}</span>
+											<strong>${size.price}</strong>
+										</div>
+									))}
+								</div>
+							</article>
+
+							<div class="central-menu__caldo-cards">
+								{caldosCards.map((card) => (
+									<article class="central-menu__caldo-card">
+										<div class="central-menu__caldo-card-header">
+											<div>
+												<h4>{card.name}</h4>
+												<span>{card.subtitle}</span>
+											</div>
+											<strong>${card.price}</strong>
+										</div>
+										<p>{card.description}</p>
+										<p class="central-menu__caldo-card-note">{card.note}</p>
+									</article>
+								))}
+							</div>
+						</div>
+
+						<div class="central-menu__section central-menu__section--consome">
+							<div class="central-menu__consome-top">
+								<div class="central-menu__consome-list">
+									{consomeItems.map((item) => (
+										<article class="central-menu__consome-item">
+											<div>
+												<h4>{item.name}</h4>
+												<span>{item.note}</span>
+												<p>{item.description}</p>
+												<p class="central-menu__consome-note">{item.noteEn}</p>
+											</div>
+											<strong>${item.price}</strong>
+										</article>
+									))}
+								</div>
+								<div class="central-menu__consome-art">
+									<div class="central-menu__consome-stars" aria-hidden="true">
+										<span></span>
+										<span></span>
+										<span></span>
+									</div>
+									<div class="central-menu__consome-bowl" aria-hidden="true"></div>
+								</div>
+							</div>
+
+							<div class="central-menu__consome-extras">
+								<span class="central-menu__extras-tag">EXTRAS</span>
+								<div class="central-menu__consome-extras-grid">
+									{consomeExtras.map((item) => (
+										<div class="central-menu__extras-item">
+											<div class="central-menu__extras-text">
+												<span class="central-menu__extras-name">{item.name}</span>
+												<span class="central-menu__extras-note">{item.note}</span>
+											</div>
+											<span class="central-menu__extras-price">${item.price}</span>
+										</div>
+									))}
+								</div>
+							</div>
+
+							<div class="central-menu__combos">
+								<div class="central-menu__combos-header">
+									<h3>COMBOS</h3>
+									<span class="central-menu__line central-menu__line--short" aria-hidden="true"></span>
+								</div>
+								<div class="central-menu__combos-body">
+									<div class="central-menu__combo-list">
+										{combosItems.map((combo) => (
+											<article class="central-menu__combo-card">
+												<h4>{combo.name}</h4>
+												<span>{combo.note}</span>
+												<p>{combo.description}</p>
+											</article>
+										))}
+									</div>
+									<figure class="central-menu__combo-image">
+										<img
+											src={comboUrl}
+											srcset={`${comboUrl} 1x, ${combo2xUrl} 2x`}
+											alt="Combos"
+											loading="lazy"
+										/>
+									</figure>
+								</div>
+							</div>
+						</div>
+
+						<div class="central-menu__section central-menu__section--bebidas">
+							<div class="central-menu__bebidas-header">
+								<h3>BEBIDAS</h3>
+								<span class="central-menu__line central-menu__line--short" aria-hidden="true"></span>
+								<span class="central-menu__bebidas-script">Para bajar el taco</span>
+								<div class="central-menu__bebidas-stars" aria-hidden="true">
+									<span></span>
+									<span></span>
+									<span></span>
+								</div>
+							</div>
+
+							<div class="central-menu__bebidas-list">
+								{bebidasItems.map((item) => (
+									<article class="central-menu__bebida">
+										<div class={`central-menu__bebida-mock central-menu__bebida-mock--${item.kind}`}>
+											{Array.from({ length: item.mockCount }).map(() => (
+												<span class="central-menu__bebida-bottle" aria-hidden="true"></span>
+											))}
+										</div>
+										<div class="central-menu__bebida-info">
+											<div class="central-menu__bebida-text">
+												<h4>{item.name}</h4>
+												<span>{item.note}</span>
+												<ul>
+													{item.options.map((option) => (
+														<li>{option}</li>
+													))}
+												</ul>
+											</div>
+											<div class="central-menu__bebida-price">
+												<strong>${item.price}</strong>
+												{item.priceSecondary && <strong>${item.priceSecondary}</strong>}
+											</div>
+										</div>
+									</article>
+								))}
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
 	</div>
 </div>
 
@@ -88,11 +601,25 @@ const { menuId, branchName, branchSlug } = Astro.props;
 		height: 28px;
 	}
 
-	.menu-modal__iframe {
+	.menu-modal__body {
 		width: 100%;
 		height: 100%;
-		border: none;
+		overflow-y: auto;
 		background: #111111;
+		scroll-behavior: smooth;
+	}
+
+	.menu-modal__body::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	.menu-modal__body::-webkit-scrollbar-track {
+		background: rgba(0, 0, 0, 0.35);
+	}
+
+	.menu-modal__body::-webkit-scrollbar-thumb {
+		background: rgba(225, 69, 79, 0.6);
+		border-radius: 10px;
 	}
 
 	@media (max-width: 900px) {
@@ -114,6 +641,1335 @@ const { menuId, branchName, branchSlug } = Astro.props;
 		.menu-modal__close svg {
 			width: 24px;
 			height: 24px;
+		}
+	}
+
+	.central-hero {
+		position: relative;
+		height: 760px;
+		display: grid;
+		place-items: center;
+		overflow: hidden;
+		color: #ffffff;
+		background: #101010;
+	}
+
+	.central-hero__bg {
+		position: absolute;
+		inset: 0;
+		background-size: cover;
+		background-position: center;
+		filter: grayscale(1) contrast(1.1) brightness(0.72);
+		transform: scale(1.03);
+	}
+
+	.central-hero__overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.65));
+	}
+
+	.central-hero__pattern {
+		position: absolute;
+		inset: 0;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: 520px auto;
+		opacity: 0.12;
+	}
+
+	.central-hero__content {
+		position: relative;
+		z-index: 2;
+		width: 100%;
+		height: 100%;
+		display: grid;
+		place-items: center;
+	}
+
+	.central-hero__logo {
+		position: relative;
+		width: 210px;
+		height: 210px;
+		border-radius: 999px;
+		border: 4px solid #e1454f;
+		display: grid;
+		place-items: center;
+		text-align: center;
+		background: rgba(0, 0, 0, 0.72);
+		box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+	}
+
+	.central-hero__logo::before {
+		content: '';
+		position: absolute;
+		inset: 12px;
+		border-radius: 999px;
+		border: 2px solid rgba(225, 69, 79, 0.65);
+	}
+
+	.central-hero__logo img {
+		width: 110px;
+		height: 110px;
+		object-fit: contain;
+	}
+
+	.central-hero__since {
+		position: absolute;
+		top: 14px;
+		left: 50%;
+		transform: translateX(-50%);
+		font-size: 12px;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+	}
+
+	.central-hero__brand {
+		position: absolute;
+		bottom: 18px;
+		left: 50%;
+		transform: translateX(-50%);
+		font-size: 11px;
+		letter-spacing: 2px;
+	}
+
+	.central-hero__labels {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+	}
+
+	.central-hero__label {
+		position: absolute;
+		font-family: 'River Young', 'Campton', 'Montserrat', 'Arial', sans-serif;
+		font-size: 34px;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+		text-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+	}
+
+	.central-hero__label--bebidas {
+		left: 12%;
+		top: 30%;
+		transform: rotate(-55deg);
+	}
+
+	.central-hero__label--tacos {
+		left: 18%;
+		bottom: 24%;
+		transform: rotate(-25deg);
+	}
+
+	.central-hero__label--combos {
+		left: 45%;
+		bottom: 16%;
+		transform: rotate(-5deg);
+	}
+
+	.central-hero__label--caldos {
+		right: 12%;
+		top: 30%;
+		transform: rotate(55deg);
+	}
+
+	.central-hero__label--tostadas {
+		right: 16%;
+		bottom: 24%;
+		transform: rotate(25deg);
+	}
+
+	.central-info {
+		position: relative;
+		background: #e1454f;
+		padding: 86px 24px 120px;
+		text-align: center;
+		overflow: hidden;
+	}
+
+	.central-info__bg {
+		position: absolute;
+		inset: 0;
+		background-size: cover;
+		background-position: center;
+		opacity: 0.25;
+	}
+
+	.central-info__zigzag {
+		position: absolute;
+		top: -12px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 520px;
+		height: auto;
+		opacity: 0.6;
+		z-index: 1;
+	}
+
+	.central-info__content {
+		position: relative;
+		z-index: 2;
+		width: min(720px, 100%);
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+		color: #ffffff;
+	}
+
+	.central-info__eyebrow {
+		font-size: 16px;
+		letter-spacing: 3px;
+		text-transform: uppercase;
+	}
+
+	.central-info__title {
+		margin: 0;
+		font: normal normal 700 38px/1.1 Campton, 'Montserrat', 'Arial', sans-serif;
+		letter-spacing: 1px;
+	}
+
+	.central-info__location {
+		margin: 6px 0 0;
+		font: normal normal 800 26px/1 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #0f0f0f;
+	}
+
+	.central-info__address {
+		margin-top: 6px;
+		display: grid;
+		gap: 4px;
+		font-size: 14px;
+	}
+
+	.central-info__address p {
+		margin: 0;
+	}
+
+	.central-info__phones {
+		margin-top: 8px;
+		display: grid;
+		gap: 6px;
+		font-size: 15px;
+	}
+
+	.central-info__phone {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		font-weight: 700;
+	}
+
+	.central-info__phone svg {
+		width: 18px;
+		height: 18px;
+		fill: currentColor;
+	}
+
+	.central-info__scroll {
+		position: absolute;
+		right: 32px;
+		bottom: 26px;
+		width: 48px;
+		height: 48px;
+		border-radius: 999px;
+		background: #ffffff;
+		color: #e1454f;
+		display: grid;
+		place-items: center;
+		text-decoration: none;
+		box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+		z-index: 3;
+	}
+
+	.central-info__scroll svg {
+		width: 20px;
+		height: 20px;
+		fill: currentColor;
+	}
+
+	.central-category {
+		background: #111111;
+		padding: 90px 24px 160px;
+		color: #ffffff;
+		position: relative;
+		overflow: hidden;
+		background-image:
+			radial-gradient(circle at top, rgba(255, 255, 255, 0.06), transparent 55%),
+			repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 6px);
+	}
+
+	.central-category__wrap {
+		width: min(1489px, 100%);
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 70px;
+		position: relative;
+		z-index: 2;
+	}
+
+	.central-menu__decor {
+		position: absolute;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	.central-menu__decor--568 {
+		top: -94px;
+		left: -159px;
+		width: 1356px;
+		height: 2061px;
+		opacity: 1;
+	}
+
+	.central-menu__decor--472 {
+		top: 11757px;
+		left: 112px;
+		width: 179px;
+		height: 278px;
+		opacity: 1;
+	}
+
+	.central-category__inner {
+		display: grid;
+		grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+		gap: 70px;
+		align-items: center;
+	}
+
+	.central-category__image {
+		margin: 0;
+		position: relative;
+	}
+
+	.central-category__image img {
+		width: 100%;
+		display: block;
+		border-radius: 14px;
+		box-shadow: 0 18px 38px rgba(0, 0, 0, 0.4);
+	}
+
+	.central-category__image::after {
+		content: '';
+		position: absolute;
+		inset: -12px 14px auto auto;
+		width: 80px;
+		height: 80px;
+		border: 3px solid #e1454f;
+		border-radius: 999px;
+		opacity: 0.7;
+	}
+
+	.central-category__content {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.central-category__script {
+		font-family: 'River Young', 'Campton', 'Montserrat', 'Arial', sans-serif;
+		font-size: 36px;
+		color: #e5c790;
+	}
+
+	.central-menu__line {
+		position: relative;
+		width: 240px;
+		height: 1px;
+		background: rgba(255, 255, 255, 0.45);
+	}
+
+	.central-menu__line::after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 12px;
+		height: 12px;
+		transform: translate(-50%, -50%);
+		background: #d6b26e;
+		clip-path: polygon(
+			50% 0%,
+			61% 35%,
+			98% 35%,
+			68% 57%,
+			79% 91%,
+			50% 70%,
+			21% 91%,
+			32% 57%,
+			2% 35%,
+			39% 35%
+		);
+	}
+
+	.central-menu__line--short {
+		width: 200px;
+	}
+
+	.central-category__title {
+		margin: 0;
+		font: normal normal 800 56px/1 Campton, 'Montserrat', 'Arial', sans-serif;
+		letter-spacing: 4px;
+	}
+
+	.central-menu {
+		display: flex;
+		flex-direction: column;
+		gap: 60px;
+	}
+
+	.central-menu__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
+		gap: 40px;
+		align-items: start;
+	}
+
+	.central-menu__list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 16px;
+	}
+
+	.central-menu__item {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: 16px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.central-menu__item-text {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.central-menu__item-name {
+		font-size: 14px;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.central-menu__item-note {
+		font-size: 10px;
+		color: #e1454f;
+		text-transform: uppercase;
+		letter-spacing: 1.2px;
+	}
+
+	.central-menu__item-price {
+		font-size: 14px;
+		font-weight: 700;
+		white-space: nowrap;
+	}
+
+	.central-menu__extras {
+		background: rgba(0, 0, 0, 0.45);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		padding: 22px;
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+
+	.central-menu__extras-header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 16px;
+	}
+
+	.central-menu__extras-tag {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		padding: 8px 16px;
+		font-size: 14px;
+		font-weight: 800;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+		background: #b07a2b;
+		color: #ffffff;
+	}
+
+	.central-menu__extras-tag::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: -16px;
+		border-top: 16px solid transparent;
+		border-bottom: 16px solid transparent;
+		border-left: 16px solid #b07a2b;
+	}
+
+	.central-menu__extras-script {
+		text-align: right;
+		font-family: 'River Young', 'Campton', 'Montserrat', 'Arial', sans-serif;
+		font-size: 20px;
+		color: #d6b26e;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.central-menu__extras-stars {
+		display: flex;
+		justify-content: flex-end;
+		gap: 6px;
+	}
+
+	.central-menu__star {
+		width: 10px;
+		height: 10px;
+		display: inline-block;
+		background: #e1454f;
+		clip-path: polygon(
+			50% 0%,
+			61% 35%,
+			98% 35%,
+			68% 57%,
+			79% 91%,
+			50% 70%,
+			21% 91%,
+			32% 57%,
+			2% 35%,
+			39% 35%
+		);
+	}
+
+	.central-menu__extras-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 12px;
+	}
+
+	.central-menu__extras-item {
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
+	}
+
+	.central-menu__extras-text {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+	}
+
+	.central-menu__extras-name {
+		font-size: 12px;
+		text-transform: uppercase;
+		letter-spacing: 0.8px;
+	}
+
+	.central-menu__extras-note {
+		font-size: 10px;
+		opacity: 0.75;
+	}
+
+	.central-menu__extras-price {
+		font-size: 12px;
+		font-weight: 700;
+		white-space: nowrap;
+	}
+
+	.central-menu__section {
+		display: flex;
+		flex-direction: column;
+		gap: 26px;
+	}
+
+	.central-menu__section-header {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.central-menu__section-title {
+		margin: 0;
+		font: normal normal 800 48px/1 Campton, 'Montserrat', 'Arial', sans-serif;
+		letter-spacing: 4px;
+	}
+
+	.central-menu__tacos-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
+		gap: 40px;
+		align-items: center;
+	}
+
+	.central-menu__taco-image {
+		margin: 0;
+		display: grid;
+		place-items: center;
+	}
+
+	.central-menu__taco-image img {
+		width: min(320px, 100%);
+		border-radius: 999px;
+		background: #ffffff;
+		padding: 12px;
+		box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
+	}
+
+	.central-menu__section--caldos {
+		gap: 34px;
+	}
+
+	.central-menu__caldos-top {
+		display: grid;
+		grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+		gap: 40px;
+		align-items: end;
+	}
+
+	.central-menu__extras--caldos {
+		background: rgba(0, 0, 0, 0.55);
+	}
+
+	.central-menu__extras-script--vertical {
+		writing-mode: vertical-rl;
+		transform: rotate(180deg);
+		font-size: 16px;
+		letter-spacing: 1px;
+	}
+
+	.central-menu__caldos-title {
+		display: grid;
+		grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+		gap: 26px;
+		align-items: center;
+	}
+
+	.central-menu__caldo-image img {
+		width: 100%;
+		border-radius: 999px;
+		background: #ffffff;
+		padding: 10px;
+		box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
+	}
+
+	.central-menu__caldos-heading {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.central-menu__caldo-feature {
+		padding: 22px 0 6px;
+		border-top: 1px solid rgba(255, 255, 255, 0.15);
+	}
+
+	.central-menu__caldo-stars {
+		display: flex;
+		gap: 8px;
+		margin-bottom: 12px;
+	}
+
+	.central-menu__caldo-stars span {
+		width: 12px;
+		height: 12px;
+		background: #e1454f;
+		clip-path: polygon(
+			50% 0%,
+			61% 35%,
+			98% 35%,
+			68% 57%,
+			79% 91%,
+			50% 70%,
+			21% 91%,
+			32% 57%,
+			2% 35%,
+			39% 35%
+		);
+	}
+
+	.central-menu__caldo-name {
+		margin: 0 0 10px;
+		font-size: 20px;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+	}
+
+	.central-menu__caldo-desc {
+		margin: 0 0 10px;
+		font-size: 12px;
+		line-height: 1.6;
+	}
+
+	.central-menu__caldo-note {
+		margin: 0 0 14px;
+		font-size: 10px;
+		color: #cfcfcf;
+		line-height: 1.6;
+	}
+
+	.central-menu__caldo-sizes {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.central-menu__caldo-size {
+		display: flex;
+		justify-content: space-between;
+		font-size: 12px;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.central-menu__caldo-size strong {
+		font-size: 14px;
+	}
+
+	.central-menu__caldo-cards {
+		background: #e1454f;
+		padding: 26px;
+		display: grid;
+		gap: 22px;
+		border-radius: 6px;
+	}
+
+	.central-menu__caldo-card {
+		color: #ffffff;
+		display: grid;
+		gap: 8px;
+		padding-left: 12px;
+		border-left: 2px solid rgba(0, 0, 0, 0.35);
+	}
+
+	.central-menu__caldo-card-header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 12px;
+	}
+
+	.central-menu__caldo-card-header h4 {
+		margin: 0;
+		font-size: 14px;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+	}
+
+	.central-menu__caldo-card-header span {
+		font-size: 10px;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+	}
+
+	.central-menu__caldo-card-header strong {
+		font-size: 14px;
+		white-space: nowrap;
+	}
+
+	.central-menu__caldo-card p {
+		margin: 0;
+		font-size: 11px;
+		line-height: 1.5;
+	}
+
+	.central-menu__caldo-card-note {
+		font-size: 10px;
+		opacity: 0.9;
+	}
+
+	.central-menu__section--consome {
+		gap: 30px;
+	}
+
+	.central-menu__consome-top {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+		gap: 30px;
+		align-items: start;
+	}
+
+	.central-menu__consome-list {
+		display: grid;
+		gap: 22px;
+	}
+
+	.central-menu__consome-item {
+		display: flex;
+		justify-content: space-between;
+		gap: 16px;
+		padding-bottom: 16px;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.central-menu__consome-item h4 {
+		margin: 0 0 6px;
+		font-size: 14px;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+	}
+
+	.central-menu__consome-item span {
+		font-size: 10px;
+		color: #e1454f;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.central-menu__consome-item p {
+		margin: 6px 0 0;
+		font-size: 11px;
+		line-height: 1.5;
+	}
+
+	.central-menu__consome-note {
+		color: #cfcfcf;
+		font-size: 10px;
+	}
+
+	.central-menu__consome-item strong {
+		font-size: 14px;
+		white-space: nowrap;
+	}
+
+	.central-menu__consome-art {
+		position: relative;
+		display: grid;
+		gap: 18px;
+		justify-items: end;
+	}
+
+	.central-menu__consome-stars {
+		display: flex;
+		gap: 8px;
+	}
+
+	.central-menu__consome-stars span {
+		width: 10px;
+		height: 10px;
+		background: #e1454f;
+		clip-path: polygon(
+			50% 0%,
+			61% 35%,
+			98% 35%,
+			68% 57%,
+			79% 91%,
+			50% 70%,
+			21% 91%,
+			32% 57%,
+			2% 35%,
+			39% 35%
+		);
+	}
+
+	.central-menu__consome-bowl {
+		width: 240px;
+		height: 240px;
+		border-radius: 999px;
+		border: 2px solid rgba(214, 178, 110, 0.8);
+		background:
+			radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.22), transparent 55%),
+			radial-gradient(circle at 70% 70%, rgba(214, 178, 110, 0.4), transparent 60%);
+		position: relative;
+	}
+
+	.central-menu__consome-bowl::after {
+		content: '';
+		position: absolute;
+		inset: 18px;
+		border-radius: 999px;
+		border: 1px solid rgba(255, 255, 255, 0.25);
+	}
+
+	.central-menu__consome-extras {
+		display: grid;
+		gap: 16px;
+	}
+
+	.central-menu__consome-extras-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px 20px;
+	}
+
+	.central-menu__combos {
+		display: grid;
+		gap: 20px;
+		padding-top: 10px;
+	}
+
+	.central-menu__combos-header h3 {
+		margin: 0;
+		font: normal normal 800 42px/1 Campton, 'Montserrat', 'Arial', sans-serif;
+		letter-spacing: 4px;
+	}
+
+	.central-menu__combos-body {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+		gap: 30px;
+		align-items: end;
+	}
+
+	.central-menu__combo-list {
+		display: grid;
+		gap: 16px;
+	}
+
+	.central-menu__combo-card h4 {
+		margin: 0;
+		font-size: 14px;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+	}
+
+	.central-menu__combo-card span {
+		font-size: 10px;
+		color: #e1454f;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.central-menu__combo-card p {
+		margin: 6px 0 0;
+		font-size: 11px;
+		line-height: 1.5;
+	}
+
+	.central-menu__combo-image {
+		margin: 0;
+		display: grid;
+		place-items: center;
+	}
+
+	.central-menu__combo-image img {
+		width: min(280px, 100%);
+		border-radius: 999px;
+		background: #e1454f;
+		padding: 12px;
+		box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
+	}
+
+	.central-menu__section--bebidas {
+		gap: 28px;
+		padding-top: 10px;
+	}
+
+	.central-menu__bebidas-header {
+		display: grid;
+		place-items: center;
+		gap: 10px;
+		text-align: center;
+		position: relative;
+	}
+
+	.central-menu__bebidas-header h3 {
+		margin: 0;
+		font: normal normal 800 44px/1 Campton, 'Montserrat', 'Arial', sans-serif;
+		letter-spacing: 4px;
+	}
+
+	.central-menu__bebidas-script {
+		font-family: 'River Young', 'Campton', 'Montserrat', 'Arial', sans-serif;
+		font-size: 22px;
+		color: #d6b26e;
+		transform: rotate(-10deg);
+	}
+
+	.central-menu__bebidas-stars {
+		position: absolute;
+		right: 18%;
+		top: 6px;
+		display: flex;
+		gap: 6px;
+	}
+
+	.central-menu__bebidas-stars span {
+		width: 10px;
+		height: 10px;
+		background: #e1454f;
+		clip-path: polygon(
+			50% 0%,
+			61% 35%,
+			98% 35%,
+			68% 57%,
+			79% 91%,
+			50% 70%,
+			21% 91%,
+			32% 57%,
+			2% 35%,
+			39% 35%
+		);
+	}
+
+	.central-menu__bebidas-list {
+		display: grid;
+		gap: 24px;
+	}
+
+	.central-menu__bebida {
+		display: grid;
+		grid-template-columns: minmax(0, 140px) minmax(0, 1fr);
+		gap: 20px;
+		align-items: center;
+	}
+
+	.central-menu__bebida-info {
+		display: flex;
+		justify-content: space-between;
+		gap: 16px;
+	}
+
+	.central-menu__bebida-text h4 {
+		margin: 0;
+		font-size: 14px;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+	}
+
+	.central-menu__bebida-text span {
+		font-size: 10px;
+		color: #e1454f;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.central-menu__bebida-text ul {
+		list-style: none;
+		margin: 8px 0 0;
+		padding: 0;
+		font-size: 11px;
+		line-height: 1.5;
+		color: #cfcfcf;
+	}
+
+	.central-menu__bebida-price {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 6px;
+		font-size: 14px;
+	}
+
+	.central-menu__bebida-mock {
+		display: flex;
+		align-items: flex-end;
+		gap: 8px;
+		min-height: 120px;
+	}
+
+	.central-menu__bebida-bottle {
+		position: relative;
+		width: 22px;
+		height: 110px;
+		border-radius: 8px 8px 6px 6px;
+		background: linear-gradient(180deg, #1a1a1a, #2d2d2d);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+	}
+
+	.central-menu__bebida-bottle::before {
+		content: '';
+		position: absolute;
+		top: -8px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 10px;
+		height: 10px;
+		border-radius: 3px;
+		background: #c93940;
+	}
+
+	.central-menu__bebida-bottle::after {
+		content: '';
+		position: absolute;
+		left: 3px;
+		right: 3px;
+		top: 36px;
+		height: 26px;
+		border-radius: 6px;
+		background: #c93940;
+		opacity: 0.9;
+	}
+
+	.central-menu__bebida-mock--cola .central-menu__bebida-bottle {
+		background: linear-gradient(180deg, #1c1c1c 0%, #2b2b2b 100%);
+	}
+
+	.central-menu__bebida-mock--cola .central-menu__bebida-bottle:nth-child(2) {
+		height: 120px;
+	}
+
+	.central-menu__bebida-mock--tea .central-menu__bebida-bottle {
+		background: linear-gradient(180deg, #c68a4a 0%, #9b4a25 100%);
+	}
+
+	.central-menu__bebida-mock--tea .central-menu__bebida-bottle::after {
+		background: #f4c255;
+	}
+
+	.central-menu__bebida-mock--water .central-menu__bebida-bottle {
+		background: linear-gradient(180deg, #dfe7ef 0%, #a3b6c7 100%);
+	}
+
+	.central-menu__bebida-mock--water .central-menu__bebida-bottle::after {
+		background: #6aa8d8;
+	}
+
+	@media (max-width: 1200px) {
+		.central-hero {
+			height: 680px;
+		}
+
+		.central-hero__label {
+			font-size: 30px;
+		}
+
+		.central-category__inner {
+			grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+			gap: 50px;
+		}
+
+		.central-category__title {
+			font-size: 48px;
+		}
+
+		.central-menu__grid,
+		.central-menu__tacos-grid {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+		}
+
+		.central-menu__section-title {
+			font-size: 42px;
+		}
+
+		.central-menu__caldos-top {
+			grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+		}
+
+		.central-menu__caldos-title {
+			grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+		}
+
+		.central-menu__consome-top {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 280px);
+		}
+
+		.central-menu__combos-body {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 280px);
+		}
+	}
+
+	@media (max-width: 900px) {
+		.central-hero {
+			height: 620px;
+		}
+
+		.central-hero__labels {
+			position: relative;
+			inset: auto;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 10px 18px;
+			margin-top: 26px;
+		}
+
+		.central-hero__label {
+			position: static;
+			transform: none;
+			font-size: 24px;
+		}
+
+		.central-info__scroll {
+			right: 50%;
+			transform: translateX(50%);
+			bottom: 18px;
+		}
+
+		.central-category__inner {
+			grid-template-columns: 1fr;
+			text-align: center;
+		}
+
+		.central-category__content {
+			align-items: center;
+		}
+
+		.central-menu__line {
+			margin: 0 auto;
+		}
+
+		.central-menu__grid,
+		.central-menu__tacos-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.central-menu__extras-header {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.central-menu__extras-script {
+			text-align: left;
+			align-items: flex-start;
+		}
+
+		.central-menu__section-header {
+			align-items: center;
+		}
+
+		.central-menu__taco-image {
+			margin-top: 12px;
+		}
+
+		.central-menu__caldos-top {
+			grid-template-columns: 1fr;
+			align-items: center;
+		}
+
+		.central-menu__caldos-title {
+			grid-template-columns: 1fr;
+			text-align: center;
+		}
+
+		.central-menu__caldo-image {
+			max-width: 220px;
+			margin: 0 auto;
+		}
+
+		.central-menu__extras-script--vertical {
+			writing-mode: horizontal-tb;
+			transform: none;
+		}
+
+		.central-menu__caldo-sizes {
+			gap: 8px;
+		}
+
+		.central-menu__caldo-cards {
+			padding: 22px;
+		}
+
+		.central-menu__consome-top,
+		.central-menu__combos-body {
+			grid-template-columns: 1fr;
+		}
+
+		.central-menu__consome-art {
+			justify-items: center;
+		}
+
+		.central-menu__consome-extras-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.central-menu__combo-image {
+			margin-top: 12px;
+		}
+
+		.central-menu__combos-header {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.central-hero {
+			height: 540px;
+		}
+
+		.central-hero__logo {
+			width: 170px;
+			height: 170px;
+		}
+
+		.central-hero__logo img {
+			width: 90px;
+			height: 90px;
+		}
+
+		.central-info {
+			padding: 70px 20px 110px;
+		}
+
+		.central-info__title {
+			font-size: 30px;
+		}
+
+		.central-info__location {
+			font-size: 22px;
+		}
+
+		.central-category {
+			padding: 70px 20px 110px;
+		}
+
+		.central-category__title {
+			font-size: 40px;
+		}
+
+		.central-category__script {
+			font-size: 30px;
+		}
+
+		.central-menu__section-title {
+			font-size: 36px;
+		}
+
+		.central-menu__item-name {
+			font-size: 13px;
+		}
+
+		.central-menu__item-price {
+			font-size: 13px;
+		}
+
+		.central-menu__caldo-card-header h4 {
+			font-size: 13px;
+		}
+
+		.central-menu__caldo-card-header strong {
+			font-size: 13px;
+		}
+
+		.central-menu__combos-header h3 {
+			font-size: 34px;
+		}
+
+		.central-menu__consome-bowl {
+			width: 200px;
+			height: 200px;
+		}
+
+		.central-menu__bebidas-header h3 {
+			font-size: 36px;
+		}
+
+		.central-menu__bebida {
+			grid-template-columns: 1fr;
+			gap: 12px;
+		}
+
+		.central-menu__bebida-info {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 8px;
+		}
+
+		.central-menu__bebida-price {
+			align-items: flex-start;
+		}
+
+		.central-menu__bebidas-stars {
+			position: static;
 		}
 	}
 </style>
@@ -142,14 +1998,6 @@ const { menuId, branchName, branchSlug } = Astro.props;
 	(window as any).openMenuModal = function (menuId: number) {
 		const modal = document.getElementById(`menu-modal-${menuId}`);
 		if (!modal) return;
-
-		const iframe = document.getElementById(`menu-iframe-${menuId}`) as HTMLIFrameElement;
-		const branchSlug = modal.getAttribute('data-branch-slug') || 'central';
-
-		// Load iframe only once
-		if (!iframe.src) {
-			iframe.src = `/carta/${branchSlug}`;
-		}
 
 		modal.classList.add('is-open');
 		document.body.style.overflow = 'hidden';

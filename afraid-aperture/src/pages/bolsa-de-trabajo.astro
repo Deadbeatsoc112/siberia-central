@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getDB } from '../lib/db';
-import jobsHeroUrl from '../assets/media/Enmascarar grupo 17.png?url';
-import jobsHero2xUrl from '../assets/media/Enmascarar grupo 17@2x.png?url';
+import jobsHeroUrl from '../assets/media/Enmascarar grupo 2.png?url';
+import jobsHero2xUrl from '../assets/media/Enmascarar grupo 2@2x.png?url';
 import { jobsRepo } from '../lib/content';
 
 const db = getDB(Astro.locals);
@@ -264,14 +264,13 @@ const error = Astro.url.searchParams.get('error');
 		inset: 0;
 		background-size: cover;
 		background-position: center;
-		filter: grayscale(1) contrast(1.05) brightness(0.72);
 		transform: scale(1.02);
 	}
 
 	.jobs-hero__overlay {
 		position: absolute;
 		inset: 0;
-		background: rgba(0, 0, 0, 0.45);
+		background: rgba(0, 0, 0, 0.15);
 	}
 
 	.jobs-hero__content {

@@ -20,13 +20,39 @@ import menuBg5682xUrl from '../assets/media/Grupo 568@2x.png?url';
 import menuDecor472Url from '../assets/media/Grupo 472.png?url';
 import menuDecor4722xUrl from '../assets/media/Grupo 472@2x.png?url';
 
+interface MenuItemData {
+	name: string;
+	description?: string | null;
+	price: number;
+	image_url?: string | null;
+}
+
+interface MenuCategoryData {
+	name: string;
+	image_url?: string | null;
+	items: MenuItemData[];
+}
+
+interface MenuData {
+	name: string;
+	categories: MenuCategoryData[];
+}
+
+interface BranchData {
+	name: string;
+	address: string;
+	phones: string[];
+}
+
 interface Props {
 	menuId: number;
 	branchName: string;
 	branchSlug: string;
+	menu?: MenuData;
+	branch?: BranchData;
 }
 
-const { menuId, branchName, branchSlug } = Astro.props;
+const { menuId, branchName, branchSlug, menu, branch } = Astro.props as Props;
 
 const heroLabels = [
 	{ text: 'BEBIDAS', className: 'bebidas' },
@@ -37,141 +63,28 @@ const heroLabels = [
 ];
 
 const branchInfo = {
-	title: 'LA SIBERIA CENTRAL',
-	location: 'CENTRAL',
-	addressLines: [
-		'Av. Rodrigo Gomez 623, Col. Central, Monterrey',
-		'Nuevo Leon CP 64190',
-	],
-	phones: ['8112573064'],
+	title: branch?.name ?? 'LA SIBERIA CENTRAL',
+	location: branchName || branch?.name || 'CENTRAL',
+	addressLines: branch?.address ? [branch.address] : ['Av. Rodrigo Gomez 623, Col. Central, Monterrey', 'Nuevo Leon CP 64190'],
+	phones: branch?.phones ?? ['8112573064'],
 };
 
-const tostadasItems = [
-	{ name: 'TOSTADA DE PECHUGA', note: 'HEN BREAST TOSTADA', price: '93.00' },
-	{ name: 'TOSTADA DE PECHUGA JUNIOR', note: 'LOREM IPSUM', price: '64.00' },
-	{ name: 'TOSTADA DE PIERNA', note: 'HEN LEG TOSTADA', price: '76.00' },
-	{ name: 'TOSTADA DE PIERNA JUNIOR', note: 'JUNIOR HEN LEG TOSTADA', price: '51.00' },
-	{ name: 'TOSTADA DEL ABUELO', note: "GRANDPA'S TOSTADA", price: '84.00' },
+const menuCategories = menu?.categories ?? [];
+
+const fallbackImages = [
+	{ src: tostadaUrl, src2x: tostada2xUrl, alt: 'Tostadas' },
+	{ src: tacoUrl, src2x: taco2xUrl, alt: 'Tacos' },
+	{ src: caldoUrl, src2x: caldo2xUrl, alt: 'Caldos' },
+	{ src: comboUrl, src2x: combo2xUrl, alt: 'Combos' },
 ];
 
-const extrasItems = [
-	{ name: 'CHILES', note: 'Jalapeno Peppers', price: '5.00' },
-	{ name: 'CREMA', note: 'Sour cream', price: '17.00' },
-	{ name: 'TAPA GRANDE', note: 'Large tortilla tostado', price: '15.00' },
-	{ name: 'TAPA CHICA', note: 'Small tortilla tostado', price: '8.00' },
-	{ name: 'GUACAMOLE', note: 'Guacamole', price: '44.00' },
-	{ name: 'ORDEN PECHUGA', note: 'Jalapeno Peppers', price: '54.00' },
-];
-
-const tacosItems = [
-	{ name: 'TACOS DE PECHUGA', note: 'HEN BREAST TOSTADA', price: '93.00' },
-	{ name: 'TACO DE PECHUGA JUNIOR', note: 'JUNIOR HEN BREAST TOSTADA', price: '64.00' },
-	{ name: 'TACO DE PIERNA', note: 'HEN LEG TOSTADA', price: '76.00' },
-	{ name: 'TACO DE PIERNA JUNIOR', note: 'JUNIOR HEN LEG TOSTADA', price: '51.00' },
-];
-
-const caldosFeature = {
-	name: 'TLALPENO',
-	subtitle: 'CALDO',
-	description:
-		'Arroz servido en consome de gallina, con pechuga deshebrada, queso asadero en cubos, tiritas fritas en manteca, un toque de chipotle y aguacate fresco.',
-	note:
-		'Rice served in hen broth, with shredded hen breast, asadero cheese cubes, fried strips of tortilla, a touch of chipotle, and fresh avocado.',
-	sizes: [
-		{ label: 'CHICO/SMALL', price: '104.00' },
-		{ label: 'GRANDE/LARGE', price: '84.00' },
-	],
+const resolveCategoryImage = (index: number, category: MenuCategoryData) => {
+	if (category.image_url) {
+		return { src: category.image_url, src2x: null, alt: category.name };
+	}
+	const fallback = fallbackImages[index % fallbackImages.length];
+	return { src: fallback.src, src2x: fallback.src2x, alt: fallback.alt };
 };
-
-const caldosCards = [
-	{
-		name: 'CALDO DE PECHUGA',
-		subtitle: 'HEN BREAST BROTH',
-		description:
-			'Consome de gallina con arroz, pechuga y una tortilla para acompanar.',
-		note: 'Hen broth served with rice, hen breast, and a tortilla as side.',
-		price: '93.00',
-	},
-	{
-		name: 'CALDO DE PIERNA',
-		subtitle: 'HEN LEG BROTH',
-		description:
-			'Consome de gallina con arroz, una pieza de pierna y una tortilla para acompanar.',
-		note: 'Hen broth served with rice, a piece of hen leg, and a tortilla as side.',
-		price: '76.00',
-	},
-];
-
-const consomeItems = [
-	{
-		name: 'CONSOME',
-		note: 'BROTH',
-		description: 'Consome de gallina con arroz.',
-		noteEn: 'Hen broth served with rice.',
-		price: '39.00',
-	},
-	{
-		name: 'CONSOME DE PECHUGA',
-		note: 'HEN BREAST BROTH',
-		description: 'Consome de gallina grande con pechuga y arroz.',
-		noteEn: 'Hen leg served with rice, hen breast and tortilla as side.',
-		price: '93.00',
-	},
-	{
-		name: 'CONSOME DE PIERNA',
-		note: 'HEN LEG BROTH',
-		description: 'Consome de gallina con pierna, arroz, y una tortilla para acompanar.',
-		noteEn: 'Hen leg served with rice, and a tortilla as side.',
-		price: '93.00',
-	},
-];
-
-const consomeExtras = [
-	{ name: 'TORTILLA', note: 'Tortilla', price: '6.00' },
-	{ name: 'TORTILLA JR', note: 'Tortilla', price: '4.00' },
-	{ name: 'ORDEN PIERNA', note: 'Portion of Hen leg', price: '44.00' },
-	{ name: 'ORDEN PECHUGA', note: 'Portion of Hen breast', price: '54.00' },
-	{ name: 'ORDEN DE QUESO', note: 'Tortilla', price: '24.00' },
-	{ name: 'ORDEN ARROZ', note: 'Order of rice', price: '33.00' },
-	{ name: 'LITRO DE ARROZ', note: 'Liter of rice', price: '69.00' },
-	{ name: '1/2 DE ARROZ', note: 'Half liter of rice', price: '43.00' },
-];
-
-const combosItems = [
-	{
-		name: 'COMBO 1',
-		note: 'COMBO 1',
-		description: 'Tostada grande de pechuga/pierna + consome + refresco.',
-	},
-];
-
-const bebidasItems = [
-	{
-		name: 'COCA-COLA',
-		note: 'COKE',
-		options: ['Regular / Light / Sin azucar', 'Regular / Light / Zero'],
-		price: '34.00',
-		kind: 'cola',
-		mockCount: 3,
-	},
-	{
-		name: 'FUZE TEA',
-		note: 'FUZE TEA',
-		options: ['Regular / Light / Sin azucar', 'Regular / Light / Zero'],
-		price: '37.00',
-		kind: 'tea',
-		mockCount: 2,
-	},
-	{
-		name: 'AGUA',
-		note: 'WATER',
-		options: ['Natural / Still', 'Mineral / Sparkling'],
-		price: '29.00',
-		priceSecondary: '34.00',
-		kind: 'water',
-		mockCount: 2,
-	},
-];
 ---
 
 <div class="menu-modal" id={`menu-modal-${menuId}`} data-menu-id={menuId} data-branch-slug={branchSlug}>
@@ -254,7 +167,7 @@ const bebidasItems = [
 				</a>
 			</section>
 
-			<section class="central-category" aria-labelledby={`tostadas-title-${menuId}`}>
+			<section class="central-category" aria-labelledby={`menu-title-${menuId}`}>
 				<div
 					class="central-menu__decor central-menu__decor--568"
 					style={`background-image: image-set(url(${menuBg568Url}) 1x, url(${menuBg5682xUrl}) 2x);`}
@@ -266,274 +179,59 @@ const bebidasItems = [
 					aria-hidden="true"
 				></div>
 				<div class="central-category__wrap">
-					<div class="central-category__inner">
-						<figure class="central-category__image">
-							<img
-								src={tostadaUrl}
-								srcset={`${tostadaUrl} 1x, ${tostada2xUrl} 2x`}
-								alt="Tostadas"
-								loading="lazy"
-							/>
-						</figure>
-						<div class="central-category__content">
-							<span class="central-category__script">Mas Bien Servidas!</span>
-							<span class="central-menu__line" aria-hidden="true"></span>
-							<h2 id={`tostadas-title-${menuId}`} class="central-category__title">TOSTADAS</h2>
-						</div>
-					</div>
-
-					<div class="central-menu">
-						<div class="central-menu__grid">
-							<ul class="central-menu__list">
-								{tostadasItems.map((item) => (
-									<li class="central-menu__item">
-										<div class="central-menu__item-text">
-											<span class="central-menu__item-name">{item.name}</span>
-											<span class="central-menu__item-note">{item.note}</span>
-										</div>
-										<span class="central-menu__item-price">${item.price}</span>
-									</li>
-								))}
-							</ul>
-
-							<aside class="central-menu__extras">
-								<div class="central-menu__extras-header">
-									<span class="central-menu__extras-tag">EXTRAS</span>
-									<div class="central-menu__extras-script">
-										<span>El antojo manda</span>
-										<div class="central-menu__extras-stars" aria-hidden="true">
-											<span class="central-menu__star central-menu__star--red"></span>
-											<span class="central-menu__star central-menu__star--red"></span>
-											<span class="central-menu__star central-menu__star--red"></span>
+					{menuCategories.length === 0 ? (
+						<p class="central-menu__empty">Aún no hay categorías para este menú.</p>
+					) : (
+						menuCategories.map((category, index) => {
+							const image = resolveCategoryImage(index, category);
+							return (
+								<div class="central-category__block">
+									<div class="central-category__inner">
+										<figure class="central-category__image">
+											<img
+												src={image.src}
+												srcset={image.src2x ? `${image.src} 1x, ${image.src2x} 2x` : undefined}
+												alt={image.alt}
+												loading="lazy"
+											/>
+										</figure>
+										<div class="central-category__content">
+											<span class="central-category__script">{menu?.name ?? 'Menú'}</span>
+											<span class="central-menu__line" aria-hidden="true"></span>
+											<h2 id={`tostadas-title-${menuId}-${index}`} class="central-category__title">
+												{category.name}
+											</h2>
 										</div>
 									</div>
-								</div>
-								<ul class="central-menu__extras-list">
-									{extrasItems.map((item) => (
-										<li class="central-menu__extras-item">
-											<div class="central-menu__extras-text">
-												<span class="central-menu__extras-name">{item.name}</span>
-												<span class="central-menu__extras-note">{item.note}</span>
-											</div>
-											<span class="central-menu__extras-price">${item.price}</span>
-										</li>
-									))}
-								</ul>
-							</aside>
-						</div>
 
-						<div class="central-menu__section">
-							<div class="central-menu__section-header">
-								<h3 class="central-menu__section-title">TACOS</h3>
-								<span class="central-menu__line central-menu__line--short" aria-hidden="true"></span>
-							</div>
-							<div class="central-menu__tacos-grid">
-								<ul class="central-menu__list central-menu__list--tacos">
-									{tacosItems.map((item) => (
-										<li class="central-menu__item">
-											<div class="central-menu__item-text">
-												<span class="central-menu__item-name">{item.name}</span>
-												<span class="central-menu__item-note">{item.note}</span>
-											</div>
-											<span class="central-menu__item-price">${item.price}</span>
-										</li>
-									))}
-								</ul>
-								<figure class="central-menu__taco-image">
-									<img
-										src={tacoUrl}
-										srcset={`${tacoUrl} 1x, ${taco2xUrl} 2x`}
-										alt="Tacos"
-										loading="lazy"
-									/>
-								</figure>
-							</div>
-						</div>
-
-						<div class="central-menu__section central-menu__section--caldos">
-							<div class="central-menu__caldos-top">
-								<aside class="central-menu__extras central-menu__extras--caldos">
-									<div class="central-menu__extras-header">
-										<span class="central-menu__extras-tag">EXTRAS</span>
-										<div class="central-menu__extras-script central-menu__extras-script--vertical">
-											<span>Sorpresa con nuez?</span>
-											<span>Luego vengo</span>
-										</div>
-									</div>
-									<ul class="central-menu__extras-list">
-										{extrasItems.map((item) => (
-											<li class="central-menu__extras-item">
-												<div class="central-menu__extras-text">
-													<span class="central-menu__extras-name">{item.name}</span>
-													<span class="central-menu__extras-note">{item.note}</span>
-												</div>
-												<span class="central-menu__extras-price">${item.price}</span>
-											</li>
-										))}
-									</ul>
-								</aside>
-
-								<div class="central-menu__caldos-title">
-									<figure class="central-menu__caldo-image">
-										<img
-											src={caldoUrl}
-											srcset={`${caldoUrl} 1x, ${caldo2xUrl} 2x`}
-											alt="Caldos"
-											loading="lazy"
-										/>
-									</figure>
-									<div class="central-menu__caldos-heading">
-										<h3 class="central-menu__section-title">CALDOS</h3>
-										<span class="central-menu__line central-menu__line--short" aria-hidden="true"></span>
-									</div>
-								</div>
-							</div>
-
-							<article class="central-menu__caldo-feature">
-								<div class="central-menu__caldo-stars" aria-hidden="true">
-									<span></span>
-									<span></span>
-									<span></span>
-								</div>
-								<h4 class="central-menu__caldo-name">{caldosFeature.name}</h4>
-								<p class="central-menu__caldo-desc">{caldosFeature.description}</p>
-								<p class="central-menu__caldo-note">{caldosFeature.note}</p>
-								<div class="central-menu__caldo-sizes">
-									{caldosFeature.sizes.map((size) => (
-										<div class="central-menu__caldo-size">
-											<span>{size.label}</span>
-											<strong>${size.price}</strong>
-										</div>
-									))}
-								</div>
-							</article>
-
-							<div class="central-menu__caldo-cards">
-								{caldosCards.map((card) => (
-									<article class="central-menu__caldo-card">
-										<div class="central-menu__caldo-card-header">
-											<div>
-												<h4>{card.name}</h4>
-												<span>{card.subtitle}</span>
-											</div>
-											<strong>${card.price}</strong>
-										</div>
-										<p>{card.description}</p>
-										<p class="central-menu__caldo-card-note">{card.note}</p>
-									</article>
-								))}
-							</div>
-						</div>
-
-						<div class="central-menu__section central-menu__section--consome">
-							<div class="central-menu__consome-top">
-								<div class="central-menu__consome-list">
-									{consomeItems.map((item) => (
-										<article class="central-menu__consome-item">
-											<div>
-												<h4>{item.name}</h4>
-												<span>{item.note}</span>
-												<p>{item.description}</p>
-												<p class="central-menu__consome-note">{item.noteEn}</p>
-											</div>
-											<strong>${item.price}</strong>
-										</article>
-									))}
-								</div>
-								<div class="central-menu__consome-art">
-									<div class="central-menu__consome-stars" aria-hidden="true">
-										<span></span>
-										<span></span>
-										<span></span>
-									</div>
-									<div class="central-menu__consome-bowl" aria-hidden="true"></div>
-								</div>
-							</div>
-
-							<div class="central-menu__consome-extras">
-								<span class="central-menu__extras-tag">EXTRAS</span>
-								<div class="central-menu__consome-extras-grid">
-									{consomeExtras.map((item) => (
-										<div class="central-menu__extras-item">
-											<div class="central-menu__extras-text">
-												<span class="central-menu__extras-name">{item.name}</span>
-												<span class="central-menu__extras-note">{item.note}</span>
-											</div>
-											<span class="central-menu__extras-price">${item.price}</span>
-										</div>
-									))}
-								</div>
-							</div>
-
-							<div class="central-menu__combos">
-								<div class="central-menu__combos-header">
-									<h3>COMBOS</h3>
-									<span class="central-menu__line central-menu__line--short" aria-hidden="true"></span>
-								</div>
-								<div class="central-menu__combos-body">
-									<div class="central-menu__combo-list">
-										{combosItems.map((combo) => (
-											<article class="central-menu__combo-card">
-												<h4>{combo.name}</h4>
-												<span>{combo.note}</span>
-												<p>{combo.description}</p>
-											</article>
-										))}
-									</div>
-									<figure class="central-menu__combo-image">
-										<img
-											src={comboUrl}
-											srcset={`${comboUrl} 1x, ${combo2xUrl} 2x`}
-											alt="Combos"
-											loading="lazy"
-										/>
-									</figure>
-								</div>
-							</div>
-						</div>
-
-						<div class="central-menu__section central-menu__section--bebidas">
-							<div class="central-menu__bebidas-header">
-								<h3>BEBIDAS</h3>
-								<span class="central-menu__line central-menu__line--short" aria-hidden="true"></span>
-								<span class="central-menu__bebidas-script">Para bajar el taco</span>
-								<div class="central-menu__bebidas-stars" aria-hidden="true">
-									<span></span>
-									<span></span>
-									<span></span>
-								</div>
-							</div>
-
-							<div class="central-menu__bebidas-list">
-								{bebidasItems.map((item) => (
-									<article class="central-menu__bebida">
-										<div class={`central-menu__bebida-mock central-menu__bebida-mock--${item.kind}`}>
-											{Array.from({ length: item.mockCount }).map(() => (
-												<span class="central-menu__bebida-bottle" aria-hidden="true"></span>
-											))}
-										</div>
-										<div class="central-menu__bebida-info">
-											<div class="central-menu__bebida-text">
-												<h4>{item.name}</h4>
-												<span>{item.note}</span>
-												<ul>
-													{item.options.map((option) => (
-														<li>{option}</li>
+									<div class="central-menu">
+										<div class="central-menu__grid central-menu__grid--single">
+											{category.items?.length ? (
+												<ul class="central-menu__list">
+													{category.items.map((item) => (
+														<li class="central-menu__item">
+															<div class="central-menu__item-text">
+																<span class="central-menu__item-name">{item.name}</span>
+																{item.description && (
+																	<span class="central-menu__item-note">{item.description}</span>
+																)}
+															</div>
+															<span class="central-menu__item-price">${item.price.toFixed(2)}</span>
+														</li>
 													))}
 												</ul>
-											</div>
-											<div class="central-menu__bebida-price">
-												<strong>${item.price}</strong>
-												{item.priceSecondary && <strong>${item.priceSecondary}</strong>}
-											</div>
+											) : (
+												<p class="central-menu__empty">No hay productos en esta categoría.</p>
+											)}
 										</div>
-									</article>
-								))}
-							</div>
-						</div>
-					</div>
+									</div>
+								</div>
+							);
+						})
+					)}
 				</div>
 			</section>
+		</div>
 		</div>
 	</div>
 </div>
@@ -909,6 +607,12 @@ const bebidasItems = [
 		z-index: 2;
 	}
 
+	.central-category__block {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+	}
+
 	.central-menu__decor {
 		position: absolute;
 		background-repeat: no-repeat;
@@ -1029,6 +733,10 @@ const bebidasItems = [
 		align-items: start;
 	}
 
+	.central-menu__grid--single {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
 	.central-menu__list {
 		list-style: none;
 		margin: 0;
@@ -1069,6 +777,12 @@ const bebidasItems = [
 		font-size: 14px;
 		font-weight: 700;
 		white-space: nowrap;
+	}
+
+	.central-menu__empty {
+		margin: 0;
+		font-size: 14px;
+		color: #cfcfcf;
 	}
 
 	.central-menu__extras {

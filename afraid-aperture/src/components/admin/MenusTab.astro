@@ -3,7 +3,6 @@ import AdminCard from './AdminCard.astro';
 import AdminInput from './AdminInput.astro';
 import AdminButton from './AdminButton.astro';
 import AdminBadge from './AdminBadge.astro';
-import PDFViewer from './PDFViewer.astro';
 import { categoriesRepo, itemsRepo } from '../../lib/menus';
 import { getDB } from '../../lib/db';
 
@@ -58,13 +57,6 @@ const getBranchName = (branchId: number) => {
 							))}
 						</AdminInput>
 					</div>
-
-					<AdminInput
-						label="URL del PDF"
-						name="pdf_url"
-						type="text"
-						helper="URL del PDF del menú (opcional si subirás archivo)"
-					/>
 
 					<AdminInput
 						label="Orden de Visualización"
@@ -141,37 +133,6 @@ const getBranchName = (branchId: number) => {
 
 								<div class="menu-item__body">
 									<div class="menu-item__content">
-										<!-- View PDF Section -->
-										{menu.pdf_url && (
-											<div class="menu-item__section">
-												<h5>Vista previa del PDF:</h5>
-												<div class="pdf-viewer-container">
-													<PDFViewer pdfUrl={menu.pdf_url} title={menu.name} />
-												</div>
-											</div>
-										)}
-
-										<!-- Upload PDF Form -->
-										<div class="menu-item__section">
-											<form action="/api/admin/menus/upload-pdf" method="post" enctype="multipart/form-data" class="menu-upload-form">
-												<input type="hidden" name="menu_id" value={menu.id} />
-												<h5 class="form-heading">{menu.pdf_url ? 'Cambiar PDF del Menú' : 'Subir PDF del Menú'}</h5>
-												<div class="menu-form__fields">
-													<AdminInput
-														label="Archivo PDF"
-														name="pdf_file"
-														type="file"
-														accept=".pdf"
-														required
-													/>
-												</div>
-												<div class="form-actions">
-													<AdminButton type="submit" variant="success" size="medium" fullWidth>
-														{menu.pdf_url ? 'Cambiar PDF' : 'Subir PDF'}
-													</AdminButton>
-												</div>
-											</form>
-										</div>
 
 										<!-- Categories Section -->
 										<div class="menu-item__section">
@@ -182,6 +143,7 @@ const getBranchName = (branchId: number) => {
 												<input type="hidden" name="menu_id" value={menu.id} />
 												<div class="inline-form">
 													<AdminInput label="Nombre de Categoría" name="name" type="text" required />
+													<AdminInput label="Imagen (URL)" name="image_url" type="text" />
 													<AdminInput label="Orden" name="display_order" type="number" value="0" />
 													<AdminButton type="submit" variant="primary" size="small">Crear</AdminButton>
 												</div>
@@ -204,6 +166,7 @@ const getBranchName = (branchId: number) => {
 																	<input type="hidden" name="menu_id" value={menu.id} />
 																	<div class="inline-form">
 																		<AdminInput label="Nombre" name="name" type="text" value={category.name} required />
+																		<AdminInput label="Imagen (URL)" name="image_url" type="text" value={category.image_url || ''} />
 																		<AdminInput label="Orden" name="display_order" type="number" value={category.display_order} />
 																		<AdminButton type="submit" variant="primary" size="small">Guardar</AdminButton>
 																	</div>
@@ -308,6 +271,13 @@ const getBranchName = (branchId: number) => {
 															type="select"
 															required
 														>
+													<div class="menu-form__field-full">
+														<AdminInput
+															label="Sucursal"
+															name="branch_id"
+															type="select"
+															required
+														>
 															{branches.map((branch) => (
 																<option value={branch.id} selected={branch.id === menu.branch_id}>
 																	{branch.name}
@@ -317,25 +287,11 @@ const getBranchName = (branchId: number) => {
 													</div>
 
 													<AdminInput
-														label="URL del PDF"
-														name="pdf_url"
-														type="text"
-														value={menu.pdf_url || ''}
-													/>
-
-													<AdminInput
 														label="Orden de Visualización"
 														name="display_order"
 														type="number"
 														value={menu.display_order}
 													/>
-
-													<label class="menu-form__checkbox">
-														<input type="checkbox" name="is_active" checked={menu.is_active === 1} />
-														<span>Menú Activo</span>
-													</label>
-												</div>
-
 												<div class="form-actions">
 													<AdminButton type="submit" variant="primary" size="medium" fullWidth>
 														Guardar Cambios

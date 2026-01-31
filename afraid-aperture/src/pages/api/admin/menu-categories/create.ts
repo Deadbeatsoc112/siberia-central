@@ -15,6 +15,7 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 
 		const menuId = parseInt(String(formData.get('menu_id') || '0'));
 		const name = String(formData.get('name') || '').trim();
+		const imageUrl = String(formData.get('image_url') || '').trim();
 		const displayOrder = parseInt(String(formData.get('display_order') || '0'));
 
 		if (!menuId || !name) {
@@ -27,6 +28,7 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 		await categoriesRepo.create(db, {
 			menuId,
 			name,
+			imageUrl: imageUrl || undefined,
 			displayOrder,
 		});
 

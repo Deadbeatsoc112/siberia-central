@@ -1,0 +1,3 @@
+-- Rollback: Remove image_url from menu_categories
+-- SQLite/D1 does not support DROP COLUMN directly.
+-- To rollback, recreate the table without image_url and migrate data manually.

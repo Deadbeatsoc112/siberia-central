@@ -12,6 +12,7 @@ export type MenuInput = {
 export type MenuCategoryInput = {
 	menuId: number;
 	name: string;
+	imageUrl?: string;
 	displayOrder?: number;
 };
 
@@ -143,6 +144,7 @@ export const categoriesRepo = {
 			id: number;
 			menu_id: number;
 			name: string;
+			image_url: string | null;
 			display_order: number;
 			created_at: string;
 			updated_at: string;
@@ -154,6 +156,7 @@ export const categoriesRepo = {
 			id: number;
 			menu_id: number;
 			name: string;
+			image_url: string | null;
 			display_order: number;
 			created_at: string;
 			updated_at: string;
@@ -163,9 +166,9 @@ export const categoriesRepo = {
 	async create(db: D1Database, input: MenuCategoryInput) {
 		const result = await dbRun(
 			db,
-			`INSERT INTO menu_categories (menu_id, name, display_order)
-			 VALUES (?, ?, ?)`,
-			[input.menuId, input.name, input.displayOrder ?? 0],
+			`INSERT INTO menu_categories (menu_id, name, image_url, display_order)
+			 VALUES (?, ?, ?, ?)`,
+			[input.menuId, input.name, input.imageUrl ?? null, input.displayOrder ?? 0],
 		);
 		return result.meta.last_row_id as number;
 	},
@@ -177,11 +180,12 @@ export const categoriesRepo = {
 		await dbRun(
 			db,
 			`UPDATE menu_categories
-			 SET menu_id = ?, name = ?, display_order = ?, updated_at = CURRENT_TIMESTAMP
+			 SET menu_id = ?, name = ?, image_url = ?, display_order = ?, updated_at = CURRENT_TIMESTAMP
 			 WHERE id = ?`,
 			[
 				input.menuId || current.menu_id,
 				input.name || current.name,
+				input.imageUrl ?? current.image_url,
 				input.displayOrder ?? current.display_order,
 				id,
 			],

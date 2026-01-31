@@ -16,6 +16,7 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 		const id = parseInt(String(formData.get('id') || '0'));
 		const menuId = parseInt(String(formData.get('menu_id') || '0'));
 		const name = String(formData.get('name') || '').trim();
+		const imageUrl = String(formData.get('image_url') || '').trim();
 		const displayOrder = parseInt(String(formData.get('display_order') || '0'));
 
 		if (!id || !menuId || !name) {
@@ -28,6 +29,7 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 		await categoriesRepo.update(db, id, {
 			menuId,
 			name,
+			imageUrl: imageUrl || undefined,
 			displayOrder,
 		});
 

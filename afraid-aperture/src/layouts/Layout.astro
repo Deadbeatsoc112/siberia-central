@@ -225,7 +225,6 @@ const currentPath = Astro.url?.pathname ?? '/';
 	:global(:root) {
 		--nav-height: 38px;
 		--nav-width: 1106px;
-		--nav-left: 407px;
 		--nav-top: 55px;
 		--nav-text: #c8b07a;
 		--page-bg: #050505;
@@ -239,6 +238,8 @@ const currentPath = Astro.url?.pathname ?? '/';
 		min-height: 100%;
 		background: var(--page-bg);
 		color: var(--page-text);
+		overflow-x: hidden;
+		box-sizing: border-box;
 		font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
 		font-weight: 700;
 	}
@@ -246,13 +247,15 @@ const currentPath = Astro.url?.pathname ?? '/';
 	:global(*, *::before, *::after) {
 		font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
 		font-weight: 700;
+		box-sizing: inherit;
 	}
 
 	.site-header {
 		position: absolute;
 		top: var(--nav-top);
-		left: var(--nav-left);
-		width: var(--nav-width);
+		left: 50%;
+		transform: translateX(-50%);
+		width: min(90%, var(--nav-width));
 		height: var(--nav-height);
 		opacity: 1;
 		z-index: 10;
@@ -324,12 +327,6 @@ const currentPath = Astro.url?.pathname ?? '/';
 	}
 
 	@media (max-width: 1200px) {
-		.site-header {
-			left: 50%;
-			transform: translateX(-50%);
-			width: min(90%, var(--nav-width));
-		}
-
 		.site-nav__list {
 			justify-content: center;
 			gap: 20px;

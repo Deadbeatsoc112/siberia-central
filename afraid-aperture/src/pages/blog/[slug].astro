@@ -2,13 +2,32 @@
 import Layout from '../../layouts/Layout.astro';
 import { getDB } from '../../lib/db';
 import { postsRepo } from '../../lib/content';
+import postFallbackUrl from '../../assets/media/Grupo 66.png?url';
+import postFallback2xUrl from '../../assets/media/Grupo 66@2x.png?url';
 
 const db = getDB(Astro.locals);
 
 const slug = Astro.params.slug ?? '';
-const post = slug ? await postsRepo.getBySlug(db, slug) : undefined;
+const allPosts = await postsRepo.listAll(db);
+const publishedPosts = allPosts.filter((entry) => entry.published === 1);
+const post = slug ? publishedPosts.find((entry) => entry.slug === slug) : undefined;
 
-if (!post || post.published !== 1) {
+const paragraphs = post?.content
+	? post.content
+			.split('\n')
+			.map((line) => line.trim())
+			.filter(Boolean)
+	: [];
+const heroParagraphs = paragraphs.slice(0, 2);
+const bodyParagraphs = paragraphs.slice(2);
+const relatedPosts = post
+	? publishedPosts
+			.filter((entry) => entry.slug !== post.slug)
+			.sort(() => Math.random() - 0.5)
+			.slice(0, 3)
+	: [];
+
+if (!post) {
 	Astro.response.status = 404;
 }
 ---
@@ -17,25 +36,73 @@ if (!post || post.published !== 1) {
 	<section class="post">
 		<div class="post__inner">
 			{post && post.published === 1 ? (
-				<article class="post-card">
-					{post.image_url && (
-						<img class="post-card__image" src={post.image_url} alt={post.title} loading="eager" />
+				<>
+					<nav class="post__breadcrumb" aria-label="Ruta">
+						<a href="/blog">Blog</a>
+						<span aria-hidden="true"> / </span>
+						<span>{post.title}</span>
+					</nav>
+					<article class="post__hero">
+						<div class="post__copy">
+							<header class="post__header">
+								<h1 class="post__title">{post.title}</h1>
+								<p class="post__subtitle">{post.excerpt}</p>
+							</header>
+							{heroParagraphs.length > 0 && (
+								<div class="post__lead">
+									{heroParagraphs.map((line) => (
+										<p>{line}</p>
+									))}
+								</div>
+							)}
+						</div>
+						<div class="post__media">
+							<img
+								class="post__image"
+								src={post.image_url ?? postFallbackUrl}
+								srcset={
+									post.image_url ? undefined : `${postFallbackUrl} 1x, ${postFallback2xUrl} 2x`
+								}
+								alt={post.title}
+								loading="eager"
+							/>
+						</div>
+					</article>
+					{bodyParagraphs.length > 0 && (
+						<div class="post__content">
+							{bodyParagraphs.map((line) => (
+								<p>{line}</p>
+							))}
+						</div>
 					)}
-					<header class="post-card__header">
-						<h1 class="post-card__title">{post.title}</h1>
-						<p class="post-card__excerpt">{post.excerpt}</p>
-					</header>
-					<div class="post-card__content">
-						{post.content.split('\n').map((line) => (
-							<p>{line}</p>
-						))}
-					</div>
-				</article>
+					{relatedPosts.length > 0 && (
+						<section class="post-related" aria-labelledby="related-title">
+							<h2 id="related-title" class="post-related__heading">Relacionado</h2>
+							<div class="post-related__grid">
+								{relatedPosts.map((related) => (
+									<article class="post-related__card">
+										<img
+											class="post-related__image"
+											src={related.image_url ?? postFallbackUrl}
+											alt={related.title}
+											loading="lazy"
+										/>
+										<div class="post-related__body">
+											<h3 class="post-related__title">{related.title}</h3>
+											<p class="post-related__excerpt">{related.excerpt}</p>
+											<a class="post-related__link" href={`/blog/${related.slug}`}>Saber mas</a>
+										</div>
+									</article>
+								))}
+							</div>
+						</section>
+					)}
+				</>
 			) : (
-				<div class="post-card post-card--empty">
-					<h1 class="post-card__title">Publicacion no encontrada</h1>
-					<p class="post-card__excerpt">La entrada que buscas no existe o no esta publicada.</p>
-					<a class="post-card__back" href="/blog">Volver al blog</a>
+				<div class="post-empty">
+					<h1 class="post-empty__title">Publicacion no encontrada</h1>
+					<p class="post-empty__subtitle">La entrada que buscas no existe o no esta publicada.</p>
+					<a class="post-empty__back" href="/blog">Volver al blog</a>
 				</div>
 			)}
 		</div>
@@ -44,71 +111,204 @@ if (!post || post.published !== 1) {
 
 <style>
 	.post {
-		background: #f6f4ef;
-		padding: 110px 24px 140px;
+		background: #ffffff;
+		padding: 110px 0 140px;
 		display: flex;
 		justify-content: center;
 	}
 
 	.post__inner {
-		width: min(1100px, 100%);
-	}
-
-	.post-card {
-		background: #ffffff;
-		border: 1px solid rgba(0, 0, 0, 0.08);
-		box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
-		overflow: hidden;
+		width: min(1440px, 100%);
+		padding: 0 24px;
+		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
-		gap: 26px;
-		padding: 40px 46px 52px;
+		gap: 48px;
 	}
 
-	.post-card--empty {
-		align-items: flex-start;
+	.post__breadcrumb {
+		font-size: 16px;
+		color: #8b8b8b;
+		letter-spacing: 0.2px;
 	}
 
-	.post-card__image {
-		width: 100%;
-		height: 320px;
-		object-fit: cover;
-		display: block;
-		border-radius: 6px;
+	.post__breadcrumb a {
+		color: inherit;
+		text-decoration: none;
 	}
 
-	.post-card__header {
+	.post__hero {
+		display: grid;
+		grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+		gap: 64px;
+		align-items: start;
+	}
+
+	.post__copy {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		max-width: 620px;
+	}
+
+	.post__header {
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
 	}
 
-	.post-card__title {
+	.post__title {
 		margin: 0;
 		font: normal normal bold 46px/1.05 Campton, 'Montserrat', 'Arial', sans-serif;
-		color: #161615;
+		color: #e1454f;
 	}
 
-	.post-card__excerpt {
+	.post__subtitle {
 		margin: 0;
-		font-size: 19px;
+		font-size: 18px;
+		font-weight: 600;
+		color: #e1454f;
+	}
+
+	.post__lead {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		font-size: 17px;
+		line-height: 28px;
 		color: #5a5a5a;
 	}
 
-	.post-card__content {
-		display: flex;
-		flex-direction: column;
-		gap: 14px;
-		font-size: 18px;
-		line-height: 30px;
-		color: #2b2b2b;
-	}
-
-	.post-card__content p {
+	.post__lead p {
 		margin: 0;
 	}
 
-	.post-card__back {
+	.post__media {
+		width: min(536px, 100%);
+		justify-self: end;
+	}
+
+	.post__image {
+		width: 100%;
+		height: 386px;
+		object-fit: cover;
+		display: block;
+	}
+
+	.post__content {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		max-width: 980px;
+		font-size: 17px;
+		line-height: 28px;
+		color: #5a5a5a;
+	}
+
+	.post__content p {
+		margin: 0;
+	}
+
+	.post-related {
+		display: flex;
+		flex-direction: column;
+		gap: 26px;
+	}
+
+	.post-related__heading {
+		margin: 0;
+		font: normal normal bold 28px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #161615;
+	}
+
+	.post-related__grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 30px;
+	}
+
+	.post-related__card {
+		background: #ffffff;
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
+	.post-related__image {
+		width: 100%;
+		height: 190px;
+		object-fit: cover;
+		display: block;
+	}
+
+	.post-related__body {
+		padding: 18px 22px 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.post-related__title {
+		margin: 0;
+		font: normal normal bold 20px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #e1454f;
+	}
+
+	.post-related__excerpt {
+		margin: 0;
+		font-size: 15px;
+		line-height: 23px;
+		color: #2b2b2b;
+	}
+
+	.post-related__link {
+		margin-top: 4px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		align-self: flex-start;
+		min-width: 160px;
+		height: 42px;
+		border: 2px solid #8b5a2b;
+		text-decoration: none;
+		font-weight: 700;
+		letter-spacing: 0.2px;
+		color: #8b5a2b;
+		transition: transform 0.25s ease, background-color 0.25s ease;
+	}
+
+	.post-related__link:hover,
+	.post-related__link:focus-visible {
+		transform: translateY(-2px);
+		background: rgba(139, 90, 43, 0.08);
+	}
+
+	.post-empty {
+		background: #ffffff;
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+		padding: 40px 46px 52px;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		align-items: flex-start;
+	}
+
+	.post-empty__title {
+		margin: 0;
+		font: normal normal bold 40px/1.1 Campton, 'Montserrat', 'Arial', sans-serif;
+		color: #161615;
+	}
+
+	.post-empty__subtitle {
+		margin: 0;
+		font-size: 18px;
+		color: #5a5a5a;
+	}
+
+	.post-empty__back {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -120,17 +320,75 @@ if (!post || post.published !== 1) {
 		margin-top: 8px;
 	}
 
+	@media (max-width: 1200px) {
+		.post {
+			padding: 96px 0 120px;
+		}
+
+		.post__hero {
+			gap: 40px;
+		}
+
+		.post__title {
+			font-size: 40px;
+		}
+
+		.post__image {
+			height: 330px;
+		}
+
+		.post-related__grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
 	@media (max-width: 900px) {
 		.post {
-			padding: 90px 16px 110px;
+			padding: 84px 0 110px;
 		}
 
-		.post-card {
-			padding: 34px 28px 44px;
+		.post__hero {
+			grid-template-columns: 1fr;
+			gap: 28px;
 		}
 
-		.post-card__title {
-			font-size: 38px;
+		.post__copy {
+			max-width: 100%;
+		}
+
+		.post__media {
+			width: 100%;
+			justify-self: start;
+		}
+
+		.post__image {
+			height: 280px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.post__inner {
+			gap: 40px;
+		}
+
+		.post__title {
+			font-size: 34px;
+		}
+
+		.post__subtitle {
+			font-size: 17px;
+		}
+
+		.post__content {
+			font-size: 16px;
+		}
+
+		.post-related__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.post-related__image {
+			height: 210px;
 		}
 	}
 </style>

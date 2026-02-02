@@ -1,13 +1,15 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getDB } from '../../lib/db';
-import blogHeroUrl from '../../assets/media/Enmascarar grupo 18.png?url';
-import blogHero2xUrl from '../../assets/media/Enmascarar grupo 18@2x.png?url';
+import blogHeroUrl from '../../assets/media/Enmascarar grupo 5.png?url';
+import blogHero2xUrl from '../../assets/media/Enmascarar grupo 5@2x.png?url';
 import { postsRepo } from '../../lib/content';
 
 const db = getDB(Astro.locals);
 
 const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 1);
+const featuredPosts = posts.slice(0, 3);
+const remainingPosts = posts.slice(3);
 ---
 
 <Layout title="Blog | La Siberia Central">
@@ -29,23 +31,70 @@ const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 
 			{posts.length === 0 ? (
 				<p class="blog-list__empty">Aun no hay publicaciones. Vuelve pronto.</p>
 			) : (
-				<div class="blog-list__grid">
-					{posts.map((post) => (
-						<article class="blog-card">
-							<img
-								class="blog-card__image"
-								src={post.image_url ?? blogHeroUrl}
-								alt={post.title}
-								loading="lazy"
-							/>
-							<div class="blog-card__body">
-								<h3 class="blog-card__title">{post.title}</h3>
-								<p class="blog-card__excerpt">{post.excerpt}</p>
-								<a class="blog-card__button" href={`/blog/${post.slug}`}>Saber mas</a>
+				<>
+					{posts.length >= 3 ? (
+						<>
+							<div class="blog-list__grid blog-list__grid--featured">
+								{featuredPosts.map((post, index) => (
+									<article
+										class={`blog-card blog-card--slot-${index + 1} ${
+											index === 0 ? 'blog-card--featured' : 'blog-card--compact'
+										}`}
+									>
+										<img
+											class="blog-card__image"
+											src={post.image_url ?? blogHeroUrl}
+											alt={post.title}
+											loading="lazy"
+										/>
+										<div class="blog-card__body">
+											<h3 class="blog-card__title">{post.title}</h3>
+											<p class="blog-card__excerpt">{post.excerpt}</p>
+											<a class="blog-card__button" href={`/blog/${post.slug}`}>Saber mas</a>
+										</div>
+									</article>
+								))}
 							</div>
-						</article>
-					))}
-				</div>
+							{remainingPosts.length > 0 && (
+								<div class="blog-list__grid">
+									{remainingPosts.map((post) => (
+										<article class="blog-card">
+											<img
+												class="blog-card__image"
+												src={post.image_url ?? blogHeroUrl}
+												alt={post.title}
+												loading="lazy"
+											/>
+											<div class="blog-card__body">
+												<h3 class="blog-card__title">{post.title}</h3>
+												<p class="blog-card__excerpt">{post.excerpt}</p>
+												<a class="blog-card__button" href={`/blog/${post.slug}`}>Saber mas</a>
+											</div>
+										</article>
+									))}
+								</div>
+							)}
+						</>
+					) : (
+						<div class="blog-list__grid">
+							{posts.map((post) => (
+								<article class="blog-card">
+									<img
+										class="blog-card__image"
+										src={post.image_url ?? blogHeroUrl}
+										alt={post.title}
+										loading="lazy"
+									/>
+									<div class="blog-card__body">
+										<h3 class="blog-card__title">{post.title}</h3>
+										<p class="blog-card__excerpt">{post.excerpt}</p>
+										<a class="blog-card__button" href={`/blog/${post.slug}`}>Saber mas</a>
+									</div>
+								</article>
+							))}
+						</div>
+					)}
+				</>
 			)}
 		</div>
 	</section>
@@ -173,6 +222,16 @@ const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 
 		gap: 42px 36px;
 	}
 
+	.blog-list__grid--featured {
+		grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+		grid-template-areas:
+			'main side1'
+			'main side2';
+		grid-auto-rows: minmax(0, 1fr);
+		gap: 34px;
+		margin-bottom: 46px;
+	}
+
 	.blog-card {
 		background: #ffffff;
 		border: 1px solid rgba(0, 0, 0, 0.08);
@@ -231,6 +290,54 @@ const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 
 		background: rgba(139, 90, 43, 0.08);
 	}
 
+	.blog-card--slot-1 {
+		grid-area: main;
+	}
+
+	.blog-card--slot-2 {
+		grid-area: side1;
+	}
+
+	.blog-card--slot-3 {
+		grid-area: side2;
+	}
+
+	.blog-card--featured .blog-card__image {
+		height: 360px;
+	}
+
+	.blog-card--featured .blog-card__title {
+		font-size: 28px;
+	}
+
+	.blog-card--featured .blog-card__excerpt {
+		font-size: 18px;
+		line-height: 28px;
+	}
+
+	.blog-card--compact .blog-card__image {
+		height: 170px;
+	}
+
+	.blog-card--compact .blog-card__body {
+		padding: 16px 20px 22px;
+	}
+
+	.blog-card--compact .blog-card__title {
+		font-size: 20px;
+	}
+
+	.blog-card--compact .blog-card__excerpt {
+		font-size: 15px;
+		line-height: 22px;
+	}
+
+	.blog-card--compact .blog-card__button {
+		min-width: 160px;
+		height: 42px;
+		font-size: 14px;
+	}
+
 	@media (max-width: 1200px) {
 		.blog-list {
 			padding: 104px 0 130px;
@@ -239,6 +346,11 @@ const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 
 		.blog-list__grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: 34px;
+		}
+
+		.blog-list__grid--featured {
+			grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+			gap: 28px;
 		}
 	}
 
@@ -252,8 +364,25 @@ const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 
 			gap: 30px;
 		}
 
+		.blog-list__grid--featured {
+			grid-template-columns: 1fr;
+			grid-template-areas:
+				'main'
+				'side1'
+				'side2';
+			margin-bottom: 34px;
+		}
+
 		.blog-card__image {
 			height: 220px;
+		}
+
+		.blog-card--featured .blog-card__image {
+			height: 260px;
+		}
+
+		.blog-card--compact .blog-card__image {
+			height: 200px;
 		}
 	}
 </style>

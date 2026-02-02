@@ -24,7 +24,7 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 <Layout title="Inicio | La Siberia Central">
 	<section
 		class="hero"
-		style={`--hero-bg: image-set(url(${heroMainBg2xUrl}) 2x);`}
+		style={`--hero-bg: image-set(url(${heroMainBgUrl}) 1x, url(${heroMainBg2xUrl}) 2x);`}
 	>
 		<div class="hero__overlay" aria-hidden="true"></div>
 		<div class="hero__content">
@@ -225,12 +225,12 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 	.story__content {
 		position: absolute;
 		top: 228px;
-		left: 0;
-		right: 0;
-		width: min(90%, 640px);
-		max-width: 640px;
+		left: 25%;
+		right: auto;
+		transform: translateX(-50%);
+		width: min(520px, 42vw);
+		max-width: 520px;
 		height: auto;
-		margin: 0 auto;
 		padding: 0 24px;
 		box-sizing: border-box;
 		opacity: 1;
@@ -246,6 +246,7 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		letter-spacing: 0px;
 		color: #ffffff;
 		opacity: 1;
+		white-space: nowrap;
 	}
 
 	@media (max-width: 1366px) and (min-width: 1024px) {
@@ -327,6 +328,7 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 			left: 10%;
 			width: 80%;
 			height: auto;
+			transform: none;
 		}
 
 		.story__title {

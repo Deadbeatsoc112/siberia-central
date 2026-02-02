@@ -4,13 +4,11 @@ import { getDB } from '../lib/db';
 import { auth } from '../lib/auth';
 import { postsRepo, jobsRepo } from '../lib/content';
 import { branchesRepo } from '../lib/branches';
-import { menusRepo } from '../lib/menus';
 import { resumesRepo } from '../lib/resumes';
 import { messagesRepo } from '../lib/contactMessages';
 import BranchesTab from '../components/admin/BranchesTab.astro';
 import PostsTab from '../components/admin/PostsTab.astro';
 import JobsTab from '../components/admin/JobsTab.astro';
-import MenusTab from '../components/admin/MenusTab.astro';
 import MessagesTab from '../components/admin/MessagesTab.astro';
 import ResumesTab from '../components/admin/ResumesTab.astro';
 import AdminBadge from '../components/admin/AdminBadge.astro';
@@ -27,15 +25,12 @@ const hasError = Astro.url.searchParams.get('error') === '1';
 const posts = user && tab === 'posts' ? await postsRepo.listAll(db) : [];
 const jobs = user && tab === 'jobs' ? await jobsRepo.listAll(db) : [];
 const branches = user && tab === 'branches' ? await branchesRepo.listAll(db) : [];
-const menus = user && tab === 'menus' ? await menusRepo.listAll(db) : [];
 const resumes = user && tab === 'resumes' ? await resumesRepo.listAll(db) : [];
 const messages = user && tab === 'messages' ? await messagesRepo.listAll(db) : [];
 
 const branchesCount = user ? (await branchesRepo.listAll(db)).length : 0;
 const resumesPending = user ? await resumesRepo.countByStatus(db, 'pending') : 0;
 const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0;
-
-const allBranches = user && (tab === 'menus' || tab === 'branches') ? await branchesRepo.listAll(db) : [];
 ---
 
 <Layout title="Panel Administrador | La Siberia Central">
@@ -128,13 +123,7 @@ const allBranches = user && (tab === 'menus' || tab === 'branches') ? await bran
 							</svg>
 						<span>Sucursales</span>
 						<AdminBadge variant="info" size="small">{branchesCount}</AdminBadge>
-					</a>						<a class={`tab-link ${tab === 'menus' ? 'tab-link--active' : ''}`} href="?tab=menus">
-							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-								<path d="M3 3h18v18H3V3z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-								<path d="M3 9h18M9 21V9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-							</svg>
-							<span>Menús</span>
-						</a>
+					</a>
 
 						<a class={`tab-link ${tab === 'resumes' ? 'tab-link--active' : ''}`} href="?tab=resumes">
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -197,8 +186,6 @@ const allBranches = user && (tab === 'menus' || tab === 'branches') ? await bran
 
 					<main class="modern-admin__content">
 						{tab === 'branches' && <BranchesTab branches={branches} />}
-
-						{tab === 'menus' && <MenusTab menus={menus} branches={allBranches} locals={Astro.locals} />}
 
 						{tab === 'resumes' && <ResumesTab resumes={resumes} />}
 

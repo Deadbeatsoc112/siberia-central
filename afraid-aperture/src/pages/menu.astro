@@ -5,12 +5,10 @@ import menuHero2xUrl from '../assets/media/Enmascarar grupo 19@2x.png?url';
 import MenuModuleCard from '../components/MenuModuleCard.astro';
 import MenuModal from '../components/MenuModal.astro';
 import { getDB } from '../lib/db';
-import { menusRepo, categoriesRepo, itemsRepo } from '../lib/menus';
 import { branchesRepo } from '../lib/branches';
 
 const db = getDB(Astro.locals);
 const branches = await branchesRepo.listAll(db);
-const menus = (await menusRepo.listAll(db)).filter((menu) => menu.is_active === 1);
 
 const parsePhones = (phonesValue: string | null) => {
 	if (!phonesValue) return [];
@@ -22,42 +20,21 @@ const parsePhones = (phonesValue: string | null) => {
 	}
 };
 
-const menusWithData = await Promise.all(
-	menus.map(async (menu) => {
-		const categories = await categoriesRepo.listByMenu(db, menu.id);
-		const categoriesWithItems = await Promise.all(
-			categories.map(async (category) => ({
-				...category,
-				items: await itemsRepo.listByCategory(db, category.id),
-			}))
-		);
-		const branch = branches.find((b) => b.id === menu.branch_id) || null;
-		const branchData = branch
-			? {
-				name: branch.name,
-				address: branch.address,
-				phones: parsePhones(branch.phones),
-			}
-			: undefined;
-		return {
-			...menu,
-			categories: categoriesWithItems,
-			branch,
-			branchData,
-		};
-	})
-);
-
-const menuModules = menusWithData.map((menu) => ({
-	name: menu.name,
-	address: menu.branch?.address || 'Dirección no disponible',
-	href: menu.branch?.slug ? `/carta/${menu.branch.slug}` : '/menu',
-	menuId: menu.id,
-	branchName: menu.branch?.name || 'Sucursal',
-	branchSlug: menu.branch?.slug || 'central',
-	menuData: menu,
-	branchData: menu.branchData,
-}));
+const menuModules = branches
+	.filter((branch) => branch.is_active === 1)
+	.map((branch) => ({
+		name: `Menu ${branch.name}`,
+		address: branch.address || 'Dirección no disponible',
+		href: branch.slug ? `/carta/${branch.slug}` : '/menu',
+		menuId: branch.id,
+		branchName: branch.name,
+		branchSlug: branch.slug || 'central',
+		branchData: {
+			name: branch.name,
+			address: branch.address,
+			phones: parsePhones(branch.phones),
+		},
+	}));
 
 const featuredMenus = menuModules.slice(0, 5);
 const remainingMenus = menuModules.slice(5);
@@ -105,7 +82,6 @@ const remainingMenus = menuModules.slice(5);
 			menuId={item.menuId}
 			branchName={item.branchName}
 			branchSlug={item.branchSlug}
-			menu={item.menuData}
 			branch={item.branchData}
 		/>
 	))}

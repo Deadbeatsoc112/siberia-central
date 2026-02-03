@@ -30,6 +30,7 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
                ELEMENTOS POSICIONADOS EN EL CANVAS
                ========================= -->
           <div class="abs img g608" aria-hidden="true"></div>
+          <div class="abs img g605" aria-hidden="true"></div>
           <div class="abs img g572" aria-hidden="true"></div>
           <div class="abs img g284" aria-hidden="true"></div>
           <div class="abs img g319" aria-hidden="true"></div>
@@ -37,6 +38,7 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
           <div class="abs img g472" aria-hidden="true"></div>
           <div class="abs img g500" aria-hidden="true"></div>
           <div class="abs img g522" aria-hidden="true"></div>
+          <div class="abs img g246" aria-hidden="true"></div>
 
           <!-- =========================
                TEXTOS
@@ -739,7 +741,7 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
 
       .section-title {
         font-family: 'Campton', 'Arial Black', Arial, sans-serif;
-        font-size: 96px;
+        font-size: 84px;
         font-weight: 700;
         letter-spacing: 0;
         text-transform: uppercase;
@@ -747,6 +749,7 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         text-shadow:
           0 12px 30px rgba(0, 0, 0, 0.6),
           0 2px 0 rgba(0, 0, 0, 0.35);
+        z-index: 3;
       }
 
       .section-title--left {
@@ -1271,6 +1274,7 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         width: var(--w);
         height: 1px;
         background: rgba(255, 255, 255, 0.65);
+        z-index: 2;
       }
 
       .divider::after {
@@ -1298,6 +1302,15 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         background-image: url('/img/Grupo 608.png');
       }
 
+      /* top: 1117px; left: 327px; width: 426px; height: 39px; img Grupo 605 */
+      .g605 {
+        top: 1117px;
+        left: 327px;
+        width: 426px;
+        height: 39px;
+        background-image: url('/img/Grupo 605.png');
+      }
+
       /* top: 3642px; left: -151px; width: 647px; height: 1151px; img Grupo 572 */
       .g572 {
         top: 3642px;
@@ -1305,6 +1318,15 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         width: 647px;
         height: 1151px;
         background-image: url('/img/Grupo 572.png');
+      }
+
+      /* top: 3562px; left: -130px; width: 600px; height: 400px; img Grupo 246 */
+      .g246 {
+        top: 3562px;
+        left: -130px;
+        width: 600px;
+        height: 400px;
+        background-image: url('/img/Grupo 246.svg');
       }
 
       /* top: 5241px; left: -234px; width: 1403px; height: 812px; img Grupo 284 */

@@ -8,7 +8,7 @@ const db = getDB(Astro.locals);
 const { slug } = Astro.params;
 
 if (!slug) {
-	return Astro.redirect('/menu');
+	return Astro.redirect('/menu-sucursales');
 }
 
 const menuData = await menusRepo.getByBranchSlug(db, slug);

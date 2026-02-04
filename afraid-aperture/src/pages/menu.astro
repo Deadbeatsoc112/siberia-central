@@ -2,7 +2,7 @@
 const CANVAS_W = 1080;
 const CANVAS_H = 13949;
 const HEADER_H = 1390;
-import menuBgUrl from '../assets/media/Enmascarar grupo 3.png?url';
+import menuBgUrl from '../assets/media/FondoMenus.png?url';
 import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
 import logoUrl from '../assets/media/logologito.png?url';
 import grupo605Url from '../assets/media/Grupo 605.svg?url';
@@ -27,10 +27,8 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
     <main class="page">
       <div class="frame" id="frame">
         <div class="canvas" style={`--menu-bg: url(${menuBgUrl});`}>
+          <a id="menu-top" class="menu-top-anchor" aria-hidden="true"></a>
           <a class="abs back-link" href="/menu-sucursales" aria-label="Volver a Menús">← Menús</a>
-
-          <!-- Fondo oscuro para toda la página desde el header -->
-          <div class="page-dark-bg"></div>
 
           <!-- =========================
                1) HEADER (0 - 1390)
@@ -55,6 +53,10 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
           <div class="abs img g572" style="z-index:3;" aria-hidden="true"></div>
           <div class="abs img g284" aria-hidden="true"></div>
           <div class="abs img g319" aria-hidden="true"></div>
+          <div class="abs img g321" aria-hidden="true"></div>
+          <div class="abs img g323" aria-hidden="true"></div>
+          <div class="abs img g323b" aria-hidden="true"></div>
+          <div class="abs img g-coke" aria-hidden="true"></div>
           <div class="abs img g569" aria-hidden="true"></div>
           <div class="abs img g472" aria-hidden="true"></div>
           <div class="abs img g500" aria-hidden="true"></div>
@@ -166,7 +168,18 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
             </div>
           </section>
 
-          <img src={grupo204Url} alt="" class="abs" style="right: 0px; top: 2140px; width: 390px; height: auto; z-index: 3;" />
+          <img
+            src={grupo204Url}
+            alt=""
+            class="abs"
+            style="top: 2082px; left: 612px; width: 567px; height: 133px; z-index: 3;"
+          />
+          <img
+            src={grupo640Url}
+            alt=""
+            class="abs"
+            style="top: 2127px; left: 645px; width: 346px; height: 161px; transform: matrix(-0.97, 0.22, -0.22, -0.97, 0, 0); z-index: 3;"
+          />
           <img src={grupo641Url} alt="" class="abs" style="right: -60px; top: 2270px; width: 420px; height: auto; z-index: 3;" />
 
           <div class="abs section-title section-title--left tacos-title">TACOS</div>
@@ -267,31 +280,7 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
                 <div class="caldo-price">$ 84.00</div>
               </div>
             </div>
-
-            <div class="caldo-card">
-              <div class="caldo-card__name">CALDO DE PECHUGA</div>
-              <div class="caldo-card__price">$ 93.00</div>
-              <div class="caldo-card__sub">HEN BREAST BROTH</div>
-              <p class="caldo-card__text">
-                Consomé de gallina con arroz, pechuga y una tortilla para acompañar.
-              </p>
-              <p class="caldo-card__text">
-                Hen broth served with rice, hen breast, and a tortilla as side.
-              </p>
-            </div>
-
-            <div class="caldo-card">
-              <div class="caldo-card__name">CALDO DE PIERNA</div>
-              <div class="caldo-card__price">$ 76.00</div>
-              <div class="caldo-card__sub">HEN LEG BROTH</div>
-              <p class="caldo-card__text">
-                Consomé de gallina con arroz, una pieza de pierna y una tortilla para acompañar.
-              </p>
-              <p class="caldo-card__text">
-                Hen broth served with rice, a piece of hen leg, and a tortilla as side.
-              </p>
-            </div>
-          </section>
+           </section>
 
           <section class="section caldos-section-2">
             <div class="caldo-list">
@@ -492,6 +481,7 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
           -->
         </div>
       </div>
+      <a class="menu-float-btn" href="#menu-top" aria-label="Volver al inicio del menú"></a>
     </main>
 
     <script>
@@ -520,9 +510,9 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
         --side-pad: 32px;
         --scale: 1;
         --text-scale: 1.21;
-        --item-name-size: calc(22px * var(--text-scale));
-        --item-price-size: calc(18px * var(--text-scale));
-        --item-desc-size: calc(13px * var(--text-scale));
+        --item-name-size: calc(30px * var(--text-scale));
+        --item-price-size: calc(28px * var(--text-scale));
+        --item-desc-size: calc(22px * var(--text-scale));
       }
 
       @font-face {
@@ -648,6 +638,28 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
         background: rgba(0, 0, 0, 0.7);
       }
 
+      .menu-top-anchor {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 1px;
+        pointer-events: none;
+      }
+
+      .menu-float-btn {
+        position: fixed;
+        right: 29px;
+        top: calc(50% - 36px);
+        width: 72px;
+        height: 72px;
+        background: transparent url('/img/Grupo 139.svg') 0% 0% no-repeat padding-box;
+        opacity: 1;
+        transform: rotate(360deg);
+        z-index: 200;
+        cursor: pointer;
+      }
+
       /* Helper para "sprites" con background */
       .img {
         background-repeat: no-repeat;
@@ -685,17 +697,6 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
         position: relative;
         width: 100%;
         height: 1390px;
-      }
-
-      /* Fondo oscuro para toda la página */
-      .page-dark-bg {
-        position: absolute;
-        top: 1100px;
-        left: 0;
-        width: 100%;
-        height: calc(var(--canvas-h) - 1100px);
-        background-color: #161615;
-        z-index: 1;
       }
 
       /* Fondo de imagen del header - incluye sección beige */
@@ -981,6 +982,10 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
         letter-spacing: 0.6px;
       }
 
+      .caldo-size {
+        color: #c19a4b;
+      }
+
       .caldo-card {
         margin-top: 18px;
         display: grid;
@@ -1116,6 +1121,14 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
         --y: 6402px;
         --w: 851px;
         --h: 663px;
+      }
+
+      .caldos-section-2 .caldo-list {
+        gap: 22px;
+      }
+
+      .caldos-section-2 .caldo-item {
+        row-gap: 6px;
       }
 
       .combos-section-1 {
@@ -1495,6 +1508,45 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
         width: 583px;
         height: 352px;
         background-image: url('/img/Grupo 319.svg');
+      }
+
+      /* top: 6056px; left: 505px; width: 248px; height: 233px; img Grupo 321 */
+      .g321 {
+        top: 6056px;
+        left: 505px;
+        width: 248px;
+        height: 233px;
+        background-image: url('/img/Grupo 321.svg');
+        transform: matrix(0.74, 0.67, -0.67, 0.74, 0, 0);
+        transform-origin: top left;
+      }
+
+      /* top: 7993px; left: -177.60302734375px; width: 1067px; height: 47px; img Grupo 323 */
+      .g323 {
+        top: 7993px;
+        left: -177.60302734375px;
+        width: 1067px;
+        height: 47px;
+        background-image: url('/img/Grupo 323.svg');
+      }
+
+      /* top: 10581px; left: 7px; width: 1067px; height: 47px; img Grupo 323 */
+      .g323b {
+        top: 10581px;
+        left: 7px;
+        width: 1067px;
+        height: 47px;
+        background-image: url('/img/Grupo 323.svg');
+      }
+
+      /* top: 10100px; left: -45px; width: 700px; height: 700px; img Coca_Cola_Flasche_-_Original_Taste arminizado */
+      .g-coke {
+        top: 10100px;
+        left: -45px;
+        width: 700px;
+        height: 700px;
+        background-image: url('/img/Coca_Cola_Flasche_-_Original_Taste arminizado.png');
+        z-index: 3;
       }
 
       /* top: 9125px; left: 235px; width: 610px; height: 278px; img Grupo 356 */

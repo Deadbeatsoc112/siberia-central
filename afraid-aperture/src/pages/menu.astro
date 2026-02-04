@@ -198,10 +198,10 @@ import grupo641Url from '../assets/media/Grupo 641.svg?url';
 
           <section class="section extras-section extras-bottom">
             <div class="extras-title">
-              <img src={trazado2244Url} alt="" class="extras-title__bg" />
-              <span class="extras-title__text">EXTRAS</span>
+              <img src={trazado2244Url} alt="" class="extras-title__bg extras-title__bg-2" />
+              <span class="extras-title__text-2">EXTRAS</span>
             </div>
-            <div class="extras-items">
+            <div class="extras-items-2">
               <div class="extras-item">
                 <div class="extras-item__name">CHILES</div>
                 <div class="extras-item__price">$5.00</div>
@@ -1087,10 +1087,11 @@ import grupo641Url from '../assets/media/Grupo 641.svg?url';
       }
 
       .extras-bottom {
-        --x: 387px;
+        right:0px;
         --y: 3562px;
-        --w: 575px;
-        --h: 561px;
+        --w: 505px;
+        --h: 567px;
+        transform: scaleX(-1);
       }
 
       .extras-caldos {
@@ -1148,6 +1149,16 @@ import grupo641Url from '../assets/media/Grupo 641.svg?url';
         height: 150px;
       }
 
+      .extras-title__bg-2 {
+        display: block;
+        width: 600px;
+        height: auto;
+        transform: scaleY(0.7);
+        transform-origin: top;
+      }
+
+
+
       .extras-title__text {
         position: absolute;
         top: 50%;
@@ -1161,11 +1172,33 @@ import grupo641Url from '../assets/media/Grupo 641.svg?url';
         color: #ffffff;
         white-space: nowrap;
       }
+      .extras-title__text-2 {
+        position: absolute;
+        top: 35%;
+        right:0px;
+        transform: translate(-50%, -50%) scaleX(-1);
+        font-size: calc(22px * var(--text-scale));
+        font-weight: 900;
+        font-size: 38px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #ffffff;
+        white-space: nowrap;
+      }
 
       .extras-items {
         margin-top: 10px;
         margin-left: 65px;
         display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index:3;
+      }
+      .extras-items-2 {
+        margin-top: 10px;
+        margin-left: 65px;
+        display: flex;
+        transform: scaleX(-1);
         flex-direction: column;
         gap: 10px;
         z-index:3;

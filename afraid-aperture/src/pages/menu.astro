@@ -12,6 +12,7 @@ import grupo151Url from '../assets/media/Grupo 151.svg?url';
 import grupo204Url from '../assets/media/Grupo 204.svg?url';
 import grupo640Url from '../assets/media/Grupo 640.svg?url';
 import grupo641Url from '../assets/media/Grupo 641.svg?url';
+import grupo247Url from '../assets/media/Grupo 247.svg?url';
 ---
 
 <!DOCTYPE html>
@@ -51,7 +52,7 @@ import grupo641Url from '../assets/media/Grupo 641.svg?url';
                ========================= -->
           <div class="abs img g608" style="z-index:3;" aria-hidden="true"></div>
           <div class="abs img g605" aria-hidden="true"></div>
-          <div class="abs img g572" aria-hidden="true"></div>
+          <div class="abs img g572" style="z-index:3;" aria-hidden="true"></div>
           <div class="abs img g284" aria-hidden="true"></div>
           <div class="abs img g319" aria-hidden="true"></div>
           <div class="abs img g569" aria-hidden="true"></div>
@@ -166,7 +167,6 @@ import grupo641Url from '../assets/media/Grupo 641.svg?url';
           </section>
 
           <img src={grupo204Url} alt="" class="abs" style="right: 0px; top: 2140px; width: 390px; height: auto; z-index: 3;" />
-          <img src={grupo640Url} alt="" class="abs" style="right: 100px; top: 2185px; width: 270px; height: auto; z-index: 3;" />
           <img src={grupo641Url} alt="" class="abs" style="right: -60px; top: 2270px; width: 420px; height: auto; z-index: 3;" />
 
           <div class="abs section-title section-title--left tacos-title">TACOS</div>
@@ -246,6 +246,8 @@ import grupo641Url from '../assets/media/Grupo 641.svg?url';
                CALDOS
                ========================= -->
           <div class="abs section-title section-title--left caldos-title">CALDOS</div>
+          <img src={grupo247Url} alt="" class="abs divider-3" />
+          <img src={grupo640Url} alt="" class="abs" style="left: 50px; top: 4470px; width: 370px; height: auto; z-index: 3; transform: scale(-1, -1);" />
           <section class="section caldos-section-1">
             <div class="caldo-feature">
               <div class="caldo-name">TLALPEÑO</div>
@@ -1425,6 +1427,15 @@ import grupo641Url from '../assets/media/Grupo 641.svg?url';
         height: auto;
         z-index: 2;
         transform: scaleX(-1);
+      }
+
+      .divider-3 {
+        position: absolute;
+        right: 0px;
+        top: 4460px;
+        width: 970px;
+        height: auto;
+        z-index: 2;
       }
 
       /* =========================

@@ -4,6 +4,14 @@ const CANVAS_H = 13949;
 const HEADER_H = 1390;
 import menuBgUrl from '../assets/media/Enmascarar grupo 3.png?url';
 import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
+import logoUrl from '../assets/media/logologito.png?url';
+import grupo605Url from '../assets/media/Grupo 605.svg?url';
+import grupo607Url from '../assets/media/Grupo 607.svg?url';
+import trazado2244Url from '../assets/media/Trazado 2244.svg?url';
+import grupo151Url from '../assets/media/Grupo 151.svg?url';
+import grupo204Url from '../assets/media/Grupo 204.svg?url';
+import grupo640Url from '../assets/media/Grupo 640.svg?url';
+import grupo641Url from '../assets/media/Grupo 641.svg?url';
 ---
 
 <!DOCTYPE html>
@@ -19,17 +27,29 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
       <div class="frame" id="frame">
         <div class="canvas" style={`--menu-bg: url(${menuBgUrl});`}>
           <a class="abs back-link" href="/menu-sucursales" aria-label="Volver a Menús">← Menús</a>
+
+          <!-- Fondo oscuro para toda la página desde el header -->
+          <div class="page-dark-bg"></div>
+
           <!-- =========================
                1) HEADER (0 - 1390)
                ========================= -->
           <section class="header">
+            <!-- Fondo de imagen del header -->
+            <div class="header-bg-image"></div>
+            <!-- Logo arriba en el header -->
+            <div class="logo-combos" style={`background-image: url(${logoUrl});`}></div>
             <div class="taco-header" aria-hidden="true"></div>
+            <!-- Imagen adicional sobre el taco -->
+            <img src={grupo605Url} alt="" class="header-decoration" />
+            <!-- Imagen superpuesta sobre el taco -->
+            <img src={grupo607Url} alt="" class="header-script" />
           </section>
 
           <!-- =========================
                ELEMENTOS POSICIONADOS EN EL CANVAS
                ========================= -->
-          <div class="abs img g608" aria-hidden="true"></div>
+          <div class="abs img g608" style="z-index:3;" aria-hidden="true"></div>
           <div class="abs img g605" aria-hidden="true"></div>
           <div class="abs img g572" aria-hidden="true"></div>
           <div class="abs img g284" aria-hidden="true"></div>
@@ -38,24 +58,25 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
           <div class="abs img g472" aria-hidden="true"></div>
           <div class="abs img g500" aria-hidden="true"></div>
           <div class="abs img g522" aria-hidden="true"></div>
+          
           <div class="abs img g246" aria-hidden="true"></div>
 
           <!-- =========================
                TEXTOS
                ========================= -->
-          <div class="txt nav" style="--x: 130px; --y: 260px; --fs: 34px; --tf: rotate(-22deg);">
+          <div class="txt nav" style="--x: 130px; --y: 260px; --fs: 34px; --tf: rotate(-22deg); z-index: 3;">
             BEBIDAS
           </div>
-          <div class="txt nav" style="--x: 215px; --y: 430px; --fs: 34px; --tf: rotate(-12deg);">
+          <div class="txt nav" style="--x: 215px; --y: 430px; --fs: 34px; --tf: rotate(-12deg); z-index: 3;">
             TACOS
           </div>
-          <div class="txt nav" style="--x: 455px; --y: 500px; --fs: 34px; --tf: rotate(0deg);">
+          <div class="txt nav" style="--x: 455px; --y: 500px; --fs: 34px; --tf: rotate(0deg); z-index: 3;">
             COMBOS
           </div>
-          <div class="txt nav" style="--x: 760px; --y: 330px; --fs: 34px; --tf: rotate(12deg);">
+          <div class="txt nav" style="--x: 760px; --y: 330px; --fs: 34px; --tf: rotate(12deg); z-index: 3;">
             CALDOS
           </div>
-          <div class="txt nav" style="--x: 675px; --y: 480px; --fs: 34px; --tf: rotate(18deg);">
+          <div class="txt nav" style="--x: 675px; --y: 480px; --fs: 34px; --tf: rotate(18deg); z-index: 3;">
             TOSTADAS
           </div>
 
@@ -74,9 +95,8 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
           </div>
 
           <div class="abs section-title tostadas-title">TOSTADAS</div>
-          <div class="abs divider" style="--x: 112px; --y: 1465px; --w: 851px;"></div>
+          <img src={grupo151Url} alt="" class="abs divider-1" />
           <section class="section tostadas-section">
-            <div class="section-script">Como antes,<br />¡como debe ser!</div>
             <div class="menu-items">
               <div class="menu-item">
                 <div class="menu-item__name">TOSTADA DE PECHUGA</div>
@@ -107,7 +127,10 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
           </section>
 
           <section class="section extras-section extras-top">
-            <div class="extras-title">EXTRAS</div>
+            <div class="extras-title">
+              <img src={trazado2244Url} alt="" class="extras-title__bg" />
+              <span class="extras-title__text">EXTRAS</span>
+            </div>
             <div class="extras-items">
               <div class="extras-item">
                 <div class="extras-item__name">CHILES</div>
@@ -142,12 +165,12 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
             </div>
           </section>
 
-          <div class="txt antoje" style="--x: 645px; --y: 2305px;">
-            El antoje Manda
-          </div>
+          <img src={grupo204Url} alt="" class="abs" style="right: 0px; top: 2140px; width: 390px; height: auto; z-index: 3;" />
+          <img src={grupo640Url} alt="" class="abs" style="right: 100px; top: 2185px; width: 270px; height: auto; z-index: 3;" />
+          <img src={grupo641Url} alt="" class="abs" style="right: -60px; top: 2270px; width: 420px; height: auto; z-index: 3;" />
 
           <div class="abs section-title section-title--left tacos-title">TACOS</div>
-          <div class="abs divider" style="--x: 112px; --y: 2960px; --w: 851px;"></div>
+          <img src={grupo151Url} alt="" class="abs divider-2" />
           <section class="section tacos-section">
             <div class="menu-items">
               <div class="menu-item">
@@ -174,7 +197,10 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
           </section>
 
           <section class="section extras-section extras-bottom">
-            <div class="extras-title">EXTRAS</div>
+            <div class="extras-title">
+              <img src={trazado2244Url} alt="" class="extras-title__bg" />
+              <span class="extras-title__text">EXTRAS</span>
+            </div>
             <div class="extras-items">
               <div class="extras-item">
                 <div class="extras-item__name">CHILES</div>
@@ -296,7 +322,10 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
           </section>
 
           <section class="section extras-section extras-caldos extras-caldos--small">
-            <div class="extras-title">EXTRAS</div>
+            <div class="extras-title">
+              <img src={trazado2244Url} alt="" class="extras-title__bg" />
+              <span class="extras-title__text">EXTRAS</span>
+            </div>
             <div class="extras-columns">
               <div class="extras-col">
                 <div class="extras-item">
@@ -610,19 +639,21 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         text-decoration: none;
         text-transform: uppercase;
         box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+        z-index: 100;
       }
 
       .back-link:hover {
         background: rgba(0, 0, 0, 0.7);
       }
 
-      /* Helper para “sprites” con background */
+      /* Helper para "sprites" con background */
       .img {
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
         background-image: var(--img, none);
         pointer-events: none;
+        z-index: 2;
       }
 
       /* Helper para textos */
@@ -642,6 +673,7 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         text-shadow: var(--shadow, 0 4px 10px rgba(0, 0, 0, 0.35));
         white-space: pre-line;
         pointer-events: none;
+        z-index: 3;
       }
 
       /* =========================
@@ -651,7 +683,28 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         position: relative;
         width: 100%;
         height: 1390px;
-        background: url('/img/Enmascarar grupo 4.png') no-repeat center / cover;
+      }
+
+      /* Fondo oscuro para toda la página */
+      .page-dark-bg {
+        position: absolute;
+        top: 1100px;
+        left: 0;
+        width: 100%;
+        height: calc(var(--canvas-h) - 1100px);
+        background-color: #161615;
+        z-index: 1;
+      }
+
+      /* Fondo de imagen del header - incluye sección beige */
+      .header-bg-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1130px;
+        background: url('/img/Enmascarar grupo 4.png') no-repeat center top / cover;
+        z-index: 2;
       }
 
       /* Taco dentro del header */
@@ -663,6 +716,7 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         height: 1368px;
         background: url('/img/Grupo 571.png') no-repeat center / contain;
         pointer-events: none;
+        z-index: 3;
       }
 
       .nav {
@@ -682,6 +736,7 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         color: #f5e9d4;
         text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
         font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
+        z-index: 3;
       }
 
       .header-menu {
@@ -737,12 +792,14 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         width: var(--w, auto);
         height: var(--h, auto);
         color: #ffffff;
+        z-index: 2;
       }
 
       .section-title {
         font-family: 'Campton', 'Arial Black', Arial, sans-serif;
         font-size: 84px;
         font-weight: 700;
+        z-index: 3;
         letter-spacing: 0;
         text-transform: uppercase;
         text-align: left;
@@ -777,6 +834,20 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         height: 153px;
       }
 
+      .logo-combos {
+        position: absolute;
+        top: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 350px;
+        height: 350px;
+        z-index: 3;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        pointer-events: none;
+      }
+
       .combos-title {
         top: 7857px;
         left: 112px;
@@ -797,6 +868,26 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         color: #e54141;
         text-align: right;
         margin-bottom: 8px;
+      }
+
+      .header-decoration {
+        position: absolute;
+        top: 1140px;
+        left: 320px;
+        width: 380px;
+        height: auto;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .header-script {
+        position: absolute;
+        top: 1220px;
+        left: 550px;
+        width: 360px;
+        height: auto;
+        z-index: 3;
+        pointer-events: none;
       }
 
       .menu-items {
@@ -983,23 +1074,22 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
       }
 
       .extras-section {
-        --w: 360px;
         color: #ffffff;
         font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
         padding-top: 6px;
       }
 
       .extras-top {
-        --x: -194.85498046875px;
+        --x: 0px;
         --y: 2105px;
-        --w: 735px;
+        --w: 505px;
         --h: 567px;
       }
 
       .extras-bottom {
         --x: 387px;
         --y: 3562px;
-        --w: 775px;
+        --w: 575px;
         --h: 561px;
       }
 
@@ -1049,62 +1139,78 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
       .extras-title {
         position: relative;
         display: inline-block;
-        padding: 8px 22px;
-        background: #9d6a2b;
-        font-size: calc(22px * var(--text-scale));
-        font-weight: 900;
-        letter-spacing: 1px;
-        text-transform: uppercase;
+        z-index: 5;
       }
 
-      .extras-title::after {
-        content: '';
+      .extras-title__bg {
+        display: block;
+        width: 410px;
+        height: 150px;
+      }
+
+      .extras-title__text {
         position: absolute;
-        right: -18px;
-        top: 0;
-        width: 0;
-        height: 0;
-        border-top: 20px solid transparent;
-        border-bottom: 20px solid transparent;
-        border-left: 18px solid #9d6a2b;
+        top: 50%;
+        left: 40%;
+        transform: translate(-50%, -50%);
+        font-size: calc(22px * var(--text-scale));
+        font-weight: 900;
+        font-size: 38px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #ffffff;
+        white-space: nowrap;
       }
 
       .extras-items {
         margin-top: 10px;
+        margin-left: 65px;
         display: flex;
         flex-direction: column;
         gap: 10px;
+        z-index:3;
       }
 
       .extras-columns {
         margin-top: 10px;
+        margin-left: 35px;
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         column-gap: 28px;
+        z-index: 3;
       }
 
       .extras-col {
         display: flex;
         flex-direction: column;
         gap: 10px;
+        z-index: 3;
       }
 
       .extras-item {
         display: grid;
         grid-template-columns: 1fr auto;
         row-gap: 2px;
+        z-index: 3;
+        position: relative;
       }
 
       .extras-item__name {
         font-size: calc(15px * var(--text-scale));
         font-weight: 900;
+        color: #ffffff;
         letter-spacing: 0.6px;
         text-transform: uppercase;
+        z-index: 4;
+        position: relative;
       }
 
       .extras-item__price {
         font-size: calc(14px * var(--text-scale));
         font-weight: 800;
+        color: #ffffff;
+        z-index: 4;
+        position: relative;
       }
 
       .extras-item__desc {
@@ -1113,6 +1219,8 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         color: #cfcfcf;
         letter-spacing: 0.6px;
         opacity: 0.85;
+        z-index: 4;
+        position: relative;
       }
 
       .combo {
@@ -1267,25 +1375,23 @@ import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
         letter-spacing: 0.4px;
       }
 
-      .divider {
+      .divider-1 {
         position: absolute;
-        left: var(--x);
-        top: var(--y);
-        width: var(--w);
-        height: 1px;
-        background: rgba(255, 255, 255, 0.65);
+        right: 0px;
+        top: 1400px;
+        width: 970px;
+        height: auto;
         z-index: 2;
       }
 
-      .divider::after {
-        content: '★';
+      .divider-2 {
         position: absolute;
-        left: 50%;
-        top: -14px;
-        transform: translateX(-50%);
-        font-size: 18px;
-        color: #c19a4b;
-        text-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+        left: 0px;
+        top: 2950px;
+        width: 820px;
+        height: auto;
+        z-index: 2;
+        transform: scaleX(-1);
       }
 
       /* =========================

@@ -67,21 +67,41 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
           <!-- =========================
                TEXTOS
                ========================= -->
-          <div class="txt nav" style="--x: 130px; --y: 260px; --fs: 34px; --tf: rotate(-22deg); z-index: 3;">
+          <a
+            class="txt nav nav-link"
+            href="#bebidas"
+            style="--x: 130px; --y: 260px; --fs: 34px; --tf: rotate(-22deg); --delay: 0s; z-index: 3;"
+          >
             BEBIDAS
-          </div>
-          <div class="txt nav" style="--x: 215px; --y: 430px; --fs: 34px; --tf: rotate(-12deg); z-index: 3;">
+          </a>
+          <a
+            class="txt nav nav-link"
+            href="#tacos"
+            style="--x: 215px; --y: 430px; --fs: 34px; --tf: rotate(-12deg); --delay: 0.2s; z-index: 3;"
+          >
             TACOS
-          </div>
-          <div class="txt nav" style="--x: 455px; --y: 500px; --fs: 34px; --tf: rotate(0deg); z-index: 3;">
+          </a>
+          <a
+            class="txt nav nav-link"
+            href="#combos"
+            style="--x: 455px; --y: 500px; --fs: 34px; --tf: rotate(0deg); --delay: 0.4s; z-index: 3;"
+          >
             COMBOS
-          </div>
-          <div class="txt nav" style="--x: 760px; --y: 330px; --fs: 34px; --tf: rotate(12deg); z-index: 3;">
+          </a>
+          <a
+            class="txt nav nav-link"
+            href="#caldos"
+            style="--x: 760px; --y: 330px; --fs: 34px; --tf: rotate(12deg); --delay: 0.6s; z-index: 3;"
+          >
             CALDOS
-          </div>
-          <div class="txt nav" style="--x: 675px; --y: 480px; --fs: 34px; --tf: rotate(18deg); z-index: 3;">
+          </a>
+          <a
+            class="txt nav nav-link"
+            href="#tostadas"
+            style="--x: 675px; --y: 480px; --fs: 34px; --tf: rotate(18deg); --delay: 0.8s; z-index: 3;"
+          >
             TOSTADAS
-          </div>
+          </a>
 
           <div class="header-info">
             <div class="header-menu">Menú</div>
@@ -97,7 +117,7 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
             </div>
           </div>
 
-          <div class="abs section-title tostadas-title">TOSTADAS</div>
+          <div class="abs section-title tostadas-title" id="tostadas">TOSTADAS</div>
           <img src={grupo151Url} alt="" class="abs divider-1" />
           <section class="section tostadas-section">
             <div class="menu-items">
@@ -182,7 +202,7 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
           />
           <img src={grupo641Url} alt="" class="abs" style="right: -60px; top: 2270px; width: 420px; height: auto; z-index: 3;" />
 
-          <div class="abs section-title section-title--left tacos-title">TACOS</div>
+          <div class="abs section-title section-title--left tacos-title" id="tacos">TACOS</div>
           <img src={grupo151Url} alt="" class="abs divider-2" />
           <section class="section tacos-section">
             <div class="menu-items">
@@ -258,7 +278,7 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
           <!-- =========================
                CALDOS
                ========================= -->
-          <div class="abs section-title section-title--left caldos-title">CALDOS</div>
+          <div class="abs section-title section-title--left caldos-title" id="caldos">CALDOS</div>
           <img src={grupo247Url} alt="" class="abs divider-3" />
           <img src={grupo640Url} alt="" class="abs" style="left: 50px; top: 4470px; width: 370px; height: auto; z-index: 3; transform: scale(-1, -1);" />
           <section class="section caldos-section-1">
@@ -360,7 +380,7 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
           <!-- =========================
                COMBOS
                ========================= -->
-          <div class="abs section-title section-title--left combos-title">COMBOS</div>
+          <div class="abs section-title section-title--left combos-title" id="combos">COMBOS</div>
           <section class="section combos-section-1">
             <div class="combo">
               <div class="combo__name">COMBO 1</div>
@@ -425,7 +445,7 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
           <!-- =========================
                BEBIDAS
                ========================= -->
-          <div class="abs section-title section-title--left bebidas-title">BEBIDAS</div>
+          <div class="abs section-title section-title--left bebidas-title" id="bebidas">BEBIDAS</div>
           <section class="section bebidas-section">
             <div class="bebidas-note">Para todo el taco</div>
             <div class="bebidas-list">
@@ -727,6 +747,41 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
         text-transform: uppercase;
         font-weight: 900;
         letter-spacing: 1px;
+      }
+
+      .nav-link {
+        pointer-events: auto;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+        animation: nav-bounce 2.6s ease-in-out infinite;
+        animation-delay: var(--delay, 0s);
+        transform: var(--tf, none) translateY(0);
+        will-change: transform;
+        transition: transform 0.2s ease, text-shadow 0.2s ease, letter-spacing 0.2s ease;
+      }
+
+      .nav-link:hover {
+        transform: var(--tf, none) translateY(-12px) scale(1.04);
+        text-shadow:
+          0 10px 20px rgba(0, 0, 0, 0.45),
+          0 0 12px rgba(245, 233, 212, 0.55);
+        letter-spacing: 1.6px;
+      }
+
+      .nav-link:focus-visible {
+        outline: 2px solid rgba(245, 233, 212, 0.9);
+        outline-offset: 4px;
+      }
+
+      @keyframes nav-bounce {
+        0%,
+        100% {
+          transform: var(--tf, none) translateY(0);
+        }
+        50% {
+          transform: var(--tf, none) translateY(-10px);
+        }
       }
 
       .header-info {

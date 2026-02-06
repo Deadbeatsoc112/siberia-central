@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from '../layouts/Layout.astro';
 import menuHeroUrl from '../assets/media/Enmascarar grupo 19.png?url';
 import menuHero2xUrl from '../assets/media/Enmascarar grupo 19@2x.png?url';
@@ -6,36 +6,36 @@ import MenuModuleCard from '../components/MenuModuleCard.astro';
 
 // Sucursales quemadas (edita este arreglo)
 const menuModules = [
-	{
-		name: 'Menu Vasconcelos',
-		address: 'Vasconcelos 202 Local #25 y #26, Col. Bosques del Valle, San Pedro Garza García CP 66250',
-		href: '/menu',
-	},
-	{
-		name: 'Menu San Pedro',
-		address: 'Dirección pendiente',
-		href: '/menu',
-	},
-	{
-		name: 'Menu Centro',
-		address: 'Dirección pendiente',
-		href: '/menu',
-	},
-	{
-		name: 'Menu Sur',
-		address: 'Dirección pendiente',
-		href: '/menu',
-	},
-	{
-		name: 'Menu Norte',
-		address: 'Dirección pendiente',
-		href: '/menu',
-	},
-	{
-		name: 'Menu Poniente',
-		address: 'Dirección pendiente',
-		href: '/menu',
-	},
+  {
+    name: 'Sucursal de Zapata',
+    address: 'Dirección pendiente',
+    href: '/menus/zapata',
+  },
+  {
+    name: 'Lincoln',
+    address: 'Dirección pendiente',
+    href: '/menus/lincoln',
+  },
+  {
+    name: 'Matamoros',
+    address: 'Dirección pendiente',
+    href: '/menus/matamoros',
+  },
+  {
+    name: 'Vasconcelos',
+    address: 'Vasconcelos 202 Local #25 y #26, Col. Bosques del Valle, San Pedro Garza García CP 66250',
+    href: '/menus/vasconcelos',
+  },
+  {
+    name: 'San Pedro',
+    address: 'Dirección pendiente',
+    href: '/menus/san-pedro',
+  },
+  {
+    name: 'Central',
+    address: 'Dirección pendiente',
+    href: '/menus/central',
+  },
 ];
 
 const featuredMenus = menuModules.slice(0, 5);
@@ -51,7 +51,7 @@ const remainingMenus = menuModules.slice(5);
 		></div>
 		<div class="menu-hero__overlay" aria-hidden="true"></div>
 		<div class="menu-hero__content">
-			<h1 id="menu-title" class="menu-hero__title">Menú</h1>
+			<h1 id="menu-title" class="menu-hero__title">Menu</h1>
 			<p class="menu-hero__subtitle">
 				Recetas con historia, hechas para compartir con tu gente
 			</p>
@@ -341,3 +341,4 @@ const remainingMenus = menuModules.slice(5);
 		}
 	}
 </style>
+

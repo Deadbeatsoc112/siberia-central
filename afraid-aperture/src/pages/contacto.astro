@@ -29,7 +29,7 @@ const error = Astro.url.searchParams.get('error');
   <section class="contact-hero" aria-labelledby="contact-title">
     <div
       class="contact-hero__bg"
-      style={`background-image: url("${heroBgUrl}");`}
+      style={`background: transparent url("${heroBgUrl}") 0% 0% no-repeat padding-box;`}
       aria-hidden="true"
     >
     </div>
@@ -290,7 +290,6 @@ const error = Astro.url.searchParams.get('error');
     inset: 0;
     width: 1920px;
     height: 752px;
-    background: transparent url("${heroBgUrl}") 0% 0% no-repeat padding-box;
     transform: scale(1.02);
     opacity: 1;
     z-index: 0;

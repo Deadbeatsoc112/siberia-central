@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto';
 import type { AstroCookies } from 'astro';
 import type { D1Database } from '@cloudflare/workers-types';
 import { dbGet, dbRun } from './db';
@@ -41,7 +40,7 @@ const readSession = async (db: D1Database, sessionId: string) =>
   await dbGet<DbSession>(db, 'SELECT * FROM sessions WHERE id = ?', [sessionId]);
 
 const createSession = async (db: D1Database, userId: number) => {
-  const sessionId = randomUUID();
+  const sessionId = crypto.randomUUID();
   const now = Math.floor(Date.now() / 1000);
   const expiresAt = now + SESSION_TTL_SECONDS;
 

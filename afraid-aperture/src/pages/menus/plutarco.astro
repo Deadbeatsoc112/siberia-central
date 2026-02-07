@@ -1,0 +1,1678 @@
+---
+const CANVAS_W = 1080;
+const CANVAS_H = 13949;
+const HEADER_H = 1390;
+import menuBgUrl from '../../assets/media/FondoMenus.png?url';
+import camptonUrl from '../../assets/fonts/campton/CamptonBold.otf?url';
+import logoUrl from '../../assets/media/logologito.png?url';
+import grupo605Url from '../../assets/media/Grupo 605.svg?url';
+import grupo607Url from '../../assets/media/Grupo 607.svg?url';
+import trazado2244Url from '../../assets/media/Trazado 2244.svg?url';
+import grupo151Url from '../../assets/media/Grupo 151.svg?url';
+import grupo204Url from '../../assets/media/Grupo 204.svg?url';
+import grupo640Url from '../../assets/media/Grupo 640.svg?url';
+import grupo641Url from '../../assets/media/Grupo 641.svg?url';
+import grupo247Url from '../../assets/media/Grupo 247.svg?url';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Menú | Plutarco | La Siberia Central</title>
+  </head>
+
+  <body>
+    <main class="page">
+      <div class="frame" id="frame">
+        <div class="canvas" style={`--menu-bg: url(${menuBgUrl});`}>
+          <a id="menu-top" class="menu-top-anchor" aria-hidden="true"></a>
+          <a class="abs back-link" href="/menu-sucursales" aria-label="Volver a Menús">← Menús</a>
+
+          <!-- =========================
+               1) HEADER (0 - 1390)
+               ========================= -->
+          <section class="header">
+            <!-- Fondo de imagen del header -->
+            <div class="header-bg-image"></div>
+            <!-- Logo arriba en el header -->
+            <div class="logo-combos" style={`background-image: url(${logoUrl});`}></div>
+            <div class="taco-header" aria-hidden="true"></div>
+            <!-- Imagen adicional sobre el taco -->
+            <img src={grupo605Url} alt="" class="header-decoration" />
+            <!-- Imagen superpuesta sobre el taco -->
+            <img src={grupo607Url} alt="" class="header-script" />
+          </section>
+
+          <!-- =========================
+               ELEMENTOS POSICIONADOS EN EL CANVAS
+               ========================= -->
+          <div class="abs img g608" style="z-index:3;" aria-hidden="true"></div>
+          <div class="abs img g605" aria-hidden="true"></div>
+          <div class="abs img g572" style="z-index:3;" aria-hidden="true"></div>
+          <div class="abs img g284" aria-hidden="true"></div>
+          <div class="abs img g319" aria-hidden="true"></div>
+          <div class="abs img g321" aria-hidden="true"></div>
+          <div class="abs img g323" aria-hidden="true"></div>
+          <div class="abs img g323b" aria-hidden="true"></div>
+          <div class="abs img g-coke" aria-hidden="true"></div>
+          <div class="abs img g569" aria-hidden="true"></div>
+          <div class="abs img g472" aria-hidden="true"></div>
+          <div class="abs img g500" aria-hidden="true"></div>
+          <div class="abs img g522" aria-hidden="true"></div>
+          
+          <div class="abs img g246" aria-hidden="true"></div>
+
+          <!-- =========================
+               TEXTOS
+               ========================= -->
+          <a
+            class="txt nav nav-link"
+            href="#bebidas"
+            style="--x: 130px; --y: 260px; --fs: 34px; --tf: rotate(-22deg); --delay: 0s; z-index: 3;"
+          >
+            BEBIDAS
+          </a>
+          <a
+            class="txt nav nav-link"
+            href="#tacos"
+            style="--x: 215px; --y: 430px; --fs: 34px; --tf: rotate(-12deg); --delay: 0.2s; z-index: 3;"
+          >
+            TACOS
+          </a>
+          <a
+            class="txt nav nav-link"
+            href="#combos"
+            style="--x: 455px; --y: 500px; --fs: 34px; --tf: rotate(0deg); --delay: 0.4s; z-index: 3;"
+          >
+            COMBOS
+          </a>
+          <a
+            class="txt nav nav-link"
+            href="#caldos"
+            style="--x: 760px; --y: 330px; --fs: 34px; --tf: rotate(12deg); --delay: 0.6s; z-index: 3;"
+          >
+            CALDOS
+          </a>
+          <a
+            class="txt nav nav-link"
+            href="#tostadas"
+            style="--x: 675px; --y: 480px; --fs: 34px; --tf: rotate(18deg); --delay: 0.8s; z-index: 3;"
+          >
+            TOSTADAS
+          </a>
+          <div class="header-info">
+            <div class="header-menu">Menú</div>
+            <div class="header-title">LA SIBERIA CENTRAL</div>
+            <div class="header-branch">PLUTARCO</div>
+            <div class="header-address">Dirección pendiente</div>
+            <div class="header-phones">
+              <div>Teléfono pendiente</div>
+              <div>Teléfono pendiente</div>
+            </div>
+          </div>
+
+          <div class="abs section-title tostadas-title" id="tostadas">TOSTADAS</div>
+          <img src={grupo151Url} alt="" class="abs divider-1" />
+          <section class="section tostadas-section">
+            <div class="menu-items">
+              <div class="menu-item">
+                <div class="menu-item__name">TOSTADA DE PECHUGA</div>
+                <div class="menu-item__price">$ 93.00</div>
+                <div class="menu-item__desc">HEN BREAST TOSTADA</div>
+              </div>
+              <div class="menu-item">
+                <div class="menu-item__name">TOSTADA DE PECHUGA JUNIOR</div>
+                <div class="menu-item__price">$ 64.00</div>
+                <div class="menu-item__desc">LOREM IPSUM</div>
+              </div>
+              <div class="menu-item">
+                <div class="menu-item__name">TOSTADA DE PIERNA</div>
+                <div class="menu-item__price">$ 76.00</div>
+                <div class="menu-item__desc">HEN LEG TOSTADA</div>
+              </div>
+              <div class="menu-item">
+                <div class="menu-item__name">TOSTADA DE PIERNA JUNIOR</div>
+                <div class="menu-item__price">$ 51.00</div>
+                <div class="menu-item__desc">JUNIOR HEN LEG TOSTADA</div>
+              </div>
+              <div class="menu-item">
+                <div class="menu-item__name">TOSTADA DEL ABUELO</div>
+                <div class="menu-item__price">$ 84.00</div>
+                <div class="menu-item__desc">GRANDPA'S TOSTADA</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section extras-section extras-top">
+            <div class="extras-title">
+              <img src={trazado2244Url} alt="" class="extras-title__bg" />
+              <span class="extras-title__text">EXTRAS</span>
+            </div>
+            <div class="extras-items">
+              <div class="extras-item">
+                <div class="extras-item__name">CHILES</div>
+                <div class="extras-item__price">$5.00</div>
+                <div class="extras-item__desc">Jalapeño Peppers</div>
+              </div>
+              <div class="extras-item">
+                <div class="extras-item__name">CREMA</div>
+                <div class="extras-item__price">$17.00</div>
+                <div class="extras-item__desc">Sour cream</div>
+              </div>
+              <div class="extras-item">
+                <div class="extras-item__name">TAPA GRANDE</div>
+                <div class="extras-item__price">$15.00</div>
+                <div class="extras-item__desc">Large tortilla tostada</div>
+              </div>
+              <div class="extras-item">
+                <div class="extras-item__name">TAPA CHICA</div>
+                <div class="extras-item__price">$8.00</div>
+                <div class="extras-item__desc">Small tortilla tostada</div>
+              </div>
+              <div class="extras-item">
+                <div class="extras-item__name">GUACAMOLE</div>
+                <div class="extras-item__price">$44.00</div>
+                <div class="extras-item__desc">Guacamole</div>
+              </div>
+              <div class="extras-item">
+                <div class="extras-item__name">ORDEN PECHUGA</div>
+                <div class="extras-item__price">$54.00</div>
+                <div class="extras-item__desc">Hen breast</div>
+              </div>
+            </div>
+          </section>
+
+          <img
+            src={grupo204Url}
+            alt=""
+            class="abs"
+            style="top: 2082px; left: 612px; width: 567px; height: 133px; z-index: 3;"
+          />
+          <img
+            src={grupo640Url}
+            alt=""
+            class="abs"
+            style="top: 2127px; left: 645px; width: 346px; height: 161px; transform: matrix(-0.97, 0.22, -0.22, -0.97, 0, 0); z-index: 3;"
+          />
+          <img src={grupo641Url} alt="" class="abs" style="right: -60px; top: 2270px; width: 420px; height: auto; z-index: 3;" />
+
+          <div class="abs section-title section-title--left tacos-title" id="tacos">TACOS</div>
+          <img src={grupo151Url} alt="" class="abs divider-2" />
+          <section class="section tacos-section">
+            <div class="menu-items">
+              <div class="menu-item">
+                <div class="menu-item__name">TACOS DE PECHUGA</div>
+                <div class="menu-item__price">$ 93.00</div>
+                <div class="menu-item__desc">HEN BREAST TOSTADA</div>
+              </div>
+              <div class="menu-item">
+                <div class="menu-item__name">TACO DE PECHUGA JUNIOR</div>
+                <div class="menu-item__price">$ 64.00</div>
+                <div class="menu-item__desc">JUNIOR HEN BREAST TOSTADA</div>
+              </div>
+              <div class="menu-item">
+                <div class="menu-item__name">TACO DE PIERNA</div>
+                <div class="menu-item__price">$ 76.00</div>
+                <div class="menu-item__desc">HEN LEG TOSTADA</div>
+              </div>
+              <div class="menu-item">
+                <div class="menu-item__name">TACO DE PIERNA JUNIOR</div>
+                <div class="menu-item__price">$ 51.00</div>
+                <div class="menu-item__desc">JUNIOR HEN LEG TOSTADA</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section extras-section extras-bottom">
+            <div class="extras-title">
+              <img src={trazado2244Url} alt="" class="extras-title__bg extras-title__bg-2" />
+              <span class="extras-title__text-2">EXTRAS</span>
+            </div>
+            <div class="extras-items-2">
+              <div class="extras-item">
+                <div class="extras-item__name">CHILES</div>
+                <div class="extras-item__price">$5.00</div>
+                <div class="extras-item__desc">Jalapeño Peppers</div>
+              </div>
+              <div class="extras-item">
+                <div class="extras-item__name">CREMA</div>
+                <div class="extras-item__price">$17.00</div>
+                <div class="extras-item__desc">Sour cream</div>
+              </div>
+              <div class="extras-item">
+                <div class="extras-item__name">TORTILLA NATURAL</div>
+                <div class="extras-item__price">$6.00</div>
+                <div class="extras-item__desc">Large tortilla tostada</div>
+              </div>
+              <div class="extras-item">
+                <div class="extras-item__name">TORTILLA EN MANTECA</div>
+                <div class="extras-item__price">$7.00</div>
+                <div class="extras-item__desc">Large tortilla dipped in lard</div>
+              </div>
+              <div class="extras-item">
+                <div class="extras-item__name">GUACAMOLE</div>
+                <div class="extras-item__price">$44.00</div>
+                <div class="extras-item__desc">Guacamole</div>
+              </div>
+              <div class="extras-item">
+                <div class="extras-item__name">ORDEN PECHUGA</div>
+                <div class="extras-item__price">$54.00</div>
+                <div class="extras-item__desc">Hen breast</div>
+              </div>
+            </div>
+          </section>
+
+          <div class="txt side-script" style="--x: 40px; --y: 3380px; --tf: rotate(-90deg);">
+            Empieza con un...
+          </div>
+          <div class="txt side-script" style="--x: 160px; --y: 3520px; --tf: rotate(-12deg);">
+            luego verás
+          </div>
+
+          <!-- =========================
+               CALDOS
+               ========================= -->
+          <div class="abs section-title section-title--left caldos-title" id="caldos">CALDOS</div>
+          <img src={grupo247Url} alt="" class="abs divider-3" />
+          <img src={grupo640Url} alt="" class="abs" style="left: 50px; top: 4470px; width: 370px; height: auto; z-index: 3; transform: scale(-1, -1);" />
+          <section class="section caldos-section-1">
+            <div class="caldo-feature">
+              <div class="caldo-name">TLALPEÑO</div>
+              <div class="caldo-sub">TLALPEÑO</div>
+              <p class="caldo-text">
+                Arroz servido en consomé de gallina, con pechuga deshebrada, queso asadero en cubos, tiras
+                fritas en manteca, un toque de chipotle y aguacate fresco.
+              </p>
+              <p class="caldo-text">
+                Rice served in hen broth, with shredded hen breast, asadero cheese cubes, fried strips of
+                tortilla, a touch of chipotle, and fresh avocado.
+              </p>
+              <div class="caldo-sizes">
+                <div class="caldo-size">CHICO/SMALL:</div>
+                <div class="caldo-price">$ 104.00</div>
+                <div class="caldo-size">GRANDE/LARGE:</div>
+                <div class="caldo-price">$ 84.00</div>
+              </div>
+            </div>
+           </section>
+
+          <section class="section caldos-section-2">
+            <div class="caldo-list">
+              <div class="caldo-item">
+                <div class="caldo-item__name">CONSOME</div>
+                <div class="caldo-item__price">$ 39.00</div>
+                <div class="caldo-item__sub">BROTH</div>
+                <p class="caldo-item__text">Consomé de gallina con arroz.</p>
+                <p class="caldo-item__text">Hen broth served with rice.</p>
+              </div>
+              <div class="caldo-item">
+                <div class="caldo-item__name">CONSOME DE PECHUGA</div>
+                <div class="caldo-item__price">$ 93.00</div>
+                <div class="caldo-item__sub">HEN BREAST BROTH</div>
+                <p class="caldo-item__text">Consomé de gallina grande con pechuga y arroz.</p>
+                <p class="caldo-item__text">Hen broth served with rice, hen breast and tortilla as side.</p>
+              </div>
+              <div class="caldo-item">
+                <div class="caldo-item__name">CONSOME DE PIERNA</div>
+                <div class="caldo-item__price">$ 93.00</div>
+                <div class="caldo-item__sub">HEN LEG BROTH</div>
+                <p class="caldo-item__text">
+                  Consomé de gallina con pierna, arroz, y una tortilla para acompañar.
+                </p>
+                <p class="caldo-item__text">
+                  Hen broth served with rice, a piece of hen leg, and a tortilla as side.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="section extras-section extras-caldos extras-caldos--small">
+            <div class="extras-title">
+              <img src={trazado2244Url} alt="" class="extras-title__bg" />
+              <span class="extras-title__text">EXTRAS</span>
+            </div>
+            <div class="extras-columns">
+              <div class="extras-col">
+                <div class="extras-item">
+                  <div class="extras-item__name">TORTILLA</div>
+                  <div class="extras-item__price">$6.00</div>
+                </div>
+                <div class="extras-item">
+                  <div class="extras-item__name">TORTILLA JR</div>
+                  <div class="extras-item__price">$4.00</div>
+                </div>
+                <div class="extras-item">
+                  <div class="extras-item__name">ORDEN PIERNA</div>
+                  <div class="extras-item__price">$44.00</div>
+                </div>
+                <div class="extras-item">
+                  <div class="extras-item__name">ORDEN PECHUGA</div>
+                  <div class="extras-item__price">$54.00</div>
+                </div>
+                <div class="extras-item">
+                  <div class="extras-item__name">ORDEN DE QUESO</div>
+                  <div class="extras-item__price">$24.00</div>
+                </div>
+                <div class="extras-item">
+                  <div class="extras-item__name">ORDEN ARROZ</div>
+                  <div class="extras-item__price">$33.00</div>
+                </div>
+              </div>
+              <div class="extras-col">
+                <div class="extras-item">
+                  <div class="extras-item__name">LITRO DE ARROZ</div>
+                  <div class="extras-item__price">$60.00</div>
+                </div>
+                <div class="extras-item">
+                  <div class="extras-item__name">1/2 DE ARROZ</div>
+                  <div class="extras-item__price">$43.00</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =========================
+               COMBOS
+               ========================= -->
+          <div class="abs section-title section-title--left combos-title" id="combos">COMBOS</div>
+          <section class="section combos-section-1">
+            <div class="combo">
+              <div class="combo__name">COMBO 1</div>
+              <div class="combo__tag">COMBO 1</div>
+              <p class="combo__text">Tostada grande de pechuga/pierna + consome + refresco.</p>
+              <p class="combo__text">Large hen breast/leg + broth + soft drink.</p>
+              <div class="combo__prices">
+                <div class="combo__label">PECHUGA/HEN BREAST</div>
+                <div class="combo__price">$151.00</div>
+                <div class="combo__label">PIERNA/ HEN LEG</div>
+                <div class="combo__price">$135.00</div>
+              </div>
+            </div>
+
+            <div class="combo">
+              <div class="combo__name">COMBO 2</div>
+              <div class="combo__tag">COMBO 2</div>
+              <p class="combo__text">Taco grande de pechuga/ pierna + consomé + refresco.</p>
+              <p class="combo__text">Large hen breast/leg taco + broth + soft drink.</p>
+              <div class="combo__prices">
+                <div class="combo__label">PECHUGA/HEN BREAST</div>
+                <div class="combo__price">$125.00</div>
+                <div class="combo__label">PIERNA/ HEN LEG</div>
+                <div class="combo__price">$117.00</div>
+              </div>
+            </div>
+          </section>
+
+          <div class="abs img g356" aria-hidden="true"></div>
+          <div class="abs img g351" aria-hidden="true"></div>
+          <div class="abs img g361" aria-hidden="true"></div>
+          <section class="section combos-section-2">
+            <div class="combo-note">Aquí el combo sí conviene</div>
+
+            <div class="combo">
+              <div class="combo__name">COMBO 3</div>
+              <div class="combo__tag">COMBO 3</div>
+              <p class="combo__text">Tostada junior de pierna/pechuga + consomé + refresco.</p>
+              <p class="combo__text">Junior hen breast/leg tostada + broth + soft drink.</p>
+              <div class="combo__prices">
+                <div class="combo__label">PECHUGA/HEN BREAST</div>
+                <div class="combo__price">$124.00</div>
+                <div class="combo__label">PIERNA/ HEN LEG</div>
+                <div class="combo__price">$112.00</div>
+              </div>
+            </div>
+
+            <div class="combo">
+              <div class="combo__name">COMBO 4</div>
+              <div class="combo__tag">COMBO 4</div>
+              <p class="combo__text">Taco junior de pierna/pechuga + consomé chico + refresco.</p>
+              <p class="combo__text">Junior hen leg/hen breast taco + small broth + soft drink.</p>
+              <div class="combo__prices">
+                <div class="combo__label">PECHUGA/HEN BREAST</div>
+                <div class="combo__price">$110.00</div>
+                <div class="combo__label">PIERNA/ HEN LEG</div>
+                <div class="combo__price">$97.00</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =========================
+               BEBIDAS
+               ========================= -->
+          <div class="abs section-title section-title--left bebidas-title" id="bebidas">BEBIDAS</div>
+          <section class="section bebidas-section">
+            <div class="bebidas-note">Para todo el taco</div>
+            <div class="bebidas-list">
+              <div class="bebida-item">
+                <div class="bebida-item__name">COCA-COLA</div>
+                <div class="bebida-item__price">$34.00</div>
+                <div class="bebida-item__sub">COKE</div>
+                <div class="bebida-item__opts">Regular / Light / Sin azúcar</div>
+                <div class="bebida-item__opts">Regular / Light / Zero</div>
+              </div>
+              <div class="bebida-item">
+                <div class="bebida-item__name">FUZE TEA</div>
+                <div class="bebida-item__price">$37.00</div>
+                <div class="bebida-item__sub">FUZE TEA</div>
+                <div class="bebida-item__opts">Regular / Light / Sin azúcar</div>
+                <div class="bebida-item__opts">Regular / Light / Zero</div>
+              </div>
+              <div class="bebida-item">
+                <div class="bebida-item__name">AGUA</div>
+                <div class="bebida-item__price">$29.00</div>
+                <div class="bebida-item__sub">WATER</div>
+                <div class="bebida-item__opts">Natural / Still</div>
+                <div class="bebida-item__opts">Mineral / Sparkling</div>
+                <div class="bebida-item__price bebida-item__price--alt">$34.00</div>
+              </div>
+              <div class="bebida-item">
+                <div class="bebida-item__name">AGUA DE SABOR</div>
+                <div class="bebida-item__price">$34.00</div>
+                <div class="bebida-item__sub">FLAVORED WATER</div>
+                <div class="bebida-item__opts">Regular / Light / Sin azúcar</div>
+                <div class="bebida-item__opts">Regular / Light / Zero</div>
+              </div>
+            </div>
+
+            <div class="refrescos-block">
+              <div class="refrescos-title">REFRESCOS</div>
+              <div class="refrescos-sub">SOFT DRINKS</div>
+              <p class="refrescos-text">Sabores: Joya de manzana, durazno y ponche.</p>
+              <p class="refrescos-text">Fanta de naranja, Fresca de toronja y Sangria Topo Chico.</p>
+              <p class="refrescos-text">Flavors: Apple, peach, and fruit punch.</p>
+              <p class="refrescos-text">Orange Fanta, Grapefruit Fresca, and Sangria Topo Chico.</p>
+              <div class="refrescos-prices">
+                <div>$34.00</div>
+                <div>$34.00</div>
+              </div>
+            </div>
+          </section>
+
+          <!--
+            Helper para agregar más elementos con variables:
+            <div class="abs img" style="--x: 120px; --y: 300px; --w: 240px; --h: 180px; --img: url('/img/mi-imagen.png');"></div>
+            <div class="txt" style="--x: 120px; --y: 300px; --fs: 24px; --c: #fff;">Texto</div>
+          -->
+        </div>
+      </div>
+      <a class="menu-float-btn" href="#menu-top" aria-label="Volver al inicio del menú"></a>
+    </main>
+
+    <script>
+      // Escala proporcional del canvas en pantallas pequeñas
+      const CANVAS_W = 1080;
+
+      function applyScale() {
+        const frame = document.getElementById('frame');
+        if (!frame) return;
+
+        const sidePad = 32; // debe coincidir con --side-pad
+        const available = Math.max(320, window.innerWidth - sidePad * 2);
+        const scale = Math.min(1, available / CANVAS_W);
+
+        frame.style.setProperty('--scale', String(scale));
+      }
+
+      window.addEventListener('resize', applyScale);
+      applyScale();
+    </script>
+
+    <style define:vars={{ camptonUrl }}>
+      :root {
+        --canvas-w: 1080px;
+        --canvas-h: 13949px;
+        --side-pad: 32px;
+        --scale: 1;
+        --text-scale: 1.21;
+        --item-name-size: calc(30px * var(--text-scale));
+        --item-price-size: calc(28px * var(--text-scale));
+        --item-desc-size: calc(22px * var(--text-scale));
+      }
+
+      @font-face {
+        font-family: 'Londrina Solid';
+        src: url('/fonts/londrina/LondrinaSolid-Thin.ttf') format('truetype');
+        font-weight: 200;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'Londrina Solid';
+        src: url('/fonts/londrina/LondrinaSolid-Light.ttf') format('truetype');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'Londrina Solid';
+        src: url('/fonts/londrina/LondrinaSolid-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'Londrina Solid';
+        src: url('/fonts/londrina/LondrinaSolid-Black.ttf') format('truetype');
+        font-weight: 900;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'Campton';
+        src: url(var(--camptonUrl)) format('opentype');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        background: #0b0b0b;
+        color: #ffffff;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      }
+
+      .page {
+        min-height: 100vh;
+        padding: 24px var(--side-pad);
+        display: flex;
+        justify-content: center;
+        overflow-x: hidden;
+      }
+
+      /* Frame aplica el escalado al canvas */
+      .frame {
+        transform: scale(var(--scale));
+        transform-origin: top center;
+        will-change: transform;
+        height: calc(var(--canvas-h) * var(--scale));
+      }
+
+      /* Canvas fijo pixel-perfect */
+      .canvas {
+        position: relative;
+        width: var(--canvas-w);
+        height: var(--canvas-h);
+        overflow: hidden;
+        background-image: var(--menu-bg, none);
+        background-repeat: no-repeat;
+        background-position: top center;
+        background-size: 100% 100%;
+      }
+
+      .canvas::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.08;
+        background-image: url('/img/noise.png');
+        background-repeat: repeat;
+        mix-blend-mode: overlay;
+      }
+
+      /* Helper base para elementos absolutos */
+      .abs {
+        position: absolute;
+        top: var(--y, auto);
+        left: var(--x, auto);
+        width: var(--w, auto);
+        height: var(--h, auto);
+      }
+
+      .back-link {
+        left: 24px;
+        top: 24px;
+        padding: 10px 14px;
+        background: rgba(0, 0, 0, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 999px;
+        color: #fff;
+        font-family: "Campton", "Arial Black", Arial, sans-serif;
+        font-size: 18px;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+        text-transform: uppercase;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+        z-index: 100;
+      }
+
+      .back-link:hover {
+        background: rgba(0, 0, 0, 0.7);
+      }
+
+      .menu-top-anchor {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 1px;
+        pointer-events: none;
+      }
+
+      .menu-float-btn {
+        position: fixed;
+        right: 29px;
+        top: calc(50% - 36px);
+        width: 72px;
+        height: 72px;
+        background: transparent url('/img/Grupo 139.svg') 0% 0% no-repeat padding-box;
+        opacity: 1;
+        transform: rotate(360deg);
+        z-index: 200;
+        cursor: pointer;
+      }
+
+      /* Helper para "sprites" con background */
+      .img {
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-image: var(--img, none);
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      /* Helper para textos */
+      .txt {
+        position: absolute;
+        top: var(--y, auto);
+        left: var(--x, auto);
+        width: var(--w, auto);
+        color: var(--c, #ffffff);
+        font-size: var(--fs, 24px);
+        font-weight: var(--fw, 700);
+        line-height: var(--lh, 1.1);
+        letter-spacing: var(--ls, 0.4px);
+        text-transform: var(--tt, uppercase);
+        text-align: var(--ta, left);
+        transform: var(--tf, none);
+        text-shadow: var(--shadow, 0 4px 10px rgba(0, 0, 0, 0.35));
+        white-space: pre-line;
+        pointer-events: none;
+        z-index: 3;
+      }
+
+      /* =========================
+         HEADER (0 - 1390)
+         ========================= */
+      .header {
+        position: relative;
+        width: 100%;
+        height: 1390px;
+      }
+
+      /* Fondo de imagen del header - incluye sección beige */
+      .header-bg-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1130px;
+        background: url('/img/Enmascarar grupo 4.png') no-repeat center top / cover;
+        z-index: 2;
+      }
+
+      /* Taco dentro del header */
+      .taco-header {
+        position: absolute;
+        top: 737px;
+        left: -173.31976318359375px;
+        width: 640px;
+        height: 1368px;
+        background: url('/img/Grupo 571.png') no-repeat center / contain;
+        pointer-events: none;
+        z-index: 3;
+      }
+
+      .nav {
+        font-family: 'Campton', 'Arial Black', Arial, sans-serif;
+        text-transform: uppercase;
+        font-weight: 900;
+        letter-spacing: 1px;
+      }
+
+      .nav-link {
+        pointer-events: auto;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+        animation: nav-bounce 2.6s ease-in-out infinite;
+        animation-delay: var(--delay, 0s);
+        transform: var(--tf, none) translateY(0);
+        will-change: transform;
+        transition: transform 0.2s ease, text-shadow 0.2s ease, letter-spacing 0.2s ease;
+      }
+
+      .nav-link:hover {
+        transform: var(--tf, none) translateY(-12px) scale(1.04);
+        text-shadow:
+          0 10px 20px rgba(0, 0, 0, 0.45),
+          0 0 12px rgba(245, 233, 212, 0.55);
+        letter-spacing: 1.6px;
+      }
+
+      .nav-link:focus-visible {
+        outline: 2px solid rgba(245, 233, 212, 0.9);
+        outline-offset: 4px;
+      }
+
+      @keyframes nav-bounce {
+        0%,
+        100% {
+          transform: var(--tf, none) translateY(0);
+        }
+        50% {
+          transform: var(--tf, none) translateY(-10px);
+        }
+      }
+
+      .header-info {
+        position: absolute;
+        top: 860px;
+        left: 50%;
+        width: 720px;
+        transform: translateX(-50%);
+        text-align: center;
+        color: #f5e9d4;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
+        z-index: 3;
+      }
+
+      .header-menu {
+        font-size: calc(20px * var(--text-scale));
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .header-title {
+        font-size: calc(34px * var(--text-scale));
+        font-weight: 900;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-top: 6px;
+      }
+
+      .header-branch {
+        margin-top: 8px;
+        font-size: calc(20px * var(--text-scale));
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: #000000;
+        text-shadow: none;
+      }
+
+      .header-address {
+        margin-top: 6px;
+        font-size: calc(12px * var(--text-scale));
+        font-weight: 600;
+        letter-spacing: 0.4px;
+        line-height: 1.4;
+        color: #000000;
+        text-shadow: none;
+      }
+
+      .header-phones {
+        margin-top: 6px;
+        font-size: calc(14px * var(--text-scale));
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        color: #000000;
+        text-shadow: none;
+      }
+
+      /* =========================
+         SECCIONES DE MENÚ
+         ========================= */
+      .section {
+        position: absolute;
+        top: var(--y, auto);
+        left: var(--x, auto);
+        width: var(--w, auto);
+        height: var(--h, auto);
+        color: #ffffff;
+        z-index: 2;
+      }
+
+      .section-title {
+        font-family: 'Campton', 'Arial Black', Arial, sans-serif;
+        font-size: 84px;
+        font-weight: 700;
+        z-index: 3;
+        letter-spacing: 0;
+        text-transform: uppercase;
+        text-align: left;
+        text-shadow:
+          0 12px 30px rgba(0, 0, 0, 0.6),
+          0 2px 0 rgba(0, 0, 0, 0.35);
+        z-index: 3;
+      }
+
+      .section-title--left {
+        text-align: left;
+      }
+
+      .tostadas-title {
+        top: 1297px;
+        left: 471px;
+        width: 492px;
+        height: 122px;
+      }
+
+      .tacos-title {
+        top: 2767px;
+        left: 112px;
+        width: 482px;
+        height: 186px;
+      }
+
+      .caldos-title {
+        top: 4360px;
+        left: 478px;
+        width: 485px;
+        height: 153px;
+      }
+
+      .logo-combos {
+        position: absolute;
+        top: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 350px;
+        height: 350px;
+        z-index: 3;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        pointer-events: none;
+      }
+
+      .combos-title {
+        top: 7857px;
+        left: 112px;
+        width: 554px;
+        height: 163px;
+      }
+
+      .bebidas-title {
+        top: 10444px;
+        left: 416px;
+        width: 547px;
+        height: 172px;
+      }
+
+      .section-script {
+        font-family: 'Brush Script MT', 'Segoe Script', cursive;
+        font-size: calc(26px * var(--text-scale));
+        color: #e54141;
+        text-align: right;
+        margin-bottom: 8px;
+      }
+
+      .header-decoration {
+        position: absolute;
+        top: 1140px;
+        left: 320px;
+        width: 380px;
+        height: auto;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .header-script {
+        position: absolute;
+        top: 1220px;
+        left: 550px;
+        width: 360px;
+        height: auto;
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      .menu-items {
+        margin-top: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        width: 851px;
+        padding-right: 10px;
+        font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
+      }
+
+      .menu-item {
+        display: grid;
+        grid-template-columns: 1fr 200px;
+        grid-template-rows: auto auto;
+        column-gap: 18px;
+        row-gap: 2px;
+        align-items: baseline;
+      }
+
+      .menu-item__name {
+        font-size: var(--item-name-size);
+        font-weight: 800;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+      }
+
+      .menu-item__price {
+        font-size: var(--item-price-size);
+        font-weight: 800;
+        letter-spacing: 0.6px;
+        text-align: right;
+      }
+
+      .menu-item__desc {
+        grid-column: 1 / -1;
+        font-size: var(--item-desc-size);
+        font-weight: 900;
+        color: #ff2d2d;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        margin-top: -2px;
+      }
+
+      .caldos-section-1,
+      .caldos-section-2,
+      .combos-section-1,
+      .combos-section-2,
+      .bebidas-section {
+        font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
+      }
+
+      .caldo-feature {
+        max-width: 640px;
+        margin-bottom: 24px;
+      }
+
+      .caldo-name {
+        font-size: var(--item-name-size);
+        font-weight: 900;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .caldo-sub {
+        font-size: var(--item-desc-size);
+        font-weight: 800;
+        color: #e24a4a;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+
+      .caldo-text {
+        margin: 8px 0 0;
+        font-size: var(--item-desc-size);
+        line-height: 1.4;
+        color: #e6e6e6;
+      }
+
+      .caldo-sizes {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        row-gap: 6px;
+        font-size: var(--item-name-size);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+      }
+
+      .caldo-size {
+        color: #c19a4b;
+      }
+
+      .caldo-card {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto auto auto;
+        column-gap: 18px;
+        row-gap: 4px;
+      }
+
+      .caldo-card__name {
+        font-size: var(--item-name-size);
+        font-weight: 900;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+      }
+
+      .caldo-card__price {
+        font-size: var(--item-price-size);
+        font-weight: 900;
+      }
+
+      .caldo-card__sub {
+        grid-column: 1 / -1;
+        font-size: var(--item-desc-size);
+        font-weight: 800;
+        color: #e24a4a;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+
+      .caldo-card__text {
+        grid-column: 1 / -1;
+        margin: 2px 0 0;
+        font-size: var(--item-desc-size);
+        line-height: 1.4;
+        color: #e6e6e6;
+      }
+
+      .caldo-list {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .caldo-item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        row-gap: 4px;
+        column-gap: 18px;
+      }
+
+      .caldo-item__name {
+        font-size: var(--item-name-size);
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+      }
+
+      .caldo-item__price {
+        font-size: var(--item-price-size);
+        font-weight: 900;
+      }
+
+      .caldo-item__sub {
+        grid-column: 1 / -1;
+        font-size: var(--item-desc-size);
+        font-weight: 800;
+        color: #e24a4a;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+
+      .caldo-item__text {
+        grid-column: 1 / -1;
+        margin: 2px 0 0;
+        font-size: var(--item-desc-size);
+        line-height: 1.4;
+        color: #e6e6e6;
+      }
+
+      .tostadas-section {
+        --x: 112px;
+        --y: 1505px;
+        --w: 851px;
+        --h: 511px;
+      }
+
+      .tacos-section {
+        --x: 112px;
+        --y: 3046px;
+        --w: 851px;
+        --h: 401px;
+      }
+
+      .extras-section {
+        color: #ffffff;
+        font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
+        padding-top: 6px;
+      }
+
+      .extras-top {
+        --x: 0px;
+        --y: 2105px;
+        --w: 505px;
+        --h: 567px;
+      }
+
+      .extras-bottom {
+        right:0px;
+        --y: 3562px;
+        --w: 505px;
+        --h: 567px;
+        transform: scaleX(-1);
+      }
+
+      .extras-caldos {
+        --x: 40px;
+        --y: 7180px;
+        --w: 1000px;
+        --h: 498px;
+      }
+
+
+      .caldos-section-1 {
+        --x: 90px;
+        --y: 4645px;
+        --w: 873px;
+        --h: 508px;
+      }
+
+      .caldos-section-2 {
+        --x: 112px;
+        --y: 6402px;
+        --w: 851px;
+        --h: 663px;
+      }
+
+      .caldos-section-2 .caldo-list {
+        gap: 22px;
+      }
+
+      .caldos-section-2 .caldo-item {
+        row-gap: 6px;
+      }
+
+      .combos-section-1 {
+        --x: 112px;
+        --y: 8086px;
+        --w: 944px;
+        --h: 899px;
+      }
+
+      .combos-section-2 {
+        --x: 112px;
+        --y: 9404px;
+        --w: 859px;
+        --h: 881px;
+      }
+
+      .bebidas-section {
+        --x: 112px;
+        --y: 10690px;
+        --w: 860px;
+        --h: 1200px;
+      }
+
+      .extras-title {
+        position: relative;
+        display: inline-block;
+        z-index: 5;
+      }
+
+      .extras-title__bg {
+        display: block;
+        width: 410px;
+        height: 150px;
+      }
+
+      .extras-title__bg-2 {
+        display: block;
+        width: 600px;
+        height: auto;
+        transform: scaleY(0.7);
+        transform-origin: top;
+      }
+
+
+
+      .extras-title__text {
+        position: absolute;
+        top: 50%;
+        left: 40%;
+        transform: translate(-50%, -50%);
+        font-size: calc(22px * var(--text-scale));
+        font-weight: 900;
+        font-size: 38px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #ffffff;
+        white-space: nowrap;
+      }
+      .extras-title__text-2 {
+        position: absolute;
+        top: 35%;
+        right:0px;
+        transform: translate(-50%, -50%) scaleX(-1);
+        font-size: calc(22px * var(--text-scale));
+        font-weight: 900;
+        font-size: 38px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #ffffff;
+        white-space: nowrap;
+      }
+
+      .extras-items {
+        margin-top: 10px;
+        margin-left: 65px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index:3;
+      }
+      .extras-items-2 {
+        margin-top: 10px;
+        margin-left: 65px;
+        display: flex;
+        transform: scaleX(-1);
+        flex-direction: column;
+        gap: 10px;
+        z-index:3;
+      }
+
+      .extras-columns {
+        margin-top: 10px;
+        margin-left: 35px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 28px;
+        z-index: 3;
+      }
+
+      .extras-col {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 3;
+      }
+
+      .extras-item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        row-gap: 2px;
+        z-index: 3;
+        position: relative;
+      }
+
+      .extras-item__name {
+        font-size: calc(15px * var(--text-scale));
+        font-weight: 900;
+        color: #ffffff;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        z-index: 4;
+        position: relative;
+      }
+
+      .extras-item__price {
+        font-size: calc(14px * var(--text-scale));
+        font-weight: 800;
+        color: #ffffff;
+        z-index: 4;
+        position: relative;
+      }
+
+      .extras-item__desc {
+        grid-column: 1 / -1;
+        font-size: calc(11px * var(--text-scale));
+        color: #cfcfcf;
+        letter-spacing: 0.6px;
+        opacity: 0.85;
+        z-index: 4;
+        position: relative;
+      }
+
+      .combo {
+        margin-bottom: 22px;
+      }
+
+      .combo__name {
+        font-size: var(--item-name-size);
+        font-weight: 900;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+      }
+
+      .combo__tag {
+        font-size: var(--item-desc-size);
+        font-weight: 800;
+        color: #e24a4a;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+
+      .combo__text {
+        margin: 6px 0 0;
+        font-size: var(--item-desc-size);
+        line-height: 1.4;
+        color: #e6e6e6;
+      }
+
+      .combo__prices {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        row-gap: 6px;
+        column-gap: 18px;
+        font-size: var(--item-name-size);
+        font-weight: 900;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: #c19a4b;
+      }
+
+      .combo-note {
+        font-family: 'Brush Script MT', 'Segoe Script', cursive;
+        font-size: calc(24px * var(--text-scale));
+        color: #d9c7a6;
+        text-transform: none;
+        margin-bottom: 16px;
+      }
+
+      .bebidas-note {
+        font-family: 'Brush Script MT', 'Segoe Script', cursive;
+        font-size: calc(24px * var(--text-scale));
+        color: #d9c7a6;
+        text-transform: none;
+        margin-bottom: 12px;
+      }
+
+      .bebidas-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .bebida-item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        row-gap: 4px;
+        column-gap: 18px;
+      }
+
+      .bebida-item__name {
+        font-size: var(--item-name-size);
+        font-weight: 900;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+      }
+
+      .bebida-item__price {
+        font-size: var(--item-price-size);
+        font-weight: 900;
+      }
+
+      .bebida-item__price--alt {
+        grid-column: 2 / 3;
+      }
+
+      .bebida-item__sub {
+        grid-column: 1 / -1;
+        font-size: var(--item-desc-size);
+        font-weight: 800;
+        color: #e24a4a;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+
+      .bebida-item__opts {
+        grid-column: 1 / -1;
+        font-size: var(--item-desc-size);
+        line-height: 1.4;
+        color: #e6e6e6;
+      }
+
+      .refrescos-block {
+        margin-top: 28px;
+      }
+
+      .refrescos-title {
+        font-size: var(--item-name-size);
+        font-weight: 900;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+
+      .refrescos-sub {
+        font-size: var(--item-desc-size);
+        font-weight: 800;
+        color: #e24a4a;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+
+      .refrescos-text {
+        margin: 6px 0 0;
+        font-size: var(--item-desc-size);
+        line-height: 1.4;
+        color: #e6e6e6;
+      }
+
+      .refrescos-prices {
+        margin-top: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+        font-weight: 900;
+        font-size: var(--item-price-size);
+      }
+
+      .antoje {
+        font-family: 'Brush Script MT', 'Segoe Script', cursive;
+        font-size: calc(26px * var(--text-scale));
+        color: #e54141;
+        text-transform: none;
+        letter-spacing: 0.4px;
+      }
+
+      .side-script {
+        font-family: 'Brush Script MT', 'Segoe Script', cursive;
+        font-size: calc(20px * var(--text-scale));
+        color: #d9c7a6;
+        text-transform: none;
+        letter-spacing: 0.4px;
+      }
+
+      .divider-1 {
+        position: absolute;
+        right: 0px;
+        top: 1400px;
+        width: 970px;
+        height: auto;
+        z-index: 2;
+      }
+
+      .divider-2 {
+        position: absolute;
+        left: 0px;
+        top: 2950px;
+        width: 820px;
+        height: auto;
+        z-index: 2;
+        transform: scaleX(-1);
+      }
+
+      .divider-3 {
+        position: absolute;
+        right: 0px;
+        top: 4460px;
+        width: 970px;
+        height: auto;
+        z-index: 2;
+      }
+
+      /* =========================
+         ELEMENTOS QUE PASASTE
+         (posición absoluta respecto al CANVAS)
+         ========================= */
+
+      /* top: 2388px; left: 657px; width: 423px; height: 916px; img Grupo 608 */
+      .g608 {
+        top: 2388px;
+        left: 657px;
+        width: 423px;
+        height: 916px;
+        background-image: url('/img/Grupo 608.png');
+      }
+
+      /* top: 1117px; left: 327px; width: 426px; height: 39px; img Grupo 605 */
+      .g605 {
+        top: 1117px;
+        left: 327px;
+        width: 426px;
+        height: 39px;
+        background-image: url('/img/Grupo 605.png');
+      }
+
+      /* top: 3642px; left: -151px; width: 647px; height: 1151px; img Grupo 572 */
+      .g572 {
+        top: 3642px;
+        left: -151px;
+        width: 647px;
+        height: 1151px;
+        background-image: url('/img/Grupo 572.png');
+      }
+
+      /* top: 3562px; left: -130px; width: 600px; height: 400px; img Grupo 246 */
+      .g246 {
+        top: 3562px;
+        left: -130px;
+        width: 600px;
+        height: 400px;
+        background-image: url('/img/Grupo 246.svg');
+      }
+
+      /* top: 5241px; left: -234px; width: 1403px; height: 812px; img Grupo 284 */
+      .g284 {
+        top: 5241px;
+        left: -234px;
+        width: 1403px;
+        height: 812px;
+        background-image: url('/img/Grupo 284.svg');
+      }
+
+      /* top: 5871px; left: 652px; width: 583px; height: 352px; img Grupo 319 */
+      .g319 {
+        top: 5871px;
+        left: 652px;
+        width: 583px;
+        height: 352px;
+        background-image: url('/img/Grupo 319.svg');
+      }
+
+      /* top: 6056px; left: 505px; width: 248px; height: 233px; img Grupo 321 */
+      .g321 {
+        top: 6056px;
+        left: 505px;
+        width: 248px;
+        height: 233px;
+        background-image: url('/img/Grupo 321.svg');
+        transform: matrix(0.74, 0.67, -0.67, 0.74, 0, 0);
+        transform-origin: top left;
+      }
+
+      /* top: 7993px; left: -177.60302734375px; width: 1067px; height: 47px; img Grupo 323 */
+      .g323 {
+        top: 7993px;
+        left: -177.60302734375px;
+        width: 1067px;
+        height: 47px;
+        background-image: url('/img/Grupo 323.svg');
+      }
+
+      /* top: 10581px; left: 7px; width: 1067px; height: 47px; img Grupo 323 */
+      .g323b {
+        top: 10581px;
+        left: 7px;
+        width: 1067px;
+        height: 47px;
+        background-image: url('/img/Grupo 323.svg');
+      }
+
+      /* top: 10100px; left: -45px; width: 700px; height: 700px; img Coca_Cola_Flasche_-_Original_Taste arminizado */
+      .g-coke {
+        top: 10100px;
+        left: -45px;
+        width: 700px;
+        height: 700px;
+        background-image: url('/img/Coca_Cola_Flasche_-_Original_Taste arminizado.png');
+        z-index: 3;
+      }
+
+      /* top: 9125px; left: 235px; width: 610px; height: 278px; img Grupo 356 */
+      .g356 {
+        top: 9125px;
+        left: 235px;
+        width: 610px;
+        height: 278px;
+        background-image: url('/img/Grupo 356.svg');
+      }
+
+      /* top: 8891px; left: 790px; width: 428px; height: 381px; img Grupo 351 */
+      .g351 {
+        top: 8891px;
+        left: 790px;
+        width: 428px;
+        height: 381px;
+        background-image: url('/img/Grupo 351.png');
+        transform: matrix(0.85, -0.53, 0.53, 0.85, 0, 0);
+        transform-origin: top left;
+      }
+
+      /* top: 9125px; left: -30.6131591796875px; width: 245px; height: 150px; img Grupo 361 */
+      .g361 {
+        top: 9125px;
+        left: -30.6131591796875px;
+        width: 245px;
+        height: 150px;
+        background-image: url('/img/Grupo 361.png');
+        transform: matrix(-1, -0.03, 0.03, -1, 0, 0);
+        transform-origin: top left;
+      }
+
+      /* top: 7630px; left: 749px; width: 454px; height: 454px; img Grupo 569 */
+      .g569 {
+        top: 7630px;
+        left: 749px;
+        width: 454px;
+        height: 454px;
+        background-image: url('/img/Grupo 569.png');
+      }
+
+      /* top: 11757px; left: 112px; width: 179px; height: 278px; img Grupo 472 */
+      .g472 {
+        top: 11757px;
+        left: 112px;
+        width: 179px;
+        height: 278px;
+        background-image: url('/img/Grupo 472.png');
+      }
+
+      /* top: 12077px; left: 115px; width: 851px; height: 534px; img Grupo 500 */
+      .g500 {
+        top: 12077px;
+        left: 115px;
+        width: 851px;
+        height: 534px;
+        background-image: url('/img/Grupo 500.png');
+      }
+
+      /* top: 12653px; left: 112px; width: 851px; height: 550px; img Grupo 522 */
+      .g522 {
+        top: 12653px;
+        left: 112px;
+        width: 851px;
+        height: 550px;
+        background-image: url('/img/Grupo 522.png');
+      }
+
+      @media (min-width: 1200px) {
+        .page {
+          padding-left: 48px;
+          padding-right: 48px;
+        }
+      }
+    </style>
+  </body>
+</html>

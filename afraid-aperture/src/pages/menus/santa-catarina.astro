@@ -19,6 +19,9 @@ import tacosSvgUrl from '../../assets/media/santa-catarina/Grupo 126.svg?url';
 import combosSvgUrl from '../../assets/media/santa-catarina/Grupo 128.svg?url';
 import caldosSvgUrl from '../../assets/media/santa-catarina/Grupo 138.svg?url';
 import tostadasSvgUrl from '../../assets/media/santa-catarina/Grupo 133.svg?url';
+import menuLogoUrl from '../../assets/media/santa-catarina/Grupo 55.png?url';
+import branchNameUrl from '../../assets/media/santa-catarina/Grupo 665.svg?url';
+import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
 ---
 
 <!DOCTYPE html>
@@ -76,48 +79,54 @@ import tostadasSvgUrl from '../../assets/media/santa-catarina/Grupo 133.svg?url'
           <a
             class="txt nav nav-link"
             href="#bebidas"
-            style="--x: 130px; --y: 260px; --w: 172px; --h: 163px; --delay: 0s; z-index: 3;"
+            style="--x: 100px; --y: 260px; --w: 172px; --h: 163px; --delay: 0s; z-index: 3;"
           >
             <img src={bebidasSvgUrl} alt="BEBIDAS" style="width: 100%; height: 100%;" />
           </a>
           <a
             class="txt nav nav-link"
             href="#tacos"
-            style="--x: 215px; --y: 430px; --w: 240px; --h: 141px; --delay: 0.2s; z-index: 3;"
+            style="--x: 100px; --y: 430px; --w: 240px; --h: 141px; --delay: 0.2s; z-index: 3;"
           >
             <img src={tacosSvgUrl} alt="TACOS" style="width: 100%; height: 100%;" />
           </a>
           <a
             class="txt nav nav-link"
             href="#combos"
-            style="--x: 455px; --y: 500px; --w: 284px; --h: 89px; --delay: 0.4s; z-index: 3;"
+            style="--x: 420px; --y: 500px; --w: 284px; --h: 89px; --delay: 0.4s; z-index: 3;"
           >
             <img src={combosSvgUrl} alt="COMBOS" style="width: 100%; height: 100%;" />
           </a>
           <a
             class="txt nav nav-link"
             href="#caldos"
-            style="--x: 760px; --y: 330px; --w: 237px; --h: 151px; --delay: 0.6s; z-index: 3;"
+            style="--x: 700px; --y: 260px; --w: 237px; --h: 151px; --delay: 0.6s; z-index: 3;"
           >
             <img src={caldosSvgUrl} alt="CALDOS" style="width: 100%; height: 100%;" />
           </a>
           <a
             class="txt nav nav-link"
             href="#tostadas"
-            style="--x: 675px; --y: 480px; --w: 241px; --h: 164px; --delay: 0.8s; z-index: 3;"
+            style="--x: 730px; --y: 430px; --w: 241px; --h: 164px; --delay: 0.8s; z-index: 3;"
           >
             <img src={tostadasSvgUrl} alt="TOSTADAS" style="width: 100%; height: 100%;" />
           </a>
           <div class="header-info">
             <div class="header-menu">Menú</div>
-            <div class="header-title">LA SIBERIA CENTRAL</div>
-            <div class="header-branch">SANTA CATARINA</div>
-            <div class="header-address">Dirección pendiente</div>
+            <div class="header-title">
+              <img src={menuLogoUrl} alt="LA SIBERIA CENTRAL" style="width: auto; height: 58px; display: block; margin: 0 auto;" />
+            </div>
+            <div class="header-branch">
+              <img src={branchNameUrl} alt="SANTA CATARINA" style="width: auto; height: 58px; display: block; margin: 0 auto;" />
+            </div>
+            <div class="header-address">Av. Manuel Ordoñez 525, Col.Industrial del Poniente,<br>Santa Catarina Nuevo León CP 66363</div>
             <div class="header-phones">
-              <div>Teléfono pendiente</div>
-              <div>Teléfono pendiente</div>
+              <div>📞 8130944323</div>
             </div>
           </div>
+
+          <!-- Decoración "Mmm..." a la derecha -->
+          <img src={mmmDecoUrl} alt="" class="header-mmm-deco" />
 
           <div class="abs section-title tostadas-title" id="tostadas">TOSTADAS</div>
           <img src={grupo151Url} alt="" class="abs divider-1" />
@@ -790,54 +799,47 @@ import tostadasSvgUrl from '../../assets/media/santa-catarina/Grupo 133.svg?url'
 
       .header-info {
         position: absolute;
-        top: 860px;
+        top: 750px;
         left: 50%;
         width: 720px;
         transform: translateX(-50%);
         text-align: center;
-        color: #f5e9d4;
-        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
         font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
         z-index: 3;
       }
 
       .header-menu {
-        font-size: calc(20px * var(--text-scale));
+        font-size: calc(22px * var(--text-scale));
         font-weight: 700;
         letter-spacing: 1px;
-        text-transform: uppercase;
+        text-transform: none;
+        color: #ffffff;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        margin-bottom: 8px;
       }
 
       .header-title {
-        font-size: calc(34px * var(--text-scale));
-        font-weight: 900;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        margin-top: 6px;
+        margin-bottom: 10px;
       }
 
       .header-branch {
-        margin-top: 8px;
-        font-size: calc(20px * var(--text-scale));
-        font-weight: 800;
-        letter-spacing: 1px;
-        color: #000000;
-        text-shadow: none;
+        margin-top: 10px;
+        margin-bottom: 12px;
       }
 
       .header-address {
-        margin-top: 6px;
-        font-size: calc(12px * var(--text-scale));
+        margin-top: 12px;
+        font-size: calc(13px * var(--text-scale));
         font-weight: 600;
         letter-spacing: 0.4px;
-        line-height: 1.4;
+        line-height: 1.5;
         color: #000000;
         text-shadow: none;
       }
 
       .header-phones {
-        margin-top: 6px;
-        font-size: calc(14px * var(--text-scale));
+        margin-top: 8px;
+        font-size: calc(16px * var(--text-scale));
         font-weight: 700;
         letter-spacing: 0.8px;
         color: #000000;
@@ -949,6 +951,16 @@ import tostadasSvgUrl from '../../assets/media/santa-catarina/Grupo 133.svg?url'
         width: 360px;
         height: auto;
         z-index: 3;
+        pointer-events: none;
+      }
+
+      .header-mmm-deco {
+        position: absolute;
+        right: -130px;
+        top: 790px;
+        width: 380px;
+        height: auto;
+        z-index: 4;
         pointer-events: none;
       }
 

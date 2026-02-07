@@ -1,0 +1,51 @@
+<svg id="Grupo_500" data-name="Grupo 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="851" height="534.313" viewBox="0 0 851 534.313">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectángulo_320" data-name="Rectángulo 320" width="737.349" height="534.313" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="Rectángulo_319" data-name="Rectángulo 319" width="157.137" height="58.461" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-3">
+      <rect id="Rectángulo_322" data-name="Rectángulo 322" width="178.883" height="58.464" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-4">
+      <rect id="Rectángulo_323" data-name="Rectángulo 323" width="187.133" height="58.463" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_501" data-name="Grupo 501">
+    <g id="Grupo_482" data-name="Grupo 482">
+      <g id="Grupo_481" data-name="Grupo 481" clip-path="url(#clip-path)">
+        <g id="Grupo_480" data-name="Grupo 480" transform="translate(25.115)" style="mix-blend-mode: normal;isolation: isolate">
+          <g id="Grupo_479" data-name="Grupo 479">
+            <g id="Grupo_478" data-name="Grupo 478" clip-path="url(#clip-path-2)">
+              <text id="AGUA" transform="translate(0.001 43.615)" fill="#fff" font-size="51" font-family="Campton-Bold, Campton" font-weight="700"><tspan x="0" y="0" letter-spacing="-0.054em">A</tspan><tspan y="0">G</tspan><tspan y="0" letter-spacing="-0.042em">U</tspan><tspan y="0">A</tspan></text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+    <text id="Natural_Still" data-name="Natural / Still" transform="translate(25.114 135.57)" fill="#fff" font-size="32" font-family="Campton-Book, Campton"><tspan x="0" y="0">Natu</tspan><tspan y="0" letter-spacing="-0.017em">r</tspan><tspan y="0">al / </tspan><tspan y="0" letter-spacing="-0.009em">S</tspan><tspan y="0">till</tspan></text>
+    <text id="Mineral_Sparkling" data-name="Mineral/ Sparkling" transform="translate(25.114 176.231)" fill="#fff" font-size="32" font-family="Campton-Book, Campton"><tspan x="0" y="0">Min</tspan><tspan y="0" letter-spacing="-0.01em">e</tspan><tspan y="0" letter-spacing="-0.017em">r</tspan><tspan y="0">al/ </tspan><tspan y="0" letter-spacing="-0.014em">S</tspan><tspan y="0">parkli</tspan><tspan y="0" letter-spacing="-0.007em">n</tspan><tspan y="0">g</tspan></text>
+    <rect id="Rectángulo_321" data-name="Rectángulo 321" width="5.879" height="31.624" transform="translate(0 113.703)" fill="#855722"/>
+    <text id="WATER" transform="translate(25.114 87.376)" fill="#af1627" font-size="39" font-family="Campton-Bold, Campton" font-weight="700"><tspan x="0" y="0" letter-spacing="-0.11em">W</tspan><tspan y="0" letter-spacing="-0.109em">A</tspan><tspan y="0" letter-spacing="-0.007em">T</tspan><tspan y="0">ER</tspan></text>
+    <g id="Grupo_490" data-name="Grupo 490">
+      <g id="Grupo_502" data-name="Grupo 502">
+        <g id="Grupo_485" data-name="Grupo 485" transform="translate(672.117 85.074)" style="mix-blend-mode: normal;isolation: isolate">
+          <g id="Grupo_484" data-name="Grupo 484">
+            <g id="Grupo_483" data-name="Grupo 483" clip-path="url(#clip-path-3)">
+              <text id="_29.00" data-name="$29.00" transform="translate(0.001 43.613)" fill="#fff" font-size="51" font-family="Campton-Bold, Campton" font-weight="700"><tspan x="0" y="0">$2</tspan><tspan y="0" letter-spacing="-0.106em">9</tspan><tspan y="0" letter-spacing="-0.046em">.</tspan><tspan y="0">00</tspan></text>
+            </g>
+          </g>
+        </g>
+        <g id="Grupo_488" data-name="Grupo 488" transform="translate(663.867 142.874)" style="mix-blend-mode: normal;isolation: isolate">
+          <g id="Grupo_487" data-name="Grupo 487">
+            <g id="Grupo_486" data-name="Grupo 486" clip-path="url(#clip-path-4)">
+              <text id="_34.00" data-name="$34.00" transform="translate(0 43.615)" fill="#fff" font-size="51" font-family="Campton-Bold, Campton" font-weight="700"><tspan x="0" y="0">$34</tspan><tspan y="0" letter-spacing="-0.046em">.</tspan><tspan y="0">00</tspan></text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="172.487" height="162.901" viewBox="0 0 172.487 162.901">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectángulo_147" data-name="Rectángulo 147" width="172.487" height="162.901" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_121" data-name="Grupo 121" transform="translate(0 0)">
+    <g id="Grupo_118" data-name="Grupo 118" transform="translate(0 0)">
+      <g id="Grupo_117" data-name="Grupo 117" clip-path="url(#clip-path)">
+        <text id="B" transform="translate(14.311 16.976) rotate(65.965)" fill="#fff" font-size="53" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">B</tspan></text>
+      </g>
+    </g>
+    <text id="E" transform="matrix(0.582, 0.813, -0.813, 0.582, 26.545, 45.529)" fill="#fff" font-size="55" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">E</tspan></text>
+    <text id="B-2" data-name="B" transform="translate(47.089 71.611) rotate(37.586)" fill="#fff" font-size="53" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">B</tspan></text>
+    <text id="I" transform="matrix(0.86, 0.51, -0.51, 0.86, 69.668, 89.992)" fill="#fff" font-size="55" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">I</tspan></text>
+    <text id="D" transform="translate(81.877 96.31) rotate(35.107)" fill="#fff" font-size="55" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">D</tspan></text>
+    <text id="A" transform="matrix(0.708, 0.706, -0.706, 0.708, 103.246, 108.979)" fill="#fff" font-size="53" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">A</tspan></text>
+    <g id="Grupo_120" data-name="Grupo 120" transform="translate(0 0)">
+      <g id="Grupo_119" data-name="Grupo 119" clip-path="url(#clip-path)">
+        <text id="S" transform="matrix(0.706, 0.709, -0.709, 0.706, 117.881, 128.146)" fill="#fff" font-size="55" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">S</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

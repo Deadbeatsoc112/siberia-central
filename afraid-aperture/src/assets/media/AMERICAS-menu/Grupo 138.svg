@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="236.984" height="151.041" viewBox="0 0 236.984 151.041">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectángulo_154" data-name="Rectángulo 154" width="219.109" height="104.429" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_138" data-name="Grupo 138" transform="translate(0 49.289) rotate(-13)">
+    <text id="C" transform="translate(9.831 75.439) rotate(17.677)" fill="#fff" font-size="64" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">C</tspan></text>
+    <g id="Grupo_135" data-name="Grupo 135" transform="translate(0 0)">
+      <g id="Grupo_134" data-name="Grupo 134" clip-path="url(#clip-path)">
+        <text id="A" transform="translate(44.638 85.931) rotate(7.302)" fill="#fff" font-size="64" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">A</tspan></text>
+        <text id="L" transform="matrix(0.999, -0.052, 0.052, 0.999, 77.669, 89.814)" fill="#fff" font-size="63" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">L</tspan></text>
+      </g>
+    </g>
+    <text id="D" transform="translate(113.124 87.523) rotate(-14.148)" fill="#fff" font-size="63" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">D</tspan></text>
+    <text id="O" transform="translate(148.316 77.083) rotate(-25.311)" fill="#fff" font-size="62" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">O</tspan></text>
+    <g id="Grupo_137" data-name="Grupo 137" transform="translate(0 0)">
+      <g id="Grupo_136" data-name="Grupo 136" clip-path="url(#clip-path)">
+        <text id="S" transform="translate(181.248 60.982) rotate(-36.365)" fill="#fff" font-size="62" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">S</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

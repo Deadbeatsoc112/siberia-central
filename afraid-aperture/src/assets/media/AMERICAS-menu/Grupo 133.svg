@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="240.57" height="164.255" viewBox="0 0 240.57 164.255">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectángulo_152" data-name="Rectángulo 152" width="240.57" height="164.255" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_133" data-name="Grupo 133" transform="translate(0 0)">
+    <g id="Grupo_130" data-name="Grupo 130" transform="translate(0 0)">
+      <g id="Grupo_129" data-name="Grupo 129" clip-path="url(#clip-path)">
+        <text id="T" transform="matrix(0.82, -0.572, 0.572, 0.82, 23.639, 147.541)" fill="#fff" font-size="59" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">T</tspan></text>
+      </g>
+    </g>
+    <text id="O" transform="matrix(0.722, -0.692, 0.692, 0.722, 49.981, 130.251)" fill="#fff" font-size="61" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">O</tspan></text>
+    <text id="S" transform="translate(70.424 109.525) rotate(-37.131)" fill="#fff" font-size="61" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">S</tspan></text>
+    <text id="T-2" data-name="T" transform="translate(91.457 90.543) rotate(-19.29)" fill="#fff" font-size="59" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">T</tspan></text>
+    <text id="A" transform="translate(113.288 83.873) rotate(-5.017)" fill="#fff" font-size="60" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">A</tspan></text>
+    <text id="D" transform="translate(143.229 84.578) rotate(-9.55)" fill="#fff" font-size="61" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">D</tspan></text>
+    <text id="A-2" data-name="A" transform="translate(180.975 74.752) rotate(-31.929)" fill="#fff" font-size="60" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">A</tspan></text>
+    <g id="Grupo_132" data-name="Grupo 132" transform="translate(0 0)">
+      <g id="Grupo_131" data-name="Grupo 131" clip-path="url(#clip-path)">
+        <text id="S-2" data-name="S" transform="translate(207.615 58.468) rotate(-42.153)" fill="#fff" font-size="61" font-family="LondrinaSolid-Regular, Londrina Solid"><tspan x="0" y="0">S</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

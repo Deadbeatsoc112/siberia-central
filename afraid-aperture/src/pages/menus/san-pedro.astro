@@ -1,4 +1,4 @@
-﻿---
+---
 const CANVAS_W = 1080;
 const CANVAS_H = 13949;
 const HEADER_H = 1390;
@@ -26,7 +26,7 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
   <body>
     <main class="page">
       <div class="frame" id="frame">
-        <div class="canvas" style={`--menu-bg: url(${menuBgUrl});`}>
+        <div class="canvas menu-variant-cafe menu-swap-sides menu-sucursal-san-pedro" style={`--menu-bg: url(${menuBgUrl});`}>
           <a id="menu-top" class="menu-top-anchor" aria-hidden="true"></a>
           <a class="abs back-link" href="/menu-sucursales" aria-label="Volver a Menús">← Menús</a>
 
@@ -1666,6 +1666,88 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         height: 550px;
         background-image: url('/img/Grupo 522.png');
       }
+      /* Variantes visuales por sucursal (cafe/rojo) */
+      .menu-variant-cafe .header-bg-image {
+        filter: sepia(0.68) saturate(0.95) hue-rotate(-8deg) brightness(0.9) contrast(1.05);
+      }
+
+      .menu-variant-cafe .g284 {
+        filter: sepia(0.75) saturate(1.1) hue-rotate(-12deg) brightness(0.88) contrast(1.04);
+      }
+
+      .menu-variant-rojo .header-bg-image {
+        filter: sepia(0.8) saturate(1.35) hue-rotate(-38deg) brightness(0.84) contrast(1.08);
+      }
+
+      .menu-variant-rojo .g284 {
+        filter: sepia(0.92) saturate(1.65) hue-rotate(-48deg) brightness(0.82) contrast(1.1);
+      }
+
+      /* Reordenar algunos recursos del borde izquierdo hacia la derecha */
+      .menu-swap-sides .g572 {
+        left: auto;
+        right: -140px;
+        transform: scaleX(-1);
+        transform-origin: center;
+      }
+
+      .menu-swap-sides .g246 {
+        left: auto;
+        right: -60px;
+        transform: scaleX(-1);
+        transform-origin: center;
+      }
+
+      .menu-swap-sides .g680 {
+        left: auto;
+        right: -186.6982421875px;
+        transform: scaleX(-1);
+        transform-origin: center;
+      }
+      .menu-swap-sides .g678 {
+        right: auto;
+        left: -186.6982421875px;
+        transform: scaleX(-1);
+        transform-origin: center;
+      }
+
+      /* Recursos en gris */
+      .menu-swap-sides .g500,
+      .menu-swap-sides .g522,
+      .menu-swap-sides .g-coke,
+      .menu-swap-sides .header-decoration,
+      .menu-swap-sides .header-script {
+        filter: grayscale(0.8) contrast(1.02) brightness(0.94);
+      }
+
+      .menu-swap-sides .taco-header,
+      .menu-swap-sides .tostadas-header {
+        filter: grayscale(0.45) contrast(1.02);
+      }
+      /* Personalizacion individual: san-pedro */
+      .menu-sucursal-san-pedro .header-bg-image {
+        filter: sepia(0.7) saturate(0.98) hue-rotate(-14deg) brightness(0.9) contrast(1.05);
+      }
+
+      .menu-sucursal-san-pedro .g284 {
+        filter: sepia(0.75) saturate(1.13) hue-rotate(-18deg) brightness(0.88) contrast(1.05);
+      }
+
+      .menu-sucursal-san-pedro .g572 {
+        right: -154px;
+      }
+
+      .menu-sucursal-san-pedro .g246 {
+        right: -70px;
+      }
+
+      .menu-sucursal-san-pedro .g680 {
+        right: -183px;
+      }
+
+      .menu-sucursal-san-pedro .g678 {
+        left: -183px;
+      }
 
       @media (min-width: 1200px) {
         .page {
@@ -1676,6 +1758,9 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
     </style>
   </body>
 </html>
+
+
+
 
 
 

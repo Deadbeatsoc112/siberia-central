@@ -51,7 +51,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       <div class="frame" id="frame">
         <div class="canvas" style={`--menu-bg: url(${menuBgUrl});`}>
           <a id="menu-top" class="menu-top-anchor" aria-hidden="true"></a>
-          <a class="abs back-link" href="/menu-sucursales" aria-label="Volver a MenÃºs">â† MenÃºs</a>
+          <a class="abs back-link" href="/menu-sucursales" aria-label="Volver a Menús">← Menús</a>
 
           <!-- =========================
                1) HEADER (0 - 1390)
@@ -91,6 +91,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
           <div class="abs img g677b" aria-hidden="true"></div>
           
           <div class="abs img g246" aria-hidden="true"></div>
+          <div class="abs tradition-final">!Somos una tradicion muy regia!</div>
 
           <!-- =========================
                TEXTOS
@@ -631,6 +632,45 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         font-display: swap;
       }
 
+      @font-face {
+        font-family: 'River Young';
+        src:
+          local('River Young'),
+          local('RiverYoungFREE'),
+          local('River Young FREE'),
+          url('../../assets/fonts/river-young/RiverYoung-Regular.otf') format('opentype'),
+          url('../../assets/fonts/river-young/RiverYoung-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'RiverYoungFREE';
+        src:
+          local('RiverYoungFREE'),
+          local('River Young FREE'),
+          local('River Young'),
+          url('../../assets/fonts/river-young/RiverYoung-Regular.otf') format('opentype'),
+          url('../../assets/fonts/river-young/RiverYoung-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'River Young FREE';
+        src:
+          local('River Young FREE'),
+          local('RiverYoungFREE'),
+          local('River Young'),
+          url('../../assets/fonts/river-young/RiverYoung-Regular.otf') format('opentype'),
+          url('../../assets/fonts/river-young/RiverYoung-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
       html,
       body {
         margin: 0;
@@ -993,7 +1033,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .section-script {
-        font-family: 'Brush Script MT', 'Segoe Script', cursive;
+        font-family: 'River Young', 'Brush Script MT', 'Segoe Script', cursive;
         font-size: calc(26px * var(--text-scale));
         color: #e54141;
         text-align: right;
@@ -1438,7 +1478,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .combo-note {
-        font-family: 'Brush Script MT', 'Segoe Script', cursive;
+        font-family: 'River Young', 'Brush Script MT', 'Segoe Script', cursive;
         font-size: calc(24px * var(--text-scale));
         color: #d9c7a6;
         text-transform: none;
@@ -1446,7 +1486,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .bebidas-note {
-        font-family: 'Brush Script MT', 'Segoe Script', cursive;
+        font-family: 'River Young', 'Brush Script MT', 'Segoe Script', cursive;
         font-size: calc(24px * var(--text-scale));
         color: #d9c7a6;
         text-transform: none;
@@ -1612,7 +1652,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .antoje {
-        font-family: 'Brush Script MT', 'Segoe Script', cursive;
+        font-family: 'River Young', 'Brush Script MT', 'Segoe Script', cursive;
         font-size: calc(26px * var(--text-scale));
         color: #e54141;
         text-transform: none;
@@ -1620,7 +1660,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .side-script {
-        font-family: 'Brush Script MT', 'Segoe Script', cursive;
+        font-family: 'River Young', 'Brush Script MT', 'Segoe Script', cursive;
         font-size: calc(20px * var(--text-scale));
         color: #d9c7a6;
         text-transform: none;
@@ -1944,6 +1984,27 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         background: transparent url('/img/Grupo 677.svg') 0% 0% no-repeat padding-box;
         background-size: contain;
         opacity: 1;
+      }
+
+      .tradition-final {
+        top: 14300px;
+        left: 50%;
+        width: 663px;
+        height: 174px;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        text-align: center;
+        font-family: 'River Young', 'River Young FREE', 'RiverYoungFREE', cursive;
+        font-size: 70px;
+        line-height: 1.02;
+        font-weight: 400;
+        color: #ccc09e;
+        text-transform: none;
+        letter-spacing: 0.2px;
+        z-index: 3;
       }
 
       @media (min-width: 1200px) {

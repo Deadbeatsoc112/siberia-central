@@ -4,12 +4,14 @@ const CANVAS_H = 14900;
 const HEADER_H = 1390;
 import menuBgUrl from '../../assets/media/santa-catarina/fondosantacatarina.png?url';
 import camptonUrl from '../../assets/fonts/campton/CamptonBold.otf?url';
+import riverYoungUrl from '../../assets/fonts/river-young/RiverYoung-Regular.otf?url';
 import logoUrl from '../../assets/media/logologito.png?url';
 import grupo605Url from '../../assets/media/Grupo 605.svg?url';
 import grupo607Url from '../../assets/media/Grupo 607.svg?url';
 import trazado2244Url from '../../assets/media/Trazado 2244.svg?url';
 import grupo151Url from '../../assets/media/Grupo 151.svg?url';
-import grupo204Url from '../../assets/media/santa-catarina/Grupo 204.svg?url';
+import grupo204Url from '../../assets/media/santa-catarina/Grupo 204.png?url';
+import grupo246Url from '../../assets/media/santa-catarina/Grupo 246.png?url';
 import grup649url from '../../assets/media/santa-catarina/Grupo 649.svg?url&v=2';
 import grupo149url from '../../assets/media/santa-catarina/Grupo 149.svg?url';
 import grupo687Url from '../../assets/media/santa-catarina/Grupo 687.png?url';
@@ -23,7 +25,7 @@ import grupo678Url from '../../assets/media/AMERICAS-menu/Grupo 678.svg?url';
 import somosUnaTradicionUrl from '../../assets/media/santa-catarina/somosUnaTradicion.svg?url';
 import grupo36url from '../../assets/media/Grupo 36.svg?url';
 import estrillitasUrl from '../../assets/media/santa-catarina/estrellas-rojas.svg?url';
-import grupo827Url from '../../assets/media/santa-catarina/Grupo 827.svg?url';
+import grupo827Url from '../../assets/media/santa-catarina/Grupo 827.png?url';
 import grupo477Url from '../../assets/media/santa-catarina/Grupo 477.svg?url';
 import grupo247Url from '../../assets/media/Grupo 247.svg?url';
 import headerBgUrl from '../../assets/media/santa-catarina/Enmascarar grupo 4.png?url';
@@ -87,12 +89,14 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
           <div class="abs img g-coke" aria-hidden="true"></div>
           <img src={grupo477Url} alt="Para todo el taco" class="abs" style="left: 350px; top: 10640px; width: auto; height: 280px; z-index: 3;" />
           <div class="abs img g569" aria-hidden="true"></div>
-          <div class="abs img g246" aria-hidden="true"></div>
+          <div class="abs img g246" style={`background-image: url(${grupo246Url});`} aria-hidden="true"></div>
           <!-- Últimos elementos decorativos -->
           <img src={grupo320Url} alt="" class="abs" style="right: -100px; top: 11640px; width: 300px; height: auto; z-index: 3; transform: scale(-1, -1) rotate(130deg);" aria-hidden="true" />
           <img src={grupo654Url} alt="" class="abs" style="left: -80px; top: 14000px; width: 300px; height: auto; z-index: 3;" aria-hidden="true" />
           <img src={grupo678Url} alt="" class="abs" style="right: -100px; top: 13200px; width: 450px; height: auto; z-index: 2;" aria-hidden="true" />
-          <img src={somosUnaTradicionUrl} alt="Somos una tradición muy regia" class="abs" style="left: 50%; bottom: 500px; width: 600px; height: auto; z-index: 3; transform: translateX(-50%);" />
+          <div class="abs tradition-final">
+            ¡Somos una tradicion muy regia!
+          </div>
           <img src={grupo680Url} alt="" class="abs" style="right: -200px; bottom:100px; width: 800px; height: auto; z-index: 2;" aria-hidden="true" />
 
           <!-- =========================
@@ -545,7 +549,7 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
       applyScale();
     </script>
 
-    <style define:vars={{ camptonUrl }}>
+    <style define:vars={{ camptonUrl, riverYoungUrl }}>
       :root {
         --canvas-w: 1080px;
         --canvas-h: 14900px;
@@ -593,6 +597,15 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
         font-family: 'Campton';
         src: url(var(--camptonUrl)) format('opentype');
         font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'River Young';
+        src: url('../../assets/fonts/river-young/RiverYoung-Regular.otf') format('opentype'),
+          url('../../assets/fonts/river-young/RiverYoung-Regular.ttf') format('truetype');
+        font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
@@ -1612,6 +1625,27 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
         z-index: 2;
       }
 
+      .tradition-final {
+        bottom: 500px;
+        left: 50%;
+        width: 663px;
+        height: 174px;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        text-align: center;
+        font-family: 'River Young', 'River Young FREE', 'RiverYoungFREE', cursive;
+        font-size: 70px;
+        line-height: 1.02;
+        font-weight: 400;
+        color: #ccc09e;
+        text-transform: none;
+        letter-spacing: 0.2px;
+        z-index: 3;
+      }
+
       /* =========================
          ELEMENTOS QUE PASASTE
          (posición absoluta respecto al CANVAS)
@@ -1647,7 +1681,6 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
         left: -110px;
         width: 600px;
         height: 500px;
-        background-image: url('/img/Grupo 246.svg');
       }
 
       /* top: 5241px; left: -234px; width: 1403px; height: 812px; img Grupo 284 */
@@ -1705,10 +1738,10 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
 
       /* top: 9125px; left: 235px; width: 610px; height: 278px; img Grupo 356 */
       .g356 {
-        top: 8805px;
+        top: 8955px;
         left: 215px;
         width: 710px;
-        height: 678px;
+        height: auto;
       }
 
       /* top: 8891px; left: 790px; width: 428px; height: 381px; img Grupo 351 */

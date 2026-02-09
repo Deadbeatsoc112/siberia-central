@@ -2,16 +2,25 @@
 const CANVAS_W = 1080;
 const CANVAS_H = 13949;
 const HEADER_H = 1390;
-import menuBgUrl from '../../assets/media/FondoMenus.png?url';
+import menuBgUrl from '../../assets/media/santa-catarina/fondosantacatarina.png?url';
 import camptonUrl from '../../assets/fonts/campton/CamptonBold.otf?url';
 import logoUrl from '../../assets/media/logologito.png?url';
 import grupo605Url from '../../assets/media/Grupo 605.svg?url';
 import grupo607Url from '../../assets/media/Grupo 607.svg?url';
 import trazado2244Url from '../../assets/media/Trazado 2244.svg?url';
 import grupo151Url from '../../assets/media/Grupo 151.svg?url';
-import grupo204Url from '../../assets/media/Grupo 204.svg?url';
-import grupo640Url from '../../assets/media/Grupo 640.svg?url';
-import grupo641Url from '../../assets/media/Grupo 641.svg?url';
+import grupo204Url from '../../assets/media/santa-catarina/Grupo 204.svg?url';
+import grup649url from '../../assets/media/santa-catarina/Grupo 649.svg?url&v=2';
+import grupo149url from '../../assets/media/santa-catarina/Grupo 149.svg?url';
+import grupo687Url from '../../assets/media/santa-catarina/Grupo 687.png?url';
+import grupo689Url from '../../assets/media/santa-catarina/Grupo 689.png?url';
+import grupo284Url from '../../assets/media/santa-catarina/Grupo 284.png?url';
+import grupo616Url from '../../assets/media/santa-catarina/Grupo 616.svg?url';
+import grupo320Url from '../../assets/media/santa-catarina/Grupo 320.svg?url';
+import grupo36url from '../../assets/media/Grupo 36.svg?url';
+import estrillitasUrl from '../../assets/media/santa-catarina/estrellas-rojas.svg?url';
+import grupo827Url from '../../assets/media/santa-catarina/Grupo 827.svg?url';
+import grupo477Url from '../../assets/media/santa-catarina/Grupo 477.svg?url';
 import grupo247Url from '../../assets/media/Grupo 247.svg?url';
 import headerBgUrl from '../../assets/media/santa-catarina/Enmascarar grupo 4.png?url';
 import bebidasSvgUrl from '../../assets/media/santa-catarina/Grupo 121.svg?url';
@@ -49,23 +58,24 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
             <div class="logo-combos" style={`background-image: url(${logoUrl});`}></div>
             <div class="taco-header" aria-hidden="true"></div>
             <!-- Imagen adicional sobre el taco -->
-            <img src={grupo605Url} alt="" class="header-decoration" />
+            <img src={grupo149url} alt="" class="header-decoration" />
             <!-- Imagen superpuesta sobre el taco -->
-            <img src={grupo607Url} alt="" class="header-script" />
+            <img src={grup649url} alt="" class="header-script" />
           </section>
 
           <!-- =========================
                ELEMENTOS POSICIONADOS EN EL CANVAS
                ========================= -->
-          <div class="abs img g608" style="z-index:3;" aria-hidden="true"></div>
+          <div class="abs img g608" style={`background-image: url(${grupo687Url}); z-index:3;`} aria-hidden="true"></div>
           <div class="abs img g605" aria-hidden="true"></div>
-          <div class="abs img g572" style="z-index:3;" aria-hidden="true"></div>
-          <div class="abs img g284" aria-hidden="true"></div>
-          <div class="abs img g319" aria-hidden="true"></div>
-          <div class="abs img g321" aria-hidden="true"></div>
+          <div class="abs img g572" style={`background-image: url(${grupo689Url}); z-index:3;`} aria-hidden="true"></div>
+          <div class="abs img g284" style={`background-image: url(${grupo284Url});`} aria-hidden="true"></div>
+          <div class="abs img g319" style={`background-image: url(${grupo616Url});`} aria-hidden="true"></div>
+          <div class="abs img g321"  style={`background-image: url(${grupo36url});`}  aria-hidden="true"></div>
           <div class="abs img g323" aria-hidden="true"></div>
           <div class="abs img g323b" aria-hidden="true"></div>
           <div class="abs img g-coke" aria-hidden="true"></div>
+          <img src={grupo477Url} alt="Para todo el taco" class="abs" style="left: 350px; top: 10640px; width: auto; height: 280px; z-index: 3;" />
           <div class="abs img g569" aria-hidden="true"></div>
           <div class="abs img g472" aria-hidden="true"></div>
           <div class="abs img g500" aria-hidden="true"></div>
@@ -202,15 +212,8 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
             src={grupo204Url}
             alt=""
             class="abs"
-            style="top: 2082px; left: 612px; width: 567px; height: 133px; z-index: 3;"
+            style="top: 2142px; right: 0px; width: auto; height: 400px; z-index: 3;"
           />
-          <img
-            src={grupo640Url}
-            alt=""
-            class="abs"
-            style="top: 2127px; left: 645px; width: 346px; height: 161px; transform: matrix(-0.97, 0.22, -0.22, -0.97, 0, 0); z-index: 3;"
-          />
-          <img src={grupo641Url} alt="" class="abs" style="right: -60px; top: 2270px; width: 420px; height: auto; z-index: 3;" />
 
           <div class="abs section-title section-title--left tacos-title" id="tacos">TACOS</div>
           <img src={grupo151Url} alt="" class="abs divider-2" />
@@ -278,19 +281,12 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
             </div>
           </section>
 
-          <div class="txt side-script" style="--x: 40px; --y: 3380px; --tf: rotate(-90deg);">
-            Empieza con un...
-          </div>
-          <div class="txt side-script" style="--x: 160px; --y: 3520px; --tf: rotate(-12deg);">
-            luego verás
-          </div>
-
           <!-- =========================
                CALDOS
                ========================= -->
           <div class="abs section-title section-title--left caldos-title" id="caldos">CALDOS</div>
           <img src={grupo247Url} alt="" class="abs divider-3" />
-          <img src={grupo640Url} alt="" class="abs" style="left: 50px; top: 4470px; width: 370px; height: auto; z-index: 3; transform: scale(-1, -1);" />
+          <img src={grupo320Url} alt="" class="abs" style="left: 10px; top: 4510px; width: 370px; height: auto; z-index: 2; transform: scaleX(-1);" />
           <section class="section caldos-section-1">
             <div class="caldo-feature">
               <div class="caldo-name">TLALPEÑO</div>
@@ -419,11 +415,10 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
             </div>
           </section>
 
-          <div class="abs img g356" aria-hidden="true"></div>
-          <div class="abs img g351" aria-hidden="true"></div>
-          <div class="abs img g361" aria-hidden="true"></div>
+          <img src={grupo827Url} alt="" class="abs g356" style="z-index: 2;" aria-hidden="true" />
+          <img src={estrillitasUrl} alt="" class="abs estrellas-1" style="z-index: 3;" aria-hidden="true" />
+          <img src={estrillitasUrl} alt="" class="abs estrellas-2" style="z-index: 3;" aria-hidden="true" />
           <section class="section combos-section-2">
-            <div class="combo-note">Aquí el combo sí conviene</div>
 
             <div class="combo">
               <div class="combo__name">COMBO 3</div>
@@ -457,7 +452,6 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
                ========================= -->
           <div class="abs section-title section-title--left bebidas-title" id="bebidas">BEBIDAS</div>
           <section class="section bebidas-section">
-            <div class="bebidas-note">Para todo el taco</div>
             <div class="bebidas-list">
               <div class="bebida-item">
                 <div class="bebida-item__name">COCA-COLA</div>
@@ -1388,15 +1382,9 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
         margin-bottom: 16px;
       }
 
-      .bebidas-note {
-        font-family: 'Brush Script MT', 'Segoe Script', cursive;
-        font-size: calc(24px * var(--text-scale));
-        color: #d9c7a6;
-        text-transform: none;
-        margin-bottom: 12px;
-      }
 
       .bebidas-list {
+        margin-top: 250px;
         display: flex;
         flex-direction: column;
         gap: 20px;
@@ -1530,9 +1518,8 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
       .g608 {
         top: 2388px;
         left: 657px;
-        width: 423px;
+        width: 443px;
         height: 916px;
-        background-image: url('/img/Grupo 608.png');
       }
 
       /* top: 1117px; left: 327px; width: 426px; height: 39px; img Grupo 605 */
@@ -1541,7 +1528,6 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
         left: 327px;
         width: 426px;
         height: 39px;
-        background-image: url('/img/Grupo 605.png');
       }
 
       /* top: 3642px; left: -151px; width: 647px; height: 1151px; img Grupo 572 */
@@ -1550,15 +1536,14 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
         left: -151px;
         width: 647px;
         height: 1151px;
-        background-image: url('/img/Grupo 572.png');
       }
 
       /* top: 3562px; left: -130px; width: 600px; height: 400px; img Grupo 246 */
       .g246 {
         top: 3562px;
-        left: -130px;
+        left: -110px;
         width: 600px;
-        height: 400px;
+        height: 500px;
         background-image: url('/img/Grupo 246.svg');
       }
 
@@ -1568,7 +1553,6 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
         left: -234px;
         width: 1403px;
         height: 812px;
-        background-image: url('/img/Grupo 284.svg');
       }
 
       /* top: 5871px; left: 652px; width: 583px; height: 352px; img Grupo 319 */
@@ -1577,18 +1561,14 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
         left: 652px;
         width: 583px;
         height: 352px;
-        background-image: url('/img/Grupo 319.svg');
       }
 
       /* top: 6056px; left: 505px; width: 248px; height: 233px; img Grupo 321 */
       .g321 {
-        top: 6056px;
-        left: 505px;
-        width: 248px;
-        height: 233px;
-        background-image: url('/img/Grupo 321.svg');
-        transform: matrix(0.74, 0.67, -0.67, 0.74, 0, 0);
-        transform-origin: top left;
+        top: 5980px;
+        left: 90px;
+        width: 400px;
+        height: 200px;
       }
 
       /* top: 7993px; left: -177.60302734375px; width: 1067px; height: 47px; img Grupo 323 */
@@ -1607,11 +1587,12 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
         width: 1067px;
         height: 47px;
         background-image: url('/img/Grupo 323.svg');
+        transform: scaleX(-1);
       }
 
       /* top: 10100px; left: -45px; width: 700px; height: 700px; img Coca_Cola_Flasche_-_Original_Taste arminizado */
       .g-coke {
-        top: 10100px;
+        top: 10200px;
         left: -45px;
         width: 700px;
         height: 700px;
@@ -1621,33 +1602,29 @@ import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
 
       /* top: 9125px; left: 235px; width: 610px; height: 278px; img Grupo 356 */
       .g356 {
-        top: 9125px;
-        left: 235px;
-        width: 610px;
-        height: 278px;
-        background-image: url('/img/Grupo 356.svg');
+        top: 8805px;
+        left: 215px;
+        width: 710px;
+        height: 678px;
       }
 
       /* top: 8891px; left: 790px; width: 428px; height: 381px; img Grupo 351 */
-      .g351 {
+
+      .estrellas-1 {
         top: 8891px;
-        left: 790px;
-        width: 428px;
-        height: 381px;
-        background-image: url('/img/Grupo 351.png');
-        transform: matrix(0.85, -0.53, 0.53, 0.85, 0, 0);
-        transform-origin: top left;
+        right: -20px;
+        width: 225px;
+        height: 150px;
+        transform: scaleX(-1);
       }
 
       /* top: 9125px; left: -30.6131591796875px; width: 245px; height: 150px; img Grupo 361 */
-      .g361 {
-        top: 9125px;
-        left: -30.6131591796875px;
-        width: 245px;
+
+      .estrellas-2 {
+        top: 9100px;
+        left: -20px;
+        width: 225px;
         height: 150px;
-        background-image: url('/img/Grupo 361.png');
-        transform: matrix(-1, -0.03, 0.03, -1, 0, 0);
-        transform-origin: top left;
       }
 
       /* top: 7630px; left: 749px; width: 454px; height: 454px; img Grupo 569 */

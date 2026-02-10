@@ -1,18 +1,51 @@
----
+grupo607Url---
 const CANVAS_W = 1080;
-const CANVAS_H = 13949;
+const CANVAS_H = 14900;
 const HEADER_H = 1390;
-import menuBgUrl from '../../assets/media/FondoMenus.png?url';
+import menuBgUrl from '../../assets/media/santa-catarina/fondosantacatarina.png?url';
 import camptonUrl from '../../assets/fonts/campton/CamptonBold.otf?url';
+import riverYoungUrl from '../../assets/fonts/river-young/RiverYoung-Regular.otf?url';
 import logoUrl from '../../assets/media/logologito.png?url';
-import grupo605Url from '../../assets/media/Grupo 605.svg?url';
-import grupo607Url from '../../assets/media/Grupo 607.svg?url';
+import grupo605Url from '../../assets/media/vasconcelos/Grupo 605.png?url';
+import grupo607Url from '../../assets/media/vasconcelos/Grupo 607.png?url';
 import trazado2244Url from '../../assets/media/Trazado 2244.svg?url';
 import grupo151Url from '../../assets/media/Grupo 151.svg?url';
-import grupo204Url from '../../assets/media/Grupo 204.svg?url';
+import grupo204Url from '../../assets/media/central/Grupo 204.png?url';
+import grupo246Url from '../../assets/media/santa-catarina/Grupo 246.png?url';
+import grup649url from '../../assets/media/santa-catarina/Grupo 649.svg?url&v=2';
+import grupo149url from '../../assets/media/santa-catarina/Grupo 149.svg?url';
+import grupo687Url from '../../assets/media/santa-catarina/Grupo 687.png?url';
+import grupo689Url from '../../assets/media/santa-catarina/Grupo 689.png?url';
+import grupo284Url from '../../assets/media/santa-catarina/Grupo 284.png?url';
+import grupo616Url from '../../assets/media/santa-catarina/Grupo 616.svg?url';
+import grupo320Url from '../../assets/media/santa-catarina/Grupo 320.svg?url';
 import grupo640Url from '../../assets/media/Grupo 640.svg?url';
-import grupo641Url from '../../assets/media/Grupo 641.svg?url';
+import grupo654Url from '../../assets/media/santa-catarina/Grupo 654.svg?url';
+import grupo680Url from '../../assets/media/AMERICAS-menu/Grupo 680.svg?url';
+import grupo678Url from '../../assets/media/AMERICAS-menu/Grupo 678.svg?url';
+import somosUnaTradicionUrl from '../../assets/media/santa-catarina/somosUnaTradicion.svg?url';
+import grupo36url from '../../assets/media/Grupo 36.svg?url';
+import grupo146url from '../../assets/media/central/Grupo 146.png?url';
+import grupo632Url from '../../assets/media/central/Grupo 632.png?url';
+import estrillitasUrl from '../../assets/media/santa-catarina/estrellas-rojas.svg?url';
+import grupo827Url from '../../assets/media/santa-catarina/Grupo 827.png?url';
+import grupo477Url from '../../assets/media/santa-catarina/Grupo 477.svg?url';
 import grupo247Url from '../../assets/media/Grupo 247.svg?url';
+import headerBgUrl from '../../assets/media/vasconcelos/Enmascarar grupo 4.png?url';
+import grupo450Url from '../../assets/media/santa-catarina/Grupo 450.png?url';
+import grupo472Url from '../../assets/media/santa-catarina/Grupo 472.png?url';
+import grupo661Url from '../../assets/media/santa-catarina/Grupo 661.png?url';
+import grupo662Url from '../../assets/media/santa-catarina/Grupo 662.png?url';
+import grupo660Url from '../../assets/media/santa-catarina/Grupo 660.png?url';
+import grupo556Url from '../../assets/media/santa-catarina/Grupo 556.png?url';
+import bebidasSvgUrl from '../../assets/media/santa-catarina/Grupo 121.svg?url';
+import tacosSvgUrl from '../../assets/media/santa-catarina/Grupo 126.svg?url';
+import combosSvgUrl from '../../assets/media/santa-catarina/Grupo 128.svg?url';
+import caldosSvgUrl from '../../assets/media/santa-catarina/Grupo 138.svg?url';
+import tostadasSvgUrl from '../../assets/media/santa-catarina/Grupo 133.svg?url';
+import menuLogoUrl from '../../assets/media/santa-catarina/Grupo 55.png?url';
+import branchNameUrl from '../../assets/media/santa-catarina/Grupo 665.svg?url';
+import mmmDecoUrl from '../../assets/media/santa-catarina/Grupo 652.svg?url';
 ---
 
 <!DOCTYPE html>
@@ -26,7 +59,7 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
   <body>
     <main class="page">
       <div class="frame" id="frame">
-        <div class="canvas menu-variant-cafe menu-swap-sides menu-sucursal-vasconcelos" style={`--menu-bg: url(${menuBgUrl});`}>
+        <div class="canvas" style={`--menu-bg: url(${menuBgUrl});`}>
           <a id="menu-top" class="menu-top-anchor" aria-hidden="true"></a>
           <a class="abs back-link" href="/menu-sucursales" aria-label="Volver a Menús">← Menús</a>
 
@@ -35,7 +68,7 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
                ========================= -->
           <section class="header">
             <!-- Fondo de imagen del header -->
-            <div class="header-bg-image"></div>
+            <div class="header-bg-image" style={`background-image: url(${headerBgUrl});`}></div>
             <!-- Logo arriba en el header -->
             <div class="logo-combos" style={`background-image: url(${logoUrl});`}></div>
             <div class="taco-header" aria-hidden="true"></div>
@@ -48,21 +81,27 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
           <!-- =========================
                ELEMENTOS POSICIONADOS EN EL CANVAS
                ========================= -->
-          <div class="abs img g608" style="z-index:3;" aria-hidden="true"></div>
+          <div class="abs img g608" style={`background-image: url(${grupo687Url}); z-index:3;`} aria-hidden="true"></div>
           <div class="abs img g605" aria-hidden="true"></div>
-          <div class="abs img g572" style="z-index:3;" aria-hidden="true"></div>
-          <div class="abs img g284" aria-hidden="true"></div>
-          <div class="abs img g319" aria-hidden="true"></div>
-          <div class="abs img g321" aria-hidden="true"></div>
+          <div class="abs img g572" style={`background-image: url(${grupo689Url}); z-index:3;`} aria-hidden="true"></div>
+          <div class="abs img g284" style={`background-image: url(${grupo284Url});`} aria-hidden="true"></div>
+          <div class="abs img g319" style={`background-image: url(${grupo616Url});`} aria-hidden="true"></div>
+          <img src={grupo640Url} alt="" class="abs" style="right: 200px; top: 6150px; width: 370px; height: auto; z-index: 2; transform: scale(-1, -1) rotate(45deg);" aria-hidden="true" />
+          <div class="abs img g321"  style={`background-image: url(${grupo36url});`}  aria-hidden="true"></div>
           <div class="abs img g323" aria-hidden="true"></div>
           <div class="abs img g323b" aria-hidden="true"></div>
           <div class="abs img g-coke" aria-hidden="true"></div>
+          <img src={grupo477Url} alt="Para todo el taco" class="abs" style="left: 350px; top: 10640px; width: auto; height: 280px; z-index: 3;" />
           <div class="abs img g569" aria-hidden="true"></div>
-          <div class="abs img g472" aria-hidden="true"></div>
-          <div class="abs img g500" aria-hidden="true"></div>
-          <div class="abs img g522" aria-hidden="true"></div>
-          
-          <div class="abs img g246" aria-hidden="true"></div>
+          <div class="abs img g246" style={`background-image: url(${grupo246Url});`} aria-hidden="true"></div>
+          <!-- Últimos elementos decorativos -->
+          <img src={grupo640Url} alt="" class="abs" style="right: -100px; top: 11640px; width: 300px; height: auto; z-index: 3; transform:  rotate(130deg);" aria-hidden="true" />
+          <img src={grupo654Url} alt="" class="abs" style="left: -80px; top: 14000px; width: 300px; height: auto; z-index: 3;" aria-hidden="true" />
+          <img src={grupo678Url} alt="" class="abs" style="right: -100px; top: 13200px; width: 450px; height: auto; z-index: 2;" aria-hidden="true" />
+          <div class="abs tradition-final">
+            ¡Somos una tradicion muy regia!
+          </div>
+          <img src={grupo680Url} alt="" class="abs" style="right: -200px; bottom:100px; width: 800px; height: auto; z-index: 2;" aria-hidden="true" />
 
           <!-- =========================
                TEXTOS
@@ -70,49 +109,52 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
           <a
             class="txt nav nav-link"
             href="#bebidas"
-            style="--x: 130px; --y: 260px; --fs: 34px; --tf: rotate(-22deg); --delay: 0s; z-index: 3;"
+            style="--x: 100px; --y: 260px; --w: 172px; --h: 163px; --delay: 0s; z-index: 3;"
           >
-            BEBIDAS
+            <img src={bebidasSvgUrl} alt="BEBIDAS" style="width: 100%; height: 100%;" />
           </a>
           <a
             class="txt nav nav-link"
             href="#tacos"
-            style="--x: 215px; --y: 430px; --fs: 34px; --tf: rotate(-12deg); --delay: 0.2s; z-index: 3;"
+            style="--x: 100px; --y: 430px; --w: 240px; --h: 141px; --delay: 0.2s; z-index: 3;"
           >
-            TACOS
+            <img src={tacosSvgUrl} alt="TACOS" style="width: 100%; height: 100%;" />
           </a>
           <a
             class="txt nav nav-link"
             href="#combos"
-            style="--x: 455px; --y: 500px; --fs: 34px; --tf: rotate(0deg); --delay: 0.4s; z-index: 3;"
+            style="--x: 420px; --y: 500px; --w: 284px; --h: 89px; --delay: 0.4s; z-index: 3;"
           >
-            COMBOS
+            <img src={combosSvgUrl} alt="COMBOS" style="width: 100%; height: 100%;" />
           </a>
           <a
             class="txt nav nav-link"
             href="#caldos"
-            style="--x: 760px; --y: 330px; --fs: 34px; --tf: rotate(12deg); --delay: 0.6s; z-index: 3;"
+            style="--x: 700px; --y: 260px; --w: 237px; --h: 151px; --delay: 0.6s; z-index: 3;"
           >
-            CALDOS
+            <img src={caldosSvgUrl} alt="CALDOS" style="width: 100%; height: 100%;" />
           </a>
           <a
             class="txt nav nav-link"
             href="#tostadas"
-            style="--x: 675px; --y: 480px; --fs: 34px; --tf: rotate(18deg); --delay: 0.8s; z-index: 3;"
+            style="--x: 730px; --y: 430px; --w: 241px; --h: 164px; --delay: 0.8s; z-index: 3;"
           >
-            TOSTADAS
+            <img src={tostadasSvgUrl} alt="TOSTADAS" style="width: 100%; height: 100%;" />
           </a>
           <div class="header-info">
-            <div class="header-menu">Menú</div>
-            <div class="header-title">LA SIBERIA CENTRAL</div>
-            <div class="header-branch">VASCONCELOS</div>
-            <div class="header-address">Vasconcelos 202 Local #25 y #26, Col. Bosques del Valle,<br />
-              San Pedro Garza García CP 66250</div>
+            <div class="header-title">
+              <img src={menuLogoUrl} alt="LA SIBERIA CENTRAL" style="width: auto; height: 98px; display: block; margin: 0 auto;" />
+            </div>
+            <div class="header-branch-text">
+              VASCONCELOS
+            </div>
+            <div class="header-address">Vasconcelos 202 Local #25 y #26, Col. Bosques del Valle, San Pedro Garza García CP 66250</div>
             <div class="header-phones">
-              <div>8183335529</div>
-              <div>8183335368</div>
+              <div><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 8px;"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>8183353529</div>
+              <div><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 8px;"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>8183353568</div>
             </div>
           </div>
+
 
           <div class="abs section-title tostadas-title" id="tostadas">TOSTADAS</div>
           <img src={grupo151Url} alt="" class="abs divider-1" />
@@ -187,17 +229,16 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
 
           <img
             src={grupo204Url}
-            alt=""
+            alt="El antejo Manda"
             class="abs"
-            style="top: 2082px; left: 612px; width: 567px; height: 133px; z-index: 3;"
+            style="top: 2120px; right: -95px; width: 500px; height: 150px; z-index: 3; transform: rotate(0deg)"
           />
           <img
-            src={grupo640Url}
-            alt=""
+            src={grupo632Url}
+            alt="Taco"
             class="abs"
-            style="top: 2127px; left: 645px; width: 346px; height: 161px; transform: matrix(-0.97, 0.22, -0.22, -0.97, 0, 0); z-index: 3;"
+            style="top: 2200px; right: -35px; width: auto; height: 280px; z-index: 3;"
           />
-          <img src={grupo641Url} alt="" class="abs" style="right: -60px; top: 2270px; width: 420px; height: auto; z-index: 3;" />
 
           <div class="abs section-title section-title--left tacos-title" id="tacos">TACOS</div>
           <img src={grupo151Url} alt="" class="abs divider-2" />
@@ -265,19 +306,12 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
             </div>
           </section>
 
-          <div class="txt side-script" style="--x: 40px; --y: 3380px; --tf: rotate(-90deg);">
-            Empieza con un...
-          </div>
-          <div class="txt side-script" style="--x: 160px; --y: 3520px; --tf: rotate(-12deg);">
-            luego verás
-          </div>
-
           <!-- =========================
                CALDOS
                ========================= -->
           <div class="abs section-title section-title--left caldos-title" id="caldos">CALDOS</div>
           <img src={grupo247Url} alt="" class="abs divider-3" />
-          <img src={grupo640Url} alt="" class="abs" style="left: 50px; top: 4470px; width: 370px; height: auto; z-index: 3; transform: scale(-1, -1);" />
+          <img src={grupo640Url} alt="" class="abs" style="left: 10px; top: 4470px; width: 370px; height: auto; z-index: 2; transform: scale(-1, -1) rotate(7deg); " />
           <section class="section caldos-section-1">
             <div class="caldo-feature">
               <div class="caldo-name">TLALPEÑO</div>
@@ -329,7 +363,7 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
             </div>
           </section>
 
-          <section class="section extras-section extras-caldos extras-caldos--small">
+          <section class="section extras-section extras-caldos">
             <div class="extras-title">
               <img src={trazado2244Url} alt="" class="extras-title__bg" />
               <span class="extras-title__text">EXTRAS</span>
@@ -339,36 +373,44 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
                 <div class="extras-item">
                   <div class="extras-item__name">TORTILLA</div>
                   <div class="extras-item__price">$6.00</div>
+                  <div class="extras-item__desc">Tortilla</div>
                 </div>
                 <div class="extras-item">
                   <div class="extras-item__name">TORTILLA JR</div>
                   <div class="extras-item__price">$4.00</div>
+                  <div class="extras-item__desc">Junior tortilla</div>
                 </div>
                 <div class="extras-item">
                   <div class="extras-item__name">ORDEN PIERNA</div>
                   <div class="extras-item__price">$44.00</div>
+                  <div class="extras-item__desc">Hen leg</div>
                 </div>
                 <div class="extras-item">
                   <div class="extras-item__name">ORDEN PECHUGA</div>
                   <div class="extras-item__price">$54.00</div>
+                  <div class="extras-item__desc">Hen breast</div>
                 </div>
                 <div class="extras-item">
                   <div class="extras-item__name">ORDEN DE QUESO</div>
                   <div class="extras-item__price">$24.00</div>
+                  <div class="extras-item__desc">Cheese</div>
                 </div>
                 <div class="extras-item">
                   <div class="extras-item__name">ORDEN ARROZ</div>
                   <div class="extras-item__price">$33.00</div>
+                  <div class="extras-item__desc">Rice</div>
                 </div>
               </div>
               <div class="extras-col">
                 <div class="extras-item">
                   <div class="extras-item__name">LITRO DE ARROZ</div>
                   <div class="extras-item__price">$60.00</div>
+                  <div class="extras-item__desc">Liter of rice</div>
                 </div>
                 <div class="extras-item">
                   <div class="extras-item__name">1/2 DE ARROZ</div>
                   <div class="extras-item__price">$43.00</div>
+                  <div class="extras-item__desc">Half liter of rice</div>
                 </div>
               </div>
             </div>
@@ -406,11 +448,10 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
             </div>
           </section>
 
-          <div class="abs img g356" aria-hidden="true"></div>
-          <div class="abs img g351" aria-hidden="true"></div>
-          <div class="abs img g361" aria-hidden="true"></div>
+          <img src={grupo827Url} alt="" class="abs g356" style="z-index: 2;" aria-hidden="true" />
+          <img src={estrillitasUrl} alt="" class="abs estrellas-1" style="z-index: 3;" aria-hidden="true" />
+          <img src={estrillitasUrl} alt="" class="abs estrellas-2" style="z-index: 3;" aria-hidden="true" />
           <section class="section combos-section-2">
-            <div class="combo-note">Aquí el combo sí conviene</div>
 
             <div class="combo">
               <div class="combo__name">COMBO 3</div>
@@ -444,7 +485,6 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
                ========================= -->
           <div class="abs section-title section-title--left bebidas-title" id="bebidas">BEBIDAS</div>
           <section class="section bebidas-section">
-            <div class="bebidas-note">Para todo el taco</div>
             <div class="bebidas-list">
               <div class="bebida-item">
                 <div class="bebida-item__name">COCA-COLA</div>
@@ -452,6 +492,7 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
                 <div class="bebida-item__sub">COKE</div>
                 <div class="bebida-item__opts">Regular / Light / Sin azúcar</div>
                 <div class="bebida-item__opts">Regular / Light / Zero</div>
+                <img src={grupo450Url} alt="Coca-Cola" class="bebida-item__image" />
               </div>
               <div class="bebida-item">
                 <div class="bebida-item__name">FUZE TEA</div>
@@ -459,14 +500,19 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
                 <div class="bebida-item__sub">FUZE TEA</div>
                 <div class="bebida-item__opts">Regular / Light / Sin azúcar</div>
                 <div class="bebida-item__opts">Regular / Light / Zero</div>
+                <img src={grupo472Url} alt="Fuze Tea" class="bebida-item__image" />
               </div>
-              <div class="bebida-item">
+              <div class="bebida-item bebida-item--agua">
                 <div class="bebida-item__name">AGUA</div>
-                <div class="bebida-item__price">$29.00</div>
                 <div class="bebida-item__sub">WATER</div>
                 <div class="bebida-item__opts">Natural / Still</div>
+                <div class="bebida-item__price">$29.00</div>
                 <div class="bebida-item__opts">Mineral / Sparkling</div>
-                <div class="bebida-item__price bebida-item__price--alt">$34.00</div>
+                <div class="bebida-item__price">$34.00</div>
+                <div class="bebida-item__images-row">
+                  <img src={grupo661Url} alt="Topo Chico" class="bebida-item__image-small" />
+                  <img src={grupo662Url} alt="Agua Siberia" class="bebida-item__image-small" />
+                </div>
               </div>
               <div class="bebida-item">
                 <div class="bebida-item__name">AGUA DE SABOR</div>
@@ -474,20 +520,20 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
                 <div class="bebida-item__sub">FLAVORED WATER</div>
                 <div class="bebida-item__opts">Regular / Light / Sin azúcar</div>
                 <div class="bebida-item__opts">Regular / Light / Zero</div>
+                <img src={grupo660Url} alt="Agua de Sabor" class="bebida-item__image" />
               </div>
             </div>
 
-            <div class="refrescos-block">
+            <div class="refrescos-block refrescos-block--grid">
               <div class="refrescos-title">REFRESCOS</div>
               <div class="refrescos-sub">SOFT DRINKS</div>
-              <p class="refrescos-text">Sabores: Joya de manzana, durazno y ponche.</p>
-              <p class="refrescos-text">Fanta de naranja, Fresca de toronja y Sangria Topo Chico.</p>
-              <p class="refrescos-text">Flavors: Apple, peach, and fruit punch.</p>
-              <p class="refrescos-text">Orange Fanta, Grapefruit Fresca, and Sangria Topo Chico.</p>
-              <div class="refrescos-prices">
-                <div>$34.00</div>
-                <div>$34.00</div>
-              </div>
+              <p class="refrescos-text">Sabores: Joya de manzana,<br>durazno y ponche.</p>
+              <div class="refrescos-price">$34.00</div>
+              <p class="refrescos-text">Fanta de naranja, Fresca de<br>toronja y Sangria Topo Chico.</p>
+              <div class="refrescos-price">$34.00</div>
+              <p class="refrescos-text">Flavors: Apple, peach,<br>and fruit punch.</p>
+              <p class="refrescos-text">Orange Fanta, Grapefruit<br>Fresca, and Sangria Topo Chico.</p>
+              <img src={grupo556Url} alt="Refrescos" class="refrescos-image" />
             </div>
           </section>
 
@@ -520,10 +566,10 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
       applyScale();
     </script>
 
-    <style define:vars={{ camptonUrl }}>
+    <style define:vars={{ camptonUrl, riverYoungUrl }}>
       :root {
         --canvas-w: 1080px;
-        --canvas-h: 13949px;
+        --canvas-h: 14900px;
         --side-pad: 32px;
         --scale: 1;
         --text-scale: 1.21;
@@ -568,6 +614,15 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         font-family: 'Campton';
         src: url(var(--camptonUrl)) format('opentype');
         font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'River Young';
+        src: url('../../assets/fonts/river-young/RiverYoung-Regular.otf') format('opentype'),
+          url('../../assets/fonts/river-young/RiverYoung-Regular.ttf') format('truetype');
+        font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
@@ -723,7 +778,9 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         left: 0;
         width: 100%;
         height: 1130px;
-        background: url('/img/Enmascarar grupo 4.png') no-repeat center top / cover;
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-size: cover;
         z-index: 2;
       }
 
@@ -783,54 +840,58 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
 
       .header-info {
         position: absolute;
-        top: 860px;
+        top: 750px;
         left: 50%;
         width: 720px;
         transform: translateX(-50%);
         text-align: center;
-        color: #f5e9d4;
-        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
         font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
         z-index: 3;
       }
 
       .header-menu {
-        font-size: calc(20px * var(--text-scale));
+        font-size: calc(22px * var(--text-scale));
         font-weight: 700;
         letter-spacing: 1px;
-        text-transform: uppercase;
+        text-transform: none;
+        color: #ffffff;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        margin-bottom: 8px;
       }
 
       .header-title {
-        font-size: calc(34px * var(--text-scale));
-        font-weight: 900;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        margin-top: 6px;
+        margin-bottom: 10px;
       }
 
       .header-branch {
-        margin-top: 8px;
-        font-size: calc(20px * var(--text-scale));
-        font-weight: 800;
-        letter-spacing: 1px;
+        margin-top: 10px;
+        margin-bottom: 12px;
+      }
+
+      .header-branch-text {
+        margin-top: 10px;
+        margin-bottom: 12px;
+        font-family: 'Campton', 'Arial Black', Arial, sans-serif;
+        font-size: 41px;
+        font-weight: 700;
+        letter-spacing: 2px;
         color: #000000;
-        text-shadow: none;
+        text-transform: uppercase;
       }
 
       .header-address {
-        margin-top: 6px;
-        font-size: calc(12px * var(--text-scale));
-        font-weight: 600;
+        margin-top: 12px;
+        font-size: 23px;
+        font-weight: 700;
         letter-spacing: 0.4px;
-        line-height: 1.4;
+        line-height: 1.5;
         color: #000000;
         text-shadow: none;
       }
 
       .header-phones {
-        margin-top: 6px;
-        font-size: calc(14px * var(--text-scale));
+        margin-top: 8px;
+        font-size: 25px;
         font-weight: 700;
         letter-spacing: 0.8px;
         color: #000000;
@@ -942,6 +1003,16 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         width: 360px;
         height: auto;
         z-index: 3;
+        pointer-events: none;
+      }
+
+      .header-mmm-deco {
+        position: absolute;
+        right: -130px;
+        top: 790px;
+        width: 380px;
+        height: auto;
+        z-index: 4;
         pointer-events: none;
       }
 
@@ -1154,7 +1225,7 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
       }
 
       .extras-caldos {
-        --x: 40px;
+        --x: 0px;
         --y: 7180px;
         --w: 1000px;
         --h: 498px;
@@ -1370,15 +1441,9 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         margin-bottom: 16px;
       }
 
-      .bebidas-note {
-        font-family: 'Brush Script MT', 'Segoe Script', cursive;
-        font-size: calc(24px * var(--text-scale));
-        color: #d9c7a6;
-        text-transform: none;
-        margin-bottom: 12px;
-      }
 
       .bebidas-list {
+        margin-top: 250px;
         display: flex;
         flex-direction: column;
         gap: 20px;
@@ -1423,8 +1488,93 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         color: #e6e6e6;
       }
 
+      .bebida-item--agua .bebida-item__name {
+        grid-column: 1 / -1;
+      }
+
+      .bebida-item--agua .bebida-item__sub {
+        grid-column: 1 / -1;
+      }
+
+      .bebida-item--agua .bebida-item__opts {
+        grid-column: 1 / 2;
+      }
+
+      .bebida-item--agua .bebida-item__price {
+        grid-column: 2 / 3;
+        text-align: right;
+      }
+
+      .bebida-item__image {
+        grid-column: 1 / -1;
+        width: auto;
+        height: 250px;
+        margin-top: 16px;
+        display: block;
+        object-fit: contain;
+      }
+
+      .bebida-item__images-row {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 20px;
+        margin-top: 16px;
+        align-items: center;
+      }
+
+      .bebida-item__image-small {
+        width: auto;
+        height: 250px;
+        display: block;
+        object-fit: contain;
+      }
+
       .refrescos-block {
         margin-top: 28px;
+      }
+
+      .refrescos-block--grid {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        column-gap: 18px;
+        row-gap: 4px;
+      }
+
+      .refrescos-block--grid .refrescos-title {
+        grid-column: 1 / -1;
+      }
+
+      .refrescos-block--grid .refrescos-sub {
+        grid-column: 1 / -1;
+      }
+
+      .refrescos-block--grid .refrescos-text {
+        grid-column: 1 / 2;
+        margin: 6px 0 0;
+      }
+
+      .refrescos-block--grid .refrescos-price {
+        grid-column: 2 / 3;
+        align-self: center;
+      }
+
+      .refrescos-block--grid .refrescos-image {
+        grid-column: 1 / -1;
+      }
+
+      .refrescos-price {
+        font-size: var(--item-price-size);
+        font-weight: 900;
+        color: #ffffff;
+        text-align: right;
+      }
+
+      .refrescos-image {
+        width: auto;
+        height: 350px;
+        margin-top: 16px;
+        display: block;
+        object-fit: contain;
       }
 
       .refrescos-title {
@@ -1503,6 +1653,27 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         z-index: 2;
       }
 
+      .tradition-final {
+        bottom: 500px;
+        left: 50%;
+        width: 663px;
+        height: 174px;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        text-align: center;
+        font-family: 'River Young', 'River Young FREE', 'RiverYoungFREE', cursive;
+        font-size: 70px;
+        line-height: 1.02;
+        font-weight: 400;
+        color: #ccc09e;
+        text-transform: none;
+        letter-spacing: 0.2px;
+        z-index: 3;
+      }
+
       /* =========================
          ELEMENTOS QUE PASASTE
          (posición absoluta respecto al CANVAS)
@@ -1512,9 +1683,8 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
       .g608 {
         top: 2388px;
         left: 657px;
-        width: 423px;
+        width: 443px;
         height: 916px;
-        background-image: url('/img/Grupo 608.png');
       }
 
       /* top: 1117px; left: 327px; width: 426px; height: 39px; img Grupo 605 */
@@ -1523,7 +1693,6 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         left: 327px;
         width: 426px;
         height: 39px;
-        background-image: url('/img/Grupo 605.png');
       }
 
       /* top: 3642px; left: -151px; width: 647px; height: 1151px; img Grupo 572 */
@@ -1532,16 +1701,14 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         left: -151px;
         width: 647px;
         height: 1151px;
-        background-image: url('/img/Grupo 572.png');
       }
 
       /* top: 3562px; left: -130px; width: 600px; height: 400px; img Grupo 246 */
       .g246 {
         top: 3562px;
-        left: -130px;
+        left: -110px;
         width: 600px;
-        height: 400px;
-        background-image: url('/img/Grupo 246.svg');
+        height: 500px;
       }
 
       /* top: 5241px; left: -234px; width: 1403px; height: 812px; img Grupo 284 */
@@ -1550,7 +1717,6 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         left: -234px;
         width: 1403px;
         height: 812px;
-        background-image: url('/img/Grupo 284.svg');
       }
 
       /* top: 5871px; left: 652px; width: 583px; height: 352px; img Grupo 319 */
@@ -1559,18 +1725,14 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         left: 652px;
         width: 583px;
         height: 352px;
-        background-image: url('/img/Grupo 319.svg');
       }
 
       /* top: 6056px; left: 505px; width: 248px; height: 233px; img Grupo 321 */
       .g321 {
-        top: 6056px;
-        left: 505px;
-        width: 248px;
-        height: 233px;
-        background-image: url('/img/Grupo 321.svg');
-        transform: matrix(0.74, 0.67, -0.67, 0.74, 0, 0);
-        transform-origin: top left;
+        top: 5980px;
+        left: 90px;
+        width: 400px;
+        height: 200px;
       }
 
       /* top: 7993px; left: -177.60302734375px; width: 1067px; height: 47px; img Grupo 323 */
@@ -1589,11 +1751,12 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         width: 1067px;
         height: 47px;
         background-image: url('/img/Grupo 323.svg');
+        transform: scaleX(-1);
       }
 
       /* top: 10100px; left: -45px; width: 700px; height: 700px; img Coca_Cola_Flasche_-_Original_Taste arminizado */
       .g-coke {
-        top: 10100px;
+        top: 10200px;
         left: -45px;
         width: 700px;
         height: 700px;
@@ -1603,33 +1766,29 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
 
       /* top: 9125px; left: 235px; width: 610px; height: 278px; img Grupo 356 */
       .g356 {
-        top: 9125px;
-        left: 235px;
-        width: 610px;
-        height: 278px;
-        background-image: url('/img/Grupo 356.svg');
+        top: 8955px;
+        left: 215px;
+        width: 710px;
+        height: auto;
       }
 
       /* top: 8891px; left: 790px; width: 428px; height: 381px; img Grupo 351 */
-      .g351 {
+
+      .estrellas-1 {
         top: 8891px;
-        left: 790px;
-        width: 428px;
-        height: 381px;
-        background-image: url('/img/Grupo 351.png');
-        transform: matrix(0.85, -0.53, 0.53, 0.85, 0, 0);
-        transform-origin: top left;
+        right: -20px;
+        width: 225px;
+        height: 150px;
+        transform: scaleX(-1);
       }
 
       /* top: 9125px; left: -30.6131591796875px; width: 245px; height: 150px; img Grupo 361 */
-      .g361 {
-        top: 9125px;
-        left: -30.6131591796875px;
-        width: 245px;
+
+      .estrellas-2 {
+        top: 9100px;
+        left: -20px;
+        width: 225px;
         height: 150px;
-        background-image: url('/img/Grupo 361.png');
-        transform: matrix(-1, -0.03, 0.03, -1, 0, 0);
-        transform-origin: top left;
       }
 
       /* top: 7630px; left: 749px; width: 454px; height: 454px; img Grupo 569 */
@@ -1667,78 +1826,6 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
         height: 550px;
         background-image: url('/img/Grupo 522.png');
       }
-      /* Variantes visuales por sucursal (cafe/rojo) */
-      .menu-variant-cafe .header-bg-image {
-        filter: sepia(0.68) saturate(0.95) hue-rotate(-8deg) brightness(0.9) contrast(1.05);
-      }
-
-      .menu-variant-cafe .g284 {
-        filter: sepia(0.75) saturate(1.1) hue-rotate(-12deg) brightness(0.88) contrast(1.04);
-      }
-
-      .menu-variant-rojo .header-bg-image {
-        filter: sepia(0.8) saturate(1.35) hue-rotate(-38deg) brightness(0.84) contrast(1.08);
-      }
-
-      .menu-variant-rojo .g284 {
-        filter: sepia(0.92) saturate(1.65) hue-rotate(-48deg) brightness(0.82) contrast(1.1);
-      }
-
-      /* Reordenar algunos recursos del borde izquierdo hacia la derecha */
-      .menu-swap-sides .g572 {
-        left: auto;
-        right: -140px;
-        transform: scaleX(-1);
-        transform-origin: center;
-        z-index: 1 !important;
-      }
-
-      .menu-swap-sides .g680 {
-        left: auto;
-        right: -186.6982421875px;
-        transform: scaleX(-1);
-        transform-origin: center;
-      }
-      .menu-swap-sides .g678 {
-        right: auto;
-        left: -186.6982421875px;
-        transform: scaleX(-1);
-        transform-origin: center;
-      }
-
-      /* Recursos en gris */
-      .menu-swap-sides .g500,
-      .menu-swap-sides .g522,
-      .menu-swap-sides .g-coke,
-      .menu-swap-sides .header-decoration,
-      .menu-swap-sides .header-script {
-        filter: grayscale(0.8) contrast(1.02) brightness(0.94);
-      }
-
-      .menu-swap-sides .taco-header,
-      .menu-swap-sides .tostadas-header {
-        filter: grayscale(0.45) contrast(1.02);
-      }
-      /* Personalizacion individual: vasconcelos */
-      .menu-sucursal-vasconcelos .header-bg-image {
-        filter: sepia(0.64) saturate(1.1) hue-rotate(-8deg) brightness(0.92) contrast(1.04);
-      }
-
-      .menu-sucursal-vasconcelos .g284 {
-        filter: sepia(0.81) saturate(1.23) hue-rotate(-12deg) brightness(0.9) contrast(1.04);
-      }
-
-      .menu-sucursal-vasconcelos .g572 {
-        right: -130px;
-      }
-
-      .menu-sucursal-vasconcelos .g680 {
-        right: -197px;
-      }
-
-      .menu-sucursal-vasconcelos .g678 {
-        left: -197px;
-      }
 
       @media (min-width: 1200px) {
         .page {
@@ -1749,14 +1836,3 @@ import grupo247Url from '../../assets/media/Grupo 247.svg?url';
     </style>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-

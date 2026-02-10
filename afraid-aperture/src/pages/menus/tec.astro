@@ -5,8 +5,7 @@ const HEADER_H = 1390;
 import menuBgUrl from '../../assets/media/AMERICAS-menu/FondoSinNada.png?url';
 import camptonUrl from '../../assets/fonts/campton/CamptonBold.otf?url';
 import logoUrl from '../../assets/media/logologito.png?url';
-import grupo605Url from '../../assets/media/Grupo 605.svg?url';
-import grupo607Url from '../../assets/media/Grupo 607.svg?url';
+import grupo149Url from '../../assets/media/tec/Grupo 149.svg?url';
 import trazado2244Url from '../../assets/media/AMERICAS-menu/Trazado 2244.svg?url';
 import grupo151Url from '../../assets/media/AMERICAS-menu/Grupo 151.svg?url';
 import grupo640Url from '../../assets/media/Grupo 640.svg?url';
@@ -49,7 +48,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
   <body>
     <main class="page">
       <div class="frame" id="frame">
-        <div class="canvas menu-variant-rojo menu-swap-sides menu-sucursal-tec" style={`--menu-bg: url(${menuBgUrl});`}>
+        <div class="canvas" style={`--menu-bg: url(${menuBgUrl});`}>
           <a id="menu-top" class="menu-top-anchor" aria-hidden="true"></a>
           <a class="abs back-link" href="/menu-sucursales" aria-label="Volver a Menús">← Menús</a>
 
@@ -63,9 +62,9 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
             <div class="logo-combos" style={`background-image: url(${logoUrl});`}></div>
             <div class="tostadas-header" style={`background-image: url(${grupo675BgUrl});`} aria-hidden="true"></div>
             <!-- Imagen adicional sobre el taco -->
-            <img src={grupo605Url} alt="" class="header-decoration" />
-            <!-- Imagen superpuesta sobre el taco -->
-            <img src={grupo607Url} alt="" class="header-script" />
+            <img src={grupo149Url} alt="" class="header-decoration" />
+            <!-- Texto superpuesto sobre el taco -->
+            <div class="header-script-text">esta con madre</div>
           </section>
 
           <!-- =========================
@@ -73,6 +72,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
                ========================= -->
           <div class="abs img g608" style="z-index:3;" aria-hidden="true"></div>
           <div class="abs img g605" aria-hidden="true"></div>
+          <div class="abs img g716" aria-hidden="true"></div>
           <div class="abs img g572" style="z-index:3;" aria-hidden="true"></div>
           <div class="abs img g284" style={`background-image: url(${grupo284BgUrl});`} aria-hidden="true"></div>
           <div class="abs img g321" aria-hidden="true"></div>
@@ -1050,12 +1050,19 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         pointer-events: none;
       }
 
-      .header-script {
+      .header-script-text {
         position: absolute;
         top: 1220px;
         left: 550px;
         width: 360px;
         height: auto;
+        font-family: 'River Young', 'River Young FREE', 'RiverYoungFREE', cursive;
+        font-size: calc(56px * var(--text-scale));
+        line-height: 0.9;
+        color: #e54141;
+        text-transform: none;
+        text-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+        transform: rotate(-5deg);
         z-index: 3;
         pointer-events: none;
       }
@@ -1708,21 +1715,14 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         height: 916px;
         background-image: url('/img/Grupo 608.png');
       }
-
-      /* top: 2100px; left: 741px; width: 412px; height: 40px; img Grupo 612 */
-      .g605 {
-        top: 2100px;
-        left: 741px;
-        width: 412px;
-        height: 40px;
-        transform: matrix(0, -1, 1, 0, 0, 0);
-        background: transparent url('/img/Grupo 612.png') 0% 0% no-repeat padding-box;
-        background-image: url('/img/Grupo 612.png'), var(--grupo612Bg);
-        background-position: 0% 0%, center;
-        background-repeat: no-repeat, no-repeat;
-        background-size: auto, contain;
+      /* top: 2268px; left: 636px; width: 552px; height: 274px; img Grupo 716 */
+      .g716 {
+        top: 2268px;
+        left: 636px;
+        width: 552px;
+        height: 274px;
+        background: transparent url('/img/Grupo 716.png') 0% 0% no-repeat padding-box;
         opacity: 1;
-        z-index: 4;
       }
 
       /* top: 3627px; left: -155px; width: 647px; height: 1151px; img Grupo 572 */
@@ -1824,7 +1824,8 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         width: 426px;
         height: 153px;
         transform: matrix(0.99, -0.1, 0.1, 0.99, 0, 0);
-        background: transparent url('/img/Grupo 566.svg') 0% 0% no-repeat padding-box;
+        background: transparent url('/img/Grupo 149.svg') 0% 0% no-repeat padding-box;
+        background-size: contain;
         opacity: 1;
       }
 
@@ -1835,7 +1836,8 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         width: 426px;
         height: 153px;
         transform: matrix(0.99, -0.1, 0.1, 0.99, 0, 0);
-        background: transparent url('/img/Grupo 744.svg') 0% 0% no-repeat padding-box;
+        background: transparent url('/img/Grupo 149.svg') 0% 0% no-repeat padding-box;
+        background-size: contain;
         opacity: 1;
       }
 
@@ -2006,79 +2008,6 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         letter-spacing: 0.2px;
         z-index: 3;
       }
-      /* Variantes visuales por sucursal (cafe/rojo) */
-      .menu-variant-cafe .header-bg-image {
-        filter: sepia(0.68) saturate(0.95) hue-rotate(-8deg) brightness(0.9) contrast(1.05);
-      }
-
-      .menu-variant-cafe .g284 {
-        filter: sepia(0.75) saturate(1.1) hue-rotate(-12deg) brightness(0.88) contrast(1.04);
-      }
-
-      .menu-variant-rojo .header-bg-image {
-        filter: sepia(0.8) saturate(1.35) hue-rotate(-38deg) brightness(0.84) contrast(1.08);
-      }
-
-      .menu-variant-rojo .g284 {
-        filter: sepia(0.92) saturate(1.65) hue-rotate(-48deg) brightness(0.82) contrast(1.1);
-      }
-
-      /* Reordenar algunos recursos del borde izquierdo hacia la derecha */
-      .menu-swap-sides .g572 {
-        left: auto;
-        right: -140px;
-        transform: scaleX(-1);
-        transform-origin: center;
-        z-index: 1 !important;
-      }
-
-      .menu-swap-sides .g680 {
-        left: auto;
-        right: -186.6982421875px;
-        transform: scaleX(-1);
-        transform-origin: center;
-      }
-      .menu-swap-sides .g678 {
-        right: auto;
-        left: -186.6982421875px;
-        transform: scaleX(-1);
-        transform-origin: center;
-      }
-
-      /* Recursos en gris */
-      .menu-swap-sides .g500,
-      .menu-swap-sides .g522,
-      .menu-swap-sides .g-coke,
-      .menu-swap-sides .header-decoration,
-      .menu-swap-sides .header-script {
-        filter: grayscale(0.8) contrast(1.02) brightness(0.94);
-      }
-
-      .menu-swap-sides .taco-header,
-      .menu-swap-sides .tostadas-header {
-        filter: grayscale(0.45) contrast(1.02);
-      }
-      /* Personalizacion individual: tec */
-      .menu-sucursal-tec .header-bg-image {
-        filter: sepia(0.9) saturate(1.48) hue-rotate(-40deg) brightness(0.8) contrast(1.09);
-      }
-
-      .menu-sucursal-tec .g284 {
-        filter: sepia(0.98) saturate(1.71) hue-rotate(-48deg) brightness(0.78) contrast(1.11);
-      }
-
-      .menu-sucursal-tec .g572 {
-        right: -162px;
-      }
-
-      .menu-sucursal-tec .g680 {
-        right: -190px;
-      }
-
-      .menu-sucursal-tec .g678 {
-        left: -190px;
-      }
-
       @media (min-width: 1200px) {
         .page {
           padding-left: 48px;

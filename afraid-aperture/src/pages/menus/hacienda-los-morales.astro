@@ -5,8 +5,7 @@ const HEADER_H = 1390;
 import menuBgUrl from '../../assets/media/AMERICAS-menu/FondoSinNada.png?url';
 import camptonUrl from '../../assets/fonts/campton/CamptonBold.otf?url';
 import logoUrl from '../../assets/media/logologito.png?url';
-import grupo605Url from '../../assets/media/Grupo 605.svg?url';
-import grupo607Url from '../../assets/media/Grupo 607.svg?url';
+import grupo605Url from '../../assets/media/hacienda-Morales/Grupo 605.svg?url';
 import trazado2244Url from '../../assets/media/AMERICAS-menu/Trazado 2244.svg?url';
 import grupo151Url from '../../assets/media/AMERICAS-menu/Grupo 151.svg?url';
 import grupo640Url from '../../assets/media/Grupo 640.svg?url';
@@ -22,8 +21,8 @@ import grupo139BgUrl from '../../assets/media/AMERICAS-menu/Grupo 139.svg?url';
 import grupo571BgUrl from '../../assets/media/AMERICAS-menu/Grupo 571.png?url';
 import grupo572BgUrl from '../../assets/media/AMERICAS-menu/Grupo 572.png?url';
 import grupo246BgUrl from '../../assets/media/AMERICAS-menu/Grupo 246.svg?url';
-import grupo284BgUrl from '../../assets/media/AMERICAS-menu/Grupo 284.svg?url';
-import grupo742Url from '../../assets/media/AMERICAS-menu/Grupo 742.svg?url';
+import grupo284BgUrl from '../../assets/media/Grupo 284.svg?url';
+import grupo742Url from '../../assets/media/hacienda-Morales/Grupo 713.svg?url';
 import cocaColaBgUrl from '../../assets/media/AMERICAS-menu/Coca_Cola_Flasche_-_Original_Taste arminizado.png?url';
 import grupo743Url from '../../assets/media/AMERICAS-menu/Grupo 743.png?url';
 import grupo472BgUrl from '../../assets/media/AMERICAS-menu/Grupo 472.png?url';
@@ -49,7 +48,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
   <body>
     <main class="page">
       <div class="frame" id="frame">
-        <div class="canvas menu-variant-cafe menu-swap-sides menu-sucursal-hacienda-los-morales" style={`--menu-bg: url(${menuBgUrl});`}>
+        <div class="canvas" style={`--menu-bg: url(${menuBgUrl});`}>
           <a id="menu-top" class="menu-top-anchor" aria-hidden="true"></a>
           <a class="abs back-link" href="/menu-sucursales" aria-label="Volver a Menús">← Menús</a>
 
@@ -64,8 +63,8 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
             <div class="tostadas-header" style={`background-image: url(${grupo675BgUrl});`} aria-hidden="true"></div>
             <!-- Imagen adicional sobre el taco -->
             <img src={grupo605Url} alt="" class="header-decoration" />
-            <!-- Imagen superpuesta sobre el taco -->
-            <img src={grupo607Url} alt="" class="header-script" />
+            <!-- Texto superpuesto sobre el taco -->
+            <div class="header-script">de los buenos,<br />como antes</div>
           </section>
 
           <!-- =========================
@@ -73,6 +72,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
                ========================= -->
           <div class="abs img g608" style="z-index:3;" aria-hidden="true"></div>
           <div class="abs img g605" aria-hidden="true"></div>
+          <div class="abs img g756" aria-hidden="true"></div>
           <div class="abs img g572" style="z-index:3;" aria-hidden="true"></div>
           <div class="abs img g284" style={`background-image: url(${grupo284BgUrl});`} aria-hidden="true"></div>
           <div class="abs img g321" aria-hidden="true"></div>
@@ -1052,11 +1052,21 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       .header-script {
         position: absolute;
-        top: 1220px;
-        left: 550px;
-        width: 360px;
-        height: auto;
+        top: 1191px;
+        left: 526px;
+        width: 347px;
+        height: 92px;
         z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'River Young', 'River Young FREE', 'RiverYoungFREE', cursive;
+        font-size: 82px;
+        line-height: 1;
+        font-weight: 400;
+        text-transform: none;
+        color: #d9c7a6;
+        white-space: nowrap;
         pointer-events: none;
       }
 
@@ -1725,6 +1735,16 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         z-index: 4;
       }
 
+      /* top: 2177px; left: 568px; width: 635px; height: 462px; img Grupo 756 */
+      .g756 {
+        top: 2177px;
+        left: 568px;
+        width: 635px;
+        height: 462px;
+        background: transparent url('/img/Grupo 756.svg') 0% 0% no-repeat padding-box;
+        opacity: 1;
+      }
+
       /* top: 3627px; left: -155px; width: 647px; height: 1151px; img Grupo 572 */
       .g572 {
         top: 3627px;
@@ -1755,7 +1775,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         opacity: 1;
       }
 
-      /* top: 5866px; left: 569px; width: 724px; height: 530px; img Grupo 742 */
+      /* top: 5866px; left: 569px; width: 724px; height: 530px; img Grupo 713 */
       .g742 {
         top: 5866px;
         left: 569px;
@@ -2006,79 +2026,6 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         letter-spacing: 0.2px;
         z-index: 3;
       }
-      /* Variantes visuales por sucursal (cafe/rojo) */
-      .menu-variant-cafe .header-bg-image {
-        filter: sepia(0.68) saturate(0.95) hue-rotate(-8deg) brightness(0.9) contrast(1.05);
-      }
-
-      .menu-variant-cafe .g284 {
-        filter: sepia(0.75) saturate(1.1) hue-rotate(-12deg) brightness(0.88) contrast(1.04);
-      }
-
-      .menu-variant-rojo .header-bg-image {
-        filter: sepia(0.8) saturate(1.35) hue-rotate(-38deg) brightness(0.84) contrast(1.08);
-      }
-
-      .menu-variant-rojo .g284 {
-        filter: sepia(0.92) saturate(1.65) hue-rotate(-48deg) brightness(0.82) contrast(1.1);
-      }
-
-      /* Reordenar algunos recursos del borde izquierdo hacia la derecha */
-      .menu-swap-sides .g572 {
-        left: auto;
-        right: -140px;
-        transform: scaleX(-1);
-        transform-origin: center;
-        z-index: 1 !important;
-      }
-
-      .menu-swap-sides .g680 {
-        left: auto;
-        right: -186.6982421875px;
-        transform: scaleX(-1);
-        transform-origin: center;
-      }
-      .menu-swap-sides .g678 {
-        right: auto;
-        left: -186.6982421875px;
-        transform: scaleX(-1);
-        transform-origin: center;
-      }
-
-      /* Recursos en gris */
-      .menu-swap-sides .g500,
-      .menu-swap-sides .g522,
-      .menu-swap-sides .g-coke,
-      .menu-swap-sides .header-decoration,
-      .menu-swap-sides .header-script {
-        filter: grayscale(0.8) contrast(1.02) brightness(0.94);
-      }
-
-      .menu-swap-sides .taco-header,
-      .menu-swap-sides .tostadas-header {
-        filter: grayscale(0.45) contrast(1.02);
-      }
-      /* Personalizacion individual: hacienda-los-morales */
-      .menu-sucursal-hacienda-los-morales .header-bg-image {
-        filter: sepia(0.66) saturate(1.04) hue-rotate(-10deg) brightness(0.92) contrast(1.04);
-      }
-
-      .menu-sucursal-hacienda-los-morales .g284 {
-        filter: sepia(0.78) saturate(1.18) hue-rotate(-14deg) brightness(0.9) contrast(1.04);
-      }
-
-      .menu-sucursal-hacienda-los-morales .g572 {
-        right: -138px;
-      }
-
-      .menu-sucursal-hacienda-los-morales .g680 {
-        right: -176px;
-      }
-
-      .menu-sucursal-hacienda-los-morales .g678 {
-        left: -176px;
-      }
-
       @media (min-width: 1200px) {
         .page {
           padding-left: 48px;

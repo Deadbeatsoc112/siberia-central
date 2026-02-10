@@ -23,7 +23,7 @@ import grupo571BgUrl from '../../assets/media/AMERICAS-menu/Grupo 571.png?url';
 import grupo572BgUrl from '../../assets/media/AMERICAS-menu/Grupo 572.png?url';
 import grupo246BgUrl from '../../assets/media/AMERICAS-menu/Grupo 246.svg?url';
 import grupo284BgUrl from '../../assets/media/AMERICAS-menu/Grupo 284.svg?url';
-import grupo742Url from '../../assets/media/AMERICAS-menu/Grupo 742.svg?url';
+import grupo742Url from '../../assets/media/condominios/Grupo 751.svg?url';
 import cocaColaBgUrl from '../../assets/media/AMERICAS-menu/Coca_Cola_Flasche_-_Original_Taste arminizado.png?url';
 import grupo743Url from '../../assets/media/AMERICAS-menu/Grupo 743.png?url';
 import grupo472BgUrl from '../../assets/media/AMERICAS-menu/Grupo 472.png?url';
@@ -43,13 +43,13 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MenÃº | Condominios | La Siberia Central</title>
+    <title>Menú | Condominios | La Siberia Central</title>
   </head>
 
   <body>
     <main class="page">
       <div class="frame" id="frame">
-        <div class="canvas menu-variant-rojo menu-swap-sides" style={`--menu-bg: url(${menuBgUrl});`}>
+        <div class="canvas" style={`--menu-bg: url(${menuBgUrl});`}>
           <a id="menu-top" class="menu-top-anchor" aria-hidden="true"></a>
           <a class="abs back-link" href="/menu-sucursales" aria-label="Volver a Menús">← Menús</a>
 
@@ -73,6 +73,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
                ========================= -->
           <div class="abs img g608" style="z-index:3;" aria-hidden="true"></div>
           <div class="abs img g605" aria-hidden="true"></div>
+          <div class="abs img g652" aria-hidden="true"></div>
           <div class="abs img g572" style="z-index:3;" aria-hidden="true"></div>
           <div class="abs img g284" style={`background-image: url(${grupo284BgUrl});`} aria-hidden="true"></div>
           <div class="abs img g321" aria-hidden="true"></div>
@@ -1725,6 +1726,16 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         z-index: 4;
       }
 
+      /* top: 768px; left: 845px; width: 392px; height: 235px; img Grupo 652 */
+      .g652 {
+        top: 768px;
+        left: 845px;
+        width: 392px;
+        height: 235px;
+        background: transparent url('/img/Grupo 652.png') 0% 0% no-repeat padding-box;
+        opacity: 1;
+      }
+
       /* top: 3627px; left: -155px; width: 647px; height: 1151px; img Grupo 572 */
       .g572 {
         top: 3627px;
@@ -1823,8 +1834,9 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         left: 817px;
         width: 426px;
         height: 153px;
-        transform: matrix(0.99, -0.1, 0.1, 0.99, 0, 0);
         background: transparent url('/img/Grupo 566.svg') 0% 0% no-repeat padding-box;
+        filter: brightness(0) saturate(100%) invert(15%) sepia(95%) saturate(4863%) hue-rotate(349deg)
+          brightness(95%) contrast(110%);
         opacity: 1;
       }
 
@@ -1836,12 +1848,14 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         height: 153px;
         transform: matrix(0.99, -0.1, 0.1, 0.99, 0, 0);
         background: transparent url('/img/Grupo 744.svg') 0% 0% no-repeat padding-box;
+        filter: brightness(0) saturate(100%) invert(15%) sepia(95%) saturate(4863%) hue-rotate(349deg)
+          brightness(95%) contrast(110%);
         opacity: 1;
       }
 
       /* top: 7630px; left: 749px; width: 454px; height: 533px; img Grupo 743 */
       .g569 {
-        top: 7630px;
+        top: 7500px;
         left: 749px;
         width: 454px;
         height: 533px;
@@ -2006,59 +2020,6 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         letter-spacing: 0.2px;
         z-index: 3;
       }
-      /* Variantes visuales por sucursal (cafe/rojo) */
-      .menu-variant-cafe .header-bg-image {
-        filter: sepia(0.68) saturate(0.95) hue-rotate(-8deg) brightness(0.9) contrast(1.05);
-      }
-
-      .menu-variant-cafe .g284 {
-        filter: sepia(0.75) saturate(1.1) hue-rotate(-12deg) brightness(0.88) contrast(1.04);
-      }
-
-      .menu-variant-rojo .header-bg-image {
-        filter: sepia(0.8) saturate(1.35) hue-rotate(-38deg) brightness(0.84) contrast(1.08);
-      }
-
-      .menu-variant-rojo .g284 {
-        filter: sepia(0.92) saturate(1.65) hue-rotate(-48deg) brightness(0.82) contrast(1.1);
-      }
-
-      /* Reordenar algunos recursos del borde izquierdo hacia la derecha */
-      .menu-swap-sides .g572 {
-        left: auto;
-        right: -140px;
-        transform: scaleX(-1);
-        transform-origin: center;
-        z-index: 1 !important;
-      }
-
-      .menu-swap-sides .g680 {
-        left: auto;
-        right: -186.6982421875px;
-        transform: scaleX(-1);
-        transform-origin: center;
-      }
-
-      .menu-swap-sides .g678 {
-        right: auto;
-        left: -186.6982421875px;
-        transform: scaleX(-1);
-        transform-origin: center;
-      }
-
-      /* Recursos en gris */
-      .menu-swap-sides .g500,
-      .menu-swap-sides .g522,
-      .menu-swap-sides .g-coke,
-      .menu-swap-sides .header-decoration,
-      .menu-swap-sides .header-script {
-        filter: grayscale(0.8) contrast(1.02) brightness(0.94);
-      }
-
-      .menu-swap-sides .taco-header,
-      .menu-swap-sides .tostadas-header {
-        filter: grayscale(0.45) contrast(1.02);
-      }
 
       @media (min-width: 1200px) {
         .page {
@@ -2070,5 +2031,4 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
     </style>
   </body>
 </html>
-
 

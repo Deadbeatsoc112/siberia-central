@@ -8,107 +8,107 @@ import MenuModuleCard from '../components/MenuModuleCard.astro';
 const menuModules = [
   {
     name: 'Sucursal de Zapata',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/zapata',
   },
   {
     name: 'Lincoln',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/lincoln',
   },
   {
     name: 'Matamoros',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/matamoros',
   },
   {
     name: 'Vasconcelos',
-    address: 'Vasconcelos 202 Local #25 y #26, Col. Bosques del Valle, San Pedro Garza GarcÃ­a CP 66250',
+    address: 'Vasconcelos 202 Local #25 y #26, Col. Bosques del Valle, San Pedro Garza García CP 66250',
     href: '/menus/vasconcelos',
   },
   {
     name: 'San Pedro',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/san-pedro',
   },
   {
     name: 'Central',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/central',
   },
   {
     name: 'AMERICAS',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/americas',
   },
   {
     name: 'Santa Catarina',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/santa-catarina',
   },
   {
     name: 'Puerta de Hierro',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/puerta-de-hierro',
   },
   {
     name: 'Plutarco',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/plutarco',
   },
   {
     name: 'Cumbres',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/cumbres',
   },
   {
     name: 'Insurgentes',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/insurgentes',
   },
   {
     name: 'Guerrero',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/guerrero',
   },
   {
     name: 'Linda Vista',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/linda-vista',
   },
   {
     name: 'Hacienda Los Morales',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/hacienda-los-morales',
   },
   {
     name: 'Del Paseo',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/del-paseo',
   },
   {
     name: 'Colinas',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/colinas',
   },
   {
     name: 'TEC',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/tec',
   },
   {
     name: 'Contry',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/contry',
   },
   {
     name: 'Condominios',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/condominios',
   },
   {
     name: 'Encinos',
-    address: 'DirecciÃ³n pendiente',
+    address: 'Dirección pendiente',
     href: '/menus/encinos',
   },
 ];
@@ -117,7 +117,7 @@ const featuredMenus = menuModules.slice(0, 5);
 const remainingMenus = menuModules.slice(5);
 ---
 
-<Layout title="Menu | La Siberia Central">
+<Layout title="Menú | La Siberia Central">
 	<section class="menu-hero" aria-labelledby="menu-title">
 		<div
 			class="menu-hero__bg"
@@ -126,7 +126,7 @@ const remainingMenus = menuModules.slice(5);
 		></div>
 		<div class="menu-hero__overlay" aria-hidden="true"></div>
 		<div class="menu-hero__content">
-			<h1 id="menu-title" class="menu-hero__title">Menu</h1>
+			<h1 id="menu-title" class="menu-hero__title">Menú</h1>
 			<p class="menu-hero__subtitle">
 				Recetas con historia, hechas para compartir con tu gente
 			</p>
@@ -134,7 +134,7 @@ const remainingMenus = menuModules.slice(5);
 	</section>
 	<section class="menu-list" aria-labelledby="menu-list-title">
 		<div class="menu-list__inner">
-			<h2 id="menu-list-title" class="sr-only">Sucursales y modulos de menu</h2>
+			<h2 id="menu-list-title" class="sr-only">Sucursales y módulos de menú</h2>
 			<div class="menu-list__grid">
 				{featuredMenus.map((item, index) => (
 					<MenuModuleCard {...item} index={index} />

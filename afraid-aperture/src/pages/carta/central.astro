@@ -33,8 +33,8 @@ const branchInfo = {
   title: 'LA SIBERIA CENTRAL',
   location: 'CENTRAL',
   addressLines: [
-    'Av. Rodrigo Gomez 623, Col. Central, Monterrey',
-    'Nuevo Leon CP 64190',
+    'Av. Rodrigo Gómez 623, Col. Central, Monterrey',
+    'Nuevo León CP 64190',
   ],
   phones: ['8112573064'],
 };
@@ -48,12 +48,12 @@ const tostadasItems = [
 ];
 
 const extrasItems = [
-  { name: 'CHILES', note: 'Jalapeno Peppers', price: '5.00' },
+  { name: 'CHILES', note: 'Jalapeño Peppers', price: '5.00' },
   { name: 'CREMA', note: 'Sour cream', price: '17.00' },
   { name: 'TAPA GRANDE', note: 'Large tortilla tostado', price: '15.00' },
   { name: 'TAPA CHICA', note: 'Small tortilla tostado', price: '8.00' },
   { name: 'GUACAMOLE', note: 'Guacamole', price: '44.00' },
-  { name: 'ORDEN PECHUGA', note: 'Jalapeno Peppers', price: '54.00' },
+  { name: 'ORDEN PECHUGA', note: 'Jalapeño Peppers', price: '54.00' },
 ];
 
 const tacosItems = [
@@ -64,10 +64,10 @@ const tacosItems = [
 ];
 
 const caldosFeature = {
-  name: 'TLALPENO',
+  name: 'TLALPEÑO',
   subtitle: 'CALDO',
   description:
-    'Arroz servido en consome de gallina, con pechuga deshebrada, queso asadero en cubos, tiritas fritas en manteca, un toque de chipotle y aguacate fresco.',
+    'Arroz servido en consomé de gallina, con pechuga deshebrada, queso asadero en cubos, tiritas fritas en manteca, un toque de chipotle y aguacate fresco.',
   note:
     'Rice served in hen broth, with shredded hen breast, asadero cheese cubes, fried strips of tortilla, a touch of chipotle, and fresh avocado.',
   sizes: [
@@ -81,7 +81,7 @@ const caldosCards = [
     name: 'CALDO DE PECHUGA',
     subtitle: 'HEN BREAST BROTH',
     description:
-      'Consome de gallina con arroz, pechuga y una tortilla para acompanar.',
+      'Consomé de gallina con arroz, pechuga y una tortilla para acompañar.',
     note: 'Hen broth served with rice, hen breast, and a tortilla as side.',
     price: '93.00',
   },
@@ -89,7 +89,7 @@ const caldosCards = [
     name: 'CALDO DE PIERNA',
     subtitle: 'HEN LEG BROTH',
     description:
-      'Consome de gallina con arroz, una pieza de pierna y una tortilla para acompanar.',
+      'Consomé de gallina con arroz, una pieza de pierna y una tortilla para acompañar.',
     note: 'Hen broth served with rice, a piece of hen leg, and a tortilla as side.',
     price: '76.00',
   },
@@ -99,21 +99,21 @@ const consomeItems = [
   {
     name: 'CONSOME',
     note: 'BROTH',
-    description: 'Consome de gallina con arroz.',
+    description: 'Consomé de gallina con arroz.',
     noteEn: 'Hen broth served with rice.',
     price: '39.00',
   },
   {
     name: 'CONSOME DE PECHUGA',
     note: 'HEN BREAST BROTH',
-    description: 'Consome de gallina grande con pechuga y arroz.',
+    description: 'Consomé de gallina grande con pechuga y arroz.',
     noteEn: 'Hen leg served with rice, hen breast and tortilla as side.',
     price: '93.00',
   },
   {
     name: 'CONSOME DE PIERNA',
     note: 'HEN LEG BROTH',
-    description: 'Consome de gallina con pierna, arroz, y una tortilla para acompanar.',
+    description: 'Consomé de gallina con pierna, arroz, y una tortilla para acompañar.',
     noteEn: 'Hen leg served with rice, and a tortilla as side.',
     price: '93.00',
   },
@@ -134,7 +134,7 @@ const combosItems = [
   {
     name: 'COMBO 1',
     note: 'COMBO 1',
-    description: 'Tostada grande de pechuga/pierna + consome + refresco.',
+    description: 'Tostada grande de pechuga/pierna + consomé + refresco.',
   },
 ];
 
@@ -142,7 +142,7 @@ const bebidasItems = [
   {
     name: 'COCA-COLA',
     note: 'COKE',
-    options: ['Regular / Light / Sin azucar', 'Regular / Light / Zero'],
+    options: ['Regular / Light / Sin azúcar', 'Regular / Light / Zero'],
     price: '34.00',
     kind: 'cola',
     mockCount: 3,
@@ -150,7 +150,7 @@ const bebidasItems = [
   {
     name: 'FUZE TEA',
     note: 'FUZE TEA',
-    options: ['Regular / Light / Sin azucar', 'Regular / Light / Zero'],
+    options: ['Regular / Light / Sin azúcar', 'Regular / Light / Zero'],
     price: '37.00',
     kind: 'tea',
     mockCount: 2,
@@ -167,7 +167,7 @@ const bebidasItems = [
 ];
 ---
 
-<Layout title="Menu Central | La Siberia Central">
+<Layout title="Menú Central | La Siberia Central">
   <section id="menu-top" class="central-hero">
     <div
       class="central-hero__bg"
@@ -211,7 +211,7 @@ const bebidasItems = [
     <img class="central-info__zigzag" src={zigzagUrl} alt="" aria-hidden="true" />
 
     <div class="central-info__content">
-      <span id="menu-title" class="central-info__eyebrow">Menu</span>
+      <span id="menu-title" class="central-info__eyebrow">Menú</span>
       <h1 class="central-info__title">{branchInfo.title}</h1>
       <h2 class="central-info__location">{branchInfo.location}</h2>
       <div class="central-info__address">
@@ -260,7 +260,7 @@ const bebidasItems = [
           />
         </figure>
         <div class="central-category__content">
-          <span class="central-category__script">Mas Bien Servidas!</span>
+          <span class="central-category__script">Más Bien Servidas!</span>
           <span class="central-menu__line" aria-hidden="true"></span>
           <h2 id="tostadas-title" class="central-category__title">TOSTADAS</h2>
         </div>

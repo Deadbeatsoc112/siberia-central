@@ -2,10 +2,10 @@
 import Layout from '../../layouts/Layout.astro';
 import { getDB } from '../../lib/db';
 import blogHeroUrl from '../../assets/fondos/Blog.png?url';
-import blogHero2xUrl from '../../assets/fondos/Blog@2x.png?url';
 import { postsRepo } from '../../lib/content';
 
 const db = getDB(Astro.locals);
+const blogHero2xUrl = blogHeroUrl;
 
 const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 1);
 const featuredPosts = posts.slice(0, 3);

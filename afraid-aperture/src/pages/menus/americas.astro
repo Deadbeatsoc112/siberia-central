@@ -4,6 +4,7 @@ const CANVAS_H = 15600;
 const HEADER_H = 1390;
 import menuBgUrl from '../../assets/media/AMERICAS-menu/FondoSinNada.png?url';
 import camptonUrl from '../../assets/fonts/campton/CamptonBold.otf?url';
+import camptonMediumUrl from '../../assets/fonts/campton/CamptonMedium.otf?url';
 import logoUrl from '../../assets/media/logologito.png?url';
 import grupo605Url from '../../assets/media/Grupo 605.svg?url';
 import grupo607Url from '../../assets/media/Grupo 607.svg?url';
@@ -560,6 +561,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
     <style
       define:vars={{
         camptonUrl,
+        camptonMediumUrl,
         grupo139Bg: `url(${grupo139BgUrl})`,
         grupo571Bg: `url(${grupo571BgUrl})`,
         grupo572Bg: `url(${grupo572BgUrl})`,
@@ -590,7 +592,9 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         --item-name-size: calc(30px * var(--text-scale));
         --item-price-size: calc(28px * var(--text-scale));
         --item-desc-size: calc(22px * var(--text-scale));
-        --text-block-inline-gap: 28px;
+        --text-block-inline-gap: 0px;
+        --margin-left: 112px;
+        --margin-right: 117px;
       }
 
       @font-face {
@@ -629,6 +633,14 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         font-family: 'Campton';
         src: url(var(--camptonUrl)) format('opentype');
         font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'Campton';
+        src: url(var(--camptonMediumUrl)) format('opentype');
+        font-weight: 500;
         font-style: normal;
         font-display: swap;
       }
@@ -845,7 +857,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       .nav {
         font-family: 'Campton', 'Arial Black', Arial, sans-serif;
         text-transform: uppercase;
-        font-weight: 900;
+        font-weight: 700;
         letter-spacing: 1px;
       }
 
@@ -919,7 +931,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       .header-title {
         font-size: calc(34px * var(--text-scale));
-        font-weight: 900;
+        font-weight: 500;
         letter-spacing: 2px;
         text-transform: uppercase;
         margin-top: 6px;
@@ -928,7 +940,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       .header-branch {
         margin-top: 8px;
         font-size: calc(20px * var(--text-scale));
-        font-weight: 800;
+        font-weight: 500;
         letter-spacing: 1px;
         color: #000000;
         text-shadow: none;
@@ -967,7 +979,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
       .section-title {
         font-family: 'Campton', 'Arial Black', Arial, sans-serif;
-        font-size: 84px;
+        font-size: 120px;
         font-weight: 700;
         z-index: 3;
         letter-spacing: 0;
@@ -984,15 +996,15 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .tostadas-title {
-        top: 1297px;
-        left: 471px;
+        top: 1240px;
+        left: 361px;
         width: 492px;
         height: 122px;
         transform: translateY(20px);
       }
 
       .tacos-title {
-        top: 2767px;
+        top: 2707px;
         left: 112px;
         width: 482px;
         height: 186px;
@@ -1000,7 +1012,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .caldos-title {
-        top: 4360px;
+        top: 4300px;
         left: 478px;
         width: 485px;
         height: 153px;
@@ -1022,14 +1034,14 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .combos-title {
-        top: 7857px;
+        top: 7807px;
         left: 112px;
         width: 554px;
         height: 163px;
       }
 
       .bebidas-title {
-        top: 10320px;
+        top: 10404px;
         left: 416px;
         width: 547px;
         height: 172px;
@@ -1068,7 +1080,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         display: flex;
         flex-direction: column;
         gap: 22px;
-        width: 851px;
+        width: 100%;
         padding-inline: var(--text-block-inline-gap);
         box-sizing: border-box;
         font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
@@ -1111,14 +1123,14 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       .menu-item__name {
         font-size: var(--item-name-size);
-        font-weight: 800;
+        font-weight: 500;
         letter-spacing: 0.6px;
         text-transform: uppercase;
       }
 
       .menu-item__price {
         font-size: var(--item-price-size);
-        font-weight: 800;
+        font-weight: 700;
         letter-spacing: 0.6px;
         text-align: right;
       }
@@ -1126,7 +1138,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       .menu-item__desc {
         grid-column: 1 / -1;
         font-size: var(--item-desc-size);
-        font-weight: 900;
+        font-weight: 500;
         color: #ff2d2d;
         letter-spacing: 1.2px;
         text-transform: uppercase;
@@ -1148,14 +1160,14 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       .caldo-name {
         font-size: var(--item-name-size);
-        font-weight: 900;
+        font-weight: 500;
         letter-spacing: 1px;
         text-transform: uppercase;
       }
 
       .caldo-sub {
         font-size: var(--item-desc-size);
-        font-weight: 800;
+        font-weight: 500;
         color: #e24a4a;
         letter-spacing: 0.8px;
         text-transform: uppercase;
@@ -1174,7 +1186,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         grid-template-columns: 1fr auto;
         row-gap: 6px;
         font-size: var(--item-name-size);
-        font-weight: 800;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.6px;
       }
@@ -1194,20 +1206,20 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       .caldo-card__name {
         font-size: var(--item-name-size);
-        font-weight: 900;
+        font-weight: 500;
         letter-spacing: 0.6px;
         text-transform: uppercase;
       }
 
       .caldo-card__price {
         font-size: var(--item-price-size);
-        font-weight: 900;
+        font-weight: 700;
       }
 
       .caldo-card__sub {
         grid-column: 1 / -1;
         font-size: var(--item-desc-size);
-        font-weight: 800;
+        font-weight: 500;
         color: #e24a4a;
         letter-spacing: 0.8px;
         text-transform: uppercase;
@@ -1236,20 +1248,20 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       .caldo-item__name {
         font-size: var(--item-name-size);
-        font-weight: 900;
+        font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.6px;
       }
 
       .caldo-item__price {
         font-size: var(--item-price-size);
-        font-weight: 900;
+        font-weight: 700;
       }
 
       .caldo-item__sub {
         grid-column: 1 / -1;
         font-size: var(--item-desc-size);
-        font-weight: 800;
+        font-weight: 500;
         color: #e24a4a;
         letter-spacing: 0.8px;
         text-transform: uppercase;
@@ -1264,16 +1276,16 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .tostadas-section {
-        --x: 112px;
+        --x: var(--margin-left);
         --y: 1505px;
-        --w: 851px;
+        --w: calc(var(--canvas-w) - var(--margin-left) - var(--margin-right));
         --h: 511px;
       }
 
       .tacos-section {
-        --x: 112px;
+        --x: var(--margin-left);
         --y: 3046px;
-        --w: 851px;
+        --w: calc(var(--canvas-w) - var(--margin-left) - var(--margin-right));
         --h: 401px;
       }
 
@@ -1307,16 +1319,16 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
 
       .caldos-section-1 {
-        --x: 90px;
+        --x: var(--margin-left);
         --y: 4645px;
-        --w: 873px;
+        --w: calc(var(--canvas-w) - var(--margin-left) - var(--margin-right));
         --h: 508px;
       }
 
       .caldos-section-2 {
-        --x: 112px;
+        --x: var(--margin-left);
         --y: 6402px;
-        --w: 851px;
+        --w: calc(var(--canvas-w) - var(--margin-left) - var(--margin-right));
         --h: 663px;
       }
 
@@ -1329,23 +1341,23 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .combos-section-1 {
-        --x: 112px;
+        --x: var(--margin-left);
         --y: 8086px;
-        --w: 944px;
+        --w: calc(var(--canvas-w) - var(--margin-left) - var(--margin-right));
         --h: 899px;
       }
 
       .combos-section-2 {
-        --x: 112px;
+        --x: var(--margin-left);
         --y: 9404px;
-        --w: 859px;
+        --w: calc(var(--canvas-w) - var(--margin-left) - var(--margin-right));
         --h: 881px;
       }
 
       .bebidas-section {
-        --x: 112px;
+        --x: var(--margin-left);
         --y: 10800px;
-        --w: 860px;
+        --w: calc(var(--canvas-w) - var(--margin-left) - var(--margin-right));
         --h: 3600px;
       }
 
@@ -1377,8 +1389,8 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         left: 40%;
         transform: translate(-50%, -50%);
         font-size: calc(22px * var(--text-scale));
-        font-weight: 900;
-        font-size: 38px;
+        font-weight: 700;
+        font-size: 56px;
         letter-spacing: 1px;
         text-transform: uppercase;
         color: #ffffff;
@@ -1390,8 +1402,8 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         right:0px;
         transform: translate(-50%, -50%) scaleX(-1);
         font-size: calc(22px * var(--text-scale));
-        font-weight: 900;
-        font-size: 38px;
+        font-weight: 700;
+        font-size: 56px;
         letter-spacing: 1px;
         text-transform: uppercase;
         color: #ffffff;
@@ -1400,7 +1412,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       .extras-items {
         margin-top: 10px;
-        margin-left: 65px;
+        margin-left: var(--margin-left);
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -1408,7 +1420,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
       .extras-items-2 {
         margin-top: 10px;
-        margin-left: 65px;
+        margin-left: var(--margin-right);
         display: flex;
         transform: scaleX(-1);
         flex-direction: column;
@@ -1418,7 +1430,8 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       .extras-columns {
         margin-top: 10px;
-        margin-left: 35px;
+        margin-left: var(--margin-left);
+        margin-right: var(--margin-right);
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         column-gap: 28px;
@@ -1441,8 +1454,8 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .extras-item__name {
-        font-size: calc(15px * var(--text-scale));
-        font-weight: 900;
+        font-size: calc(var(--item-name-size) - 10px);
+        font-weight: 700;
         color: #ffffff;
         letter-spacing: 0.6px;
         text-transform: uppercase;
@@ -1451,8 +1464,8 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .extras-item__price {
-        font-size: calc(14px * var(--text-scale));
-        font-weight: 800;
+        font-size: var(--item-price-size);
+        font-weight: 700;
         color: #ffffff;
         z-index: 4;
         position: relative;
@@ -1460,7 +1473,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       .extras-item__desc {
         grid-column: 1 / -1;
-        font-size: calc(11px * var(--text-scale));
+        font-size: calc(var(--item-desc-size) - 10px);
         color: #cfcfcf;
         letter-spacing: 0.6px;
         opacity: 0.85;
@@ -1474,14 +1487,14 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       .combo__name {
         font-size: var(--item-name-size);
-        font-weight: 900;
+        font-weight: 700;
         letter-spacing: 0.6px;
         text-transform: uppercase;
       }
 
       .combo__tag {
         font-size: var(--item-desc-size);
-        font-weight: 800;
+        font-weight: 500;
         color: #e24a4a;
         letter-spacing: 0.8px;
         text-transform: uppercase;
@@ -1501,7 +1514,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         row-gap: 6px;
         column-gap: 18px;
         font-size: var(--item-name-size);
-        font-weight: 900;
+        font-weight: 700;
         letter-spacing: 0.6px;
         text-transform: uppercase;
         color: #c19a4b;
@@ -1543,7 +1556,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         grid-row: 1;
         align-self: start;
         font-size: var(--item-name-size);
-        font-weight: 900;
+        font-weight: 500;
         line-height: 1;
         letter-spacing: 0.6px;
         text-transform: uppercase;
@@ -1556,7 +1569,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         align-self: start;
         justify-self: end;
         font-size: var(--item-price-size);
-        font-weight: 900;
+        font-weight: 500;
         text-align: right;
         line-height: 1;
         margin: 0;
@@ -1580,7 +1593,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       .bebida-item__sub {
         grid-column: 1 / 2;
         font-size: var(--item-desc-size);
-        font-weight: 800;
+        font-weight: 500;
         color: #e24a4a;
         letter-spacing: 0.8px;
         text-transform: uppercase;
@@ -1651,14 +1664,14 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       .refrescos-title {
         font-size: var(--item-name-size);
-        font-weight: 900;
+        font-weight: 700;
         letter-spacing: 0.8px;
         text-transform: uppercase;
       }
 
       .refrescos-sub {
         font-size: var(--item-desc-size);
-        font-weight: 800;
+        font-weight: 500;
         color: #e24a4a;
         letter-spacing: 0.8px;
         text-transform: uppercase;
@@ -1677,7 +1690,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         flex-direction: column;
         align-items: flex-end;
         gap: 4px;
-        font-weight: 900;
+        font-weight: 700;
         font-size: var(--item-price-size);
       }
 

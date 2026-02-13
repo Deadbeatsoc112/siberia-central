@@ -10,7 +10,7 @@ import trazado2244Url from '../../assets/media/AMERICAS-menu/Trazado 2244.svg?ur
 import grupo151Url from '../../assets/media/AMERICAS-menu/Grupo 151.svg?url';
 import grupo640Url from '../../assets/media/Grupo 640.svg?url';
 import grupo247Url from '../../assets/media/AMERICAS-menu/Grupo 247.svg?url';
-import headerBgUrl from '../../assets/media/AMERICAS-menu/Enmascarar grupo 4.png?url';
+import headerBgUrl from '../../assets/Enmascarar grupo 4.png?url';
 import grupo55HeaderUrl from '../../assets/media/AMERICAS-menu/Grupo 55.png?url';
 import bebidasSvgUrl from '../../assets/media/AMERICAS-menu/Grupo 121.svg?url';
 import tacosSvgUrl from '../../assets/media/AMERICAS-menu/Grupo 126.svg?url';
@@ -588,6 +588,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         --item-name-size: calc(30px * var(--text-scale));
         --item-price-size: calc(28px * var(--text-scale));
         --item-desc-size: calc(22px * var(--text-scale));
+        --text-block-inline-gap: 28px;
       }
 
       @font-face {
@@ -1074,10 +1075,37 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         flex-direction: column;
         gap: 22px;
         width: 851px;
-        padding-right: 10px;
+        padding-inline: var(--text-block-inline-gap);
+        box-sizing: border-box;
         font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
       }
+      .caldo-feature,
+      .caldo-list,
+      .caldo-card,
+      .extras-items,
+      .extras-items-2,
+      .extras-columns,
+      .combo {
+        box-sizing: border-box;
+        padding-inline: var(--text-block-inline-gap);
+      }
 
+      .bebida-item__name,
+      .bebida-item__sub,
+      .bebida-item__opts,
+      .refrescos-title,
+      .refrescos-sub,
+      .refrescos-text {
+        padding-left: var(--text-block-inline-gap);
+      }
+
+      .bebida-item__price,
+      .bebida-item__price--alt,
+      .refrescos-price,
+      .refrescos-prices {
+        box-sizing: border-box;
+        padding-right: var(--text-block-inline-gap);
+      }
       .menu-item {
         display: grid;
         grid-template-columns: 1fr 200px;

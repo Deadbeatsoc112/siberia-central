@@ -4,6 +4,7 @@ import { getDB } from '../lib/db';
 import { branchesRepo } from '../lib/branches';
 import aboutHeroUrl from '../assets/media/Enmascarar grupo 17.png?url';
 import aboutHero2xUrl from '../assets/media/Enmascarar grupo 17@2x.png?url';
+import aboutHeroOverlayUrl from '../assets/fondos/Nostros.svg?url';
 import timelineBgUrl from '../assets/media/Enmascarar grupo 6.png?url';
 import timelineBg2xUrl from '../assets/media/Enmascarar grupo 6@2x.png?url';
 import timelineArrowUrl from '../assets/media/Grupo 139.svg?url';
@@ -55,7 +56,7 @@ const timelineItems = [
 	<section class="about-hero" aria-labelledby="about-title">
 		<div
 			class="about-hero__bg"
-			style={`background-image: image-set(url(${aboutHeroUrl}) 1x, url(${aboutHero2xUrl}) 2x);`}
+			style={`background-image: url(${aboutHeroOverlayUrl}), image-set(url(${aboutHeroUrl}) 1x, url(${aboutHero2xUrl}) 2x);`}
 			aria-hidden="true"
 		></div>
 		<div class="about-hero__overlay" aria-hidden="true"></div>

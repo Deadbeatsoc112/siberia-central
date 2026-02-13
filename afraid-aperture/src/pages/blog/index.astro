@@ -1,11 +1,11 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getDB } from '../../lib/db';
-import blogHeroUrl from '../../assets/media/Enmascarar grupo 5.png?url';
-import blogHero2xUrl from '../../assets/media/Enmascarar grupo 5@2x.png?url';
+import blogHeroUrl from '../../assets/fondos/Blog.png?url';
 import { postsRepo } from '../../lib/content';
 
 const db = getDB(Astro.locals);
+const blogHero2xUrl = blogHeroUrl;
 
 const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 1);
 const featuredPosts = posts.slice(0, 3);
@@ -137,7 +137,7 @@ const remainingPosts = posts.slice(3);
 	.blog-hero__overlay {
 		position: absolute;
 		inset: 0;
-		background: rgba(0, 0, 0, 0.45);
+		background: none;
 	}
 
 	.blog-hero__content {

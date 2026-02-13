@@ -3,6 +3,7 @@ const CANVAS_W = 1080;
 const CANVAS_H = 13949;
 const HEADER_H = 1390;
 import menuBgUrl from '../assets/media/FondoMenus.png?url';
+import menuOverlayUrl from '../assets/fondos/Nostros.svg?url';
 import camptonUrl from '../assets/fonts/campton/CamptonBold.otf?url';
 import logoUrl from '../assets/media/logologito.png?url';
 import grupo605Url from '../assets/media/Grupo 605.svg?url';
@@ -26,7 +27,7 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
   <body>
     <main class="page">
       <div class="frame" id="frame">
-        <div class="canvas" style={`--menu-bg: url(${menuBgUrl});`}>
+        <div class="canvas" style={`--menu-overlay: url(${menuOverlayUrl}); --menu-bg: url(${menuBgUrl});`}>
           <a id="menu-top" class="menu-top-anchor" aria-hidden="true"></a>
           <a class="abs back-link" href="/menu-sucursales" aria-label="Volver a Menús">← Menús</a>
 
@@ -611,10 +612,20 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
         width: var(--canvas-w);
         height: var(--canvas-h);
         overflow: hidden;
-        background-image: var(--menu-bg, none);
+        background: #0b0b0b;
+      }
+
+      .canvas::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background-image: var(--menu-overlay, none), var(--menu-bg, none);
         background-repeat: no-repeat;
         background-position: top center;
         background-size: 100% 100%;
+        filter: grayscale(1);
       }
 
       .canvas::after {

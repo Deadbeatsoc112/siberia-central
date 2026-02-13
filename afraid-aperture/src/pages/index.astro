@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import heroMainBgUrl from '../assets/media/Grupo 206.png?url';
+import heroMainBgUrl from '../assets/fondos/Inicio.png?url';
 import heroMainBg2xUrl from '../assets/media/Grupo 206@2x.png?url';
 import heroBackgroundUrl from '../assets/media/Grupo 198.png?url';
 import heroLogoUrl from '../assets/media/logologito.png?url';
@@ -137,6 +137,250 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 	</section>
 </Layout>
 
+<script>
+	const sections = Array.from(document.querySelectorAll('main.page > section'));
+	const desktopMedia = window.matchMedia('(min-width: 1024px)');
+	const reducedMotionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+	if (sections.length > 1) {
+		let isNavigating = false;
+		let releaseTimer;
+		let animationFrameId = 0;
+		let wheelIntent = 0;
+		let wheelIntentResetTimer;
+		const wheelIntentThreshold = 95;
+
+		const isInteractiveTarget = (target) => {
+			if (!(target instanceof Element)) return false;
+			return Boolean(
+				target.closest(
+					'input, textarea, select, button, a, [contenteditable="true"], [data-no-section-scroll]'
+				)
+			);
+		};
+
+		const getCurrentSectionIndex = () => {
+			const viewportCenter = window.scrollY + window.innerHeight / 2;
+			let closestIndex = 0;
+			let closestDistance = Number.POSITIVE_INFINITY;
+
+			sections.forEach((section, index) => {
+				const sectionCenter = section.offsetTop + section.offsetHeight / 2;
+				const distance = Math.abs(sectionCenter - viewportCenter);
+				if (distance < closestDistance) {
+					closestDistance = distance;
+					closestIndex = index;
+				}
+			});
+
+			return closestIndex;
+		};
+
+		const easeInOutCubic = (t) => {
+			if (t < 0.5) return 4 * t * t * t;
+			return 1 - Math.pow(-2 * t + 2, 3) / 2;
+		};
+
+		const clearNavigationTimers = () => {
+			window.clearTimeout(releaseTimer);
+			window.clearTimeout(wheelIntentResetTimer);
+		};
+
+		const smoothScrollTo = (targetY) => {
+			if (reducedMotionMedia.matches) {
+				window.scrollTo(0, targetY);
+				return;
+			}
+
+			const startY = window.scrollY;
+			const distance = targetY - startY;
+			if (Math.abs(distance) < 1) return;
+
+			const duration = Math.min(1050, Math.max(620, Math.abs(distance) * 0.42));
+			let startTime = 0;
+
+			if (animationFrameId) {
+				cancelAnimationFrame(animationFrameId);
+				animationFrameId = 0;
+			}
+
+			const step = (now) => {
+				if (!startTime) startTime = now;
+				const elapsed = now - startTime;
+				const progress = Math.min(1, elapsed / duration);
+				const eased = easeInOutCubic(progress);
+				window.scrollTo(0, startY + distance * eased);
+
+				if (progress < 1) {
+					animationFrameId = requestAnimationFrame(step);
+					return;
+				}
+
+				animationFrameId = 0;
+				isNavigating = false;
+			};
+
+			isNavigating = true;
+			animationFrameId = requestAnimationFrame(step);
+
+			window.clearTimeout(releaseTimer);
+			releaseTimer = window.setTimeout(() => {
+				if (animationFrameId) {
+					cancelAnimationFrame(animationFrameId);
+					animationFrameId = 0;
+				}
+				isNavigating = false;
+			}, duration + 220);
+		};
+
+		const moveToSection = (direction) => {
+			const currentIndex = getCurrentSectionIndex();
+			const nextIndex = currentIndex + direction;
+
+			if (nextIndex < 0 || nextIndex >= sections.length) return false;
+
+			const targetSection = sections[nextIndex];
+			const targetTop = targetSection.offsetTop;
+			smoothScrollTo(targetTop);
+			return true;
+		};
+
+		const onWheel = (event) => {
+			if (!desktopMedia.matches) return;
+			if (isInteractiveTarget(event.target)) return;
+			event.preventDefault();
+
+			if (isNavigating) {
+				return;
+			}
+
+			const clampedDelta = Math.sign(event.deltaY) * Math.min(140, Math.abs(event.deltaY));
+			wheelIntent += clampedDelta;
+			window.clearTimeout(wheelIntentResetTimer);
+			wheelIntentResetTimer = window.setTimeout(() => {
+				wheelIntent = 0;
+			}, 140);
+
+			if (Math.abs(wheelIntent) < wheelIntentThreshold) return;
+
+			const direction = wheelIntent > 0 ? 1 : -1;
+			wheelIntent = 0;
+			const moved = moveToSection(direction);
+			if (!moved) {
+				isNavigating = false;
+			}
+		};
+
+		const onKeydown = (event) => {
+			if (!desktopMedia.matches) return;
+			if (event.defaultPrevented) return;
+			if (isInteractiveTarget(event.target)) return;
+
+			const downKeys = new Set(['ArrowDown', 'PageDown']);
+			const upKeys = new Set(['ArrowUp', 'PageUp']);
+			const isSpace = event.key === ' ';
+			let direction = 0;
+
+			if (downKeys.has(event.key)) direction = 1;
+			if (upKeys.has(event.key)) direction = -1;
+			if (isSpace) direction = event.shiftKey ? -1 : 1;
+			if (!direction) return;
+			if (isNavigating) {
+				event.preventDefault();
+				return;
+			}
+
+			const moved = moveToSection(direction);
+			if (!moved) return;
+
+			event.preventDefault();
+		};
+
+		window.addEventListener('wheel', onWheel, { passive: false });
+		window.addEventListener('keydown', onKeydown);
+		window.addEventListener('beforeunload', clearNavigationTimers);
+	}
+
+	const storyImage = document.querySelector('.story__image');
+	const storySection = document.querySelector('.hero-followup');
+
+	if (storyImage instanceof HTMLElement && storySection instanceof HTMLElement) {
+		let storySectionVisible = false;
+		let storySpinLocked = false;
+		let storySpinUnlockTimer;
+		const storySpinDurationMs = 1000;
+
+		const triggerStorySpin = () => {
+			if (reducedMotionMedia.matches) return;
+			if (storySpinLocked) return;
+
+			storySpinLocked = true;
+			storyImage.classList.remove('is-spin-turn');
+			// Force reflow so the animation can restart on each trigger.
+			void storyImage.offsetWidth;
+			storyImage.classList.add('is-spin-turn');
+			window.clearTimeout(storySpinUnlockTimer);
+			storySpinUnlockTimer = window.setTimeout(() => {
+				storySpinLocked = false;
+			}, storySpinDurationMs + 120);
+		};
+
+		const storyObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.target !== storySection) return;
+					if (entry.isIntersecting && !storySectionVisible) {
+						storySectionVisible = true;
+						triggerStorySpin();
+					}
+					if (!entry.isIntersecting) {
+						storySectionVisible = false;
+					}
+				});
+			},
+			{
+				threshold: 0.45,
+			}
+		);
+
+		if (!reducedMotionMedia.matches) {
+			storyObserver.observe(storySection);
+		}
+
+		reducedMotionMedia.addEventListener?.('change', () => {
+			if (reducedMotionMedia.matches) {
+				storyObserver.disconnect();
+				storyImage.classList.remove('is-spin-turn');
+				return;
+			}
+			if (!reducedMotionMedia.matches) {
+				storyObserver.observe(storySection);
+			}
+		});
+
+		const fallbackOnScroll = () => {
+			if (reducedMotionMedia.matches) return;
+			const rect = storySection.getBoundingClientRect();
+			const viewportHeight = window.innerHeight || 1;
+			const sectionInViewport = rect.top < viewportHeight * 0.65 && rect.bottom > viewportHeight * 0.35;
+			if (sectionInViewport && !storySectionVisible) {
+				storySectionVisible = true;
+				triggerStorySpin();
+			}
+			if (!sectionInViewport) {
+				storySectionVisible = false;
+			}
+		};
+
+		storyImage.addEventListener('animationend', () => {
+			storyImage.classList.remove('is-spin-turn');
+		});
+
+		window.addEventListener('scroll', fallbackOnScroll, { passive: true });
+		window.addEventListener('resize', fallbackOnScroll);
+	}
+</script>
+
 <style>
 	.hero {
 		position: relative;
@@ -214,13 +458,28 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		max-width: 498px;
 		max-height: 498px;
 		box-sizing: border-box;
-		transform: matrix(0.98, -0.17, 0.17, 0.98, 0, 0);
+		--story-image-base-transform: matrix(0.98, -0.17, 0.17, 0.98, 0, 0);
+		transform: var(--story-image-base-transform);
 		background-repeat: no-repeat;
 		background-position: center;
 		background-size: cover;
 		border: 10px solid #ffffff;
 		box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.35);
 		opacity: 1;
+		will-change: transform;
+	}
+
+	.story__image.is-spin-turn {
+		animation: storyImageSpinTurn 1s cubic-bezier(0.22, 0.8, 0.2, 1) both;
+	}
+
+	@keyframes storyImageSpinTurn {
+		0% {
+			transform: var(--story-image-base-transform);
+		}
+		100% {
+			transform: var(--story-image-base-transform) rotate(360deg);
+		}
 	}
 
 	.story__content {
@@ -318,7 +577,8 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		.story__image {
 			top: 60px;
 			left: 50%;
-			transform: translateX(-50%) rotate(-8deg);
+			--story-image-base-transform: translateX(-50%) rotate(-8deg);
+			transform: var(--story-image-base-transform);
 			width: 320px;
 			height: 320px;
 			border-width: 8px;

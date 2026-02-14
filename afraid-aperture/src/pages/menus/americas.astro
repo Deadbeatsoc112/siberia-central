@@ -1651,9 +1651,12 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       .bebida-item:nth-child(4) .bebida-item__media {
         min-height: 427px;
       }
-
       .refrescos-block {
         margin-top: 28px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        column-gap: 72px;
+        align-items: start;
       }
 
       .refrescos-title {
@@ -1671,6 +1674,12 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
         text-transform: uppercase;
       }
 
+      .refrescos-title,
+      .refrescos-sub,
+      .refrescos-text {
+        grid-column: 1;
+      }
+
       .refrescos-text {
         margin: 6px 0 0;
         font-size: var(--item-desc-size);
@@ -1679,7 +1688,11 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
       }
 
       .refrescos-prices {
-        margin-top: 8px;
+        grid-column: 2;
+        grid-row: 1 / span 6;
+        justify-self: end;
+        align-self: start;
+        margin-top: 0;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
@@ -1856,7 +1869,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       /* top: 9153px; left: 817px; width: 426px; height: 153px; img Grupo 566 */
       .g351 {
-        top: 9153px;
+        top: 8953px;
         left: 817px;
         width: 426px;
         height: 153px;
@@ -1867,7 +1880,7 @@ import grupo675BgUrl from '../../assets/media/AMERICAS-menu/Grupo 675.png?url';
 
       /* top: 9153px; left: -157.5013427734375px; width: 426px; height: 153px; img Grupo 744 */
       .g361 {
-        top: 9153px;
+        top: 8953px;
         left: -157.5013427734375px;
         width: 426px;
         height: 153px;

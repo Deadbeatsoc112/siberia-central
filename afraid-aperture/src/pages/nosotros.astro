@@ -157,121 +157,92 @@ const timelineItems = [
 <script>
 	const scroller = document.querySelector('[data-timeline-scroll]');
 	const button = document.querySelector('[data-timeline-nav]');
+	const track = scroller?.querySelector('.timeline__track');
 
-	if (scroller) {
-		let isDragging = false;
-		let startX = 0;
-		let startScrollLeft = 0;
-		let targetScrollLeft = scroller.scrollLeft;
-		let rafId = 0;
-		let lastX = 0;
-		let lastTime = 0;
-		let velocity = 0;
+	if (scroller instanceof HTMLElement && track instanceof HTMLElement) {
+		const reducedMotionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
+		const desktopMedia = window.matchMedia('(min-width: 769px)');
+		const speedPxPerSecond = 300;
+		const autoClass = 'is-auto-pan';
+		const pauseClass = 'is-auto-pan-paused';
+		let canAnimate = false;
+		let resizeObserver;
 
-		const dragMultiplier = 0.60;
-		const ease = 0.40;
-		const inertiaBoost = 420;
-
-		const getMaxScroll = () => Math.max(0, scroller.scrollWidth - scroller.clientWidth);
-		const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-
-		const updateButton = () => {
-			if (!button) return;
-			const maxScroll = getMaxScroll();
-			const btn = button;
-			btn.hidden = false;
-			const nearEnd = maxScroll > 8 && scroller.scrollLeft >= maxScroll - 8;
-			btn.style.opacity = nearEnd ? '0.35' : '1';
-			btn.disabled = nearEnd;
-			btn.setAttribute('aria-disabled', nearEnd ? 'true' : 'false');
+		const setButtonState = () => {
+			if (!(button instanceof HTMLButtonElement)) return;
+			button.hidden = !canAnimate;
+			button.disabled = !canAnimate;
+			button.setAttribute('aria-disabled', canAnimate ? 'false' : 'true');
+			button.setAttribute(
+				'aria-label',
+				track.classList.contains(pauseClass)
+					? 'Reanudar animación de la línea de tiempo'
+					: 'Pausar animación de la línea de tiempo'
+			);
+			button.style.opacity = canAnimate ? '1' : '0';
 		};
 
-		const animateScroll = () => {
-			rafId = 0;
-			const maxScroll = getMaxScroll();
-			targetScrollLeft = clamp(targetScrollLeft, 0, maxScroll);
-			const delta = targetScrollLeft - scroller.scrollLeft;
+		const applyAutoplay = () => {
+			const maxShift = Math.max(0, track.scrollWidth - scroller.clientWidth);
+			canAnimate = maxShift > 1 && desktopMedia.matches && !reducedMotionMedia.matches;
 
-			if (Math.abs(delta) < 0.5) {
-				scroller.scrollLeft = targetScrollLeft;
-				updateButton();
-				return;
+			track.style.setProperty('--timeline-shift', `${maxShift}px`);
+			track.style.setProperty('--timeline-duration', `${Math.max(6, maxShift / speedPxPerSecond)}s`);
+			track.classList.toggle(autoClass, canAnimate);
+			if (!canAnimate) {
+				track.classList.remove(pauseClass);
 			}
-
-			scroller.scrollLeft += delta * ease;
-			updateButton();
-			rafId = requestAnimationFrame(animateScroll);
+			setButtonState();
 		};
 
-		const requestAnimation = () => {
-			if (rafId) return;
-			rafId = requestAnimationFrame(animateScroll);
+		const pauseAutoplay = () => {
+			if (!canAnimate) return;
+			track.classList.add(pauseClass);
+			setButtonState();
 		};
 
-		const onPointerDown = (event: Event) => {
-			const e = event as PointerEvent;
-			isDragging = true;
-			startX = e.clientX;
-			startScrollLeft = scroller.scrollLeft;
-			targetScrollLeft = scroller.scrollLeft;
-			lastX = e.clientX;
-			lastTime = performance.now();
-			velocity = 0;
-			if (rafId) {
-				cancelAnimationFrame(rafId);
-				rafId = 0;
-			}
-			scroller.classList.add('is-dragging');
-			scroller.setPointerCapture?.(e.pointerId);
-			event.preventDefault();
+		const resumeAutoplay = () => {
+			if (!canAnimate) return;
+			track.classList.remove(pauseClass);
+			setButtonState();
 		};
 
-		const onPointerMove = (event: Event) => {
-			if (!isDragging) return;
-			const e = event as PointerEvent;
-			const now = performance.now();
-			const dt = Math.max(1, now - lastTime);
-			const dx = e.clientX - lastX;
-			velocity = dx / dt;
-			lastX = e.clientX;
-			lastTime = now;
-
-			const deltaX = e.clientX - startX;
-			const maxScroll = getMaxScroll();
-			targetScrollLeft = startScrollLeft - deltaX * dragMultiplier;
-			scroller.scrollLeft = clamp(targetScrollLeft, 0, maxScroll);
-			targetScrollLeft = scroller.scrollLeft;
-			updateButton();
-		};
-
-		const endDrag = (event: Event) => {
-			if (!isDragging) return;
-			const e = event as PointerEvent;
-			isDragging = false;
-			scroller.classList.remove('is-dragging');
-			scroller.releasePointerCapture?.(e.pointerId);
-			targetScrollLeft = scroller.scrollLeft - velocity * inertiaBoost * dragMultiplier;
-			requestAnimation();
-			updateButton();
-		};
-
-		if (button) {
+		if (button instanceof HTMLButtonElement) {
 			button.addEventListener('click', () => {
-				const step = scroller.clientWidth * 0.85;
-				targetScrollLeft = scroller.scrollLeft + step;
-				requestAnimation();
-				updateButton();
+				if (!canAnimate) return;
+				track.classList.toggle(pauseClass);
+				setButtonState();
 			});
 		}
 
-		scroller.addEventListener('pointerdown', onPointerDown);
-		scroller.addEventListener('pointermove', onPointerMove);
-		scroller.addEventListener('pointerup', endDrag);
-		scroller.addEventListener('pointercancel', endDrag);
-		scroller.addEventListener('mouseleave', endDrag);
-		scroller.addEventListener('scroll', updateButton, { passive: true });
-		window.addEventListener('resize', updateButton);
-		updateButton();
+		scroller.addEventListener('mouseenter', pauseAutoplay);
+		scroller.addEventListener('mouseleave', resumeAutoplay);
+		scroller.addEventListener('touchstart', pauseAutoplay, { passive: true });
+
+		const reflowAndApply = () => {
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => {
+					applyAutoplay();
+				});
+			});
+		};
+
+		window.addEventListener('resize', reflowAndApply);
+		reducedMotionMedia.addEventListener?.('change', applyAutoplay);
+		desktopMedia.addEventListener?.('change', applyAutoplay);
+
+		if ('ResizeObserver' in window) {
+			resizeObserver = new ResizeObserver(() => applyAutoplay());
+			resizeObserver.observe(scroller);
+			resizeObserver.observe(track);
+		}
+
+		document.fonts?.ready?.then(() => applyAutoplay());
+		applyAutoplay();
+
+		window.addEventListener('beforeunload', () => {
+			resizeObserver?.disconnect();
+		});
 	}
 </script>
 
@@ -417,26 +388,16 @@ const timelineItems = [
 	}
 
 	.timeline__scroller {
-		overflow-x: auto;
+		overflow-x: hidden;
 		overflow-y: hidden;
-		scroll-behavior: smooth;
 		scrollbar-width: none;
 		-webkit-overflow-scrolling: touch;
 		width: 100%;
-		cursor: grab;
+		cursor: default;
 	}
 
 	.timeline__scroller::-webkit-scrollbar {
 		display: none;
-	}
-
-	.timeline__scroller.is-dragging {
-		cursor: grabbing;
-		user-select: none;
-	}
-
-	.timeline__scroller.is-dragging * {
-		user-select: none;
 	}
 
 	.timeline__track {
@@ -446,12 +407,36 @@ const timelineItems = [
 		padding: 40px 120px 0;
 		min-width: max-content;
 		align-items: flex-start;
+		--timeline-shift: 0px;
+		--timeline-duration: 12s;
 		--axis-y: 22px;
 		--gap: 110px;
 		--dot-size: 26px;
 		--dot-radius: calc(var(--dot-size) / 2);
 		--line-height: 6px;
 		--line-color: #4d1419;
+		transform: translate3d(0, 0, 0);
+		will-change: transform;
+		backface-visibility: hidden;
+		contain: paint;
+	}
+
+	.timeline__track.is-auto-pan {
+		animation: timeline-pan var(--timeline-duration) linear infinite alternate;
+	}
+
+	.timeline__track.is-auto-pan.is-auto-pan-paused {
+		animation-play-state: paused;
+	}
+
+	@keyframes timeline-pan {
+		from {
+			transform: translate3d(0, 0, 0);
+		}
+
+		to {
+			transform: translate3d(calc(-1 * var(--timeline-shift)), 0, 0);
+		}
 	}
 
 	.timeline__item {

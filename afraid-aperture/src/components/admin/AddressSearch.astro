@@ -1,22 +1,26 @@
 ---
 interface Props {
+	instanceId?: string;
 	latitudeInputName?: string;
 	longitudeInputName?: string;
 	addressInputName?: string;
+	initialAddress?: string;
 	initialLat?: number;
 	initialLng?: number;
 }
 
 const {
+	instanceId = 'default',
 	latitudeInputName = 'latitude',
 	longitudeInputName = 'longitude',
 	addressInputName = 'address',
+	initialAddress = '',
 	initialLat = 25.6866,
 	initialLng = -100.3161,
 } = Astro.props;
 ---
 
-<div class="address-search">
+<div class="address-search" data-instance-id={instanceId}>
 	<div class="address-search__header">
 		<label class="address-search__label">
 			<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -32,14 +36,15 @@ const {
 		<input
 			type="text"
 			class="address-search__input admin-input"
-			id="address-search-input"
+			data-role="search-input"
 			placeholder="Ej: Rodrigo Gómez 623, Centro, Monterrey..."
 			autocomplete="off"
+			value={initialAddress}
 		/>
-		<ul class="address-search__results" id="address-search-results"></ul>
+		<ul class="address-search__results" data-role="results"></ul>
 	</div>
 
-	<div class="address-search__selected" id="address-search-selected">
+	<div class={`address-search__selected${initialAddress ? ' visible' : ''}`} data-role="selected">
 		<div class="address-search__selected-icon">
 			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
 				<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -48,15 +53,17 @@ const {
 		</div>
 		<div class="address-search__selected-content">
 			<span class="address-search__selected-label">Dirección seleccionada:</span>
-			<span class="address-search__selected-address" id="address-search-selected-text">Sin dirección seleccionada</span>
+			<span class="address-search__selected-address" data-role="selected-text">
+				{initialAddress || 'Sin dirección seleccionada'}
+			</span>
 		</div>
 	</div>
 
-	<div class="address-search__map" id="address-search-map"></div>
+	<div class="address-search__map" data-role="map" id={`address-search-map-${instanceId}`}></div>
 
-	<input type="hidden" name={addressInputName} id="address-search-address" value="" />
-	<input type="hidden" name={latitudeInputName} id="address-search-lat" value={initialLat} />
-	<input type="hidden" name={longitudeInputName} id="address-search-lng" value={initialLng} />
+	<input type="hidden" name={addressInputName} data-role="address" value={initialAddress} />
+	<input type="hidden" name={latitudeInputName} data-role="lat" value={initialLat} />
+	<input type="hidden" name={longitudeInputName} data-role="lng" value={initialLng} />
 
 	<div class="address-search__footer">
 		<div class="address-search__coords">
@@ -65,8 +72,8 @@ const {
 				<line x1="2" y1="12" x2="22" y2="12" stroke-width="2"/>
 				<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke-width="2"/>
 			</svg>
-			<span>Lat: <strong id="address-search-lat-display">{initialLat}</strong></span>
-			<span>Lng: <strong id="address-search-lng-display">{initialLng}</strong></span>
+			<span>Lat: <strong data-role="lat-display">{initialLat}</strong></span>
+			<span>Lng: <strong data-role="lng-display">{initialLng}</strong></span>
 		</div>
 		<div class="address-search__tip">
 			💡 Puedes arrastrar el marcador rojo para ajustar la ubicación
@@ -291,9 +298,6 @@ const {
 
 	.address-search__tip {
 		padding: 10px 14px;
-		const searchInput = document.getElementById('address-search-input') as HTMLInputElement;
-		const resultsList = document.getElementById('address-search-results') as HTMLUListElement;
-		const latInput = document.getElementById('address-search-lat') as HTMLInputElement;
 		font-size: 13px;
 		color: #666;
 		text-align: center;
@@ -322,19 +326,22 @@ const {
 	import L from 'leaflet';
 	import 'leaflet/dist/leaflet.css';
 
-	function initAddressSearch() {
-		const mapElement = document.getElementById('address-search-map');
-		const searchInput = document.getElementById('address-search-input') as HTMLInputElement;
-		const resultsList = document.getElementById('address-search-results') as HTMLUListElement;
-		const latInput = document.getElementById('address-search-lat') as HTMLInputElement;
-		const lngInput = document.getElementById('address-search-lng') as HTMLInputElement;
-		const addressInput = document.getElementById('address-search-address') as HTMLInputElement;
-		const latDisplay = document.getElementById('address-search-lat-display');
-		const lngDisplay = document.getElementById('address-search-lng-display');
-		const selectedContainer = document.getElementById('address-search-selected');
-		const selectedText = document.getElementById('address-search-selected-text');
+	function initAddressSearch(container: HTMLElement) {
+		if (container.dataset.initialized === 'true') return;
 
-		if (!mapElement) return;
+		const mapElement = container.querySelector('[data-role="map"]') as HTMLElement | null;
+		const searchInput = container.querySelector('[data-role="search-input"]') as HTMLInputElement | null;
+		const resultsList = container.querySelector('[data-role="results"]') as HTMLUListElement | null;
+		const latInput = container.querySelector('[data-role="lat"]') as HTMLInputElement | null;
+		const lngInput = container.querySelector('[data-role="lng"]') as HTMLInputElement | null;
+		const addressInput = container.querySelector('[data-role="address"]') as HTMLInputElement | null;
+		const latDisplay = container.querySelector('[data-role="lat-display"]');
+		const lngDisplay = container.querySelector('[data-role="lng-display"]');
+		const selectedContainer = container.querySelector('[data-role="selected"]');
+		const selectedText = container.querySelector('[data-role="selected-text"]');
+
+		if (!mapElement || !searchInput || !resultsList || !latInput || !lngInput || !addressInput) return;
+		container.dataset.initialized = 'true';
 
 		const initialLat = parseFloat(latInput.value) || 25.6866;
 		const initialLng = parseFloat(lngInput.value) || -100.3161;
@@ -400,7 +407,6 @@ const {
 		let activeController: AbortController | null = null;
 
 		function clearResults() {
-			if (!resultsList) return;
 			resultsList.innerHTML = '';
 			resultsList.classList.remove('has-results');
 		}
@@ -418,7 +424,6 @@ const {
 				);
 				const results = await response.json();
 
-				if (!resultsList) return;
 				resultsList.innerHTML = '';
 				
 				if (!results.length) {
@@ -459,7 +464,7 @@ const {
 			}
 		}
 
-		searchInput?.addEventListener('input', () => {
+		searchInput.addEventListener('input', () => {
 			const query = searchInput.value.trim();
 			if (searchTimeout) {
 				window.clearTimeout(searchTimeout);
@@ -474,23 +479,44 @@ const {
 		});
 
 		document.addEventListener('click', (e) => {
-			if (searchInput && resultsList && !searchInput.contains(e.target as Node) && !resultsList.contains(e.target as Node)) {
+			if (!searchInput.contains(e.target as Node) && !resultsList.contains(e.target as Node)) {
 				clearResults();
 			}
 		});
 
-		if (initialLat !== 25.6866 || initialLng !== -100.3161) {
+		if (addressInput.value.trim()) {
+			updateAddress(addressInput.value.trim());
+		}
+
+		if (!addressInput.value.trim() && (initialLat !== 25.6866 || initialLng !== -100.3161)) {
 			reverseGeocode(initialLat, initialLng);
 		}
+
+		const detailsContainer = container.closest('details');
+		if (detailsContainer) {
+			detailsContainer.addEventListener('toggle', () => {
+				if (detailsContainer.open) {
+					setTimeout(() => map.invalidateSize(), 150);
+				}
+			});
+		}
+
+		window.addEventListener('resize', () => map.invalidateSize());
 
 		setTimeout(() => {
 			map.invalidateSize();
 		}, 100);
 	}
 
+	function initAllAddressSearches() {
+		document.querySelectorAll('.address-search').forEach((container) => {
+			initAddressSearch(container as HTMLElement);
+		});
+	}
+
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initAddressSearch);
+		document.addEventListener('DOMContentLoaded', initAllAddressSearches);
 	} else {
-		initAddressSearch();
+		initAllAddressSearches();
 	}
 </script>

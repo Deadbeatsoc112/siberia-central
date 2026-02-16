@@ -15,6 +15,7 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 
 		const name = String(formData.get('name') || '').trim();
 		const address = String(formData.get('address') || '').trim();
+		const displayAddress = String(formData.get('display_address') || '').trim();
 		const latitude = parseFloat(String(formData.get('latitude') || '0'));
 		const longitude = parseFloat(String(formData.get('longitude') || '0'));
 		const phones = String(formData.get('phones') || '')
@@ -35,6 +36,7 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 		await branchesRepo.create(db, {
 			name,
 			address,
+			displayAddress: displayAddress || undefined,
 			latitude: latitude || undefined,
 			longitude: longitude || undefined,
 			phones,

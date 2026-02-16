@@ -4,6 +4,7 @@ import { dbGet, dbAll, dbRun } from './db';
 export type BranchInput = {
 	name: string;
 	address: string;
+	displayAddress?: string;
 	latitude?: number;
 	longitude?: number;
 	phones?: string[];
@@ -28,6 +29,7 @@ export const branchesRepo = {
 			name: string;
 			slug: string;
 			address: string;
+			display_address: string | null;
 			latitude: number | null;
 			longitude: number | null;
 			phones: string;
@@ -45,6 +47,7 @@ export const branchesRepo = {
 			name: string;
 			slug: string;
 			address: string;
+			display_address: string | null;
 			latitude: number | null;
 			longitude: number | null;
 			phones: string;
@@ -62,6 +65,7 @@ export const branchesRepo = {
 			name: string;
 			slug: string;
 			address: string;
+			display_address: string | null;
 			latitude: number | null;
 			longitude: number | null;
 			phones: string;
@@ -79,6 +83,7 @@ export const branchesRepo = {
 			name: string;
 			slug: string;
 			address: string;
+			display_address: string | null;
 			latitude: number | null;
 			longitude: number | null;
 			phones: string;
@@ -94,12 +99,13 @@ export const branchesRepo = {
 		const slug = slugify(input.name);
 		const result = await dbRun(
 			db,
-			`INSERT INTO branches (name, slug, address, latitude, longitude, phones, contact_email, is_active, display_order)
-			 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			`INSERT INTO branches (name, slug, address, display_address, latitude, longitude, phones, contact_email, is_active, display_order)
+			 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			[
 				input.name,
 				slug,
 				input.address,
+				input.displayAddress ?? null,
 				input.latitude ?? null,
 				input.longitude ?? null,
 				JSON.stringify(input.phones || []),
@@ -119,13 +125,14 @@ export const branchesRepo = {
 		await dbRun(
 			db,
 			`UPDATE branches
-			 SET name = ?, slug = ?, address = ?, latitude = ?, longitude = ?,
+			 SET name = ?, slug = ?, address = ?, display_address = ?, latitude = ?, longitude = ?,
 			     phones = ?, contact_email = ?, is_active = ?, display_order = ?, updated_at = CURRENT_TIMESTAMP
 			 WHERE id = ?`,
 			[
 				input.name || current.name,
 				slug,
 				input.address || current.address,
+				input.displayAddress ?? current.display_address,
 				input.latitude ?? current.latitude,
 				input.longitude ?? current.longitude,
 				JSON.stringify(input.phones || JSON.parse(current.phones)),

@@ -11,7 +11,7 @@ const branchesRaw = await branchesRepo.listActive(db);
 const branches = branchesRaw.map((b) => ({
   id: b.slug,
   name: b.name,
-  address: b.address,
+  address: b.display_address || b.address,
   phones: JSON.parse(b.phones),
   lat: b.latitude || 25.6866,
   lng: b.longitude || -100.3161,
@@ -288,8 +288,10 @@ const error = Astro.url.searchParams.get('error');
   .contact-hero__bg {
     position: absolute;
     inset: 0;
-    width: 1920px;
-    height: 752px;
+    width: 100%;
+    height: 100%;
+    background-size: cover !important;
+    background-position: center !important;
     transform: scale(1.02);
     opacity: 1;
     z-index: 0;

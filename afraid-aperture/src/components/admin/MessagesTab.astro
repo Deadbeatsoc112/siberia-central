@@ -80,6 +80,19 @@ const sortedMessages = [...messages].sort((a, b) => b.created_at - a.created_at)
 										</div>
 									)}
 
+									{msg.image_path && (
+										<div class="message-item__section">
+											<h5>Imagen adjunta:</h5>
+											<a href={`/api/media/${msg.image_path}`} target="_blank" rel="noopener noreferrer">
+												<img
+													src={`/api/media/${msg.image_path}`}
+													alt="Imagen adjunta del mensaje"
+													class="message-item__image"
+												/>
+											</a>
+										</div>
+									)}
+
 									{msg.notes && (
 										<div class="message-item__section">
 											<h5>Notas internas:</h5>
@@ -299,6 +312,20 @@ const sortedMessages = [...messages].sort((a, b) => b.created_at - a.created_at)
 		border-left: 4px solid #f59e0b;
 		border-radius: 8px;
 		font-style: italic;
+	}
+
+	.message-item__image {
+		display: block;
+		max-width: 100%;
+		max-height: 320px;
+		border-radius: 8px;
+		border: 2px solid #f0f0f0;
+		object-fit: contain;
+		transition: border-color 0.2s ease;
+	}
+
+	.message-item__image:hover {
+		border-color: #d4534f;
 	}
 
 	.message-item__actions-grid {

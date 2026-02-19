@@ -7,6 +7,7 @@ export type ContactMessageInput = {
 	phone?: string;
 	message: string;
 	ipAddress?: string;
+	imagePath?: string;
 };
 
 export const messagesRepo = {
@@ -20,6 +21,7 @@ export const messagesRepo = {
 			status: string;
 			notes: string | null;
 			ip_address: string | null;
+			image_path: string | null;
 			created_at: string;
 			updated_at: string;
 		}>(db, 'SELECT * FROM contact_messages ORDER BY created_at DESC');
@@ -35,6 +37,7 @@ export const messagesRepo = {
 			status: string;
 			notes: string | null;
 			ip_address: string | null;
+			image_path: string | null;
 			created_at: string;
 			updated_at: string;
 		}>(db, 'SELECT * FROM contact_messages WHERE status = ? ORDER BY created_at DESC', [status]);
@@ -59,6 +62,7 @@ export const messagesRepo = {
 			status: string;
 			notes: string | null;
 			ip_address: string | null;
+			image_path: string | null;
 			created_at: string;
 			updated_at: string;
 		}>(db, 'SELECT * FROM contact_messages WHERE id = ?', [id]);
@@ -67,14 +71,15 @@ export const messagesRepo = {
 	async create(db: D1Database, input: ContactMessageInput) {
 		const result = await dbRun(
 			db,
-			`INSERT INTO contact_messages (full_name, email, phone, message, status, ip_address)
-			 VALUES (?, ?, ?, ?, 'unread', ?)`,
+			`INSERT INTO contact_messages (full_name, email, phone, message, status, ip_address, image_path)
+			 VALUES (?, ?, ?, ?, 'unread', ?, ?)`,
 			[
 				input.fullName,
 				input.email,
 				input.phone ?? null,
 				input.message,
 				input.ipAddress ?? null,
+				input.imagePath ?? null,
 			],
 		);
 		return result.meta.last_row_id as number;

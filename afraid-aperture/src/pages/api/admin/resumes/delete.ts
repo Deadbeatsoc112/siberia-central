@@ -24,7 +24,7 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 
 		const resume = await resumesRepo.getById(db, id);
 		if (resume) {
-			const bucket = locals.runtime?.env?.UPLOADS_BUCKET;
+			const bucket = locals.runtime?.env?.siberia_uploads;
 			if (bucket) {
 				await deleteFile(bucket, resume.file_path);
 			}

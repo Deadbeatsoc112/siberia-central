@@ -8,7 +8,7 @@ export const GET: APIRoute = async ({ params, locals }) => {
 	}
 
 	try {
-		const bucket = locals.runtime?.env?.UPLOADS_BUCKET;
+		const bucket = locals.runtime?.env?.siberia_uploads;
 		if (!bucket) {
 			return new Response('Storage not available', { status: 500 });
 		}

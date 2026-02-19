@@ -47,7 +47,7 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 		const filePath = `uploads/menus/${fileName}`;
 
 		// Upload to R2
-		const bucket = locals.runtime?.env?.UPLOADS_BUCKET;
+		const bucket = locals.runtime?.env?.siberia_uploads;
 		if (bucket) {
 			await uploadFile(bucket, pdfFile, filePath);
 		}

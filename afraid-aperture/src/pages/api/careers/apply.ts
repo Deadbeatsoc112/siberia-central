@@ -41,7 +41,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 		const month = String(new Date().getMonth() + 1).padStart(2, '0');
 		const filePath = `uploads/cvs/${year}/${month}/${fileName}`;
 
-		const bucket = locals.runtime?.env?.UPLOADS_BUCKET;
+		const bucket = locals.runtime?.env?.siberia_uploads;
 		if (bucket) {
 			await uploadFile(bucket, cvFile, filePath);
 		}

@@ -22,7 +22,7 @@ export const GET: APIRoute = async ({ params, cookies, locals }) => {
 			return new Response('Resume not found', { status: 404 });
 		}
 
-		const bucket = locals.runtime?.env?.UPLOADS_BUCKET;
+		const bucket = locals.runtime?.env?.siberia_uploads;
 		if (!bucket) {
 			return new Response('Storage not available', { status: 500 });
 		}

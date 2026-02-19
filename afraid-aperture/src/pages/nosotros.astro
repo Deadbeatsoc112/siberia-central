@@ -4,7 +4,7 @@ import { getDB } from '../lib/db';
 import { branchesRepo } from '../lib/branches';
 import aboutHeroUrl from '../assets/media/Enmascarar grupo 17.png?url';
 import aboutHero2xUrl from '../assets/media/Enmascarar grupo 17@2x.png?url';
-import aboutHeroOverlayUrl from '../assets/fondos/Nostros.svg?url';
+import aboutHeroOverlayUrl from '../assets/fondos/Nostros.png?url';
 import timelineBgUrl from '../assets/media/Enmascarar grupo 6.png?url';
 import timelineBg2xUrl from '../assets/media/Enmascarar grupo 6@2x.png?url';
 import timelineArrowUrl from '../assets/media/Grupo 139.svg?url';
@@ -166,7 +166,6 @@ const timelineItems = [
 		const autoClass = 'is-auto-pan';
 		const pauseClass = 'is-auto-pan-paused';
 		let canAnimate = false;
-		let resizeObserver;
 
 		const setButtonState = () => {
 			if (!(button instanceof HTMLButtonElement)) return;
@@ -231,18 +230,11 @@ const timelineItems = [
 		reducedMotionMedia.addEventListener?.('change', applyAutoplay);
 		desktopMedia.addEventListener?.('change', applyAutoplay);
 
-		if ('ResizeObserver' in window) {
-			resizeObserver = new ResizeObserver(() => applyAutoplay());
-			resizeObserver.observe(scroller);
-			resizeObserver.observe(track);
-		}
 
 		document.fonts?.ready?.then(() => applyAutoplay());
 		applyAutoplay();
 
-		window.addEventListener('beforeunload', () => {
-			resizeObserver?.disconnect();
-		});
+		
 	}
 </script>
 

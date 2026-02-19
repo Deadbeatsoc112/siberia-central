@@ -1,8 +1,7 @@
 ﻿---
 import Layout from '../layouts/Layout.astro';
-import menuHeroUrl from '../assets/media/Enmascarar grupo 19.png?url';
 import menuHero2xUrl from '../assets/media/Enmascarar grupo 19@2x.png?url';
-import menuHeroOverlayUrl from '../assets/fondos/Nostros.svg?url';
+import menuHeroOverlayUrl from '../assets/fondos/MenuRecursos.svg?url';
 import MenuModuleCard from '../components/MenuModuleCard.astro';
 
 // Sucursales quemadas (edita este arreglo)
@@ -122,7 +121,7 @@ const remainingMenus = menuModules.slice(5);
 	<section class="menu-hero" aria-labelledby="menu-title">
 		<div
 			class="menu-hero__bg menu-hero__bg--image"
-			style={`background-image: image-set(url(${menuHeroUrl}) 1x, url(${menuHero2xUrl}) 2x);`}
+			style={`background-image: image-set(url(${menuHero2xUrl}) 2x);`}
 			aria-hidden="true"
 		></div>
 		<div
@@ -188,8 +187,9 @@ const remainingMenus = menuModules.slice(5);
 	}
 
 	.menu-hero__bg--svg {
-		filter: none;
+		filter: brightness(0.4);
 		transform: none;
+		transform-origin: none;
 		z-index: 2;
 	}
 

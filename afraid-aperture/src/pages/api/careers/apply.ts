@@ -1,9 +1,12 @@
 import type { APIRoute } from 'astro';
+import { getDB } from '../../../lib/db';
 import { resumesRepo } from '../../../lib/resumes';
 import { validateCvFile } from '../../../lib/fileValidation';
 import { uploadFile } from '../../../lib/storage';
 
 export const POST: APIRoute = async ({ request, locals }) => {
+	const db = getDB(locals);
+
 	try {
 		const formData = await request.formData();
 
@@ -43,7 +46,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 			await uploadFile(bucket, cvFile, filePath);
 		}
 
-		resumesRepo.create({
+		await resumesRepo.create(db, {
 			jobId: jobId > 0 ? jobId : null,
 			fullName,
 			email,

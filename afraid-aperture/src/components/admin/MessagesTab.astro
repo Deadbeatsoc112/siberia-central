@@ -11,7 +11,7 @@ interface Props {
 const { messages } = Astro.props;
 
 // Sort messages by date (most recent first)
-const sortedMessages = [...messages].sort((a, b) => b.created_at - a.created_at);
+const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 ---
 
 <div class="messages-tab">
@@ -57,7 +57,7 @@ const sortedMessages = [...messages].sort((a, b) => b.created_at - a.created_at)
 											{msg.status}
 										</AdminBadge>
 										<span class="message-item__date">
-											{new Date(msg.created_at * 1000).toLocaleDateString()}
+											{new Date(msg.created_at).toLocaleDateString('es-MX')}
 										</span>
 									</div>
 								</div>

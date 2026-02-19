@@ -10,7 +10,7 @@ interface Props {
 const { resumes } = Astro.props;
 
 // Sort resumes by date (most recent first)
-const sortedResumes = [...resumes].sort((a, b) => b.created_at - a.created_at);
+const sortedResumes = [...resumes].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 ---
 
 <div class="resumes-tab">
@@ -61,7 +61,7 @@ const sortedResumes = [...resumes].sort((a, b) => b.created_at - a.created_at);
 											{resume.status}
 										</AdminBadge>
 										<span class="resume-item__date">
-											{new Date(resume.created_at * 1000).toLocaleDateString()}
+											{new Date(resume.created_at).toLocaleDateString('es-MX')}
 										</span>
 									</div>
 								</div>

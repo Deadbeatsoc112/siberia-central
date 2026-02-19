@@ -91,6 +91,7 @@ CREATE TABLE IF NOT EXISTS contact_messages (
   status TEXT DEFAULT 'unread',
   notes TEXT,
   ip_address TEXT,
+  image_path TEXT,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT DEFAULT CURRENT_TIMESTAMP
 );

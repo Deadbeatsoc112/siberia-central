@@ -10,4 +10,5 @@ declare namespace App {
 
 interface Env {
   siberia_prod: D1Database;
+  RESEND_API_KEY: string;
 }

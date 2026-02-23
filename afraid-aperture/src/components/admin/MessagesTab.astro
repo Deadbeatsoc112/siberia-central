@@ -2,13 +2,20 @@
 import AdminCard from './AdminCard.astro';
 import AdminBadge from './AdminBadge.astro';
 import AdminButton from './AdminButton.astro';
-import AdminInput from './AdminInput.astro';
+import AdminModal from './AdminModal.astro';
 
 interface Props {
 	messages: any[];
+	branches: any[];
 }
 
-const { messages } = Astro.props;
+const { messages, branches } = Astro.props;
+
+const branchesById = new Map<number, string>(
+	(branches || [])
+		.filter((branch) => branch?.id && branch?.contact_email)
+		.map((branch) => [Number(branch.id), String(branch.contact_email)]),
+);
 
 // Sort messages by date (most recent first)
 const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
@@ -43,6 +50,15 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 									<div class="message-item__info">
 										<h4 class="message-item__name">{msg.full_name}</h4>
 										<p class="message-item__email">{msg.email}</p>
+										{msg.branch_name && (
+											<span class="message-item__branch">
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+													<path d="M3 10.5L12 3l9 7.5" stroke-linecap="round" stroke-linejoin="round" />
+													<path d="M5 9.5V21h14V9.5" stroke-linecap="round" stroke-linejoin="round" />
+												</svg>
+												{msg.branch_name}
+											</span>
+										)}
 									</div>
 									<div class="message-item__meta">
 										<AdminBadge
@@ -143,6 +159,14 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 											Eliminar Mensaje
 										</AdminButton>
 									</form>
+
+									<button type="button" class="forward-btn" onclick={`openModal('forward-${msg.id}')`}>
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+											<path d="M4 5h16v14H4z" stroke-linecap="round" stroke-linejoin="round" />
+											<path d="M4 7l8 6 8-6" stroke-linecap="round" stroke-linejoin="round" />
+										</svg>
+										Reenviar al correo
+									</button>
 								</div>
 							</div>
 						</details>
@@ -151,6 +175,50 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 			)
 		}
 	</AdminCard>
+
+	{
+		sortedMessages.map((msg) => {
+			const fallbackEmail = msg.branch_id ? branchesById.get(Number(msg.branch_id)) : '';
+			const defaultToEmail = msg.branch_contact_email || fallbackEmail || '';
+
+			return (
+				<AdminModal id={`forward-${msg.id}`} title="Reenviar Mensaje" size="medium">
+					<div class="forward-modal">
+						<div class="forward-modal__summary">
+							<p><strong>De:</strong> {msg.full_name} ({msg.email})</p>
+							{msg.branch_name && <p><strong>Sucursal:</strong> {msg.branch_name}</p>}
+							<blockquote>
+								{msg.message.length > 200 ? `${msg.message.substring(0, 200)}...` : msg.message}
+							</blockquote>
+						</div>
+
+						<form class="forward-modal__form" data-forward-form data-msg-id={msg.id}>
+							<input type="hidden" name="message_id" value={msg.id} />
+							<div class="form-group">
+								<label>Correo destino:</label>
+								<input
+									type="email"
+									name="to_email"
+									class="form-select"
+									value={defaultToEmail}
+									required
+									placeholder="correo@ejemplo.com"
+								/>
+							</div>
+							<div class="forward-modal__actions">
+								<button type="button" class="forward-modal__cancel" onclick={`closeModal('forward-${msg.id}')`}>
+									Cancelar
+								</button>
+								<button type="submit" class="forward-modal__submit">Enviar</button>
+							</div>
+						</form>
+
+						<div data-forward-status={msg.id} style="display:none;"></div>
+					</div>
+				</AdminModal>
+			);
+		})
+	}
 </div>
 
 <style>
@@ -244,6 +312,24 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+	}
+
+	.message-item__branch {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		margin-top: 8px;
+		padding: 4px 10px;
+		border-radius: 999px;
+		background: #f5ede5;
+		color: #8b5a2b;
+		font-size: 12px;
+		font-weight: 700;
+	}
+
+	.message-item__branch svg {
+		width: 14px;
+		height: 14px;
 	}
 
 	.message-item__meta {
@@ -382,6 +468,116 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 		margin-top: 8px;
 	}
 
+	.forward-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		margin-top: 12px;
+		padding: 10px 14px;
+		border: 1px solid #8b5a2b;
+		border-radius: 8px;
+		background: #8b5a2b;
+		color: #fff;
+		font-size: 13px;
+		font-weight: 700;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.forward-btn:hover {
+		background: #74461e;
+		border-color: #74461e;
+	}
+
+	.forward-btn svg {
+		width: 16px;
+		height: 16px;
+	}
+
+	.forward-modal {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.forward-modal__summary {
+		padding: 14px;
+		background: #f8f8f8;
+		border-radius: 10px;
+	}
+
+	.forward-modal__summary p {
+		margin: 0 0 8px;
+		font-size: 14px;
+		color: #333;
+	}
+
+	.forward-modal__summary p:last-child {
+		margin-bottom: 0;
+	}
+
+	.forward-modal__summary blockquote {
+		margin: 10px 0 0;
+		padding: 10px 12px;
+		background: #fff;
+		border-left: 4px solid #d4534f;
+		border-radius: 8px;
+		color: #444;
+		font-size: 14px;
+	}
+
+	.forward-modal__form {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.forward-modal__actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 10px;
+	}
+
+	.forward-modal__cancel,
+	.forward-modal__submit {
+		border: none;
+		border-radius: 8px;
+		padding: 10px 14px;
+		font-size: 14px;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.forward-modal__cancel {
+		background: #efefef;
+		color: #555;
+	}
+
+	.forward-modal__submit {
+		background: #d4534f;
+		color: #fff;
+	}
+
+	.forward-modal__status--success,
+	.forward-modal__status--error {
+		margin-top: 4px;
+		padding: 10px 12px;
+		border-radius: 8px;
+		font-size: 13px;
+		font-weight: 600;
+	}
+
+	.forward-modal__status--success {
+		background: #dcfce7;
+		color: #166534;
+	}
+
+	.forward-modal__status--error {
+		background: #fee2e2;
+		color: #991b1b;
+	}
+
 	@keyframes expandDown {
 		from {
 			opacity: 0;
@@ -419,10 +615,74 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 		.message-item__actions-grid {
 			grid-template-columns: 1fr;
 		}
+
+		.forward-modal__actions {
+			flex-direction: column;
+		}
+
+		.forward-modal__cancel,
+		.forward-modal__submit {
+			width: 100%;
+		}
 	}
 </style>
 
 <script>
+	document.querySelectorAll('[data-forward-form]').forEach((form) => {
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			const targetForm = e.target as HTMLFormElement;
+			const formData = new FormData(targetForm);
+			const messageId = Number(formData.get('message_id'));
+			const statusEl = document.querySelector(`[data-forward-status="${messageId}"]`) as HTMLElement | null;
+			const submitBtn = targetForm.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+
+			if (submitBtn) {
+				submitBtn.disabled = true;
+				submitBtn.textContent = 'Enviando...';
+			}
+
+			if (statusEl) {
+				statusEl.style.display = 'none';
+				statusEl.className = '';
+				statusEl.textContent = '';
+			}
+
+			try {
+				const res = await fetch('/api/admin/messages/forward', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						message_id: messageId,
+						to_email: String(formData.get('to_email') || ''),
+					}),
+				});
+
+				const payload = await res.json().catch(() => ({}));
+				if (!res.ok) {
+					throw new Error(payload?.error || 'No se pudo reenviar el mensaje');
+				}
+
+				if (statusEl) {
+					statusEl.style.display = 'block';
+					statusEl.className = 'forward-modal__status--success';
+					statusEl.textContent = 'Mensaje reenviado correctamente.';
+				}
+			} catch (err) {
+				if (statusEl) {
+					statusEl.style.display = 'block';
+					statusEl.className = 'forward-modal__status--error';
+					statusEl.textContent = err instanceof Error ? err.message : 'Error al reenviar el mensaje';
+				}
+			} finally {
+				if (submitBtn) {
+					submitBtn.disabled = false;
+					submitBtn.textContent = 'Enviar';
+				}
+			}
+		});
+	});
+
 	// Auto-mark as read when opened
 	document.querySelectorAll('.message-item').forEach((details) => {
 		details.addEventListener('toggle', async (e) => {

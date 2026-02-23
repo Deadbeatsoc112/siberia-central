@@ -27,6 +27,7 @@ const jobs = user && tab === 'jobs' ? await jobsRepo.listAll(db) : [];
 const branches = user && tab === 'branches' ? await branchesRepo.listAll(db) : [];
 const resumes = user && tab === 'resumes' ? await resumesRepo.listAll(db) : [];
 const messages = user && tab === 'messages' ? await messagesRepo.listAll(db) : [];
+const messageBranches = user && tab === 'messages' ? await branchesRepo.listAll(db) : [];
 
 const branchesCount = user ? (await branchesRepo.listAll(db)).length : 0;
 const resumesPending = user ? await resumesRepo.countByStatus(db, 'pending') : 0;
@@ -189,7 +190,7 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 
 						{tab === 'resumes' && <ResumesTab resumes={resumes} />}
 
-						{tab === 'messages' && <MessagesTab messages={messages} />}
+						{tab === 'messages' && <MessagesTab messages={messages} branches={messageBranches} />}
 
 						{tab === 'jobs' && <JobsTab jobs={jobs} />}
 

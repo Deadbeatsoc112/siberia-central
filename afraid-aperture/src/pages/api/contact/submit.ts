@@ -24,6 +24,8 @@ export const POST: APIRoute = async ({ request, clientAddress, locals }) => {
 		const email = String(formData.get('email') || '').trim();
 		const phone = String(formData.get('phone') || '').trim();
 		const message = String(formData.get('message') || '').trim();
+		const branchIdRaw = formData.get('branch_id');
+		const branchId = branchIdRaw ? parseInt(String(branchIdRaw), 10) : undefined;
 		const imageFile = formData.get('image') as File | null;
 
 		if (!fullName || !email || !message) {
@@ -66,6 +68,7 @@ export const POST: APIRoute = async ({ request, clientAddress, locals }) => {
 			message,
 			ipAddress: ip,
 			imagePath,
+			branchId: branchId && !isNaN(branchId) ? branchId : undefined,
 		});
 
 		return Response.redirect(new URL('/contacto?success=1', request.url), 303);

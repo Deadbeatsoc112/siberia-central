@@ -104,38 +104,99 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 			style={`background-image: image-set(url(${billingBgUrl}) 1x, url(${billingBg2xUrl}) 2x);`}
 			aria-hidden="true"
 		></div>
-		<div class="billing__overlay" aria-hidden="true"></div>
-		<div class="billing__content">
-			<h2 id="billing-title" class="billing__title">¿Factura? Súper fácil</h2>
-			<a class="billing__button" href="/contacto">Factura Aquí</a>
-		</div>
-		<img class="billing__decor" src={billingDecorUrl} alt="" aria-hidden="true" />
-	</section>
-	<section class="contact" aria-labelledby="contact-title">
-		<div class="contact__inner">
-			<img class="contact__decor" src={decorativeStarsUrl} alt="" aria-hidden="true" />
-			<h2 id="contact-title" class="contact__title">Queremos leerte</h2>
-			<span class="contact__rule" aria-hidden="true"></span>
-			<p class="contact__subtitle">
-				Déjanos tu mensaje, prometemos responder con el mismo amor del sazón.
-			</p>
-			<form class="contact__form" action="#" method="post" onsubmit="return false">
-				<div class="contact__column">
-					<label class="contact__label" for="contact-name">Nombre Completo*</label>
-					<input class="contact__input" id="contact-name" name="name" type="text" />
-					<label class="contact__label" for="contact-message">Mensaje*</label>
-					<textarea class="contact__textarea" id="contact-message" name="message"></textarea>
-				</div>
-				<div class="contact__column">
-					<label class="contact__label" for="contact-email">Correo Electrónico*</label>
-					<input class="contact__input" id="contact-email" name="email" type="email" />
-					<label class="contact__label" for="contact-phone">Teléfono*</label>
-					<input class="contact__input" id="contact-phone" name="phone" type="tel" />
-				</div>
-			</form>
-		</div>
-	</section>
-</Layout>
+			<div class="billing__overlay" aria-hidden="true"></div>
+			<div class="billing__content">
+				<h2 id="billing-title" class="billing__title">¿Factura? Súper fácil</h2>
+				<a class="billing__button" href="#facturacion-form">Factura Aquí</a>
+			</div>
+			<img class="billing__decor" src={billingDecorUrl} alt="" aria-hidden="true" />
+		</section>
+		<section id="facturacion-form" class="billing-form" aria-labelledby="billing-form-title">
+			<div class="billing-form__inner">
+				<h2 id="billing-form-title" class="billing-form__title">Formulario de facturación</h2>
+				<span class="billing-form__rule" aria-hidden="true"></span>
+				<p class="billing-form__subtitle">
+					Comparte tus datos para gestionar tu factura de manera correcta.
+				</p>
+				<form class="billing-form__form" action="#" method="post" onsubmit="return false">
+					<div class="billing-form__column">
+						<div class="billing-form__field">
+							<label class="billing-form__label" for="billing-name">Nombre completo*</label>
+							<input class="billing-form__input" id="billing-name" name="full_name" type="text" required />
+						</div>
+						<div class="billing-form__field">
+							<label class="billing-form__label" for="billing-rfc">RFC*</label>
+							<input
+								class="billing-form__input"
+								id="billing-rfc"
+								name="rfc"
+								type="text"
+								required
+								minlength="12"
+								maxlength="13"
+								pattern="^[A-Z&Ñ]{3,4}[0-9]{6}[A-Z0-9]{3}$"
+								title="Usa un RFC valido de 12 o 13 caracteres."
+								oninput="this.value = this.value.toUpperCase().replace(/\s+/g, '')"
+							/>
+							<span class="billing-form__hint">Formato: 12 (moral) o 13 (fisica) caracteres.</span>
+						</div>
+						<div class="billing-form__field">
+							<label class="billing-form__label" for="billing-business-name">Razón social*</label>
+							<input
+								class="billing-form__input"
+								id="billing-business-name"
+								name="business_name"
+								type="text"
+								required
+							/>
+						</div>
+					</div>
+					<div class="billing-form__column">
+						<div class="billing-form__field">
+							<label class="billing-form__label" for="billing-email">Correo electrónico</label>
+							<input
+								class="billing-form__input"
+								id="billing-email"
+								name="email"
+								type="email"
+								required
+							/>
+						</div>
+						<div class="billing-form__field">
+							<label class="billing-form__label" for="billing-phone">Teléfono*</label>
+							<input class="billing-form__input" id="billing-phone" name="phone" type="tel" required />
+						</div>
+						<div class="billing-form__field">
+							<label class="billing-form__label" for="billing-ticket">Número de ticket*</label>
+							<input class="billing-form__input" id="billing-ticket" name="ticket_number" type="text" required />
+						</div>
+					</div>
+					<div class="billing-form__field billing-form__field--full">
+						<label class="billing-form__label" for="billing-notes">Comentarios (opcional)</label>
+						<textarea
+							class="billing-form__textarea"
+							id="billing-notes"
+							name="notes"
+							placeholder="Comparte aqui informacion adicional para tu factura."
+						></textarea>
+					</div>
+					<div class="billing-form__actions">
+						<button class="billing-form__button" type="submit">Enviar datos de facturación</button>
+					</div>
+				</form>
+			</div>
+		</section>
+		<section class="feedback-cta" aria-labelledby="feedback-title">
+			<div class="feedback-cta__inner">
+				<img class="feedback-cta__decor" src={decorativeStarsUrl} alt="" aria-hidden="true" />
+				<h2 id="feedback-title" class="feedback-cta__title">Queremos leerte</h2>
+				<p class="feedback-cta__subtitle">
+					Si tienes comentarios o sugerencias, usa el formulario de contacto independiente.
+				</p>
+				<a class="feedback-cta__button" href="/contacto#form-title">Ir a contacto</a>
+			</div>
+		</section>
+	</Layout>
 
 <script>
 	const reducedMotionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -607,121 +668,242 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		}
 	}
 
-	.contact {
+	.billing-form {
 		position: relative;
 		width: 100%;
-		height: 763px;
-		background: #e1454f;
-		color: #ffffff;
+		background: #fff7ee;
+		color: #7a4b1f;
 		display: flex;
-		align-items: center;
 		justify-content: center;
-		text-align: left;
-		padding: 90px 24px 80px;
+		padding: 90px 24px 84px;
 		box-sizing: border-box;
 	}
 
-	.contact__decor {
-		align-self: flex-end;
-		width: 140px;
+	.billing-form__inner {
+		width: min(1100px, 100%);
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.billing-form__title {
+		margin: 0;
+		font: normal normal bold 44px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		letter-spacing: 0px;
+		color: #8b5a2b;
+	}
+
+	.billing-form__rule {
+		width: 280px;
+		height: 2px;
+		background: #8b5a2b;
+		margin: 4px 0 8px;
+	}
+
+	.billing-form__subtitle {
+		margin: 0 0 22px;
+		font-size: 16px;
+		color: #8b5a2b;
+		opacity: 0.9;
+	}
+
+	.billing-form__form {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 30px 56px;
+		text-align: left;
+	}
+
+	.billing-form__column {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.billing-form__field {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.billing-form__field--full {
+		grid-column: 1 / -1;
+	}
+
+	.billing-form__label {
+		font-size: 16px;
+		color: #7a4b1f;
+	}
+
+	.billing-form__input,
+	.billing-form__textarea {
+		width: 100%;
+		border: 1px solid #d6ba98;
+		background: #ffffff;
+		color: #1f1f1f;
+		padding: 12px 14px;
+		font-size: 16px;
+		box-sizing: border-box;
+		font-weight: 500;
+	}
+
+	.billing-form__input:focus,
+	.billing-form__textarea:focus {
+		outline: none;
+		border-color: #8b5a2b;
+		box-shadow: 0 0 0 3px rgba(139, 90, 43, 0.15);
+	}
+
+	.billing-form__textarea {
+		min-height: 140px;
+		resize: vertical;
+	}
+
+	.billing-form__hint {
+		font-size: 13px;
+		color: #8b5a2b;
+		opacity: 0.8;
+	}
+
+	.billing-form__actions {
+		grid-column: 1 / -1;
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.billing-form__button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 290px;
+		height: 48px;
+		border: 2px solid #8b5a2b;
+		background: #8b5a2b;
+		color: #ffffff;
+		text-decoration: none;
+		font-weight: 700;
+		font-size: 16px;
+		letter-spacing: 0px;
+		cursor: pointer;
+	}
+
+	.feedback-cta {
+		position: relative;
+		width: 100%;
+		background: #e1454f;
+		color: #ffffff;
+		display: flex;
+		justify-content: center;
+		padding: 74px 24px;
+		box-sizing: border-box;
+		overflow: hidden;
+	}
+
+	.feedback-cta__inner {
+		width: min(1100px, 100%);
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.feedback-cta__decor {
+		position: absolute;
+		top: -4px;
+		right: 0;
+		width: 128px;
 		height: auto;
 		opacity: 0.85;
 	}
 
-	.contact__inner {
-		width: min(1100px, 100%);
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 12px;
-	}
-
-	.contact__title {
+	.feedback-cta__title {
 		margin: 0;
-		font: normal normal bold 44px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 42px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
 		letter-spacing: 0px;
 	}
 
-	.contact__rule {
-		width: 220px;
-		height: 2px;
-		background: #ffffff;
-		margin: 6px 0 8px;
-	}
-
-	.contact__subtitle {
-		margin: 0 0 24px;
+	.feedback-cta__subtitle {
+		margin: 0;
+		max-width: 720px;
 		font-size: 16px;
 		opacity: 0.95;
 	}
 
-	.contact__form {
-		width: 100%;
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 36px 60px;
-		text-align: left;
-	}
-
-	.contact__column {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
-
-	.contact__label {
-		font-size: 16px;
+	.feedback-cta__button {
+		margin-top: 6px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 230px;
+		height: 44px;
+		border: 2px solid #ffffff;
 		color: #ffffff;
-	}
-
-	.contact__input,
-	.contact__textarea {
-		width: 100%;
-		border: 1px solid rgba(255, 255, 255, 0.6);
-		background: #ffffff;
-		color: #000000;
-		padding: 12px 14px;
-		font-size: 16px;
-		box-sizing: border-box;
-	}
-
-	.contact__textarea {
-		min-height: 150px;
-		resize: vertical;
+		text-decoration: none;
+		font-weight: 700;
+		letter-spacing: 0px;
 	}
 
 	@media (max-width: 1200px) {
-		.contact {
-			height: 700px;
-		}
-
-		.contact__title {
+		.billing-form__title {
 			font-size: 38px;
 		}
 
-		.contact__form {
-			gap: 28px 40px;
+		.billing-form__form {
+			gap: 24px 38px;
+		}
+
+		.feedback-cta__title {
+			font-size: 36px;
+		}
+
+		.feedback-cta__decor {
+			width: 112px;
 		}
 	}
 
 	@media (max-width: 768px) {
-		.contact {
-			height: auto;
+		.billing-form {
 			padding: 70px 20px;
-			text-align: left;
 		}
 
-		.contact__decor {
-			align-self: flex-start;
-			width: 110px;
-		}
-
-		.contact__title {
+		.billing-form__title {
 			font-size: 30px;
 		}
 
-		.contact__form {
+		.billing-form__rule {
+			width: 190px;
+		}
+
+		.billing-form__form {
 			grid-template-columns: 1fr;
+		}
+
+		.billing-form__actions {
+			justify-content: stretch;
+		}
+
+		.billing-form__button {
+			width: 100%;
+			min-width: 0;
+		}
+
+		.feedback-cta {
+			padding: 64px 20px;
+		}
+
+		.feedback-cta__decor {
+			position: static;
+			width: 96px;
+			margin-bottom: 6px;
+		}
+
+		.feedback-cta__title {
+			font-size: 30px;
+		}
+
+		.feedback-cta__button {
+			width: 100%;
 		}
 	}
 

@@ -1,4 +1,4 @@
-﻿---
+---
 import fullMenuUrl from '../../assets/media/MENUSCOMPLETOS/HACIENDA LOS MORALES.png?url';
 import grupo139BgUrl from '../../assets/media/AMERICAS-menu/Grupo 139.svg?url';
 ---
@@ -30,6 +30,7 @@ import grupo139BgUrl from '../../assets/media/AMERICAS-menu/Grupo 139.svg?url';
             <a class="menu-hotspot menu-hotspot--caldos" href="#menu-caldos" aria-label="Ir a Caldos"></a>
             <a class="menu-hotspot menu-hotspot--combos" href="#menu-combos" aria-label="Ir a Combos"></a>
             <a class="menu-hotspot menu-hotspot--bebidas" href="#menu-bebidas" aria-label="Ir a Bebidas"></a>
+            <a class="menu-hotspot menu-hotspot--postres" href="#menu-postres" aria-label="Ir a Postres"></a>
           </nav>
 
           <span id="menu-tostadas" class="menu-section-anchor" style="top: 17.6%;" aria-hidden="true"></span>
@@ -42,6 +43,8 @@ import grupo139BgUrl from '../../assets/media/AMERICAS-menu/Grupo 139.svg?url';
 
           <span id="menu-bebidas" class="menu-section-anchor" style="top: 82.4%;" aria-hidden="true"></span>
 
+
+          <span id="menu-postres" class="menu-section-anchor" style="top: 88%;" aria-hidden="true"></span>
         </div>
       </div>
 
@@ -55,11 +58,12 @@ import grupo139BgUrl from '../../assets/media/AMERICAS-menu/Grupo 139.svg?url';
         if (!(frame instanceof HTMLElement)) return;
 
         const sectionPercentByHash = {
-          "#menu-tostadas": 17.6,
-          "#menu-tacos": 30.4,
-          "#menu-caldos": 41.8,
-          "#menu-combos": 63.8,
-          "#menu-bebidas": 82.4,
+          "#menu-tostadas": 8,
+          "#menu-tacos": 17.6,
+          "#menu-caldos": 27.8,
+          "#menu-combos": 51.8,
+          "#menu-bebidas": 68.4,
+          "#menu-postres": 88,
         };
 
         const scrollToHash = (hash) => {
@@ -201,6 +205,14 @@ import grupo139BgUrl from '../../assets/media/AMERICAS-menu/Grupo 139.svg?url';
       transform: rotate(-21deg);
     }
 
+    .menu-hotspot--postres {
+      left: 5.2%;
+      top: 89.0%;
+      width: 23.0%;
+      height: 1.35%;
+      transform: rotate(-2deg);
+    }
+
     @media (hover: hover) {
       .menu-hotspot:hover {
         outline: 1px dashed rgba(255, 255, 255, 0.25);
@@ -219,6 +231,7 @@ import grupo139BgUrl from '../../assets/media/AMERICAS-menu/Grupo 139.svg?url';
       .menu-hotspot--combos { left: 37.7%; top: 3.0%; width: 26.0%; height: 1.4%; }
       .menu-hotspot--tostadas { left: 61.5%; top: 2.7%; width: 25.8%; height: 1.7%; }
       .menu-hotspot--caldos { left: 71.2%; top: 1.8%; width: 21.4%; height: 1.55%; }
+      .menu-hotspot--postres { left: 4.8%; top: 88.6%; width: 26.0%; height: 1.7%; }
     }
 
     .menu-section-anchor {

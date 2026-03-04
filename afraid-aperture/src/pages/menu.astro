@@ -523,7 +523,7 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
       applyScale();
     </script>
 
-    <style define:vars={{ camptonUrl }}>
+    <style define:vars={{ camptonSrc: `url("${camptonUrl}") format("opentype")` }}>
       :root {
         --canvas-w: 1080px;
         --canvas-h: 13949px;
@@ -569,7 +569,7 @@ import grupo247Url from '../assets/media/Grupo 247.svg?url';
 
       @font-face {
         font-family: 'Campton';
-        src: url(var(--camptonUrl)) format('opentype');
+        src: var(--camptonSrc);
         font-weight: 700;
         font-style: normal;
         font-display: swap;

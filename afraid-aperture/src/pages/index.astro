@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import heroMainBgUrl from '../assets/fondos/Inicio.png?url';
 import heroMainBg2xUrl from '../assets/media/Grupo 206@2x.png?url';
-import heroMainResourcesUrl from '../assets/fondos/inicioRevursos.svg?url';
 import heroBackgroundUrl from '../assets/media/Grupo 198.png?url';
 import heroLogoUrl from '../assets/media/logologito.png?url';
 import heroLogo2xUrl from '../assets/media/logologito.png?url';
@@ -25,7 +24,7 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 <Layout title="Inicio | La Siberia Central">
 	<section
 		class="hero"
-		style={`--hero-bg: image-set(url(${heroMainBgUrl}) 1x, url(${heroMainBg2xUrl}) 2x); --hero-resources-bg: url(${heroMainResourcesUrl});`}
+		style={`--hero-bg: image-set(url(${heroMainBgUrl}) 1x, url(${heroMainBg2xUrl}) 2x););`}
 	>
 		<div class="hero__bg hero__bg--image" aria-hidden="true"></div>
 		<div class="hero__bg hero__bg--resources" aria-hidden="true"></div>

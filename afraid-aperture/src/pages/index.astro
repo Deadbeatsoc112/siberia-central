@@ -7,12 +7,12 @@ import heroLogoUrl from '../assets/media/logologito.png?url';
 import heroLogo2xUrl from '../assets/media/logologito.png?url';
 import storyImageUrl from '../assets/media/Grupo 27.png?url';
 import storyImage2xUrl from '../assets/media/Grupo 27@2x.png?url';
-import menuImageOneUrl from '../assets/media/Grupo 31.png?url';
-import menuImageOne2xUrl from '../assets/media/Grupo 31@2x.png?url';
-import menuImageTwoUrl from '../assets/media/Grupo 34.png?url';
-import menuImageTwo2xUrl from '../assets/media/Grupo 34@2x.png?url';
-import menuImageThreeUrl from '../assets/media/Grupo 33.png?url';
-import menuImageThree2xUrl from '../assets/media/Grupo 33@2x.png?url';
+import menuImageOneUrl from '../assets/Tosdata.jpg?url';
+import menuImageOne2xUrl from '../assets/Tosdata.jpg?url';
+import menuImageTwoUrl from '../assets/Taco.jpg?url';
+import menuImageTwo2xUrl from '../assets/Taco.jpg?url';
+import menuImageThreeUrl from '../assets/Tlalp.jpg?url';
+import menuImageThree2xUrl from '../assets/Tlalp.jpg?url';
 import menuBandUrl from '../assets/media/Enmascarar grupo 9.png?url';
 import menuBand2xUrl from '../assets/media/Enmascarar grupo 9@2x.png?url';
 import billingBgUrl from '../assets/fondos/inicio_2.jpg?url';
@@ -120,72 +120,135 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 				<p class="billing-form__subtitle">
 					Comparte tus datos para gestionar tu factura de manera correcta.
 				</p>
-				<form class="billing-form__form" action="#" method="post" onsubmit="return false">
-					<div class="billing-form__column">
-						<div class="billing-form__field">
-							<label class="billing-form__label" for="billing-name">Nombre completo*</label>
-							<input class="billing-form__input" id="billing-name" name="full_name" type="text" required />
+				<form class="billing-form__form" action="#" method="post" enctype="multipart/form-data" onsubmit="return false">
+						<div class="billing-form__column">
+							<div class="billing-form__field">
+								<label class="billing-form__label" for="billing-name">Nombre completo*</label>
+								<input class="billing-form__input" id="billing-name" name="full_name" type="text" required />
+							</div>
+							<div class="billing-form__field">
+								<label class="billing-form__label" for="billing-rfc">RFC*</label>
+								<div class="billing-form__rfc-group">
+									<select class="billing-form__input billing-form__select" id="billing-rfc-type" name="rfc_person_type" required>
+										<option value="fisica" selected>Persona Fisica</option>
+										<option value="moral">Persona Moral</option>
+									</select>
+									<input
+										class="billing-form__input"
+										id="billing-rfc"
+										name="rfc"
+										type="text"
+										required
+										minlength="13"
+										maxlength="13"
+										pattern="^[A-Z&]{4}[0-9]{6}[A-Z0-9]{3}$"
+										title="RFC de Persona Fisica: 13 caracteres."
+									/>
+								</div>
+								<span class="billing-form__hint" id="billing-rfc-hint">Persona Fisica: captura 13 caracteres para RFC.</span>
+							</div>
+							<div class="billing-form__field">
+								<label class="billing-form__label" for="billing-business-name">Razon social*</label>
+								<input
+									class="billing-form__input"
+									id="billing-business-name"
+									name="business_name"
+									type="text"
+									required
+								/>
+							</div>
+							<div class="billing-form__field">
+								<label class="billing-form__label" for="billing-tax-regime">Regimen fiscal*</label>
+								<select class="billing-form__input billing-form__select" id="billing-tax-regime" name="tax_regime" required>
+									<option value="" selected disabled>Selecciona un regimen</option>
+									<option value="601">General de Ley Personas Morales</option>
+									<option value="603">Personas Morales con Fines no Lucrativos</option>
+									<option value="605">Sueldos y Salarios e Ingresos Asimilados a Salarios</option>
+									<option value="606">Arrendamiento</option>
+									<option value="607">Regimen de Enajenacion o Adquisicion de Bienes</option>
+									<option value="608">Demas ingresos</option>
+									<option value="609">Consolidacion</option>
+									<option value="610">Residentes en el Extranjero sin Establecimiento Permanente en Mexico</option>
+									<option value="611">Ingresos por Dividendos (socios y accionistas)</option>
+									<option value="612">Personas Fisicas con Actividades Empresariales y Profesionales</option>
+									<option value="614">Ingresos por Intereses</option>
+									<option value="615">Regimen de los Ingresos por Obtencion de Premios</option>
+									<option value="616">Sin obligaciones fiscales</option>
+									<option value="620">Sociedades Cooperativas de Produccion que optan por diferir sus ingresos</option>
+									<option value="621">Incorporacion Fiscal</option>
+									<option value="622">Actividades Agricolas, Ganaderas, Silvicolas y Pesqueras</option>
+									<option value="623">Opcional para Grupos de Sociedades</option>
+									<option value="624">Coordinados</option>
+									<option value="625">Actividades Empresariales con ingresos a traves de Plataformas Tecnologicas</option>
+									<option value="626">Regimen Simplificado de Confianza (RESICO - Personas Fisicas)</option>
+									<option value="628">Hidrocarburos</option>
+									<option value="629">Regimenes Fiscales Preferentes y de las Empresas Multinacionales</option>
+									<option value="630">Enajenacion de acciones en bolsa de valores</option>
+								</select>
+							</div>
 						</div>
-						<div class="billing-form__field">
-							<label class="billing-form__label" for="billing-rfc">RFC*</label>
-							<input
-								class="billing-form__input"
-								id="billing-rfc"
-								name="rfc"
-								type="text"
-								required
-								minlength="12"
-								maxlength="13"
-								pattern="^[A-Z&Ñ]{3,4}[0-9]{6}[A-Z0-9]{3}$"
-								title="Usa un RFC valido de 12 o 13 caracteres."
-								oninput="this.value = this.value.toUpperCase().replace(/\s+/g, '')"
-							/>
-							<span class="billing-form__hint">Formato: 12 (moral) o 13 (fisica) caracteres.</span>
+						<div class="billing-form__column">
+							<div class="billing-form__field">
+								<label class="billing-form__label" for="billing-cfdi-use">Uso de CFDI*</label>
+								<select class="billing-form__input billing-form__select" id="billing-cfdi-use" name="cfdi_use" required>
+									<option value="" selected disabled>Selecciona el uso</option>
+									<option value="D04">Donativos</option>
+									<option value="G01">Adquisicion de mercancias</option>
+									<option value="G02">Devoluciones, descuentos o bonificaciones</option>
+									<option value="G03">Gastos en general</option>
+									<option value="S01">Sin efectos fiscales</option>
+								</select>
+							</div>
+							<div class="billing-form__field">
+								<label class="billing-form__label" for="billing-fiscal-address">Direccion fiscal*</label>
+								<input class="billing-form__input" id="billing-fiscal-address" name="fiscal_address" type="text" required />
+							</div>
+							<div class="billing-form__field">
+								<label class="billing-form__label" for="billing-postal-code">Codigo postal*</label>
+								<input class="billing-form__input" id="billing-postal-code" name="postal_code" type="text" required />
+							</div>
+							<div class="billing-form__field">
+								<label class="billing-form__label" for="billing-payment-method">Forma de pago*</label>
+								<select class="billing-form__input billing-form__select" id="billing-payment-method" name="payment_method" required>
+									<option value="" selected disabled>Selecciona una forma de pago</option>
+									<option value="01">Efectivo</option>
+									<option value="04">Tarjeta de credito</option>
+									<option value="28">Tarjeta de debito</option>
+								</select>
+							</div>
+							<div class="billing-form__field">
+								<label class="billing-form__label" for="billing-email">Correo electronico</label>
+								<input class="billing-form__input" id="billing-email" name="email" type="email" />
+							</div>
+							<div class="billing-form__field">
+								<label class="billing-form__label" for="billing-phone">Telefono*</label>
+								<input class="billing-form__input" id="billing-phone" name="phone" type="tel" required />
+							</div>
+							<div class="billing-form__field">
+								<label class="billing-form__label" for="billing-ticket-file">Ticket o imagen (opcional)</label>
+								<input
+									class="billing-form__input"
+									id="billing-ticket-file"
+									name="ticket_file"
+									type="file"
+									accept=".jpg,.jpeg,.png,.webp,.pdf"
+								/>
+								<span class="billing-form__hint">Puedes subir foto o PDF del ticket.</span>
+							</div>
 						</div>
-						<div class="billing-form__field">
-							<label class="billing-form__label" for="billing-business-name">Razón social*</label>
-							<input
-								class="billing-form__input"
-								id="billing-business-name"
-								name="business_name"
-								type="text"
-								required
-							/>
+						<div class="billing-form__field billing-form__field--full">
+							<label class="billing-form__label" for="billing-notes">Comentarios (opcional)</label>
+							<textarea
+								class="billing-form__textarea"
+								id="billing-notes"
+								name="notes"
+								placeholder="Comparte aqui informacion adicional para tu factura."
+							></textarea>
 						</div>
-					</div>
-					<div class="billing-form__column">
-						<div class="billing-form__field">
-							<label class="billing-form__label" for="billing-email">Correo electrónico</label>
-							<input
-								class="billing-form__input"
-								id="billing-email"
-								name="email"
-								type="email"
-								required
-							/>
+						<div class="billing-form__actions">
+							<button class="billing-form__button" type="submit">Enviar datos de facturacion</button>
 						</div>
-						<div class="billing-form__field">
-							<label class="billing-form__label" for="billing-phone">Teléfono*</label>
-							<input class="billing-form__input" id="billing-phone" name="phone" type="tel" required />
-						</div>
-						<div class="billing-form__field">
-							<label class="billing-form__label" for="billing-ticket">Número de ticket*</label>
-							<input class="billing-form__input" id="billing-ticket" name="ticket_number" type="text" required />
-						</div>
-					</div>
-					<div class="billing-form__field billing-form__field--full">
-						<label class="billing-form__label" for="billing-notes">Comentarios (opcional)</label>
-						<textarea
-							class="billing-form__textarea"
-							id="billing-notes"
-							name="notes"
-							placeholder="Comparte aqui informacion adicional para tu factura."
-						></textarea>
-					</div>
-					<div class="billing-form__actions">
-						<button class="billing-form__button" type="submit">Enviar datos de facturación</button>
-					</div>
-				</form>
+					</form>
 			</div>
 		</section>
 		<section class="feedback-cta" aria-labelledby="feedback-title">
@@ -206,7 +269,7 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 	const storyImage = document.querySelector('.story__image');
 	const storySection = document.querySelector('.hero-followup');
 
-	if (storyImage instanceof HTMLElement && storySection instanceof HTMLElement) {
+		if (storyImage instanceof HTMLElement && storySection instanceof HTMLElement) {
 		let storySectionVisible = false;
 		let storySpinLocked = false;
 		let storySpinUnlockTimer;
@@ -278,10 +341,46 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 			storyImage.classList.remove('is-spin-turn');
 		});
 
-		window.addEventListener('scroll', fallbackOnScroll, { passive: true });
-		window.addEventListener('resize', fallbackOnScroll);
-	}
-</script>
+			window.addEventListener('scroll', fallbackOnScroll, { passive: true });
+			window.addEventListener('resize', fallbackOnScroll);
+		}
+
+		const rfcTypeSelect = document.getElementById('billing-rfc-type');
+		const rfcInput = document.getElementById('billing-rfc');
+		const rfcHint = document.getElementById('billing-rfc-hint');
+
+		if (rfcTypeSelect instanceof HTMLSelectElement && rfcInput instanceof HTMLInputElement) {
+			const applyRfcValidation = () => {
+				const isFisica = rfcTypeSelect.value === 'fisica';
+				const requiredLength = isFisica ? 13 : 12;
+
+				rfcInput.minLength = requiredLength;
+				rfcInput.maxLength = requiredLength;
+				rfcInput.pattern = isFisica
+					? '^[A-Z&]{4}[0-9]{6}[A-Z0-9]{3}$'
+					: '^[A-Z&]{3}[0-9]{6}[A-Z0-9]{3}$';
+				rfcInput.title = isFisica
+					? 'RFC de Persona Fisica: 13 caracteres.'
+					: 'RFC de Persona Moral: 12 caracteres.';
+
+				if (rfcHint instanceof HTMLElement) {
+					rfcHint.textContent = isFisica
+						? 'Persona Fisica: captura 13 caracteres para RFC.'
+						: 'Persona Moral: captura 12 caracteres para RFC.';
+				}
+
+				if (rfcInput.value.length > requiredLength) {
+					rfcInput.value = rfcInput.value.slice(0, requiredLength);
+				}
+			};
+
+			rfcTypeSelect.addEventListener('change', applyRfcValidation);
+			rfcInput.addEventListener('input', () => {
+				rfcInput.value = rfcInput.value.toUpperCase().replace(/\s+/g, '');
+			});
+			applyRfcValidation();
+		}
+	</script>
 
 <style>
 	.hero {
@@ -757,17 +856,27 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		color: #7a4b1f;
 	}
 
-	.billing-form__input,
-	.billing-form__textarea {
-		width: 100%;
-		border: 1px solid #d6ba98;
+		.billing-form__input,
+		.billing-form__textarea {
+			width: 100%;
+			border: 1px solid #d6ba98;
 		background: #ffffff;
 		color: #1f1f1f;
 		padding: 12px 14px;
 		font-size: 16px;
 		box-sizing: border-box;
-		font-weight: 500;
-	}
+			font-weight: 500;
+		}
+
+		.billing-form__select {
+			cursor: pointer;
+		}
+
+		.billing-form__rfc-group {
+			display: grid;
+			grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+			gap: 8px;
+		}
 
 	.billing-form__input:focus,
 	.billing-form__textarea:focus {
@@ -883,7 +992,7 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		}
 	}
 
-	@media (max-width: 768px) {
+		@media (max-width: 768px) {
 		.billing-form {
 			padding: 70px 20px;
 		}
@@ -896,9 +1005,13 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 			width: 190px;
 		}
 
-		.billing-form__form {
-			grid-template-columns: 1fr;
-		}
+			.billing-form__form {
+				grid-template-columns: 1fr;
+			}
+
+			.billing-form__rfc-group {
+				grid-template-columns: 1fr;
+			}
 
 		.billing-form__actions {
 			justify-content: stretch;
@@ -1037,3 +1150,4 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		}
 	}
 </style>
+

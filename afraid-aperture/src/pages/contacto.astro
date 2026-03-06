@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { getDB } from "../lib/db";
 import heroBgUrl from "../assets/fondos/Contacto.png?url";
+import contactHeroResourcesUrl from "../assets/fondos/RecrusosContactos.svg?url";
 import zigzagDecorUrl from '../assets/media/Grupo 36.svg?url';
 import { branchesRepo } from "../lib/branches";
 
@@ -21,13 +22,6 @@ const branches = branchesRaw.map((b) => ({
 const defaultCenter = { lat: 25.6866, lng: -100.3161 }; // Monterrey
 const defaultZoom = 12;
 
-const fondoAssets = import.meta.glob("../assets/fondos/*", {
-  eager: true,
-  import: "default",
-}) as Record<string, string>;
-const heroResourcesUrl =
-  Object.entries(fondoAssets).find(([assetPath]) => /recursoscontacto/i.test(assetPath))?.[1] ?? "";
-
 const success = Astro.url.searchParams.get('success') === '1';
 const error = Astro.url.searchParams.get('error');
 ---
@@ -41,15 +35,11 @@ const error = Astro.url.searchParams.get('error');
       aria-hidden="true"
     >
     </div>
-    {
-      heroResourcesUrl && (
-        <div
-          class="contact-hero__bg contact-hero__bg--resources"
-          style={`background-image: url("${heroResourcesUrl}");`}
-          aria-hidden="true"
-        ></div>
-      )
-    }
+    <div
+      class="contact-hero__bg contact-hero__bg--resources"
+      style={`background-image: url("${contactHeroResourcesUrl}");`}
+      aria-hidden="true"
+    ></div>
     <div class="contact-hero__overlay" aria-hidden="true"></div>
 
     <div class="contact-hero__content">

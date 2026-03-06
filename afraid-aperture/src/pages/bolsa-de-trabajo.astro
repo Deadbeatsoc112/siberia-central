@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { getDB } from '../lib/db';
 import jobsHeroUrl from '../assets/fondos/BolsaDetrabajo.png?url';
 import jobsHero2xUrl from '../assets/media/Enmascarar grupo 2@2x.png?url';
+import jobsHeroResourcesUrl from '../assets/fondos/recursosBolsaDeTrabajo.svg?url';
 import { jobsRepo } from '../lib/content';
 
 const db = getDB(Astro.locals);
@@ -16,8 +17,13 @@ const error = Astro.url.searchParams.get('error');
 <Layout title="Bolsa de trabajo | La Siberia Central">
 	<section class="jobs-hero" aria-labelledby="jobs-title">
 		<div
-			class="jobs-hero__bg"
+			class="jobs-hero__bg jobs-hero__bg--image"
 			style={`background-image: image-set(url(${jobsHeroUrl}) 1x, url(${jobsHero2xUrl}) 2x);`}
+			aria-hidden="true"
+		></div>
+		<div
+			class="jobs-hero__bg jobs-hero__bg--resources"
+			style={`background-image: url(${jobsHeroResourcesUrl});`}
 			aria-hidden="true"
 		></div>
 		<div class="jobs-hero__overlay" aria-hidden="true"></div>
@@ -262,20 +268,32 @@ const error = Astro.url.searchParams.get('error');
 	.jobs-hero__bg {
 		position: absolute;
 		inset: 0;
-		background-size: cover;
+		background-size: cover ;
 		background-position: center;
-		transform: scale(1.02);
+		background-repeat: no-repeat;
+		transform: none;
+		pointer-events: none;
+	}
+
+	.jobs-hero__bg--image {
+		z-index: 0;
+	}
+
+	.jobs-hero__bg--resources {
+		z-index: 1;
+		background-size: 100% 100%;
 	}
 
 	.jobs-hero__overlay {
 		position: absolute;
 		inset: 0;
 		background: rgba(0, 0, 0, 0.15);
+		z-index: 2;
 	}
 
 	.jobs-hero__content {
 		position: relative;
-		z-index: 2;
+		z-index: 3;
 		max-width: 820px;
 		padding: 0 24px;
 		display: flex;
@@ -665,3 +683,4 @@ const error = Astro.url.searchParams.get('error');
 		}
 	}
 </style>
+

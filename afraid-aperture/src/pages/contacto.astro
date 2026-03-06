@@ -21,6 +21,13 @@ const branches = branchesRaw.map((b) => ({
 const defaultCenter = { lat: 25.6866, lng: -100.3161 }; // Monterrey
 const defaultZoom = 12;
 
+const fondoAssets = import.meta.glob("../assets/fondos/*", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
+const heroResourcesUrl =
+  Object.entries(fondoAssets).find(([assetPath]) => /recursoscontacto/i.test(assetPath))?.[1] ?? "";
+
 const success = Astro.url.searchParams.get('success') === '1';
 const error = Astro.url.searchParams.get('error');
 ---
@@ -29,11 +36,20 @@ const error = Astro.url.searchParams.get('error');
   <!-- HERO -->
   <section class="contact-hero" aria-labelledby="contact-title">
     <div
-      class="contact-hero__bg"
+      class="contact-hero__bg contact-hero__bg--image"
       style={`background: transparent url("${heroBgUrl}") 0% 0% no-repeat padding-box;`}
       aria-hidden="true"
     >
     </div>
+    {
+      heroResourcesUrl && (
+        <div
+          class="contact-hero__bg contact-hero__bg--resources"
+          style={`background-image: url("${heroResourcesUrl}");`}
+          aria-hidden="true"
+        ></div>
+      )
+    }
     <div class="contact-hero__overlay" aria-hidden="true"></div>
 
     <div class="contact-hero__content">
@@ -333,11 +349,23 @@ const error = Astro.url.searchParams.get('error');
     height: 100%;
     background-size: cover !important;
     background-position: center !important;
-    transform: scale(1.02);
     opacity: 1;
-    z-index: 0;
-    filter: brightness(2);
+    pointer-events: none;
   }
+
+  .contact-hero__bg--image {
+    z-index: 0;
+    transform: scale(1.02);
+    filter: brightness(1);
+  }
+
+  .contact-hero__bg--resources {
+    z-index: 1;
+    background-size: 100% 100% !important;
+    transform: none;
+    filter: none;
+  }
+
 
   .contact-hero__overlay {
     position: absolute;

@@ -335,4 +335,60 @@ const currentPath = Astro.url?.pathname ?? '/';
 			flex-wrap: wrap;
 		}
 	}
+
+	@media (max-width: 768px) {
+		:global(:root) {
+			--nav-top: 20px;
+		}
+
+		.site-header {
+			padding: 0 16px;
+		}
+
+		.site-nav__list {
+			gap: 12px 20px;
+		}
+
+		.site-nav__link {
+			font-size: 14px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		:global(:root) {
+			--nav-top: 16px;
+		}
+
+		.site-header {
+			padding: 0 12px;
+		}
+
+		.site-nav__list {
+			gap: 8px 14px;
+		}
+
+		.site-nav__link {
+			font-size: 12px;
+			letter-spacing: 0.2px;
+		}
+	}
+
+	@media (max-width: 375px) {
+		:global(:root) {
+			--nav-top: 12px;
+		}
+
+		.site-header {
+			padding: 0 8px;
+		}
+
+		.site-nav__list {
+			gap: 6px 10px;
+		}
+
+		.site-nav__link {
+			font-size: 11px;
+			letter-spacing: 0.1px;
+		}
+	}
 </style>

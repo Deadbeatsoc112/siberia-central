@@ -55,8 +55,11 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 				<h2 id="historia-title" class="story__title">Nuestra Historia</h2>
 				<span class="story__rule" aria-hidden="true"></span>
 				<p class="story__text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh
-					euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+La Siberia Central nació del deseo de una familia por ofrecer algo sencillo pero auténtico: una mesa donde la gente se sienta bienvenida y bien atendida.
+Con el paso del tiempo, esa mesa se convirtió en un lugar de reunión para generaciones de regiomontanos, un espacio donde se comparten platillos, risas y momentos que se guardan en la memoria.
+Hoy seguimos siendo ese mismo lugar: un restaurante familiar que honra su origen y se esfuerza por mantener la calidad y el cariño en cada visita.
+Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte de las historias que se cuentan alrededor de la mesa.
+<br/>	SOMOS UNA TRADICIÓN MUY REGIA.
 				</p>
 				<a class="story__button" href="/nosotros">Más sobre nosotros</a>
 			</div>
@@ -455,7 +458,8 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		top: 0px;
 		left: 0px;
 		width: 100%;
-		height: 816px;
+		height: 1300px;
+		--story-content-top: 30px;
 		background-color: transparent;
 		background-position: 0% 0%;
 		background-repeat: no-repeat;
@@ -504,7 +508,7 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 
 	.story__content {
 		position: absolute;
-		top: 228px;
+		top: var(--story-content-top);
 		left: 25%;
 		right: auto;
 		transform: translateX(-50%);
@@ -530,6 +534,10 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 	}
 
 	@media (max-width: 1366px) and (min-width: 1024px) {
+		.hero-followup {
+			--story-content-top: -30px;
+		}
+
 		.story__image {
 			top: 150px;
 			right: clamp(24px, 4vw, 80px);
@@ -538,7 +546,6 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		}
 
 		.story__content {
-			top: 210px;
 			max-width: 600px;
 		}
 	}
@@ -589,7 +596,8 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		}
 
 		.hero-followup {
-			height: 640px;
+			height: 760px;
+			--story-content-top: 130px;
 			background-position: center top;
 			background-size: cover;
 		}
@@ -605,7 +613,6 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		}
 
 		.story__content {
-			top: 400px;
 			left: 10%;
 			width: 80%;
 			height: auto;
@@ -1150,4 +1157,3 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		}
 	}
 </style>
-

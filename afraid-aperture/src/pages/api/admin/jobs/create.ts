@@ -16,13 +16,21 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 	const type = String(form.get('type') ?? '').trim();
 	const description = String(form.get('description') ?? '').trim();
 	const isActive = form.get('is_active') === 'on';
-	const availablePositions = Number(form.get('available_positions')) || 1;
+	const availablePositionsRaw = Number(form.get('available_positions'));
+	const availablePositions = Number.isFinite(availablePositionsRaw) && availablePositionsRaw > 0
+		? Math.floor(availablePositionsRaw)
+		: 1;
 
 	if (!title || !location || !type || !description) {
 		return Response.redirect(new URL('/paneladministrador?tab=jobs&error=1', request.url), 303);
 	}
 
-	await jobsRepo.create(db, { title, location, type, description, isActive, availablePositions });
+	try {
+		await jobsRepo.create(db, { title, location, type, description, isActive, availablePositions });
+	} catch (error) {
+		console.error('Failed to create job vacancy:', error);
+		return Response.redirect(new URL('/paneladministrador?tab=jobs&error=create-failed', request.url), 303);
+	}
 
-	return Response.redirect(new URL('/paneladministrador?tab=jobs', request.url), 303);
+	return Response.redirect(new URL('/paneladministrador?tab=jobs&success=created', request.url), 303);
 };

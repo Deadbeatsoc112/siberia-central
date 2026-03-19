@@ -24,7 +24,8 @@
 		{
 			"binding": "siberia_prod",
 			"database_name": "siberia_prod",
-			"database_id": "afe47647-58c3-49f9-8c3f-1925564407ac"
+			"database_id": "4f750fa2-c01a-4dc1-8a39-b12f149c1493",
+			"remote": true
 		}
 	]
 }

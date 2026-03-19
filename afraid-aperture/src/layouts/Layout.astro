@@ -1,5 +1,6 @@
 ---
 import Footer from '../components/Footer.astro';
+import navItemMarkUrl from '../assets/media/Enmascarar grupo 4@2x.png?url';
 
 const { title = 'La Siberia Central' } = Astro.props;
 const navItems = [
@@ -31,8 +32,26 @@ const currentPath = Astro.url?.pathname ?? '/';
 	</head>
 	<body>
 		<header class="site-header">
-			<nav class="site-nav" aria-label="Principal">
-				<ul class="site-nav__list">
+			<nav
+				class="site-nav"
+				aria-label="Principal"
+				style={`--site-nav-mark-image: url(${navItemMarkUrl});`}
+			>
+				<button
+					class="site-nav__toggle"
+					type="button"
+					aria-expanded="false"
+					aria-controls="site-nav-list"
+					aria-label="Abrir menú principal"
+					data-nav-toggle
+				>
+					<span class="site-nav__hamburger" aria-hidden="true">
+						<span class="site-nav__hamburger-line"></span>
+						<span class="site-nav__hamburger-line"></span>
+						<span class="site-nav__hamburger-line"></span>
+					</span>
+				</button>
+				<ul id="site-nav-list" class="site-nav__list" data-nav-list>
 					{navItems.map((item) => {
 						const isMenuRoute = item.href === '/menu-sucursales' && currentPath.startsWith('/carta');
 						const isActive =
@@ -42,7 +61,8 @@ const currentPath = Astro.url?.pathname ?? '/';
 						return (
 							<li class="site-nav__item">
 								<a class={`site-nav__link ${isActive ? 'is-active' : ''}`} href={item.href}>
-									{item.label}
+									<span class="site-nav__link-mark" aria-hidden="true"></span>
+									<span class="site-nav__link-label">{item.label}</span>
 								</a>
 							</li>
 						);
@@ -54,6 +74,55 @@ const currentPath = Astro.url?.pathname ?? '/';
 			<slot />
 		</main>
 		<Footer />
+		<script>
+			const nav = document.querySelector('.site-nav');
+			const toggle = nav?.querySelector('[data-nav-toggle]');
+			const list = nav?.querySelector('[data-nav-list]');
+			const desktopMedia = window.matchMedia('(min-width: 769px)');
+
+			if (
+				nav instanceof HTMLElement &&
+				toggle instanceof HTMLButtonElement &&
+				list instanceof HTMLElement
+			) {
+				const setOpen = (isOpen) => {
+					nav.classList.toggle('is-open', isOpen);
+					toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+					toggle.setAttribute(
+						'aria-label',
+						isOpen ? 'Cerrar menú principal' : 'Abrir menú principal'
+					);
+				};
+
+				toggle.addEventListener('click', () => {
+					const isOpen = !nav.classList.contains('is-open');
+					setOpen(isOpen);
+				});
+
+				list.querySelectorAll('a').forEach((link) => {
+					link.addEventListener('click', () => setOpen(false));
+				});
+
+				document.addEventListener('keydown', (event) => {
+					if (event.key === 'Escape') {
+						setOpen(false);
+					}
+				});
+
+				document.addEventListener('click', (event) => {
+					if (!(event.target instanceof Node)) return;
+					if (!nav.contains(event.target)) {
+						setOpen(false);
+					}
+				});
+
+				desktopMedia.addEventListener?.('change', (event) => {
+					if (event.matches) {
+						setOpen(false);
+					}
+				});
+			}
+		</script>
 	</body>
 </html>
 
@@ -265,6 +334,11 @@ const currentPath = Astro.url?.pathname ?? '/';
 	.site-nav {
 		height: 100%;
 		width: min(90%, var(--nav-width));
+		position: relative;
+	}
+
+	.site-nav__toggle {
+		display: none;
 	}
 
 	.site-nav__list {
@@ -289,6 +363,10 @@ const currentPath = Astro.url?.pathname ?? '/';
 		transition: opacity 0.2s ease;
 	}
 
+	.site-nav__link-mark {
+		display: none;
+	}
+
 	.site-nav__link:hover,
 	.site-nav__link:focus-visible {
 		opacity: 0.8;
@@ -298,6 +376,35 @@ const currentPath = Astro.url?.pathname ?? '/';
 		opacity: 1;
 		border-bottom: 2px solid rgba(200, 176, 122, 0.7);
 		padding-bottom: 6px;
+	}
+
+	.site-nav__hamburger {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		width: 24px;
+		height: 16px;
+	}
+
+	.site-nav__hamburger-line {
+		width: 100%;
+		height: 2.5px;
+		border-radius: 999px;
+		background: var(--nav-text);
+		box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.45);
+		transition: transform 0.2s ease, opacity 0.2s ease;
+	}
+
+	.site-nav.is-open .site-nav__hamburger-line:nth-child(1) {
+		transform: translateY(6px) rotate(45deg);
+	}
+
+	.site-nav.is-open .site-nav__hamburger-line:nth-child(2) {
+		opacity: 0;
+	}
+
+	.site-nav.is-open .site-nav__hamburger-line:nth-child(3) {
+		transform: translateY(-6px) rotate(-45deg);
 	}
 
 	.page {
@@ -338,6 +445,14 @@ const currentPath = Astro.url?.pathname ?? '/';
 
 	@media (max-width: 768px) {
 		:global(:root) {
+			--hamburger-base: #0D0D0D;
+			--hamburger-card: #1C1C1C;
+			--hamburger-active: #C0392B;
+			--hamburger-accent: #E74C3C;
+			--hamburger-text: #FFFFFF;
+		}
+
+		:global(:root) {
 			--nav-top: 20px;
 		}
 
@@ -345,12 +460,108 @@ const currentPath = Astro.url?.pathname ?? '/';
 			padding: 0 16px;
 		}
 
+		.site-nav {
+			width: 100%;
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+		}
+
+		.site-nav__toggle {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 52px;
+			height: 52px;
+			border: 1px solid rgba(255, 255, 255, 0.24);
+			border-radius: 14px;
+			background: var(--hamburger-base);
+			backdrop-filter: blur(8px);
+			cursor: pointer;
+			transition: transform 0.2s ease, background 0.2s ease;
+		}
+
+		.site-nav__toggle:hover,
+		.site-nav__toggle:focus-visible {
+			background: var(--hamburger-card);
+			transform: translateY(-1px);
+		}
+
+		.site-nav__hamburger-line {
+			background: var(--hamburger-accent);
+		}
+
 		.site-nav__list {
-			gap: 12px 20px;
+			position: absolute;
+			top: calc(100% + 12px);
+			right: 0;
+			width: min(92vw, 380px);
+			height: auto;
+			max-height: calc(100vh - 110px);
+			overflow-y: auto;
+			display: grid;
+			grid-template-columns: 1fr;
+			align-items: stretch;
+			gap: 8px;
+			padding: 14px;
+			border-radius: 16px;
+			border: 1px solid rgba(255, 255, 255, 0.18);
+			background: var(--hamburger-base);
+			backdrop-filter: blur(6px);
+			box-shadow: 0px 18px 40px rgba(0, 0, 0, 0.48);
+			opacity: 0;
+			pointer-events: none;
+			transform: translateY(-8px);
+			transition: opacity 0.18s ease, transform 0.18s ease;
+		}
+
+		.site-nav.is-open .site-nav__list {
+			opacity: 1;
+			pointer-events: auto;
+			transform: translateY(0px);
+		}
+
+		.site-nav__item {
+			width: 100%;
+			display: block;
 		}
 
 		.site-nav__link {
-			font-size: 14px;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			font-size: 17px;
+			line-height: 1.3;
+			font-weight: 700;
+			padding: 14px 14px;
+			border-radius: 12px;
+			background: var(--hamburger-card);
+			text-align: left;
+			width: 100%;
+			border: 1px solid rgba(255, 255, 255, 0.16);
+			color: var(--hamburger-text);
+			text-shadow: none;
+		}
+
+		.site-nav__link-label {
+			display: block;
+		}
+
+		.site-nav__link.is-active {
+			border: 1px solid rgba(255, 255, 255, 0.26);
+			background: var(--hamburger-active);
+			padding-bottom: 14px;
+		}
+
+		.site-nav__link-mark {
+			display: inline-block;
+			width: 18px;
+			height: 18px;
+			background-image: var(--site-nav-mark-image);
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-position: center;
+			flex: 0 0 auto;
 		}
 	}
 
@@ -364,11 +575,12 @@ const currentPath = Astro.url?.pathname ?? '/';
 		}
 
 		.site-nav__list {
-			gap: 8px 14px;
+			width: min(96vw, 360px);
+			padding: 14px;
 		}
 
 		.site-nav__link {
-			font-size: 12px;
+			font-size: 16px;
 			letter-spacing: 0.2px;
 		}
 	}
@@ -382,12 +594,8 @@ const currentPath = Astro.url?.pathname ?? '/';
 			padding: 0 8px;
 		}
 
-		.site-nav__list {
-			gap: 6px 10px;
-		}
-
 		.site-nav__link {
-			font-size: 11px;
+			font-size: 13px;
 			letter-spacing: 0.1px;
 		}
 	}

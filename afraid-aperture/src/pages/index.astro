@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import heroMainBgUrl from '../assets/fondos/Inicio.png?url';
-import heroMainBg2xUrl from '../assets/media/Grupo 206@2x.png?url';
+const heroMainBg2xUrl = heroMainBgUrl;
 import heroBackgroundUrl from '../assets/media/Grupo 198.png?url';
 import heroLogoUrl from '../assets/media/logologito.png?url';
 import heroLogo2xUrl from '../assets/media/logologito.png?url';
@@ -596,27 +596,29 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		}
 
 		.hero-followup {
-			height: 760px;
-			--story-content-top: 130px;
-			background-position: center top;
-			background-size: cover;
+			height: auto;
+			--story-content-top: 0px;
 		}
 
 		.story__image {
-			top: 60px;
-			left: 50%;
-			--story-image-base-transform: translateX(-50%) rotate(-8deg);
-			transform: var(--story-image-base-transform);
-			width: 320px;
-			height: 320px;
-			border-width: 8px;
+			display: none;
+		}
+
+		.story {
+			padding: 88px 24px 72px;
 		}
 
 		.story__content {
-			left: 10%;
-			width: 80%;
-			height: auto;
+			position: relative;
+			top: auto;
+			left: auto;
+			right: auto;
+			width: min(760px, 100%);
+			max-width: 760px;
+			margin: 0 auto;
+			padding: 0;
 			transform: none;
+			color: #111111;
 		}
 
 		.story__title {
@@ -624,20 +626,27 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 			height: auto;
 			font-size: 36px;
 			line-height: 44px;
+			color: #111111;
+			white-space: normal;
 		}
 
 		.story__rule {
 			width: 180px;
+			background: #111111;
 		}
 
 		.story__text {
 			font-size: 16px;
 			line-height: 24px;
+			color: #111111;
+			opacity: 1;
 		}
 
 		.story__button {
 			width: 240px;
 			height: 52px;
+			border-color: #111111;
+			color: #111111;
 		}
 	}
 
@@ -1111,7 +1120,8 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		bottom: 0;
 		left: 50%;
 		transform: translateX(-50%);
-		width: 537px;
+		width: min(537px, calc(100vw - 32px));
+		max-width: 100%;
 		height: 27px;
 	}
 
@@ -1131,7 +1141,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 
 		.billing__decor {
 			bottom: 0;
-			width: 420px;
+			width: min(420px, calc(100vw - 32px));
 			height: 22px;
 		}
 	}
@@ -1151,7 +1161,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		}
 
 		.billing__decor {
-			width: 300px;
+			width: min(300px, calc(100vw - 24px));
 			height: 15px;
 			bottom: 0;
 		}

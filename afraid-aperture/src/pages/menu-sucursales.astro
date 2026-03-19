@@ -206,6 +206,9 @@ const remainingMenus = menuModules.slice(5);
 		filter: brightness(0.4);
 		transform: none;
 		transform-origin: none;
+		background-size: 100% auto;
+		background-repeat: no-repeat;
+		background-position: center top;
 		z-index: 2;
 	}
 
@@ -247,6 +250,11 @@ const remainingMenus = menuModules.slice(5);
 			height: 680px;
 		}
 
+		.menu-hero__bg--svg {
+			background-size: 130% auto;
+			background-position: center top;
+		}
+
 		.menu-hero__title {
 			font-size: 56px;
 		}
@@ -259,6 +267,11 @@ const remainingMenus = menuModules.slice(5);
 	@media (max-width: 768px) {
 		.menu-hero {
 			height: 560px;
+		}
+
+		.menu-hero__bg--svg {
+			background-size: 160% auto;
+			background-position: center top;
 		}
 
 		.menu-hero__title {
@@ -450,6 +463,4 @@ const remainingMenus = menuModules.slice(5);
 		}
 	}
 </style>
-
-
 

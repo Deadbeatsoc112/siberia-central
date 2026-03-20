@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import heroMainBgUrl from '../assets/fondos/Inicio.png?url';
 const heroMainBg2xUrl = heroMainBgUrl;
-import heroBackgroundUrl from '../assets/media/Grupo 198.png?url';
+import heroBackgroundUrl from '../assets/media/Grupo 198 sin-linea.png?url';
 import heroLogoUrl from '../assets/media/logologito.png?url';
 import heroLogo2xUrl from '../assets/media/logologito.png?url';
 import storyImageUrl from '../assets/media/Grupo 27.png?url';
@@ -24,7 +24,7 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 <Layout title="Inicio | La Siberia Central">
 	<section
 		class="hero"
-		style={`--hero-bg: image-set(url(${heroMainBgUrl}) 1x, url(${heroMainBg2xUrl}) 2x););`}
+		style={`--hero-bg: image-set(url(${heroMainBgUrl}) 1x, url(${heroMainBg2xUrl}) 2x);`}
 	>
 		<div class="hero__bg hero__bg--image" aria-hidden="true"></div>
 		<div class="hero__bg hero__bg--resources" aria-hidden="true"></div>
@@ -458,10 +458,11 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		top: 0px;
 		left: 0px;
 		width: 100%;
-		height: 1300px;
+		height: clamp(640px, 55vw, 820px);
 		--story-content-top: 30px;
-		background-color: transparent;
+		background-color: #d4534f;
 		background-position: 0% 0%;
+		background-size: cover;
 		background-repeat: no-repeat;
 		opacity: 1;
 	}

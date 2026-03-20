@@ -2,7 +2,8 @@
 import Footer from '../components/Footer.astro';
 import navItemMarkUrl from '../assets/media/Enmascarar grupo 4@2x.png?url';
 
-const { title = 'La Siberia Central' } = Astro.props;
+const { title = 'La Siberia Central', navTheme = 'overlay' } = Astro.props;
+const isLightNav = navTheme === 'light';
 const navItems = [
   { label: 'Inicio', href: '/' },
   { label: 'Nosotros', href: '/nosotros' },
@@ -30,13 +31,13 @@ const currentPath = Astro.url?.pathname ?? '/';
 		/>
 		<title>{title}</title>
 	</head>
-	<body>
-		<header class="site-header">
-			<nav
-				class="site-nav"
-				aria-label="Principal"
-				style={`--site-nav-mark-image: url(${navItemMarkUrl});`}
-			>
+		<body>
+			<header class={`site-header ${isLightNav ? 'site-header--light' : ''}`}>
+				<nav
+					class={`site-nav ${isLightNav ? 'site-nav--light' : ''}`}
+					aria-label="Principal"
+					style={`--site-nav-mark-image: url(${navItemMarkUrl});`}
+				>
 				<button
 					class="site-nav__toggle"
 					type="button"
@@ -405,6 +406,22 @@ const currentPath = Astro.url?.pathname ?? '/';
 
 	.site-nav.is-open .site-nav__hamburger-line:nth-child(3) {
 		transform: translateY(-6px) rotate(-45deg);
+	}
+
+	@media (min-width: 769px) {
+		.site-nav--light .site-nav__link {
+			color: #8b5a2b;
+			text-shadow: none;
+		}
+
+		.site-nav--light .site-nav__link:hover,
+		.site-nav--light .site-nav__link:focus-visible {
+			opacity: 0.72;
+		}
+
+		.site-nav--light .site-nav__link.is-active {
+			border-bottom-color: rgba(139, 90, 43, 0.7);
+		}
 	}
 
 	.page {

@@ -21,33 +21,28 @@ const branchesCount = (await branchesRepo.listActive(db)).length;
 const timelineItems = [
 	{
 		year: '1946',
-		title: 'Historia de La Siberia Central',
-		text: 'Fue en 1946 cuando el Sr. Demetrio Téllez, junto con su hermano Francisco, fundaron por primera vez el concepto llamado Siberia. Con mucho trabajo, dedicación y entusiasmo, lograron que su propuesta gastronómica permaneciera en el gusto de sus comensales, convirtiéndose poco a poco en una tradición.',
+		title: 'Primer concepto Siberia',
+		text: 'Los hermanos Demetrio Téllez y Francisco Téllez fundan el primer concepto llamado Siberia. Con mucho trabajo y dedicación, su propuesta gastronómica comienza a ganar el gusto de los regiomontanos.',
 	},
 	{
 		year: '1978',
 		title: 'Nace La Siberia Central',
-		text: 'Con el paso de los años, la historia continuó escribiéndose. Fue en 1978 cuando, gracias al consejo de don Demetrio y al apoyo de su esposa, Ana Morgan, aconsejaron a su hija seguir el legado. Por ello, la Sra. Elodia Téllez, junto con su esposo, el Sr. Ernesto Ontiveros, decidieron emprender su propio camino. En un pequeño local ubicado en la avenida Rodrigo Gómez, comenzaron una nueva etapa que, con el tiempo, daría vida a lo que hoy conocemos como La Siberia Central.',
+		text: 'Siguiendo el consejo de Don Demetrio y con el apoyo de Ana Morgan, su hija Elodia Téllez junto a su esposo Ernesto Ontiveros abre su propio restaurante en un pequeño local ubicado en la Avenida Rodrigo Gómez. Este es el nacimiento oficial de La Siberia Central.',
 	},
 	{
-		year: 'Historia viva',
-		title: 'Generaciones compartiendo mesa',
-		text: 'Desde aquel inicio humilde, el restaurante ha sido testigo de innumerables historias, anécdotas y momentos compartidos por generaciones de familias y amigos. Cada visita ha dejado un recuerdo en la mesa y en el corazón de quienes han pasado por aquí.',
+		year: '1978 - 2026',
+		title: 'Más de 48 años de tradición',
+		text: 'Durante más de 48 años, La Siberia Central se ha consolidado como un lugar donde familias y amigos se reúnen para compartir momentos alrededor de la mesa. Cada tostada ha sido testigo de innumerables anécdotas y tradiciones que se han transmitido de generación en generación.',
+	},
+	{
+		year: 'Actualidad',
+		title: 'Segunda y tercera generación',
+		text: 'Hoy, de la mano de la segunda y tercera generación de la familia, La Siberia Central continúa operando con el mismo compromiso y calidad que la vio nacer. Con varias sucursales en Monterrey, sigue siendo una tradición muy regia.',
 	},
 	{
 		year: 'Hoy',
-		title: 'Compromiso que continúa',
-		text: 'Hoy los recordamos con aprecio y cariño; por eso, seguimos trabajando con el mismo compromiso que nos vio nacer, ahora de la mano de sus hijos y con más sucursales, cada vez más cerca de ti.',
-	},
-	{
-		year: 'Siempre',
-		title: 'Calidad y atención',
-		text: 'Recuerda que siempre estamos listos para brindar la mejor atención, calidad e instalaciones a nuestros clientes. Porque en La Siberia Central no solo se sirve un platillo: se comparte una lluvia de momentos inolvidables y se honra una historia que se seguirá escribiendo a través de los años.',
-	},
-	{
-		year: 'Orgullo',
-		title: 'Por ello podemos decir con orgullo que nosotros sí...',
-		text: 'SOMOS UNA TRADICIÓN MUY REGIA',
+		title: 'Tradición muy regia',
+		text: 'SOMOS UNA TRADICIÓN MUY REGIA.',
 	},
 ];
 ---
@@ -63,11 +58,8 @@ const timelineItems = [
 		<div class="about-hero__content">
 			<h1 id="about-title" class="about-hero__title">Sobre Nosotros</h1>
 			<p class="about-hero__text">
-La Siberia Central nació del deseo de una familia por ofrecer algo sencillo pero auténtico: una mesa donde la gente se sienta bienvenida y bien atendida.
-Con el paso del tiempo, esa mesa se convirtió en un lugar de reunión para generaciones de regiomontanos. Un espacio donde se comparten platillos, risas y momentos que se guardan en la memoria.
-Hoy, seguimos siendo ese mismo lugar: un restaurante familiar que honra su origen y se esfuerza por mantener la calidad y el cariño en cada visita.
-Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte de las historias que se cuentan alrededor de la mesa.
-<br> SOMOS UNA TRADICIÓN MUY REGIA
+La historia de La Siberia Central comenzó en 1946, cuando el Sr. Demetrio Téllez y su hermano Francisco fundaron el concepto original de Siberia. Años después, en 1978, bajo el consejo de don Demetrio y el apoyo de Ana Morgan, la Sra. Elodia Téllez y su esposo, el Sr. Ernesto Ontiveros, abrieron un pequeño local en la avenida Rodrigo Gómez, dando origen formal a La Siberia Central. Desde entonces, el restaurante ha sido testigo de generaciones de familias y amigos que han compartido anécdotas alrededor de la mesa. Hoy seguimos trabajando con ese mismo compromiso, manteniendo calidad, atención y cercanía en cada sucursal para honrar una historia viva que continúa escribiéndose cada día.
+<br /> SOMOS UNA TRADICIÓN MUY REGIA.
 			</p>
 		</div>
 	</section>
@@ -1017,7 +1009,8 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		top: 0;
 		left: 50%;
 		transform: translateX(-50%);
-		width: 537px;
+		width: min(537px, calc(100vw - 32px));
+		max-width: 100%;
 		height: 27px;
 	}
 
@@ -1053,7 +1046,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		}
 
 		.mission-vision__decor {
-			width: 420px;
+			width: min(420px, calc(100vw - 32px));
 			height: 22px;
 		}
 
@@ -1077,7 +1070,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		}
 
 		.mission-vision__decor {
-			width: 300px;
+			width: min(300px, calc(100vw - 24px));
 			height: 15px;
 		}
 
@@ -1104,7 +1097,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		}
 
 		.mission-vision__decor {
-			width: 220px;
+			width: min(220px, calc(100vw - 24px));
 			height: 12px;
 		}
 
@@ -1130,7 +1123,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		}
 
 		.mission-vision__decor {
-			width: 180px;
+			width: min(180px, calc(100vw - 24px));
 			height: 10px;
 		}
 

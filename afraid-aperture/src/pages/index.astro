@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import heroMainBgUrl from '../assets/fondos/Inicio.png?url';
-import heroMainBg2xUrl from '../assets/media/Grupo 206@2x.png?url';
-import heroBackgroundUrl from '../assets/media/Grupo 198.png?url';
+const heroMainBg2xUrl = heroMainBgUrl;
+import heroBackgroundUrl from '../assets/media/Grupo 198 sin-linea.png?url';
 import heroLogoUrl from '../assets/media/logologito.png?url';
 import heroLogo2xUrl from '../assets/media/logologito.png?url';
 import storyImageUrl from '../assets/media/Grupo 27.png?url';
@@ -24,7 +24,7 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 <Layout title="Inicio | La Siberia Central">
 	<section
 		class="hero"
-		style={`--hero-bg: image-set(url(${heroMainBgUrl}) 1x, url(${heroMainBg2xUrl}) 2x););`}
+		style={`--hero-bg: image-set(url(${heroMainBgUrl}) 1x, url(${heroMainBg2xUrl}) 2x);`}
 	>
 		<div class="hero__bg hero__bg--image" aria-hidden="true"></div>
 		<div class="hero__bg hero__bg--resources" aria-hidden="true"></div>
@@ -55,8 +55,11 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 				<h2 id="historia-title" class="story__title">Nuestra Historia</h2>
 				<span class="story__rule" aria-hidden="true"></span>
 				<p class="story__text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh
-					euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+La Siberia Central nació del deseo de una familia por ofrecer algo sencillo pero auténtico: una mesa donde la gente se sienta bienvenida y bien atendida.
+Con el paso del tiempo, esa mesa se convirtió en un lugar de reunión para generaciones de regiomontanos, un espacio donde se comparten platillos, risas y momentos que se guardan en la memoria.
+Hoy seguimos siendo ese mismo lugar: un restaurante familiar que honra su origen y se esfuerza por mantener la calidad y el cariño en cada visita.
+Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte de las historias que se cuentan alrededor de la mesa.
+<br/>	SOMOS UNA TRADICIÓN MUY REGIA.
 				</p>
 				<a class="story__button" href="/nosotros">Más sobre nosotros</a>
 			</div>
@@ -455,9 +458,11 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		top: 0px;
 		left: 0px;
 		width: 100%;
-		height: 816px;
-		background-color: transparent;
+		height: clamp(640px, 55vw, 820px);
+		--story-content-top: 30px;
+		background-color: #d4534f;
 		background-position: 0% 0%;
+		background-size: cover;
 		background-repeat: no-repeat;
 		opacity: 1;
 	}
@@ -504,7 +509,7 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 
 	.story__content {
 		position: absolute;
-		top: 228px;
+		top: var(--story-content-top);
 		left: 25%;
 		right: auto;
 		transform: translateX(-50%);
@@ -530,6 +535,10 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 	}
 
 	@media (max-width: 1366px) and (min-width: 1024px) {
+		.hero-followup {
+			--story-content-top: -30px;
+		}
+
 		.story__image {
 			top: 150px;
 			right: clamp(24px, 4vw, 80px);
@@ -538,7 +547,6 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		}
 
 		.story__content {
-			top: 210px;
 			max-width: 600px;
 		}
 	}
@@ -589,27 +597,29 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		}
 
 		.hero-followup {
-			height: 640px;
-			background-position: center top;
-			background-size: cover;
+			height: auto;
+			--story-content-top: 0px;
 		}
 
 		.story__image {
-			top: 60px;
-			left: 50%;
-			--story-image-base-transform: translateX(-50%) rotate(-8deg);
-			transform: var(--story-image-base-transform);
-			width: 320px;
-			height: 320px;
-			border-width: 8px;
+			display: none;
+		}
+
+		.story {
+			padding: 88px 24px 72px;
 		}
 
 		.story__content {
-			top: 400px;
-			left: 10%;
-			width: 80%;
-			height: auto;
+			position: relative;
+			top: auto;
+			left: auto;
+			right: auto;
+			width: min(760px, 100%);
+			max-width: 760px;
+			margin: 0 auto;
+			padding: 0;
 			transform: none;
+			color: #111111;
 		}
 
 		.story__title {
@@ -617,20 +627,27 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 			height: auto;
 			font-size: 36px;
 			line-height: 44px;
+			color: #111111;
+			white-space: normal;
 		}
 
 		.story__rule {
 			width: 180px;
+			background: #111111;
 		}
 
 		.story__text {
 			font-size: 16px;
 			line-height: 24px;
+			color: #111111;
+			opacity: 1;
 		}
 
 		.story__button {
 			width: 240px;
 			height: 52px;
+			border-color: #111111;
+			color: #111111;
 		}
 	}
 
@@ -1104,7 +1121,8 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		bottom: 0;
 		left: 50%;
 		transform: translateX(-50%);
-		width: 537px;
+		width: min(537px, calc(100vw - 32px));
+		max-width: 100%;
 		height: 27px;
 	}
 
@@ -1124,7 +1142,7 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 
 		.billing__decor {
 			bottom: 0;
-			width: 420px;
+			width: min(420px, calc(100vw - 32px));
 			height: 22px;
 		}
 	}
@@ -1144,10 +1162,9 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 		}
 
 		.billing__decor {
-			width: 300px;
+			width: min(300px, calc(100vw - 24px));
 			height: 15px;
 			bottom: 0;
 		}
 	}
 </style>
-

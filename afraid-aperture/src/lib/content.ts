@@ -18,6 +18,33 @@ export type JobInput = {
   availablePositions?: number;
 };
 
+let jobsAvailablePositionsSchemaChecked = false;
+
+const ensureJobsAvailablePositionsColumn = async (db: D1Database) => {
+  if (jobsAvailablePositionsSchemaChecked) return;
+
+  const columns = await dbAll<{ name: string }>(db, 'PRAGMA table_info(jobs)');
+  const hasAvailablePositions = columns.some(
+    (column) => column.name === 'available_positions'
+  );
+
+  if (!hasAvailablePositions) {
+    try {
+      await dbRun(
+        db,
+        'ALTER TABLE jobs ADD COLUMN available_positions INTEGER DEFAULT 1'
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (!/duplicate column name/i.test(message)) {
+        throw error;
+      }
+    }
+  }
+
+  jobsAvailablePositionsSchemaChecked = true;
+};
+
 const slugify = (value: string) =>
   value
     .toLowerCase()
@@ -139,6 +166,8 @@ export const postsRepo = {
 
 export const jobsRepo = {
   async listAll(db: D1Database) {
+    await ensureJobsAvailablePositionsColumn(db);
+
     return await dbAll<{
       id: number;
       title: string;
@@ -156,6 +185,8 @@ export const jobsRepo = {
   },
 
   async getById(db: D1Database, id: number) {
+    await ensureJobsAvailablePositionsColumn(db);
+
     return await dbGet<{
       id: number;
       title: string;
@@ -170,6 +201,8 @@ export const jobsRepo = {
   },
 
   async create(db: D1Database, input: JobInput) {
+    await ensureJobsAvailablePositionsColumn(db);
+
     const result = await dbRun(
       db,
       `INSERT INTO jobs (title, location, type, description, is_active, available_positions)
@@ -187,6 +220,8 @@ export const jobsRepo = {
   },
 
   async update(db: D1Database, id: number, input: JobInput) {
+    await ensureJobsAvailablePositionsColumn(db);
+
     const current = await jobsRepo.getById(db, id);
     if (!current) return false;
 

@@ -2,13 +2,15 @@
 import Layout from '../layouts/Layout.astro';
 import { getDB } from '../lib/db';
 import jobsHeroUrl from '../assets/fondos/BolsaDetrabajo.png?url';
-import jobsHero2xUrl from '../assets/media/Enmascarar grupo 2@2x.png?url';
+const jobsHero2xUrl = jobsHeroUrl;
 import jobsHeroResourcesUrl from '../assets/fondos/recursosBolsaDeTrabajo.svg?url';
 import { jobsRepo } from '../lib/content';
 
 const db = getDB(Astro.locals);
 
-const jobs = (await jobsRepo.listAll(db)).filter((job) => job.is_active === 1);
+Astro.response.headers.set('Cache-Control', 'no-store');
+
+const jobs = (await jobsRepo.listAll(db)).filter((job) => Number(job.is_active) === 1);
 
 const success = Astro.url.searchParams.get('success') === '1';
 const error = Astro.url.searchParams.get('error');
@@ -281,7 +283,9 @@ const error = Astro.url.searchParams.get('error');
 
 	.jobs-hero__bg--resources {
 		z-index: 1;
-		background-size: 100% 100%;
+		background-size: 100% auto;
+		background-repeat: no-repeat;
+		background-position: center top;
 	}
 
 	.jobs-hero__overlay {
@@ -617,6 +621,11 @@ const error = Astro.url.searchParams.get('error');
 			height: 680px;
 		}
 
+		.jobs-hero__bg--resources {
+			background-size: 130% auto;
+			background-position: center top;
+		}
+
 		.jobs-hero__title {
 			font-size: 56px;
 		}
@@ -633,6 +642,11 @@ const error = Astro.url.searchParams.get('error');
 	@media (max-width: 768px) {
 		.jobs-hero {
 			height: 560px;
+		}
+
+		.jobs-hero__bg--resources {
+			background-size: 160% auto;
+			background-position: center top;
 		}
 
 		.jobs-hero__title {
@@ -683,4 +697,3 @@ const error = Astro.url.searchParams.get('error');
 		}
 	}
 </style>
-

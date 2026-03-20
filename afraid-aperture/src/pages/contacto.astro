@@ -351,7 +351,9 @@ const error = Astro.url.searchParams.get('error');
 
   .contact-hero__bg--resources {
     z-index: 1;
-    background-size: 100% 100% !important;
+    background-size: 100% auto !important;
+    background-repeat: no-repeat !important;
+    background-position: center top !important;
     transform: none;
     filter: none;
   }
@@ -462,7 +464,8 @@ const error = Astro.url.searchParams.get('error');
     top: -3px;
     left: 25%;
     transform: translateX(-50%);
-    width: 537px;
+    width: min(537px, calc(100vw - 48px));
+    max-width: 100%;
     height: 27px;
     z-index: 10;
   }
@@ -621,7 +624,7 @@ const error = Astro.url.searchParams.get('error');
     }
 
     .contact-map__decor {
-      width: 420px;
+      width: min(420px, calc(100vw - 48px));
       height: 22px;
     }
 
@@ -652,6 +655,12 @@ const error = Astro.url.searchParams.get('error');
     .contact-hero {
       height: 560px;
     }
+
+    .contact-hero__bg--resources {
+      background-size: 160% auto !important;
+      background-position: center top !important;
+    }
+
     .contact-hero__title {
       font-size: 44px;
     }
@@ -659,7 +668,7 @@ const error = Astro.url.searchParams.get('error');
       padding: 90px 24px 50px;
     }
     .contact-map__decor {
-      width: 300px;
+      width: min(300px, calc(100vw - 40px));
       height: 15px;
     }
     .contact-map__title {
@@ -677,6 +686,13 @@ const error = Astro.url.searchParams.get('error');
     .branches__content {
       max-width: 100%;
       padding: 0 24px;
+    }
+  }
+
+  @media (max-width: 1200px) and (min-width: 769px) {
+    .contact-hero__bg--resources {
+      background-size: 130% auto !important;
+      background-position: center top !important;
     }
   }
 

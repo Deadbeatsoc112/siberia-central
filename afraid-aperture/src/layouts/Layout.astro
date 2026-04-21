@@ -2,13 +2,14 @@
 import Footer from '../components/Footer.astro';
 import navItemMarkUrl from '../assets/media/Enmascarar grupo 4@2x.png?url';
 
-const { title = 'La Siberia Central', navTheme = 'overlay' } = Astro.props;
+const { title = 'La S central', navTheme = 'overlay' } = Astro.props;
 const isLightNav = navTheme === 'light';
 const navItems = [
   { label: 'Inicio', href: '/' },
   { label: 'Nosotros', href: '/nosotros' },
   { label: 'Menú', href: '/menu-sucursales' },
-  { label: 'Blog', href: '/blog' },
+  { label: 'Experiencias', href: '/experiencias' },
+  { label: 'Facturación', href: '/facturacion' },
   { label: 'Contacto', href: '/contacto' },
   { label: 'Bolsa de trabajo', href: '/bolsa-de-trabajo' },
 ];
@@ -292,6 +293,14 @@ const currentPath = Astro.url?.pathname ?? '/';
 		font-display: swap;
 	}
 
+	@font-face {
+		font-family: "Graduate";
+		src: url("../assets/fonts/graduate/Graduate-Regular.ttf") format("truetype");
+		font-weight: 400 900;
+		font-style: normal;
+		font-display: swap;
+	}
+
 	:global(:root) {
 		--nav-height: 38px;
 		--nav-width: 1106px;
@@ -310,12 +319,12 @@ const currentPath = Astro.url?.pathname ?? '/';
 		color: var(--page-text);
 		overflow-x: hidden;
 		box-sizing: border-box;
-		font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
+		font-family: 'Graduate', 'Campton', 'Montserrat', 'Arial', sans-serif;
 		font-weight: 700;
 	}
 
 	:global(*, *::before, *::after) {
-		font-family: 'Campton', 'Montserrat', 'Arial', sans-serif;
+		font-family: 'Graduate', 'Campton', 'Montserrat', 'Arial', sans-serif;
 		font-weight: 700;
 		box-sizing: inherit;
 	}

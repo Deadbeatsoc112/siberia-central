@@ -53,8 +53,8 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 		const html = `
 			<div style="font-family: Arial, sans-serif; background:#f7f7f7; padding:24px;">
 				<div style="max-width:680px; margin:0 auto; background:#ffffff; border-radius:12px; overflow:hidden; border:1px solid #ececec;">
-					<div style="background:#d4534f; color:#fff; padding:18px 24px;">
-						<h2 style="margin:0; font-size:22px;">La Siberia Central</h2>
+					<div style="background:#e1454f; color:#fff; padding:18px 24px;">
+						<h2 style="margin:0; font-size:22px;">La S central</h2>
 						<p style="margin:6px 0 0; opacity:0.95;">Reenvío de mensaje de contacto</p>
 					</div>
 					<div style="padding:24px;">
@@ -65,7 +65,7 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 							<tr><td style="padding:8px 0; color:#666;">Sucursal</td><td style="padding:8px 0; font-weight:600;">${branchName}</td></tr>
 							<tr><td style="padding:8px 0; color:#666;">Fecha</td><td style="padding:8px 0; font-weight:600;">${dateValue}</td></tr>
 						</table>
-						<div style="margin-top:20px; border-left:4px solid #d4534f; background:#fff5f5; padding:14px 16px; border-radius:8px; white-space:pre-wrap;">
+						<div style="margin-top:20px; border-left:4px solid #e1454f; background:#fff5f5; padding:14px 16px; border-radius:8px; white-space:pre-wrap;">
 							${message.message}
 						</div>
 					</div>
@@ -77,7 +77,7 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 		`;
 
 		await resend.emails.send({
-			from: 'La Siberia Central <noreply@lasiberiacentral.com>',
+			from: 'La S central <noreply@lasiberiacentral.com>',
 			to: [toEmail],
 			subject,
 			html,

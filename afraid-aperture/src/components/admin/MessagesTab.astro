@@ -223,7 +223,6 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 
 <style>
 	.messages-tab {
-		animation: fadeIn 0.5s ease-out;
 	}
 
 	/* Messages Empty */
@@ -262,12 +261,12 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 	}
 
 	.message-item:hover {
-		border-color: #d4534f;
-		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
+		border-color: #e1454f;
+		box-shadow: 0 8px 24px rgba(225, 69, 79, 0.15);
 	}
 
 	.message-item[open] {
-		border-color: #d4534f;
+		border-color: #e1454f;
 	}
 
 	.message-item__summary {
@@ -299,7 +298,7 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 
 	.message-item__name {
 		margin: 0 0 4px;
-		font-family: 'Playfair Display', Georgia, serif;
+		font-family: 'Graduate', 'Playfair Display', Georgia, serif;
 		font-size: 20px;
 		font-weight: 700;
 		color: #1a1a1a;
@@ -349,7 +348,7 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 	.message-item__chevron {
 		flex-shrink: 0;
 		margin-left: 12px;
-		color: #d4534f;
+		color: #e1454f;
 		transition: transform 0.3s ease;
 	}
 
@@ -388,7 +387,7 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 	.message-item__text {
 		padding: 16px;
 		background: #f8f8f8;
-		border-left: 4px solid #d4534f;
+		border-left: 4px solid #e1454f;
 		border-radius: 8px;
 	}
 
@@ -411,7 +410,7 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 	}
 
 	.message-item__image:hover {
-		border-color: #d4534f;
+		border-color: #e1454f;
 	}
 
 	.message-item__actions-grid {
@@ -455,8 +454,8 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 	.form-select:focus,
 	.form-textarea:focus {
 		outline: none;
-		border-color: #d4534f;
-		box-shadow: 0 0 0 3px rgba(212, 83, 79, 0.1);
+		border-color: #e1454f;
+		box-shadow: 0 0 0 3px rgba(225, 69, 79, 0.1);
 	}
 
 	.form-textarea {
@@ -521,7 +520,7 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 		margin: 10px 0 0;
 		padding: 10px 12px;
 		background: #fff;
-		border-left: 4px solid #d4534f;
+		border-left: 4px solid #e1454f;
 		border-radius: 8px;
 		color: #444;
 		font-size: 14px;
@@ -555,7 +554,7 @@ const sortedMessages = [...messages].sort((a, b) => new Date(b.created_at).getTi
 	}
 
 	.forward-modal__submit {
-		background: #d4534f;
+		background: #e1454f;
 		color: #fff;
 	}
 

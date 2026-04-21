@@ -14,10 +14,10 @@ const { posts } = Astro.props;
 <div class="posts-tab">
 	<div class="posts-tab__grid">
 		<!-- Create Post Card -->
-		<AdminCard title="Nuevo Post" subtitle="Crea una entrada para el blog" variant="elevated">
+		<AdminCard title="Nueva Experiencia" subtitle="Crea una nueva experiencia" variant="elevated">
 			<form action="/api/admin/posts/create" method="post" class="post-form">
 				<div class="post-form__fields">
-					<AdminInput label="Título del Post" name="title" type="text" required />
+					<AdminInput label="Título de la Experiencia" name="title" type="text" required />
 
 					<AdminInput
 						label="Resumen"
@@ -34,14 +34,14 @@ const { posts } = Astro.props;
 						type="textarea"
 						rows={10}
 						required
-						helper="Contenido completo del post"
+						helper="Contenido completo de la experiencia"
 					/>
 
 					<AdminInput
 						label="URL de Imagen Destacada"
 						name="image_url"
 						type="text"
-						helper="URL de la imagen que acompañará el post (opcional)"
+						helper="URL de la imagen que acompañará la experiencia (opcional)"
 					/>
 
 					<label class="post-form__checkbox">
@@ -52,7 +52,7 @@ const { posts } = Astro.props;
 
 				<div class="post-form__actions">
 					<AdminButton type="submit" variant="primary" size="large" fullWidth>
-						Crear Post
+						Crear Experiencia
 					</AdminButton>
 				</div>
 			</form>
@@ -60,8 +60,8 @@ const { posts } = Astro.props;
 
 		<!-- Posts List -->
 		<AdminCard
-			title="Posts Existentes"
-			subtitle={`${posts.length} post${posts.length !== 1 ? 's' : ''} en total`}
+			title="Experiencias Existentes"
+			subtitle={`${posts.length} experiencia${posts.length !== 1 ? 's' : ''} en total`}
 			variant="glass"
 			fullHeight
 		>
@@ -76,7 +76,7 @@ const { posts } = Astro.props;
 								stroke-linejoin="round"
 							/>
 						</svg>
-						<p>Aún no hay posts en el blog</p>
+						<p>Aún no hay experiencias</p>
 					</div>
 				) : (
 					<div class="posts-list">
@@ -191,7 +191,6 @@ const { posts } = Astro.props;
 
 <style>
 	.posts-tab {
-		animation: fadeIn 0.5s ease-out;
 	}
 
 	.posts-tab__grid {
@@ -228,7 +227,7 @@ const { posts } = Astro.props;
 		width: 20px;
 		height: 20px;
 		cursor: pointer;
-		accent-color: #d4534f;
+		accent-color: #e1454f;
 	}
 
 	.post-form__actions {
@@ -271,12 +270,12 @@ const { posts } = Astro.props;
 	}
 
 	.post-item:hover {
-		border-color: #d4534f;
-		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
+		border-color: #e1454f;
+		box-shadow: 0 8px 24px rgba(225, 69, 79, 0.15);
 	}
 
 	.post-item[open] {
-		border-color: #d4534f;
+		border-color: #e1454f;
 	}
 
 	.post-item__summary {
@@ -315,7 +314,7 @@ const { posts } = Astro.props;
 
 	.post-item__title h4 {
 		margin: 0;
-		font-family: 'Playfair Display', Georgia, serif;
+		font-family: 'Graduate', 'Playfair Display', Georgia, serif;
 		font-size: 20px;
 		font-weight: 700;
 		color: #1a1a1a;
@@ -330,7 +329,7 @@ const { posts } = Astro.props;
 
 	.post-item__slug {
 		margin: 0;
-		font-family: 'Inter', monospace;
+		font-family: 'Graduate', 'Inter', monospace;
 		font-size: 13px;
 		color: #999;
 		font-weight: 600;
@@ -346,7 +345,7 @@ const { posts } = Astro.props;
 	.post-item__chevron {
 		flex-shrink: 0;
 		margin-left: 12px;
-		color: #d4534f;
+		color: #e1454f;
 		transition: transform 0.3s ease;
 	}
 
@@ -385,7 +384,7 @@ const { posts } = Astro.props;
 	.post-item__excerpt {
 		padding: 12px;
 		background: #f8f8f8;
-		border-left: 4px solid #d4534f;
+		border-left: 4px solid #e1454f;
 		border-radius: 6px;
 	}
 
@@ -398,7 +397,7 @@ const { posts } = Astro.props;
 	}
 
 	.post-item__image-url {
-		font-family: 'Inter', monospace;
+		font-family: 'Graduate', 'Inter', monospace;
 		font-size: 13px;
 		color: #3b82f6;
 		word-break: break-all;
@@ -413,7 +412,7 @@ const { posts } = Astro.props;
 
 	.form-heading {
 		margin: 0 0 16px;
-		font-family: 'Playfair Display', Georgia, serif;
+		font-family: 'Graduate', 'Playfair Display', Georgia, serif;
 		font-size: 18px;
 		font-weight: 700;
 		color: #1a1a1a;

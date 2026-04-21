@@ -1,0 +1,366 @@
+---
+import Layout from '../layouts/Layout.astro';
+import heroBgUrl from '../assets/fondos/inicio_2.jpg?url';
+import billingDecorUrl from '../assets/media/Grupo 36.svg?url';
+---
+
+<Layout title="Facturación | La S central" navTheme="light">
+	<section class="fac-hero" aria-labelledby="fac-title">
+		<div class="fac-hero__bg" style={`background-image: url(${heroBgUrl});`} aria-hidden="true"></div>
+		<div class="fac-hero__overlay" aria-hidden="true"></div>
+		<div class="fac-hero__content">
+			<h1 id="fac-title" class="fac-hero__title">Facturación</h1>
+			<p class="fac-hero__subtitle">¿Factura? Súper fácil. Llena tus datos y genera tu factura.</p>
+		</div>
+		<img class="fac-hero__decor" src={billingDecorUrl} alt="" aria-hidden="true" />
+	</section>
+
+	<section id="facturacion-form" class="billing-form" aria-labelledby="billing-form-title">
+		<div class="billing-form__inner">
+			<h2 id="billing-form-title" class="billing-form__title">Formulario de facturación</h2>
+			<span class="billing-form__rule" aria-hidden="true"></span>
+			<p class="billing-form__subtitle">Comparte tus datos para gestionar tu factura de manera correcta.</p>
+			<form class="billing-form__form" action="#" method="post" enctype="multipart/form-data" onsubmit="return false">
+				<div class="billing-form__column">
+					<div class="billing-form__field">
+						<label class="billing-form__label" for="fac-name">Nombre completo*</label>
+						<input class="billing-form__input" id="fac-name" name="full_name" type="text" required />
+					</div>
+					<div class="billing-form__field">
+						<label class="billing-form__label" for="fac-rfc">RFC*</label>
+						<div class="billing-form__rfc-group">
+							<select class="billing-form__input billing-form__select" id="fac-rfc-type" name="rfc_person_type" required>
+								<option value="fisica" selected>Persona Fisica</option>
+								<option value="moral">Persona Moral</option>
+							</select>
+							<input
+								class="billing-form__input"
+								id="fac-rfc"
+								name="rfc"
+								type="text"
+								required
+								minlength="13"
+								maxlength="13"
+								pattern="^[A-Z&]{4}[0-9]{6}[A-Z0-9]{3}$"
+								title="RFC de Persona Fisica: 13 caracteres."
+							/>
+						</div>
+						<span class="billing-form__hint" id="fac-rfc-hint">Persona Fisica: captura 13 caracteres para RFC.</span>
+					</div>
+					<div class="billing-form__field">
+						<label class="billing-form__label" for="fac-business-name">Razón social*</label>
+						<input class="billing-form__input" id="fac-business-name" name="business_name" type="text" required />
+					</div>
+					<div class="billing-form__field">
+						<label class="billing-form__label" for="fac-tax-regime">Régimen fiscal*</label>
+						<select class="billing-form__input billing-form__select" id="fac-tax-regime" name="tax_regime" required>
+							<option value="" selected disabled>Selecciona un régimen</option>
+							<option value="601">General de Ley Personas Morales</option>
+							<option value="603">Personas Morales con Fines no Lucrativos</option>
+							<option value="605">Sueldos y Salarios e Ingresos Asimilados a Salarios</option>
+							<option value="606">Arrendamiento</option>
+							<option value="612">Personas Físicas con Actividades Empresariales y Profesionales</option>
+							<option value="616">Sin obligaciones fiscales</option>
+							<option value="621">Incorporación Fiscal</option>
+							<option value="626">Régimen Simplificado de Confianza (RESICO)</option>
+						</select>
+					</div>
+				</div>
+				<div class="billing-form__column">
+					<div class="billing-form__field">
+						<label class="billing-form__label" for="fac-cfdi-use">Uso de CFDI*</label>
+						<select class="billing-form__input billing-form__select" id="fac-cfdi-use" name="cfdi_use" required>
+							<option value="" selected disabled>Selecciona el uso</option>
+							<option value="G01">Adquisición de mercancías</option>
+							<option value="G02">Devoluciones, descuentos o bonificaciones</option>
+							<option value="G03">Gastos en general</option>
+							<option value="S01">Sin efectos fiscales</option>
+						</select>
+					</div>
+					<div class="billing-form__field">
+						<label class="billing-form__label" for="fac-address">Dirección fiscal*</label>
+						<input class="billing-form__input" id="fac-address" name="fiscal_address" type="text" required />
+					</div>
+					<div class="billing-form__field">
+						<label class="billing-form__label" for="fac-cp">Código postal*</label>
+						<input class="billing-form__input" id="fac-cp" name="postal_code" type="text" required />
+					</div>
+					<div class="billing-form__field">
+						<label class="billing-form__label" for="fac-payment">Forma de pago*</label>
+						<select class="billing-form__input billing-form__select" id="fac-payment" name="payment_method" required>
+							<option value="" selected disabled>Selecciona una forma de pago</option>
+							<option value="01">Efectivo</option>
+							<option value="04">Tarjeta de crédito</option>
+							<option value="28">Tarjeta de débito</option>
+						</select>
+					</div>
+					<div class="billing-form__field">
+						<label class="billing-form__label" for="fac-email">Correo electrónico</label>
+						<input class="billing-form__input" id="fac-email" name="email" type="email" />
+					</div>
+					<div class="billing-form__field">
+						<label class="billing-form__label" for="fac-phone">Teléfono*</label>
+						<input class="billing-form__input" id="fac-phone" name="phone" type="tel" required />
+					</div>
+					<div class="billing-form__field">
+						<label class="billing-form__label" for="fac-ticket">Ticket o imagen (opcional)</label>
+						<input class="billing-form__input" id="fac-ticket" name="ticket_file" type="file" accept=".jpg,.jpeg,.png,.webp,.pdf" />
+						<span class="billing-form__hint">Puedes subir foto o PDF del ticket.</span>
+					</div>
+				</div>
+				<div class="billing-form__field billing-form__field--full">
+					<label class="billing-form__label" for="fac-notes">Comentarios (opcional)</label>
+					<textarea class="billing-form__textarea" id="fac-notes" name="notes" placeholder="Información adicional para tu factura."></textarea>
+				</div>
+				<div class="billing-form__actions">
+					<button class="billing-form__button" type="submit">Enviar datos de facturación</button>
+				</div>
+			</form>
+		</div>
+	</section>
+</Layout>
+
+<script>
+	const rfcTypeSelect = document.getElementById('fac-rfc-type');
+	const rfcInput = document.getElementById('fac-rfc');
+	const rfcHint = document.getElementById('fac-rfc-hint');
+
+	if (rfcTypeSelect instanceof HTMLSelectElement && rfcInput instanceof HTMLInputElement) {
+		const applyRfcValidation = () => {
+			const isFisica = rfcTypeSelect.value === 'fisica';
+			const requiredLength = isFisica ? 13 : 12;
+			rfcInput.minLength = requiredLength;
+			rfcInput.maxLength = requiredLength;
+			rfcInput.pattern = isFisica
+				? '^[A-Z&]{4}[0-9]{6}[A-Z0-9]{3}$'
+				: '^[A-Z&]{3}[0-9]{6}[A-Z0-9]{3}$';
+			rfcInput.title = isFisica
+				? 'RFC Persona Física: 13 caracteres.'
+				: 'RFC Persona Moral: 12 caracteres.';
+			if (rfcHint instanceof HTMLElement) {
+				rfcHint.textContent = isFisica
+					? 'Persona Física: captura 13 caracteres.'
+					: 'Persona Moral: captura 12 caracteres.';
+			}
+			if (rfcInput.value.length > requiredLength) {
+				rfcInput.value = rfcInput.value.slice(0, requiredLength);
+			}
+		};
+		rfcTypeSelect.addEventListener('change', applyRfcValidation);
+		rfcInput.addEventListener('input', () => {
+			rfcInput.value = rfcInput.value.toUpperCase().replace(/\s+/g, '');
+		});
+		applyRfcValidation();
+	}
+</script>
+
+<style>
+	.fac-hero {
+		position: relative;
+		width: 100%;
+		min-height: 520px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		color: #ffffff;
+		overflow: hidden;
+		padding: 160px 24px 80px;
+	}
+
+	.fac-hero__bg {
+		position: absolute;
+		inset: 0;
+		background-size: cover;
+		background-position: center;
+		z-index: 0;
+	}
+
+	.fac-hero__overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.1));
+		z-index: 1;
+	}
+
+	.fac-hero__content {
+		position: relative;
+		z-index: 2;
+		max-width: 820px;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.fac-hero__title {
+		margin: 0;
+		font-size: clamp(38px, 5vw, 64px);
+		font-weight: 900;
+		letter-spacing: 0.5px;
+		text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+	}
+
+	.fac-hero__subtitle {
+		margin: 0;
+		font-size: 18px;
+		opacity: 0.95;
+	}
+
+	.fac-hero__decor {
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		width: min(537px, calc(100vw - 32px));
+		height: 27px;
+		z-index: 2;
+	}
+
+	.billing-form {
+		position: relative;
+		width: 100%;
+		background: #fff7ee;
+		color: #7a4b1f;
+		display: flex;
+		justify-content: center;
+		padding: 90px 24px 84px;
+		box-sizing: border-box;
+	}
+
+	.billing-form__inner {
+		width: min(1100px, 100%);
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.billing-form__title {
+		margin: 0;
+		font-size: 44px;
+		font-weight: 900;
+		color: #8b5a2b;
+	}
+
+	.billing-form__rule {
+		width: 280px;
+		height: 2px;
+		background: #e1454f;
+		margin: 4px 0 8px;
+	}
+
+	.billing-form__subtitle {
+		margin: 0 0 22px;
+		font-size: 16px;
+		color: #8b5a2b;
+		opacity: 0.9;
+	}
+
+	.billing-form__form {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 30px 56px;
+		text-align: left;
+	}
+
+	.billing-form__column {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.billing-form__field {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.billing-form__field--full {
+		grid-column: 1 / -1;
+	}
+
+	.billing-form__label {
+		font-size: 16px;
+		color: #7a4b1f;
+	}
+
+	.billing-form__input,
+	.billing-form__textarea {
+		width: 100%;
+		border: 1px solid #d6ba98;
+		background: #ffffff;
+		color: #1f1f1f;
+		padding: 12px 14px;
+		font-size: 16px;
+		box-sizing: border-box;
+		font-weight: 500;
+	}
+
+	.billing-form__rfc-group {
+		display: grid;
+		grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+		gap: 8px;
+	}
+
+	.billing-form__input:focus,
+	.billing-form__textarea:focus {
+		outline: none;
+		border-color: #e1454f;
+		box-shadow: 0 0 0 3px rgba(225, 69, 79, 0.15);
+	}
+
+	.billing-form__textarea {
+		min-height: 140px;
+		resize: vertical;
+	}
+
+	.billing-form__hint {
+		font-size: 13px;
+		color: #8b5a2b;
+		opacity: 0.8;
+	}
+
+	.billing-form__actions {
+		grid-column: 1 / -1;
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.billing-form__button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 290px;
+		height: 48px;
+		border: 2px solid #e1454f;
+		background: #e1454f;
+		color: #ffffff;
+		font-weight: 700;
+		font-size: 16px;
+		cursor: pointer;
+	}
+
+	.billing-form__button:hover {
+		background: #b3202c;
+		border-color: #b3202c;
+	}
+
+	@media (max-width: 768px) {
+		.billing-form {
+			padding: 70px 20px;
+		}
+		.billing-form__form {
+			grid-template-columns: 1fr;
+		}
+		.billing-form__rfc-group {
+			grid-template-columns: 1fr;
+		}
+		.billing-form__actions {
+			justify-content: stretch;
+		}
+		.billing-form__button {
+			width: 100%;
+			min-width: 0;
+		}
+	}
+</style>

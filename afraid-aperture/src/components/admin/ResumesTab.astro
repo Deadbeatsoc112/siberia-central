@@ -175,7 +175,6 @@ const sortedResumes = [...resumes].sort((a, b) => new Date(b.created_at).getTime
 
 <style>
 	.resumes-tab {
-		animation: fadeIn 0.5s ease-out;
 	}
 
 	/* Resumes Empty */
@@ -214,12 +213,12 @@ const sortedResumes = [...resumes].sort((a, b) => new Date(b.created_at).getTime
 	}
 
 	.resume-item:hover {
-		border-color: #d4534f;
-		box-shadow: 0 8px 24px rgba(212, 83, 79, 0.15);
+		border-color: #e1454f;
+		box-shadow: 0 8px 24px rgba(225, 69, 79, 0.15);
 	}
 
 	.resume-item[open] {
-		border-color: #d4534f;
+		border-color: #e1454f;
 	}
 
 	.resume-item__summary {
@@ -251,7 +250,7 @@ const sortedResumes = [...resumes].sort((a, b) => new Date(b.created_at).getTime
 
 	.resume-item__name {
 		margin: 0 0 4px;
-		font-family: 'Playfair Display', Georgia, serif;
+		font-family: 'Graduate', 'Playfair Display', Georgia, serif;
 		font-size: 20px;
 		font-weight: 700;
 		color: #1a1a1a;
@@ -284,7 +283,7 @@ const sortedResumes = [...resumes].sort((a, b) => new Date(b.created_at).getTime
 	.resume-item__chevron {
 		flex-shrink: 0;
 		margin-left: 12px;
-		color: #d4534f;
+		color: #e1454f;
 		transition: transform 0.3s ease;
 	}
 
@@ -328,7 +327,7 @@ const sortedResumes = [...resumes].sort((a, b) => new Date(b.created_at).getTime
 
 	.resume-item__filename {
 		font-weight: 600;
-		color: #d4534f;
+		color: #e1454f;
 	}
 
 	.resume-item__filesize {
@@ -419,8 +418,8 @@ const sortedResumes = [...resumes].sort((a, b) => new Date(b.created_at).getTime
 	.form-select:focus,
 	.form-textarea:focus {
 		outline: none;
-		border-color: #d4534f;
-		box-shadow: 0 0 0 3px rgba(212, 83, 79, 0.1);
+		border-color: #e1454f;
+		box-shadow: 0 0 0 3px rgba(225, 69, 79, 0.1);
 	}
 
 	.form-textarea {

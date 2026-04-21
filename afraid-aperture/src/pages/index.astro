@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import heroMainBgUrl from '../assets/fondos/Inicio.png?url';
+import heroMainBgUrl from '../assets/fondos/Menu.png?url';
 const heroMainBg2xUrl = heroMainBgUrl;
 import heroBackgroundUrl from '../assets/media/Grupo 198 sin-linea.png?url';
 import heroLogoUrl from '../assets/media/logologito.png?url';
@@ -21,7 +21,7 @@ import billingDecorUrl from '../assets/media/Grupo 36.svg?url';
 import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 ---
 
-<Layout title="Inicio | La Siberia Central">
+<Layout title="Inicio | La S central">
 	<section
 		class="hero"
 		style={`--hero-bg: image-set(url(${heroMainBgUrl}) 1x, url(${heroMainBg2xUrl}) 2x);`}
@@ -34,11 +34,14 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 				class="hero__logo"
 				src={heroLogoUrl}
 				srcset={`${heroLogoUrl} 1x, ${heroLogo2xUrl} 2x`}
-				alt="La Siberia Central"
+				alt="La S central"
 				loading="eager"
 			/>
-			<h1 class="hero__title">La Siberia Central</h1>
+			<h1 class="hero__title">La S central</h1>
 		</div>
+	</section>
+	<section class="tradition-banner" aria-label="Lema">
+		<p class="tradition-banner__text">¡Somos una tradición muy regia!</p>
 	</section>
 	<section
 		class="hero-followup"
@@ -55,11 +58,10 @@ import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 				<h2 id="historia-title" class="story__title">Nuestra Historia</h2>
 				<span class="story__rule" aria-hidden="true"></span>
 				<p class="story__text">
-La Siberia Central nació del deseo de una familia por ofrecer algo sencillo pero auténtico: una mesa donde la gente se sienta bienvenida y bien atendida.
+La S central nació del deseo de una familia por ofrecer algo sencillo pero auténtico: una mesa donde la gente se sienta bienvenida y bien atendida.
 Con el paso del tiempo, esa mesa se convirtió en un lugar de reunión para generaciones de regiomontanos, un espacio donde se comparten platillos, risas y momentos que se guardan en la memoria.
 Hoy seguimos siendo ese mismo lugar: un restaurante familiar que honra su origen y se esfuerza por mantener la calidad y el cariño en cada visita.
 Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte de las historias que se cuentan alrededor de la mesa.
-<br/>	SOMOS UNA TRADICIÓN MUY REGIA.
 				</p>
 				<a class="story__button" href="/nosotros">Más sobre nosotros</a>
 			</div>
@@ -81,7 +83,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 				<img
 					src={menuImageOneUrl}
 					srcset={`${menuImageOneUrl} 1x, ${menuImageOne2xUrl} 2x`}
-					alt="Plato destacado de La Siberia Central"
+					alt="Plato destacado de La S central"
 					loading="lazy"
 				/>
 			</figure>
@@ -112,7 +114,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 			<div class="billing__overlay" aria-hidden="true"></div>
 			<div class="billing__content">
 				<h2 id="billing-title" class="billing__title">¿Factura? Súper fácil</h2>
-				<a class="billing__button" href="#facturacion-form">Factura Aquí</a>
+				<a class="billing__button" href="/facturacion">Factura Aquí</a>
 			</div>
 			<img class="billing__decor" src={billingDecorUrl} alt="" aria-hidden="true" />
 		</section>
@@ -446,11 +448,27 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 
 	.hero__title {
 		margin: 0;
-		font: normal normal bold 48px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 48px/1.2 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		letter-spacing: 0px;
 		color: #ffffff;
 		text-shadow: 0px 3px 6px #000000;
 		opacity: 1;
+	}
+
+	.tradition-banner {
+		background: #e1454f;
+		padding: 36px 24px;
+		text-align: center;
+	}
+
+	.tradition-banner__text {
+		margin: 0;
+		color: #ffffff;
+		font-size: clamp(28px, 4vw, 48px);
+		font-weight: 900;
+		letter-spacing: 0.5px;
+		text-transform: uppercase;
+		text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 	}
 
 	.hero-followup {
@@ -460,7 +478,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		width: 100%;
 		height: clamp(640px, 55vw, 820px);
 		--story-content-top: 30px;
-		background-color: #d4534f;
+		background-color: #e1454f;
 		background-position: 0% 0%;
 		background-size: cover;
 		background-repeat: no-repeat;
@@ -527,7 +545,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		margin: 0 0 18px;
 		width: 487px;
 		text-align: left;
-		font: normal normal bold 60px/1.1 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 60px/1.1 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		letter-spacing: 0px;
 		color: #ffffff;
 		opacity: 1;
@@ -673,7 +691,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 
 	.menu__title {
 		margin: 0;
-		font: normal normal bold 40px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 40px/1.2 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		color: #8b5a2b;
 	}
 
@@ -825,7 +843,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 
 	.billing-form__title {
 		margin: 0;
-		font: normal normal bold 44px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 44px/1.2 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		letter-spacing: 0px;
 		color: #8b5a2b;
 	}
@@ -966,7 +984,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 
 	.feedback-cta__title {
 		margin: 0;
-		font: normal normal bold 42px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 42px/1.2 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		letter-spacing: 0px;
 	}
 
@@ -1075,7 +1093,6 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		inset: 0;
 		background-size: cover;
 		background-position: center 72%;
-		filter: grayscale(1) contrast(1.05) brightness(0.8);
 		transform: none;
 	}
 
@@ -1097,7 +1114,7 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 
 	.billing__title {
 		margin: 0;
-		font: normal normal bold 44px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 44px/1.2 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		letter-spacing: 0px;
 		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 	}

@@ -1,6 +1,6 @@
 ﻿---
 import Layout from '../layouts/Layout.astro';
-import menuHero2xUrl from '../assets/fondos/Menu.png?url';
+import menuHero2xUrl from '../assets/fondos/Inicio.png?url';
 import menuHeroOverlayUrl from '../assets/fondos/MenuRecursos.svg?url';
 import MenuModuleCard from '../components/MenuModuleCard.astro';
 
@@ -117,7 +117,7 @@ const featuredMenus = menuModules.slice(0, 5);
 const remainingMenus = menuModules.slice(5);
 ---
 
-<Layout title="Menú | La Siberia Central">
+<Layout title="Menú | La S central">
 	<section class="menu-hero" aria-labelledby="menu-title">
 		<div
 			class="menu-hero__bg menu-hero__bg--image"
@@ -180,30 +180,18 @@ const remainingMenus = menuModules.slice(5);
   background-position: center;
 }
 
-/* overlay de sombra arriba */
+/* overlay removido para mostrar foto a color */
 .menu-hero__bg::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index: 1;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.55) 0%,
-    rgba(0,0,0,0.25) 30%,
-    rgba(0,0,0,0) 70%
-  );
+  content: none;
 }
 
 /* si esto es un elemento encima o una capa extra, asegúrate que quede debajo del overlay */
 .menu-hero__bg--image{
-  filter: grayscale(1) contrast(1.05) brightness(0.6);
   transform: scale(1.02);
   z-index: 0;
 }
 
 	.menu-hero__bg--svg {
-		filter: brightness(0.4);
 		transform: none;
 		transform-origin: none;
 		background-size: 100% auto;
@@ -215,7 +203,7 @@ const remainingMenus = menuModules.slice(5);
 	.menu-hero__overlay {
 		position: absolute;
 		inset: 0;
-		background: rgba(0, 0, 0, 0.15);
+		background: none;
 		z-index: 1;
 	}
 
@@ -232,7 +220,7 @@ const remainingMenus = menuModules.slice(5);
 
 	.menu-hero__title {
 		margin: 0;
-		font: normal normal bold 64px/1 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 64px/1 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		text-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
 	}
 

@@ -26,18 +26,18 @@ const timelineItems = [
 	},
 	{
 		year: '1978',
-		title: 'Nace La Siberia Central',
-		text: 'Siguiendo el consejo de Don Demetrio y con el apoyo de Ana Morgan, su hija Elodia Téllez junto a su esposo Ernesto Ontiveros abre su propio restaurante en un pequeño local ubicado en la Avenida Rodrigo Gómez. Este es el nacimiento oficial de La Siberia Central.',
+		title: 'Nace La S central',
+		text: 'Siguiendo el consejo de Don Demetrio y con el apoyo de Ana Morgan, su hija Elodia Téllez junto a su esposo Ernesto Ontiveros abre su propio restaurante en un pequeño local ubicado en la Avenida Rodrigo Gómez. Este es el nacimiento oficial de La S central.',
 	},
 	{
 		year: '1978 - 2026',
 		title: 'Más de 48 años de tradición',
-		text: 'Durante más de 48 años, La Siberia Central se ha consolidado como un lugar donde familias y amigos se reúnen para compartir momentos alrededor de la mesa. Cada tostada ha sido testigo de innumerables anécdotas y tradiciones que se han transmitido de generación en generación.',
+		text: 'Durante más de 48 años, La S central se ha consolidado como un lugar donde familias y amigos se reúnen para compartir momentos alrededor de la mesa. Cada tostada ha sido testigo de innumerables anécdotas y tradiciones que se han transmitido de generación en generación.',
 	},
 	{
 		year: 'Actualidad',
 		title: 'Segunda y tercera generación',
-		text: 'Hoy, de la mano de la segunda y tercera generación de la familia, La Siberia Central continúa operando con el mismo compromiso y calidad que la vio nacer. Con varias sucursales en Monterrey, sigue siendo una tradición muy regia.',
+		text: 'Hoy, de la mano de la segunda y tercera generación de la familia, La S central continúa operando con el mismo compromiso y calidad que la vio nacer. Con varias sucursales en Monterrey, sigue siendo una tradición muy regia.',
 	},
 	{
 		year: 'Hoy',
@@ -47,7 +47,7 @@ const timelineItems = [
 ];
 ---
 
-<Layout title="Nosotros | La Siberia Central">
+<Layout title="Nosotros | La S central">
 	<section class="about-hero" aria-labelledby="about-title">
 		<div
 			class="about-hero__bg"
@@ -58,7 +58,7 @@ const timelineItems = [
 		<div class="about-hero__content">
 			<h1 id="about-title" class="about-hero__title">Sobre Nosotros</h1>
 			<p class="about-hero__text">
-La historia de La Siberia Central comenzó en 1946, cuando el Sr. Demetrio Téllez y su hermano Francisco fundaron el concepto original de Siberia. Años después, en 1978, bajo el consejo de don Demetrio y el apoyo de Ana Morgan, la Sra. Elodia Téllez y su esposo, el Sr. Ernesto Ontiveros, abrieron un pequeño local en la avenida Rodrigo Gómez, dando origen formal a La Siberia Central. Desde entonces, el restaurante ha sido testigo de generaciones de familias y amigos que han compartido anécdotas alrededor de la mesa. Hoy seguimos trabajando con ese mismo compromiso, manteniendo calidad, atención y cercanía en cada sucursal para honrar una historia viva que continúa escribiéndose cada día.
+La historia de La S central comenzó en 1946, cuando el Sr. Demetrio Téllez y su hermano Francisco fundaron el concepto original de Siberia. Años después, en 1978, bajo el consejo de don Demetrio y el apoyo de Ana Morgan, la Sra. Elodia Téllez y su esposo, el Sr. Ernesto Ontiveros, abrieron un pequeño local en la avenida Rodrigo Gómez, dando origen formal a La S central. Desde entonces, el restaurante ha sido testigo de generaciones de familias y amigos que han compartido anécdotas alrededor de la mesa. Hoy seguimos trabajando con ese mismo compromiso, manteniendo calidad, atención y cercanía en cada sucursal para honrar una historia viva que continúa escribiéndose cada día.
 <br /> SOMOS UNA TRADICIÓN MUY REGIA.
 			</p>
 		</div>
@@ -77,7 +77,7 @@ La historia de La Siberia Central comenzó en 1946, cuando el Sr. Demetrio Téll
 		<div class="timeline__content">
 			<h2 id="timeline-title" class="timeline__title">
 				<span>Historia de</span>
-				<span>La Siberia Central</span>
+				<span>La S central</span>
 			</h2>
 			<span class="timeline__rule" aria-hidden="true"></span>
 			<div class="timeline__scroller" data-timeline-scroll>
@@ -152,7 +152,7 @@ La historia de La Siberia Central comenzó en 1946, cuando el Sr. Demetrio Téll
 	if (scroller instanceof HTMLElement && track instanceof HTMLElement) {
 		const reducedMotionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
 		const desktopMedia = window.matchMedia('(min-width: 769px)');
-		const speedPxPerSecond = 300;
+		const speedPxPerSecond = 90;
 		const autoClass = 'is-auto-pan';
 		const pauseClass = 'is-auto-pan-paused';
 		let canAnimate = false;
@@ -253,7 +253,7 @@ La historia de La Siberia Central comenzó en 1946, cuando el Sr. Demetrio Téll
 	.about-hero__overlay {
 		position: absolute;
 		inset: 0;
-		background: rgba(0, 0, 0, 0.6);
+		background: none;
 	}
 
 	.about-hero__content {
@@ -269,7 +269,7 @@ La historia de La Siberia Central comenzó en 1946, cuando el Sr. Demetrio Téll
 
 	.about-hero__title {
 		margin: 0;
-		font: normal normal bold 42px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 42px/1.2 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		color: #9c9c9c;
 		text-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
 	}
@@ -406,7 +406,7 @@ La historia de La Siberia Central comenzó en 1946, cuando el Sr. Demetrio Téll
 
 	.timeline__title {
 		margin: 0;
-		font: normal normal bold 76px/0.95 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 76px/0.95 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		padding-left: 120px;
 		text-transform: none;
 	}
@@ -444,7 +444,7 @@ La historia de La Siberia Central comenzó en 1946, cuando el Sr. Demetrio Téll
 		min-width: max-content;
 		align-items: flex-start;
 		--timeline-shift: 0px;
-		--timeline-duration: 12s;
+		--timeline-duration: 40s;
 		--axis-y: 22px;
 		--gap: 90px;
 		--dot-size: 26px;
@@ -800,14 +800,13 @@ La historia de La Siberia Central comenzó en 1946, cuando el Sr. Demetrio Téll
 		inset: 0;
 		background-size: cover;
 		background-position: center;
-		filter: grayscale(1) contrast(1.05) brightness(0.82);
 		transform: scale(1.02);
 	}
 
 	.branches__overlay {
 		position: absolute;
 		inset: 0;
-		background: rgba(0, 0, 0, 0.38);
+		background: none;
 	}
 
 	.branches__decor {
@@ -837,7 +836,7 @@ La historia de La Siberia Central comenzó en 1946, cuando el Sr. Demetrio Téll
 
 	.branches__title {
 		margin: 0;
-		font: normal normal bold 68px/0.95 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 68px/0.95 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		text-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
 	}
 
@@ -1028,7 +1027,7 @@ La historia de La Siberia Central comenzó en 1946, cuando el Sr. Demetrio Téll
 
 	.mission-vision__title {
 		margin: 0 0 24px;
-		font: normal normal bold 48px/1.15 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 48px/1.15 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		color: #8b5a2b;
 	}
 

@@ -34,7 +34,7 @@ const resumesPending = user ? await resumesRepo.countByStatus(db, 'pending') : 0
 const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0;
 ---
 
-<Layout title="Panel Administrador | La Siberia Central">
+<Layout title="Panel Administrador | La S central">
 	<div class="modern-admin">
 		{
 			!user ? (
@@ -42,7 +42,7 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 					<div class="login-card">
 						<div class="login-card__header">
 							<h1 class="login-card__title">Panel Administrador</h1>
-							<p class="login-card__subtitle">La Siberia Central</p>
+							<p class="login-card__subtitle">La S central</p>
 						</div>
 
 						{hasError && (
@@ -84,7 +84,7 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 				<div class="modern-admin__container">
 					<header class="modern-admin__header">
 						<div class="admin-header__brand">
-							<h1 class="admin-header__title">La Siberia Central</h1>
+							<h1 class="admin-header__title">La S central</h1>
 							<p class="admin-header__subtitle">Panel de Administración</p>
 						</div>
 
@@ -180,7 +180,7 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 									stroke-linejoin="round"
 								/>
 							</svg>
-							<span>Blog</span>
+							<span>Experiencias</span>
 						</a>
 
 					</nav>
@@ -207,7 +207,7 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 	.modern-admin {
 		min-height: 100vh;
 		background: linear-gradient(135deg, #f6f4ef 0%, #faf9f6 100%);
-		font-family: 'Inter', -apple-system, sans-serif;
+		font-family: 'Graduate', 'Inter', -apple-system, sans-serif;
 	}
 
 	/* Login Screen */
@@ -217,7 +217,7 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 		align-items: center;
 		justify-content: center;
 		padding: 24px;
-		background: linear-gradient(135deg, #d4534f 0%, #8b5a2b 100%);
+		background: linear-gradient(135deg, #e1454f 0%, #8b5a2b 100%);
 		position: relative;
 		overflow: hidden;
 	}
@@ -275,7 +275,7 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 
 	.login-card__title {
 		margin: 0 0 8px;
-		font-family: 'Playfair Display', Georgia, serif;
+		font-family: 'Graduate', 'Playfair Display', Georgia, serif;
 		font-size: 36px;
 		font-weight: 900;
 		color: #1a1a1a;
@@ -345,8 +345,8 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 
 	.login-field input:focus {
 		outline: none;
-		border-color: #d4534f;
-		box-shadow: 0 0 0 4px rgba(212, 83, 79, 0.1);
+		border-color: #e1454f;
+		box-shadow: 0 0 0 4px rgba(225, 69, 79, 0.1);
 	}
 
 	.login-card__submit {
@@ -355,7 +355,7 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 		justify-content: center;
 		gap: 10px;
 		padding: 16px;
-		background: linear-gradient(135deg, #d4534f 0%, #b33832 100%);
+		background: linear-gradient(135deg, #e1454f 0%, #b3202c 100%);
 		color: #ffffff;
 		border: none;
 		border-radius: 12px;
@@ -364,12 +364,12 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 		cursor: pointer;
 		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 		margin-top: 8px;
-		box-shadow: 0 4px 14px rgba(212, 83, 79, 0.4);
+		box-shadow: 0 4px 14px rgba(225, 69, 79, 0.4);
 	}
 
 	.login-card__submit:hover {
 		transform: translateY(-2px);
-		box-shadow: 0 8px 20px rgba(212, 83, 79, 0.5);
+		box-shadow: 0 8px 20px rgba(225, 69, 79, 0.5);
 	}
 
 	.login-card__submit:active {
@@ -413,7 +413,7 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 
 	.admin-header__title {
 		margin: 0;
-		font-family: 'Playfair Display', Georgia, serif;
+		font-family: 'Graduate', 'Playfair Display', Georgia, serif;
 		font-size: 28px;
 		font-weight: 900;
 		color: #1a1a1a;
@@ -468,8 +468,8 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 	}
 
 	.admin-header__logout:hover {
-		border-color: #d4534f;
-		color: #d4534f;
+		border-color: #e1454f;
+		color: #e1454f;
 		background: #fff5f5;
 	}
 
@@ -513,32 +513,20 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 	}
 
 	.tab-link--active {
-		background: linear-gradient(135deg, #d4534f 0%, #b33832 100%);
+		background: linear-gradient(135deg, #e1454f 0%, #b3202c 100%);
 		color: #ffffff;
-		border-color: #d4534f;
-		box-shadow: 0 4px 12px rgba(212, 83, 79, 0.3);
+		border-color: #e1454f;
+		box-shadow: 0 4px 12px rgba(225, 69, 79, 0.3);
 	}
 
 	.tab-link--active:hover {
-		background: linear-gradient(135deg, #d4534f 0%, #b33832 100%);
+		background: linear-gradient(135deg, #e1454f 0%, #b3202c 100%);
 	}
 
 	/* Main Content */
 	.modern-admin__content {
 		flex: 1;
 		padding: 40px;
-		animation: fadeInContent 0.5s ease-out;
-	}
-
-	@keyframes fadeInContent {
-		from {
-			opacity: 0;
-			transform: translateY(20px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
 	}
 
 	.tab-content {

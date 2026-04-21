@@ -32,13 +32,13 @@ if (!post) {
 }
 ---
 
-<Layout title={`${post ? post.title : 'Publicacion no encontrada'} | Blog`} navTheme="light">
+<Layout title={`${post ? post.title : 'Publicación no encontrada'} | Experiencias`} navTheme="light">
 	<section class="post">
 		<div class="post__inner">
 			{post && post.published === 1 ? (
 				<>
 					<nav class="post__breadcrumb" aria-label="Ruta">
-						<a href="/blog">Blog</a>
+						<a href="/experiencias">Experiencias</a>
 						<span aria-hidden="true"> / </span>
 						<span>{post.title}</span>
 					</nav>
@@ -90,7 +90,7 @@ if (!post) {
 										<div class="post-related__body">
 											<h3 class="post-related__title">{related.title}</h3>
 											<p class="post-related__excerpt">{related.excerpt}</p>
-											<a class="post-related__link" href={`/blog/${related.slug}`}>Saber más</a>
+											<a class="post-related__link" href={`/experiencias/${related.slug}`}>Saber más</a>
 										</div>
 									</article>
 								))}
@@ -102,7 +102,7 @@ if (!post) {
 				<div class="post-empty">
 					<h1 class="post-empty__title">Publicacion no encontrada</h1>
 					<p class="post-empty__subtitle">La entrada que buscas no existe o no esta publicada.</p>
-					<a class="post-empty__back" href="/blog">Volver al blog</a>
+					<a class="post-empty__back" href="/experiencias">Volver a experiencias</a>
 				</div>
 			)}
 		</div>
@@ -159,7 +159,7 @@ if (!post) {
 
 	.post__title {
 		margin: 0;
-		font: normal normal bold 46px/1.05 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 46px/1.05 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		color: #e1454f;
 	}
 
@@ -217,7 +217,7 @@ if (!post) {
 
 	.post-related__heading {
 		margin: 0;
-		font: normal normal bold 28px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 28px/1.2 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		color: #161615;
 	}
 
@@ -252,7 +252,7 @@ if (!post) {
 
 	.post-related__title {
 		margin: 0;
-		font: normal normal bold 20px/1.2 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 20px/1.2 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		color: #e1454f;
 	}
 
@@ -298,7 +298,7 @@ if (!post) {
 
 	.post-empty__title {
 		margin: 0;
-		font: normal normal bold 40px/1.1 Campton, 'Montserrat', 'Arial', sans-serif;
+		font: normal normal bold 40px/1.1 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
 		color: #161615;
 	}
 

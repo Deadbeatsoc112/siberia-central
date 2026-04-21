@@ -1,12 +1,12 @@
 # Sistema de Diseño del Panel de Administración
-## La Siberia Central - Modern Admin Dashboard
+## La S central - Modern Admin Dashboard
 
 ### 🎨 Concepto de Diseño
 
 **Estética**: "Modern Culinary Dashboard" - Panel administrativo que combina la sofisticación de un restaurante premium con la funcionalidad de herramientas modernas.
 
 **Paleta de Colores**:
-- **Principal**: #d4534f (Rojo especiado) → #b33832 (Degradado)
+- **Principal**: #e1454f (Rojo especiado) → #b3202c (Degradado)
 - **Secundario**: #8b5a2b (Marrón cálido) → #6d4521 (Degradado)
 - **Éxito**: #10b981 (Verde fresco)
 - **Peligro**: #ef4444 (Rojo vibrante)
@@ -237,8 +237,8 @@ Para completar el rediseño del panel:
 ```css
 :root {
   /* Colors */
-  --color-primary: #d4534f;
-  --color-primary-dark: #b33832;
+  --color-primary: #e1454f;
+  --color-primary-dark: #b3202c;
   --color-secondary: #8b5a2b;
   --color-secondary-dark: #6d4521;
   --color-success: #10b981;
@@ -286,4 +286,4 @@ Para completar el rediseño del panel:
 
 ---
 
-**Diseñado con ❤️ para La Siberia Central**
+**Diseñado con ❤️ para La S central**

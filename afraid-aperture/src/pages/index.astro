@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import heroMainBgUrl from '../assets/fondos/Menu.png?url';
+import heroMainBgUrl from '../assets/fondos/Inicio.png?url';
 const heroMainBg2xUrl = heroMainBgUrl;
 import heroBackgroundUrl from '../assets/media/Grupo 198 sin-linea.png?url';
 import heroLogoUrl from '../assets/media/logologito.png?url';
@@ -15,9 +15,6 @@ import menuImageThreeUrl from '../assets/Tlalp.jpg?url';
 import menuImageThree2xUrl from '../assets/Tlalp.jpg?url';
 import menuBandUrl from '../assets/media/Enmascarar grupo 9.png?url';
 import menuBand2xUrl from '../assets/media/Enmascarar grupo 9@2x.png?url';
-import billingBgUrl from '../assets/fondos/inicio_2.jpg?url';
-const billingBg2xUrl = billingBgUrl;
-import billingDecorUrl from '../assets/media/Grupo 36.svg?url';
 import decorativeStarsUrl from '../assets/media/Grupo 24.svg?url';
 ---
 
@@ -105,157 +102,6 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 			</figure>
 		</div>
 	</section>
-	<section class="billing" aria-labelledby="billing-title">
-		<div
-			class="billing__bg"
-			style={`background-image: image-set(url(${billingBgUrl}) 1x, url(${billingBg2xUrl}) 2x);`}
-			aria-hidden="true"
-		></div>
-			<div class="billing__overlay" aria-hidden="true"></div>
-			<div class="billing__content">
-				<h2 id="billing-title" class="billing__title">¿Factura? Súper fácil</h2>
-				<a class="billing__button" href="/facturacion">Factura Aquí</a>
-			</div>
-			<img class="billing__decor" src={billingDecorUrl} alt="" aria-hidden="true" />
-		</section>
-		<section id="facturacion-form" class="billing-form" aria-labelledby="billing-form-title">
-			<div class="billing-form__inner">
-				<h2 id="billing-form-title" class="billing-form__title">Formulario de facturación</h2>
-				<span class="billing-form__rule" aria-hidden="true"></span>
-				<p class="billing-form__subtitle">
-					Comparte tus datos para gestionar tu factura de manera correcta.
-				</p>
-				<form class="billing-form__form" action="#" method="post" enctype="multipart/form-data" onsubmit="return false">
-						<div class="billing-form__column">
-							<div class="billing-form__field">
-								<label class="billing-form__label" for="billing-name">Nombre completo*</label>
-								<input class="billing-form__input" id="billing-name" name="full_name" type="text" required />
-							</div>
-							<div class="billing-form__field">
-								<label class="billing-form__label" for="billing-rfc">RFC*</label>
-								<div class="billing-form__rfc-group">
-									<select class="billing-form__input billing-form__select" id="billing-rfc-type" name="rfc_person_type" required>
-										<option value="fisica" selected>Persona Fisica</option>
-										<option value="moral">Persona Moral</option>
-									</select>
-									<input
-										class="billing-form__input"
-										id="billing-rfc"
-										name="rfc"
-										type="text"
-										required
-										minlength="13"
-										maxlength="13"
-										pattern="^[A-Z&]{4}[0-9]{6}[A-Z0-9]{3}$"
-										title="RFC de Persona Fisica: 13 caracteres."
-									/>
-								</div>
-								<span class="billing-form__hint" id="billing-rfc-hint">Persona Fisica: captura 13 caracteres para RFC.</span>
-							</div>
-							<div class="billing-form__field">
-								<label class="billing-form__label" for="billing-business-name">Razon social*</label>
-								<input
-									class="billing-form__input"
-									id="billing-business-name"
-									name="business_name"
-									type="text"
-									required
-								/>
-							</div>
-							<div class="billing-form__field">
-								<label class="billing-form__label" for="billing-tax-regime">Regimen fiscal*</label>
-								<select class="billing-form__input billing-form__select" id="billing-tax-regime" name="tax_regime" required>
-									<option value="" selected disabled>Selecciona un regimen</option>
-									<option value="601">General de Ley Personas Morales</option>
-									<option value="603">Personas Morales con Fines no Lucrativos</option>
-									<option value="605">Sueldos y Salarios e Ingresos Asimilados a Salarios</option>
-									<option value="606">Arrendamiento</option>
-									<option value="607">Regimen de Enajenacion o Adquisicion de Bienes</option>
-									<option value="608">Demas ingresos</option>
-									<option value="609">Consolidacion</option>
-									<option value="610">Residentes en el Extranjero sin Establecimiento Permanente en Mexico</option>
-									<option value="611">Ingresos por Dividendos (socios y accionistas)</option>
-									<option value="612">Personas Fisicas con Actividades Empresariales y Profesionales</option>
-									<option value="614">Ingresos por Intereses</option>
-									<option value="615">Regimen de los Ingresos por Obtencion de Premios</option>
-									<option value="616">Sin obligaciones fiscales</option>
-									<option value="620">Sociedades Cooperativas de Produccion que optan por diferir sus ingresos</option>
-									<option value="621">Incorporacion Fiscal</option>
-									<option value="622">Actividades Agricolas, Ganaderas, Silvicolas y Pesqueras</option>
-									<option value="623">Opcional para Grupos de Sociedades</option>
-									<option value="624">Coordinados</option>
-									<option value="625">Actividades Empresariales con ingresos a traves de Plataformas Tecnologicas</option>
-									<option value="626">Regimen Simplificado de Confianza (RESICO - Personas Fisicas)</option>
-									<option value="628">Hidrocarburos</option>
-									<option value="629">Regimenes Fiscales Preferentes y de las Empresas Multinacionales</option>
-									<option value="630">Enajenacion de acciones en bolsa de valores</option>
-								</select>
-							</div>
-						</div>
-						<div class="billing-form__column">
-							<div class="billing-form__field">
-								<label class="billing-form__label" for="billing-cfdi-use">Uso de CFDI*</label>
-								<select class="billing-form__input billing-form__select" id="billing-cfdi-use" name="cfdi_use" required>
-									<option value="" selected disabled>Selecciona el uso</option>
-									<option value="D04">Donativos</option>
-									<option value="G01">Adquisicion de mercancias</option>
-									<option value="G02">Devoluciones, descuentos o bonificaciones</option>
-									<option value="G03">Gastos en general</option>
-									<option value="S01">Sin efectos fiscales</option>
-								</select>
-							</div>
-							<div class="billing-form__field">
-								<label class="billing-form__label" for="billing-fiscal-address">Direccion fiscal*</label>
-								<input class="billing-form__input" id="billing-fiscal-address" name="fiscal_address" type="text" required />
-							</div>
-							<div class="billing-form__field">
-								<label class="billing-form__label" for="billing-postal-code">Codigo postal*</label>
-								<input class="billing-form__input" id="billing-postal-code" name="postal_code" type="text" required />
-							</div>
-							<div class="billing-form__field">
-								<label class="billing-form__label" for="billing-payment-method">Forma de pago*</label>
-								<select class="billing-form__input billing-form__select" id="billing-payment-method" name="payment_method" required>
-									<option value="" selected disabled>Selecciona una forma de pago</option>
-									<option value="01">Efectivo</option>
-									<option value="04">Tarjeta de credito</option>
-									<option value="28">Tarjeta de debito</option>
-								</select>
-							</div>
-							<div class="billing-form__field">
-								<label class="billing-form__label" for="billing-email">Correo electronico</label>
-								<input class="billing-form__input" id="billing-email" name="email" type="email" />
-							</div>
-							<div class="billing-form__field">
-								<label class="billing-form__label" for="billing-phone">Telefono*</label>
-								<input class="billing-form__input" id="billing-phone" name="phone" type="tel" required />
-							</div>
-							<div class="billing-form__field">
-								<label class="billing-form__label" for="billing-ticket-file">Ticket o imagen (opcional)</label>
-								<input
-									class="billing-form__input"
-									id="billing-ticket-file"
-									name="ticket_file"
-									type="file"
-									accept=".jpg,.jpeg,.png,.webp,.pdf"
-								/>
-								<span class="billing-form__hint">Puedes subir foto o PDF del ticket.</span>
-							</div>
-						</div>
-						<div class="billing-form__field billing-form__field--full">
-							<label class="billing-form__label" for="billing-notes">Comentarios (opcional)</label>
-							<textarea
-								class="billing-form__textarea"
-								id="billing-notes"
-								name="notes"
-								placeholder="Comparte aqui informacion adicional para tu factura."
-							></textarea>
-						</div>
-						<div class="billing-form__actions">
-							<button class="billing-form__button" type="submit">Enviar datos de facturacion</button>
-						</div>
-					</form>
-			</div>
-		</section>
 		<section class="feedback-cta" aria-labelledby="feedback-title">
 			<div class="feedback-cta__inner">
 				<img class="feedback-cta__decor" src={decorativeStarsUrl} alt="" aria-hidden="true" />
@@ -350,41 +196,6 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 			window.addEventListener('resize', fallbackOnScroll);
 		}
 
-		const rfcTypeSelect = document.getElementById('billing-rfc-type');
-		const rfcInput = document.getElementById('billing-rfc');
-		const rfcHint = document.getElementById('billing-rfc-hint');
-
-		if (rfcTypeSelect instanceof HTMLSelectElement && rfcInput instanceof HTMLInputElement) {
-			const applyRfcValidation = () => {
-				const isFisica = rfcTypeSelect.value === 'fisica';
-				const requiredLength = isFisica ? 13 : 12;
-
-				rfcInput.minLength = requiredLength;
-				rfcInput.maxLength = requiredLength;
-				rfcInput.pattern = isFisica
-					? '^[A-Z&]{4}[0-9]{6}[A-Z0-9]{3}$'
-					: '^[A-Z&]{3}[0-9]{6}[A-Z0-9]{3}$';
-				rfcInput.title = isFisica
-					? 'RFC de Persona Fisica: 13 caracteres.'
-					: 'RFC de Persona Moral: 12 caracteres.';
-
-				if (rfcHint instanceof HTMLElement) {
-					rfcHint.textContent = isFisica
-						? 'Persona Fisica: captura 13 caracteres para RFC.'
-						: 'Persona Moral: captura 12 caracteres para RFC.';
-				}
-
-				if (rfcInput.value.length > requiredLength) {
-					rfcInput.value = rfcInput.value.slice(0, requiredLength);
-				}
-			};
-
-			rfcTypeSelect.addEventListener('change', applyRfcValidation);
-			rfcInput.addEventListener('input', () => {
-				rfcInput.value = rfcInput.value.toUpperCase().replace(/\s+/g, '');
-			});
-			applyRfcValidation();
-		}
 	</script>
 
 <style>
@@ -823,136 +634,6 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		}
 	}
 
-	.billing-form {
-		position: relative;
-		width: 100%;
-		background: #fff7ee;
-		color: #7a4b1f;
-		display: flex;
-		justify-content: center;
-		padding: 90px 24px 84px;
-		box-sizing: border-box;
-	}
-
-	.billing-form__inner {
-		width: min(1100px, 100%);
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-	}
-
-	.billing-form__title {
-		margin: 0;
-		font: normal normal bold 44px/1.2 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
-		letter-spacing: 0px;
-		color: #8b5a2b;
-	}
-
-	.billing-form__rule {
-		width: 280px;
-		height: 2px;
-		background: #8b5a2b;
-		margin: 4px 0 8px;
-	}
-
-	.billing-form__subtitle {
-		margin: 0 0 22px;
-		font-size: 16px;
-		color: #8b5a2b;
-		opacity: 0.9;
-	}
-
-	.billing-form__form {
-		width: 100%;
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 30px 56px;
-		text-align: left;
-	}
-
-	.billing-form__column {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
-
-	.billing-form__field {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-	}
-
-	.billing-form__field--full {
-		grid-column: 1 / -1;
-	}
-
-	.billing-form__label {
-		font-size: 16px;
-		color: #7a4b1f;
-	}
-
-		.billing-form__input,
-		.billing-form__textarea {
-			width: 100%;
-			border: 1px solid #d6ba98;
-		background: #ffffff;
-		color: #1f1f1f;
-		padding: 12px 14px;
-		font-size: 16px;
-		box-sizing: border-box;
-			font-weight: 500;
-		}
-
-		.billing-form__select {
-			cursor: pointer;
-		}
-
-		.billing-form__rfc-group {
-			display: grid;
-			grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
-			gap: 8px;
-		}
-
-	.billing-form__input:focus,
-	.billing-form__textarea:focus {
-		outline: none;
-		border-color: #8b5a2b;
-		box-shadow: 0 0 0 3px rgba(139, 90, 43, 0.15);
-	}
-
-	.billing-form__textarea {
-		min-height: 140px;
-		resize: vertical;
-	}
-
-	.billing-form__hint {
-		font-size: 13px;
-		color: #8b5a2b;
-		opacity: 0.8;
-	}
-
-	.billing-form__actions {
-		grid-column: 1 / -1;
-		display: flex;
-		justify-content: flex-end;
-	}
-
-	.billing-form__button {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 290px;
-		height: 48px;
-		border: 2px solid #8b5a2b;
-		background: #8b5a2b;
-		color: #ffffff;
-		text-decoration: none;
-		font-weight: 700;
-		font-size: 16px;
-		letter-spacing: 0px;
-		cursor: pointer;
-	}
-
 	.feedback-cta {
 		position: relative;
 		width: 100%;
@@ -1010,14 +691,6 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 	}
 
 	@media (max-width: 1200px) {
-		.billing-form__title {
-			font-size: 38px;
-		}
-
-		.billing-form__form {
-			gap: 24px 38px;
-		}
-
 		.feedback-cta__title {
 			font-size: 36px;
 		}
@@ -1028,35 +701,6 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 	}
 
 		@media (max-width: 768px) {
-		.billing-form {
-			padding: 70px 20px;
-		}
-
-		.billing-form__title {
-			font-size: 30px;
-		}
-
-		.billing-form__rule {
-			width: 190px;
-		}
-
-			.billing-form__form {
-				grid-template-columns: 1fr;
-			}
-
-			.billing-form__rfc-group {
-				grid-template-columns: 1fr;
-			}
-
-		.billing-form__actions {
-			justify-content: stretch;
-		}
-
-		.billing-form__button {
-			width: 100%;
-			min-width: 0;
-		}
-
 		.feedback-cta {
 			padding: 64px 20px;
 		}
@@ -1076,112 +720,4 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 		}
 	}
 
-	.billing {
-		position: relative;
-		width: 100%;
-		height: 585px;
-		overflow: hidden;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
-		color: #ffffff;
-	}
-
-	.billing__bg {
-		position: absolute;
-		inset: 0;
-		background-size: cover;
-		background-position: center 72%;
-		transform: none;
-	}
-
-	.billing__overlay {
-		position: absolute;
-		inset: 0;
-		background: rgba(0, 0, 0, 0.35);
-	}
-
-	.billing__content {
-		position: relative;
-		z-index: 2;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 22px;
-		padding: 0 24px;
-	}
-
-	.billing__title {
-		margin: 0;
-		font: normal normal bold 44px/1.2 'Graduate', Campton, 'Montserrat', 'Arial', sans-serif;
-		letter-spacing: 0px;
-		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-	}
-
-	.billing__button {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 210px;
-		height: 44px;
-		border: 2px solid #ffffff;
-		color: #ffffff;
-		text-decoration: none;
-		font-weight: 700;
-		font-size: 16px;
-		letter-spacing: 0px;
-	}
-
-	.billing__decor {
-		position: absolute;
-		bottom: 0;
-		left: 50%;
-		transform: translateX(-50%);
-		width: min(537px, calc(100vw - 32px));
-		max-width: 100%;
-		height: 27px;
-	}
-
-	@media (max-width: 1200px) {
-		.billing {
-			height: 520px;
-		}
-
-		.billing__title {
-			font-size: 38px;
-		}
-
-		.billing__button {
-			width: 190px;
-			height: 42px;
-		}
-
-		.billing__decor {
-			bottom: 0;
-			width: min(420px, calc(100vw - 32px));
-			height: 22px;
-		}
-	}
-
-	@media (max-width: 768px) {
-		.billing {
-			height: 460px;
-		}
-
-		.billing__title {
-			font-size: 30px;
-		}
-
-		.billing__button {
-			width: 170px;
-			height: 40px;
-		}
-
-		.billing__decor {
-			width: min(300px, calc(100vw - 24px));
-			height: 15px;
-			bottom: 0;
-		}
-	}
 </style>

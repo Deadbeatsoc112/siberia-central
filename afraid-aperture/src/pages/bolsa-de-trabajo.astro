@@ -49,9 +49,9 @@ const error = Astro.url.searchParams.get('error');
 								<div class="job-card__content">
 									<h3 class="job-card__title">{job.title}</h3>
 									<div class="job-card__location">
-										<svg class="location-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-											<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-											<circle cx="12" cy="10" r="3" stroke-width="2"/>
+										<svg class="location-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff">
+											<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+											<circle cx="12" cy="10" r="3" stroke="#ffffff" stroke-width="2"/>
 										</svg>
 										<span>{job.location}</span>
 									</div>
@@ -388,7 +388,13 @@ const error = Astro.url.searchParams.get('error');
 
 	.job-card__location .location-icon {
 		color: #ffffff;
+		stroke: #ffffff;
 		flex-shrink: 0;
+	}
+
+	.job-card__location .location-icon path,
+	.job-card__location .location-icon circle {
+		stroke: #ffffff;
 	}
 
 	.job-card__positions {

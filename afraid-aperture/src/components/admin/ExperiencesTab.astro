@@ -1,0 +1,217 @@
+---
+import AdminCard from './AdminCard.astro';
+import AdminInput from './AdminInput.astro';
+import AdminButton from './AdminButton.astro';
+import type { ExperienceImage } from '../../lib/experiences';
+
+interface Props {
+	images: ExperienceImage[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="exp-admin">
+	<div class="exp-admin__grid">
+		<AdminCard title="Subir Imágenes" subtitle="Sube una o varias imágenes al mosaico" variant="elevated">
+			<form action="/api/admin/experiences/upload" method="post" enctype="multipart/form-data" class="exp-form">
+				<div class="exp-form__fields">
+					<AdminInput
+						label="Título (opcional)"
+						name="title"
+						type="text"
+						helper="Texto descriptivo que se muestra al expandir la imagen"
+					/>
+
+					<div class="exp-form__file">
+						<label class="exp-form__label" for="exp-images">Imágenes (JPG, PNG, WEBP — máx 10MB c/u)</label>
+						<input
+							id="exp-images"
+							class="exp-form__input-file"
+							type="file"
+							name="images"
+							accept="image/jpeg,image/png,image/webp"
+							multiple
+							required
+						/>
+						<span class="exp-form__helper">Puedes seleccionar varias imágenes a la vez.</span>
+					</div>
+				</div>
+
+				<div class="exp-form__actions">
+					<AdminButton type="submit" variant="primary" size="large" fullWidth>
+						Subir Imágenes
+					</AdminButton>
+				</div>
+			</form>
+		</AdminCard>
+
+		<AdminCard
+			title="Galería"
+			subtitle={`${images.length} imagen${images.length !== 1 ? 'es' : ''} en total`}
+			variant="glass"
+			fullHeight
+		>
+			{images.length === 0 ? (
+				<div class="exp-empty">
+					<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+						<rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke-width="2" />
+						<circle cx="8.5" cy="8.5" r="1.5" stroke-width="2" />
+						<polyline points="21 15 16 10 5 21" stroke-width="2" />
+					</svg>
+					<p>Aún no hay imágenes subidas</p>
+				</div>
+			) : (
+				<div class="exp-gallery">
+					{images.map((img) => (
+						<div class="exp-gallery__item">
+							<div class="exp-gallery__thumb">
+								<img src={img.image_url} alt={img.title ?? 'Experiencia'} loading="lazy" />
+							</div>
+							<div class="exp-gallery__body">
+								{img.title && <p class="exp-gallery__title">{img.title}</p>}
+								<p class="exp-gallery__date">
+									{new Date(img.created_at).toLocaleDateString()}
+								</p>
+								<form action="/api/admin/experiences/delete" method="post" class="exp-gallery__delete">
+									<input type="hidden" name="id" value={img.id} />
+									<AdminButton type="submit" variant="danger" size="small" fullWidth>
+										Eliminar
+									</AdminButton>
+								</form>
+							</div>
+						</div>
+					))}
+				</div>
+			)}
+		</AdminCard>
+	</div>
+</div>
+
+<style>
+	.exp-admin__grid {
+		display: grid;
+		grid-template-columns: 1fr 1.3fr;
+		gap: 32px;
+		align-items: start;
+	}
+
+	.exp-form__fields {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.exp-form__file {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.exp-form__label {
+		font-size: 14px;
+		font-weight: 600;
+		color: #2a2a2a;
+	}
+
+	.exp-form__input-file {
+		padding: 12px;
+		border: 2px dashed #d6ba98;
+		border-radius: 10px;
+		background: #faf8f4;
+		font-family: inherit;
+		cursor: pointer;
+	}
+
+	.exp-form__helper {
+		font-size: 13px;
+		color: #8b5a2b;
+	}
+
+	.exp-form__actions {
+		margin-top: 28px;
+	}
+
+	.exp-empty {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 60px 20px;
+		color: #999;
+		text-align: center;
+	}
+
+	.exp-empty svg {
+		margin-bottom: 16px;
+		opacity: 0.5;
+	}
+
+	.exp-empty p {
+		margin: 0;
+		font-size: 16px;
+	}
+
+	.exp-gallery {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		gap: 16px;
+	}
+
+	.exp-gallery__item {
+		background: #ffffff;
+		border: 2px solid #f0f0f0;
+		border-radius: 12px;
+		overflow: hidden;
+		transition: all 0.3s ease;
+	}
+
+	.exp-gallery__item:hover {
+		border-color: #e1454f;
+		box-shadow: 0 8px 24px rgba(225, 69, 79, 0.15);
+	}
+
+	.exp-gallery__thumb {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		overflow: hidden;
+		background: #f4f4f4;
+	}
+
+	.exp-gallery__thumb img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	.exp-gallery__body {
+		padding: 12px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.exp-gallery__title {
+		margin: 0;
+		font-size: 14px;
+		font-weight: 700;
+		color: #1a1a1a;
+	}
+
+	.exp-gallery__date {
+		margin: 0;
+		font-size: 12px;
+		color: #999;
+	}
+
+	.exp-gallery__delete {
+		margin-top: 4px;
+	}
+
+	@media (max-width: 1200px) {
+		.exp-admin__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

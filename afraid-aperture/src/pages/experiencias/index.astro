@@ -2,12 +2,36 @@
 import Layout from '../../layouts/Layout.astro';
 import { getDB } from '../../lib/db';
 import expHeroUrl from '../../assets/fondos/Blog.png?url';
-import { postsRepo } from '../../lib/content';
+import { experienceImagesRepo } from '../../lib/experiences';
 
 const db = getDB(Astro.locals);
 const expHero2xUrl = expHeroUrl;
 
-const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 1);
+const images = await experienceImagesRepo.listAll(db);
+
+const SIZE_CLASSES = [
+	'mosaic__tile--xl',
+	'mosaic__tile--md',
+	'mosaic__tile--tall',
+	'mosaic__tile--md',
+	'mosaic__tile--wide',
+	'mosaic__tile--md',
+	'mosaic__tile--tall',
+	'mosaic__tile--wide',
+];
+
+const pseudoHash = (n: number) => {
+	let x = (n * 2654435761) >>> 0;
+	x ^= x >>> 13;
+	x = (x * 1597334677) >>> 0;
+	x ^= x >>> 16;
+	return x >>> 0;
+};
+
+const tiles = images.map((img, i) => ({
+	...img,
+	sizeClass: SIZE_CLASSES[pseudoHash(img.id + images.length * 7 + i) % SIZE_CLASSES.length],
+}));
 ---
 
 <Layout title="Experiencias | La S central">
@@ -20,46 +44,125 @@ const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 
 		<div class="exp-hero__overlay" aria-hidden="true"></div>
 		<div class="exp-hero__content">
 			<h1 id="exp-title" class="exp-hero__title">Experiencias</h1>
-			<p class="exp-hero__subtitle">Historias, eventos y momentos de La S central</p>
+			<p class="exp-hero__subtitle">Momentos capturados en La S central</p>
 		</div>
 	</section>
-	<section class="exp-list" aria-labelledby="exp-list-title">
-		<div class="exp-list__inner">
-			<h2 id="exp-list-title" class="sr-only">Experiencias</h2>
-			{posts.length === 0 ? (
-				<p class="exp-list__empty">Aún no hay experiencias publicadas. Vuelve pronto.</p>
+
+	<section class="exp-gallery-section" aria-labelledby="exp-list-title">
+		<div class="exp-gallery-section__inner">
+			<h2 id="exp-list-title" class="sr-only">Galería de experiencias</h2>
+			{tiles.length === 0 ? (
+				<p class="exp-empty">Aún no hay imágenes. Vuelve pronto.</p>
 			) : (
 				<div class="mosaic">
-					{posts.map((post, index) => {
-						const pattern = index % 6;
-						const sizeClass =
-							pattern === 0 ? 'mosaic__tile--xl'
-							: pattern === 1 ? 'mosaic__tile--md'
-							: pattern === 2 ? 'mosaic__tile--tall'
-							: pattern === 3 ? 'mosaic__tile--md'
-							: pattern === 4 ? 'mosaic__tile--wide'
-							: 'mosaic__tile--md';
-						return (
-							<a class={`mosaic__tile ${sizeClass}`} href={`/experiencias/${post.slug}`}>
-								<img
-									class="mosaic__image"
-									src={post.image_url ?? expHeroUrl}
-									alt={post.title}
-									loading="lazy"
-								/>
-								<div class="mosaic__overlay" aria-hidden="true"></div>
-								<div class="mosaic__body">
-									<h3 class="mosaic__title">{post.title}</h3>
-									{post.excerpt && <p class="mosaic__excerpt">{post.excerpt}</p>}
-								</div>
-							</a>
-						);
-					})}
+					{tiles.map((img) => (
+						<button
+							type="button"
+							class={`mosaic__tile ${img.sizeClass}`}
+							data-src={img.image_url}
+							data-title={img.title ?? ''}
+							aria-label={img.title ? `Ampliar ${img.title}` : 'Ampliar imagen'}
+						>
+							<img
+								class="mosaic__image"
+								src={img.image_url}
+								alt={img.title ?? 'Experiencia'}
+								loading="lazy"
+							/>
+							<span class="mosaic__zoom" aria-hidden="true">
+								<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+									<circle cx="11" cy="11" r="7" stroke-width="2" />
+									<line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2" stroke-linecap="round" />
+									<line x1="11" y1="8" x2="11" y2="14" stroke-width="2" stroke-linecap="round" />
+									<line x1="8" y1="11" x2="14" y2="11" stroke-width="2" stroke-linecap="round" />
+								</svg>
+							</span>
+						</button>
+					))}
 				</div>
 			)}
 		</div>
 	</section>
+
+	<div class="lightbox" id="exp-lightbox" aria-hidden="true" role="dialog">
+		<button type="button" class="lightbox__close" aria-label="Cerrar">
+			<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+				<line x1="18" y1="6" x2="6" y2="18" stroke-width="2" stroke-linecap="round" />
+				<line x1="6" y1="6" x2="18" y2="18" stroke-width="2" stroke-linecap="round" />
+			</svg>
+		</button>
+		<button type="button" class="lightbox__nav lightbox__nav--prev" aria-label="Anterior">
+			<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+				<polyline points="15 18 9 12 15 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+			</svg>
+		</button>
+		<figure class="lightbox__figure">
+			<img class="lightbox__image" alt="" />
+			<figcaption class="lightbox__caption"></figcaption>
+		</figure>
+		<button type="button" class="lightbox__nav lightbox__nav--next" aria-label="Siguiente">
+			<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+				<polyline points="9 18 15 12 9 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+			</svg>
+		</button>
+	</div>
 </Layout>
+
+<script>
+	const tiles = Array.from(document.querySelectorAll<HTMLElement>('.mosaic__tile'));
+	const lightbox = document.getElementById('exp-lightbox');
+	const lightboxImg = lightbox?.querySelector<HTMLImageElement>('.lightbox__image');
+	const caption = lightbox?.querySelector<HTMLElement>('.lightbox__caption');
+	const closeBtn = lightbox?.querySelector<HTMLButtonElement>('.lightbox__close');
+	const prevBtn = lightbox?.querySelector<HTMLButtonElement>('.lightbox__nav--prev');
+	const nextBtn = lightbox?.querySelector<HTMLButtonElement>('.lightbox__nav--next');
+
+	let currentIndex = -1;
+
+	const showAt = (index: number) => {
+		if (!lightbox || !lightboxImg || !caption) return;
+		if (index < 0 || index >= tiles.length) return;
+		currentIndex = index;
+		const tile = tiles[index];
+		const src = tile.getAttribute('data-src') ?? '';
+		const title = tile.getAttribute('data-title') ?? '';
+		lightboxImg.src = src;
+		lightboxImg.alt = title || 'Experiencia';
+		caption.textContent = title;
+		caption.style.display = title ? '' : 'none';
+		lightbox.classList.add('is-open');
+		lightbox.setAttribute('aria-hidden', 'false');
+		document.body.style.overflow = 'hidden';
+	};
+
+	const close = () => {
+		if (!lightbox || !lightboxImg) return;
+		lightbox.classList.remove('is-open');
+		lightbox.setAttribute('aria-hidden', 'true');
+		lightboxImg.src = '';
+		currentIndex = -1;
+		document.body.style.overflow = '';
+	};
+
+	tiles.forEach((tile, i) => {
+		tile.addEventListener('click', () => showAt(i));
+	});
+
+	closeBtn?.addEventListener('click', close);
+	prevBtn?.addEventListener('click', () => showAt((currentIndex - 1 + tiles.length) % tiles.length));
+	nextBtn?.addEventListener('click', () => showAt((currentIndex + 1) % tiles.length));
+
+	lightbox?.addEventListener('click', (e) => {
+		if (e.target === lightbox) close();
+	});
+
+	document.addEventListener('keydown', (e) => {
+		if (!lightbox?.classList.contains('is-open')) return;
+		if (e.key === 'Escape') close();
+		if (e.key === 'ArrowLeft' && currentIndex >= 0) showAt((currentIndex - 1 + tiles.length) % tiles.length);
+		if (e.key === 'ArrowRight' && currentIndex >= 0) showAt((currentIndex + 1) % tiles.length);
+	});
+</script>
 
 <style>
 	.sr-only {
@@ -92,7 +195,6 @@ const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 
 		background-size: cover;
 		background-position: center;
 		transform: scale(1.02);
-		filter: brightness(1.7) saturate(1.3);
 	}
 
 	.exp-hero__overlay {
@@ -126,39 +228,44 @@ const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 
 		text-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
 	}
 
-	.exp-list {
-		background: #ffffff;
+	.exp-gallery-section {
+		background: #0f0f0f;
 		padding: 80px 0 140px;
 		display: flex;
 		justify-content: center;
 	}
 
-	.exp-list__inner {
+	.exp-gallery-section__inner {
 		width: min(1440px, 100%);
 		padding: 0 24px;
 		box-sizing: border-box;
 	}
 
-	.exp-list__empty {
+	.exp-empty {
 		margin: 0;
 		text-align: center;
 		font-size: 18px;
-		color: #6a6a6a;
+		color: #aaaaaa;
 	}
 
 	.mosaic {
 		display: grid;
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 		grid-auto-rows: 220px;
-		gap: 14px;
+		grid-auto-flow: dense;
+		gap: 12px;
 	}
 
 	.mosaic__tile {
 		position: relative;
 		overflow: hidden;
-		text-decoration: none;
-		color: #ffffff;
+		border: none;
+		padding: 0;
+		background: #1a1a1a;
+		cursor: pointer;
 		display: block;
+		grid-column: span 1;
+		grid-row: span 1;
 	}
 
 	.mosaic__tile--md { grid-column: span 1; grid-row: span 1; }
@@ -172,55 +279,42 @@ const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transition: transform 0.45s ease;
+		transition: transform 0.5s ease, filter 0.3s ease;
 	}
 
-	.mosaic__tile:hover .mosaic__image {
-		transform: scale(1.05);
+	.mosaic__tile:hover .mosaic__image,
+	.mosaic__tile:focus-visible .mosaic__image {
+		transform: scale(1.08);
+		filter: brightness(0.7);
 	}
 
-	.mosaic__overlay {
+	.mosaic__zoom {
 		position: absolute;
-		inset: 0;
-		background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0) 100%);
-		transition: background 0.3s ease;
-	}
-
-	.mosaic__tile:hover .mosaic__overlay {
-		background: linear-gradient(to top, rgba(225,69,79,0.85) 0%, rgba(225,69,79,0.35) 55%, rgba(0,0,0,0) 100%);
-	}
-
-	.mosaic__body {
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		padding: 20px 22px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%) scale(0.8);
+		width: 56px;
+		height: 56px;
+		border-radius: 50%;
+		background: rgba(225, 69, 79, 0.9);
+		color: #ffffff;
 		display: flex;
-		flex-direction: column;
-		gap: 6px;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+		transition: opacity 0.3s ease, transform 0.3s ease;
+		pointer-events: none;
 	}
 
-	.mosaic__title {
-		margin: 0;
-		font-size: 22px;
-		font-weight: 900;
-		line-height: 1.15;
+	.mosaic__tile:hover .mosaic__zoom,
+	.mosaic__tile:focus-visible .mosaic__zoom {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1);
 	}
 
-	.mosaic__tile--xl .mosaic__title {
-		font-size: 30px;
-	}
-
-	.mosaic__excerpt {
-		margin: 0;
-		font-size: 14px;
-		line-height: 1.35;
-		opacity: 0.92;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
+	.mosaic__tile:focus-visible {
+		outline: 3px solid #e1454f;
+		outline-offset: -3px;
 	}
 
 	@media (max-width: 1100px) {
@@ -244,5 +338,114 @@ const posts = (await postsRepo.listAll(db)).filter((post) => post.published === 
 			grid-column: span 1;
 			grid-row: span 2;
 		}
+	}
+
+	.lightbox {
+		position: fixed;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.95);
+		z-index: 1000;
+		display: none;
+		align-items: center;
+		justify-content: center;
+		padding: 40px;
+	}
+
+	.lightbox.is-open {
+		display: flex;
+		animation: fadeIn 0.25s ease;
+	}
+
+	@keyframes fadeIn {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+
+	.lightbox__figure {
+		margin: 0;
+		max-width: min(1200px, 92vw);
+		max-height: 90vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 14px;
+	}
+
+	.lightbox__image {
+		max-width: 100%;
+		max-height: 82vh;
+		object-fit: contain;
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+	}
+
+	.lightbox__caption {
+		margin: 0;
+		color: #ffffff;
+		font-size: 16px;
+		font-weight: 600;
+		text-align: center;
+		max-width: 900px;
+	}
+
+	.lightbox__close {
+		position: absolute;
+		top: 20px;
+		right: 24px;
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		border: none;
+		background: rgba(255, 255, 255, 0.12);
+		color: #ffffff;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background 0.2s ease;
+	}
+
+	.lightbox__close:hover {
+		background: rgba(225, 69, 79, 0.9);
+	}
+
+	.lightbox__nav {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 56px;
+		height: 56px;
+		border-radius: 50%;
+		border: none;
+		background: rgba(255, 255, 255, 0.12);
+		color: #ffffff;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background 0.2s ease;
+	}
+
+	.lightbox__nav:hover {
+		background: rgba(225, 69, 79, 0.9);
+	}
+
+	.lightbox__nav--prev {
+		left: 20px;
+	}
+
+	.lightbox__nav--next {
+		right: 20px;
+	}
+
+	@media (max-width: 720px) {
+		.lightbox {
+			padding: 16px;
+		}
+		.lightbox__nav {
+			width: 44px;
+			height: 44px;
+		}
+		.lightbox__nav--prev { left: 8px; }
+		.lightbox__nav--next { right: 8px; }
 	}
 </style>

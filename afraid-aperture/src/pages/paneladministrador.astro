@@ -2,12 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import { getDB } from '../lib/db';
 import { auth } from '../lib/auth';
-import { postsRepo, jobsRepo } from '../lib/content';
+import { jobsRepo } from '../lib/content';
 import { branchesRepo } from '../lib/branches';
 import { resumesRepo } from '../lib/resumes';
 import { messagesRepo } from '../lib/contactMessages';
+import { experienceImagesRepo } from '../lib/experiences';
 import BranchesTab from '../components/admin/BranchesTab.astro';
-import PostsTab from '../components/admin/PostsTab.astro';
+import ExperiencesTab from '../components/admin/ExperiencesTab.astro';
 import JobsTab from '../components/admin/JobsTab.astro';
 import MessagesTab from '../components/admin/MessagesTab.astro';
 import ResumesTab from '../components/admin/ResumesTab.astro';
@@ -22,7 +23,7 @@ const user = await auth.getUserFromCookies(db, Astro.cookies);
 const tab = user ? Astro.url.searchParams.get('tab') ?? 'branches' : 'login';
 const hasError = Astro.url.searchParams.get('error') === '1';
 
-const posts = user && tab === 'posts' ? await postsRepo.listAll(db) : [];
+const experienceImages = user && tab === 'experiences' ? await experienceImagesRepo.listAll(db) : [];
 const jobs = user && tab === 'jobs' ? await jobsRepo.listAll(db) : [];
 const branches = user && tab === 'branches' ? await branchesRepo.listAll(db) : [];
 const resumes = user && tab === 'resumes' ? await resumesRepo.listAll(db) : [];
@@ -171,7 +172,7 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 							<span>Vacantes</span>
 						</a>
 
-						<a class={`tab-link ${tab === 'posts' ? 'tab-link--active' : ''}`} href="?tab=posts">
+						<a class={`tab-link ${tab === 'experiences' ? 'tab-link--active' : ''}`} href="?tab=experiences">
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
 								<path
 									d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
@@ -194,7 +195,7 @@ const messagesUnread = user ? await messagesRepo.countByStatus(db, 'unread') : 0
 
 						{tab === 'jobs' && <JobsTab jobs={jobs} />}
 
-						{tab === 'posts' && <PostsTab posts={posts} />}
+						{tab === 'experiences' && <ExperiencesTab images={experienceImages} />}
 					</main>
 				</div>
 			)

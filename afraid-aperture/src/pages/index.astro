@@ -601,7 +601,8 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 
 	@media (max-width: 768px) {
 		.hero {
-			min-height: 520px;
+			height: clamp(280px, 56vw, 520px);
+			min-height: 280px;
 		}
 
 		.hero__logo {

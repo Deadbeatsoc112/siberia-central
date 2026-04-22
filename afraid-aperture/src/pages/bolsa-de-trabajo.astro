@@ -627,11 +627,6 @@ const error = Astro.url.searchParams.get('error');
 			height: 680px;
 		}
 
-		.jobs-hero__bg--resources {
-			background-size: 130% auto;
-			background-position: center top;
-		}
-
 		.jobs-hero__title {
 			font-size: 56px;
 		}
@@ -647,12 +642,7 @@ const error = Astro.url.searchParams.get('error');
 
 	@media (max-width: 768px) {
 		.jobs-hero {
-			height: 560px;
-		}
-
-		.jobs-hero__bg--resources {
-			background-size: 160% auto;
-			background-position: center top;
+			height: clamp(280px, 56vw, 560px);
 		}
 
 		.jobs-hero__title {

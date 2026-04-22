@@ -238,11 +238,6 @@ const remainingMenus = menuModules.slice(5);
 			height: 680px;
 		}
 
-		.menu-hero__bg--svg {
-			background-size: 130% auto;
-			background-position: center top;
-		}
-
 		.menu-hero__title {
 			font-size: 56px;
 		}
@@ -254,12 +249,7 @@ const remainingMenus = menuModules.slice(5);
 
 	@media (max-width: 768px) {
 		.menu-hero {
-			height: 560px;
-		}
-
-		.menu-hero__bg--svg {
-			background-size: 160% auto;
-			background-position: center top;
+			height: clamp(280px, 56vw, 560px);
 		}
 
 		.menu-hero__title {

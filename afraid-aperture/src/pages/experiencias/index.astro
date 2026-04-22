@@ -317,6 +317,12 @@ const tiles = images.map((img, i) => ({
 		outline-offset: -3px;
 	}
 
+	@media (max-width: 768px) {
+		.exp-hero {
+			height: clamp(280px, 56vw, 640px);
+		}
+	}
+
 	@media (max-width: 1100px) {
 		.mosaic {
 			grid-template-columns: repeat(3, minmax(0, 1fr));

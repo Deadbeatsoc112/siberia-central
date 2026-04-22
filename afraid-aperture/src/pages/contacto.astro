@@ -350,9 +350,9 @@ const error = Astro.url.searchParams.get('error');
 
   .contact-hero__bg--resources {
     z-index: 1;
-    background-size: 100% auto !important;
-    background-repeat: no-repeat !important;
-    background-position: center top !important;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center top;
     transform: none;
     filter: none;
   }
@@ -652,12 +652,7 @@ const error = Astro.url.searchParams.get('error');
 
   @media (max-width: 768px) {
     .contact-hero {
-      height: 560px;
-    }
-
-    .contact-hero__bg--resources {
-      background-size: 160% auto !important;
-      background-position: center top !important;
+      height: clamp(280px, 56vw, 560px);
     }
 
     .contact-hero__title {
@@ -688,12 +683,6 @@ const error = Astro.url.searchParams.get('error');
     }
   }
 
-  @media (max-width: 1200px) and (min-width: 769px) {
-    .contact-hero__bg--resources {
-      background-size: 130% auto !important;
-      background-position: center top !important;
-    }
-  }
 
   /* CONTACT FORM */
   .contact-form {

@@ -599,18 +599,37 @@ Porque para nosotros, más que servir tostadas, se trata de seguir siendo parte 
 
 	@media (max-width: 768px) {
 		.hero {
-			height: clamp(280px, 56vw, 520px);
-			min-height: 280px;
+			height: auto;
+			min-height: 0;
+			aspect-ratio: 1933 / 1080;
+			padding: 0;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.hero__bg--image {
+			background-size: cover;
+			background-position: center;
+		}
+
+		.hero__content {
+			padding: 0 16px;
+			gap: 4px;
 		}
 
 		.hero__logo {
-			width: 96px;
-			height: 96px;
+			width: 56px;
+			height: 56px;
+		}
+
+		.hero__title {
+			font-size: clamp(20px, 5.5vw, 28px);
 		}
 
 		.hero__tagline {
-			max-width: 320px;
-			font-size: clamp(44px, 14vw, 68px);
+			max-width: 280px;
+			font-size: clamp(28px, 8.5vw, 42px);
+			line-height: 0.85;
 		}
 		.menu__title {
 			font-size: 30px;

@@ -652,7 +652,21 @@ const error = Astro.url.searchParams.get('error');
 
   @media (max-width: 768px) {
     .contact-hero {
-      height: clamp(280px, 56vw, 560px);
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 3214 / 1808;
+      padding: 0;
+    }
+
+    .contact-hero__bg--image {
+      background-size: cover !important;
+      background-position: center !important;
+      transform: none;
+    }
+
+    .contact-hero__bg--resources {
+      background-size: cover !important;
+      background-position: center center !important;
     }
 
     .contact-hero__title {

@@ -249,7 +249,21 @@ const remainingMenus = menuModules.slice(5);
 
 	@media (max-width: 768px) {
 		.menu-hero {
-			height: clamp(280px, 56vw, 560px);
+			height: auto;
+			min-height: 0;
+			aspect-ratio: 16 / 9;
+			padding: 0;
+		}
+
+		.menu-hero__bg--image {
+			background-size: cover;
+			background-position: center;
+			transform: none;
+		}
+
+		.menu-hero__bg--svg {
+			background-size: cover;
+			background-position: center center;
 		}
 
 		.menu-hero__title {

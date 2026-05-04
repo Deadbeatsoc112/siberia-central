@@ -618,6 +618,24 @@ const error = Astro.url.searchParams.get('error');
   }
 
   @media (max-width: 1200px) {
+    .contact-hero {
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 3214 / 1808;
+      padding: 0;
+    }
+
+    .contact-hero__bg--image {
+      background-size: cover !important;
+      background-position: center !important;
+      transform: none;
+    }
+
+    .contact-hero__bg--resources {
+      background-size: 100% auto !important;
+      background-position: center top !important;
+    }
+
     .contact-map__header-wrapper {
       padding: 120px 40px 60px;
     }
@@ -665,8 +683,8 @@ const error = Astro.url.searchParams.get('error');
     }
 
     .contact-hero__bg--resources {
-      background-size: cover !important;
-      background-position: center center !important;
+      background-size: 100% auto !important;
+      background-position: center top !important;
     }
 
     .contact-hero__title {

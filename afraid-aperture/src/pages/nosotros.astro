@@ -285,8 +285,15 @@ La historia de La S central comenzó en 1946, cuando el Sr. Demetrio Téllez y s
 
 	@media (max-width: 1200px) {
 		.about-hero {
-			min-height: 680px;
-			padding: 96px 0 84px;
+			min-height: calc(100vw * 752 / 1920);
+			height: auto;
+			padding: 60px 20px 50px;
+		}
+
+		.about-hero__bg {
+			background-size: 100% auto, 100% auto;
+			background-position: center top, center top;
+			background-repeat: no-repeat, no-repeat;
 		}
 
 		.about-hero__title {
@@ -296,9 +303,16 @@ La historia de La S central comenzó en 1946, cuando el Sr. Demetrio Téllez y s
 
 	@media (max-width: 768px) {
 		.about-hero {
-			min-height: auto;
-			padding: 140px 0 64px;
+			min-height: calc(100vw * 752 / 1920);
+			height: auto;
+			padding: 50px 16px 40px;
 			align-items: flex-start;
+		}
+
+		.about-hero__bg {
+			background-size: 100% auto, 100% auto;
+			background-position: center top, center top;
+			background-repeat: no-repeat, no-repeat;
 		}
 
 		.about-hero__content {

@@ -345,7 +345,45 @@ import billingDecorUrl from '../assets/media/Grupo 36.svg?url';
 		border-color: #b3202c;
 	}
 
+	@media (max-width: 1200px) {
+		.fac-hero {
+			min-height: 0;
+			height: auto;
+			aspect-ratio: 16 / 9;
+			padding: 0;
+		}
+
+		.fac-hero__bg {
+			background-size: cover;
+			background-position: center;
+		}
+
+		.fac-hero__decor {
+			width: min(537px, calc(100vw - 32px));
+		}
+	}
+
 	@media (max-width: 768px) {
+		.fac-hero {
+			min-height: 0;
+			height: auto;
+			aspect-ratio: 16 / 9;
+			padding: 0;
+		}
+
+		.fac-hero__bg {
+			background-size: cover;
+			background-position: center;
+		}
+
+		.fac-hero__title {
+			font-size: clamp(24px, 6vw, 38px);
+		}
+
+		.fac-hero__subtitle {
+			font-size: 14px;
+		}
+
 		.billing-form {
 			padding: 70px 20px;
 		}
